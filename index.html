@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Humming Cob — Élevage Irish Cob · Gard</title>
+  <meta name="description" content="Élevage familial d'Irish Cob dans le Gard. Reproducteurs d'élite, poulains disponibles issus de lignées reconnues.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ====== NAVIGATION ====== -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
+    <div class="nav-logo-text">
+      Humming Cob
+      <span>Élevage Irish Cob · Gard</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#qui-sommes-nous">À propos</a></li>
+    <li><a href="#notre-elevage">L'élevage</a></li>
+    <li><a href="#reproducteurs">Reproducteurs</a></li>
+    <li><a href="#poulains">Poulains</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ====== HERO ====== -->
+<section id="hero">
+  <canvas id="sakura-canvas"></canvas>
+
+  <!-- Branches décoratives -->
+  <svg class="hero-branch hero-branch-left" viewBox="0 0 400 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M-20 700 C 40 560, 70 460, 110 360 C 150 260, 185 195, 165 100 C 155 55, 135 15, 145 -10" stroke="#B06070" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M110 360 C 155 335, 205 315, 255 300" stroke="#B06070" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M150 265 C 185 240, 230 228, 275 235" stroke="#B06070" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M70 460 C 30 435, 5 410, -10 385" stroke="#B06070" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M90 415 C 125 395, 148 368, 165 355" stroke="#B06070" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <path d="M130 185 C 160 165, 195 158, 225 168" stroke="#B06070" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    <!-- Fleurs -->
+    <g opacity="0.85">
+      <circle cx="255" cy="300" r="6" fill="#F5C6D2"/>
+      <circle cx="264" cy="293" r="5" fill="#E8A8BB"/>
+      <circle cx="247" cy="291" r="5" fill="#FBDDE6"/>
+      <circle cx="262" cy="307" r="4" fill="#F5C6D2"/>
+      <circle cx="248" cy="306" r="4" fill="#E8A8BB"/>
+    </g>
+    <g opacity="0.75">
+      <circle cx="275" cy="235" r="5.5" fill="#F2D0DC"/>
+      <circle cx="284" cy="228" r="4" fill="#E8A8BB"/>
+      <circle cx="267" cy="226" r="4" fill="#F5C6D2"/>
+    </g>
+    <g opacity="0.7">
+      <circle cx="-10" cy="385" r="5" fill="#F5C6D2"/>
+      <circle cx="165" cy="355" r="4" fill="#FBDDE6"/>
+      <circle cx="225" cy="168" r="5" fill="#F2D0DC"/>
+      <circle cx="233" cy="161" r="3.5" fill="#E8A8BB"/>
+    </g>
+  </svg>
+
+  <svg class="hero-branch hero-branch-right" viewBox="0 0 400 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M-20 700 C 40 560, 70 460, 110 360 C 150 260, 185 195, 165 100 C 155 55, 135 15, 145 -10" stroke="#B06070" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M110 360 C 155 335, 205 315, 255 300" stroke="#B06070" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M150 265 C 185 240, 230 228, 275 235" stroke="#B06070" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M70 460 C 30 435, 5 410, -10 385" stroke="#B06070" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M130 185 C 160 165, 195 158, 225 168" stroke="#B06070" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    <g opacity="0.85">
+      <circle cx="255" cy="300" r="6" fill="#F5C6D2"/>
+      <circle cx="264" cy="293" r="5" fill="#E8A8BB"/>
+      <circle cx="247" cy="291" r="5" fill="#FBDDE6"/>
+    </g>
+    <g opacity="0.75">
+      <circle cx="275" cy="235" r="5.5" fill="#F2D0DC"/>
+      <circle cx="284" cy="228" r="4" fill="#E8A8BB"/>
+    </g>
+    <g opacity="0.7">
+      <circle cx="225" cy="168" r="5" fill="#F2D0DC"/>
+      <circle cx="165" cy="355" r="4" fill="#FBDDE6"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <img src="img/logo.png" alt="Humming Cob" class="hero-logo" onerror="this.style.display='none'">
+    <h1 class="hero-title">Humming <em>Cob</em></h1>
+    <p class="hero-subtitle">Élevage Irish Cob · Gard · France</p>
+    <p class="hero-tagline">L'élégance de la race irlandaise, élevée avec passion dans les terres du Midi.</p>
+    <div class="hero-cta">
+      <a href="#poulains" class="btn btn-primary">Poulains disponibles</a>
+      <a href="#reproducteurs" class="btn btn-outline">Nos reproducteurs</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">Découvrir</div>
+</section>
+
+<!-- ====== QUI SOMMES NOUS ====== -->
+<section id="qui-sommes-nous">
+  <div class="section-inner">
+    <div class="qsn-grid">
+      <div class="qsn-image-wrap reveal">
+        <div class="qsn-image-placeholder">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.4">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span>Photo à venir</span>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-2">
+        <span class="section-badge">Notre histoire</span>
+        <h2 class="section-title">Qui sommes-<em>nous</em> ?</h2>
+        <div class="section-divider"></div>
+        <p class="section-text">
+          Humming Cob, c'est avant tout une passion partagée pour l'Irish Cob — une race qui allie
+          puissance, douceur et beauté naturelle. Installés dans le Gard, nous développons notre
+          élevage avec exigence et respect du bien-être animal, en sélectionnant des reproducteurs
+          d'élite pour transmettre les qualités les plus précieuses de la race.
+        </p>
+        <p class="section-text" style="margin-top: 1rem;">
+          Professionnelle de l'agencement reconvertie vers sa vraie vocation, c'est elle qui porte
+          la connaissance hippique et la relation quotidienne avec les chevaux. Infirmier libéral,
+          lui apporte la rigueur et le sens du soin. Ensemble, nous construisons un élevage à taille
+          humaine où chaque cheval compte, et chaque acheteur repart avec toutes les clés pour
+          réussir avec son animal.
+        </p>
+        <ul class="values-list" style="margin-top: 1.8rem;">
+          <li>Sélection rigoureuse sur la morphologie, le caractère et la génétique</li>
+          <li>Sevrage tardif pour des chevaux équilibrés et confiants</li>
+          <li>Suivi vétérinaire régulier, vermifugations et parages à jour</li>
+          <li>Transparence totale sur les origines et le stud-book</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== NOTRE ELEVAGE ====== -->
+<section id="notre-elevage">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center; max-width:580px; margin:0 auto;">
+      <span class="section-badge">L'élevage</span>
+      <h2 class="section-title">Notre <em>élevage</em></h2>
+      <div class="section-divider" style="margin:1.5rem auto;"></div>
+      <p class="section-text" style="margin: 0 auto;">
+        Fondé sur des valeurs d'authenticité, notre élevage privilégie la qualité à la quantité.
+        Chaque naissance est un événement soigneusement préparé.
+      </p>
+    </div>
+
+    <div class="elevage-grid">
+      <div class="elevage-card reveal reveal-delay-1">
+        <div class="elevage-card-icon">🐴</div>
+        <div class="elevage-card-title">Irish Cob de race</div>
+        <p class="elevage-card-text">Sélection exclusive sur des Irish Cob inscrits au stud-book, avec une attention particulière aux critères d'élite : morphologie, crinière, pieds et tempérament.</p>
+      </div>
+      <div class="elevage-card reveal reveal-delay-2">
+        <div class="elevage-card-icon">🌿</div>
+        <div class="elevage-card-title">Vie en liberté</div>
+        <p class="elevage-card-text">Nos chevaux évoluent en semi-liberté sur des terres naturelles. Cette vie en troupeau forge des caractères sains, sociables et bien dans leur peau.</p>
+      </div>
+      <div class="elevage-card reveal reveal-delay-3">
+        <div class="elevage-card-icon">⭐</div>
+        <div class="elevage-card-title">Lignées d'élite</div>
+        <p class="elevage-card-text">Nos reproducteurs sont issus des meilleures lignées françaises et européennes. Le père Cairnview Archy est champion de France, garant d'une génétique exceptionnelle.</p>
+      </div>
+      <div class="elevage-card reveal reveal-delay-1">
+        <div class="elevage-card-icon">🫶</div>
+        <div class="elevage-card-title">Poulains socialisés</div>
+        <p class="elevage-card-text">Dès la naissance, chaque poulain est manipulé quotidiennement. Licolage, pieds, vermifugations — tous nos jeunes chevaux partent avec les bases essentielles.</p>
+      </div>
+      <div class="elevage-card reveal reveal-delay-2">
+        <div class="elevage-card-icon">📋</div>
+        <div class="elevage-card-title">Transparence totale</div>
+        <p class="elevage-card-text">Dossiers complets fournis à l'achat : certificat d'origine, stud-book, suivi vétérinaire, bilans de santé et informations détaillées sur les parents.</p>
+      </div>
+      <div class="elevage-card reveal reveal-delay-3">
+        <div class="elevage-card-icon">📍</div>
+        <div class="elevage-card-title">Élevage du Gard</div>
+        <p class="elevage-card-text">Implantés dans le Gard (30), au cœur de la garrigue cévenole. Visites sur rendez-vous pour rencontrer nos chevaux dans leur environnement naturel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== REPRODUCTEURS ====== -->
+<section id="reproducteurs">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-badge">Géniteurs</span>
+      <h2 class="section-title">Nos <em>reproducteurs</em></h2>
+      <div class="section-divider"></div>
+      <p class="section-text">Cinq chevaux d'exception, sélectionnés pour leurs qualités morphologiques, leur tempérament et leurs aptitudes reproductives.</p>
+    </div>
+
+    <div class="horses-grid">
+      <a href="reproducteurs/archy.html" class="horse-card reveal reveal-delay-1">
+        <div class="horse-card-img-placeholder">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B06070" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Photo à venir</span>
+        </div>
+        <span class="badge-reproducteur">Étalon · Élite</span>
+        <div class="horse-card-body">
+          <span class="horse-card-tag">Étalon · Irish Cob</span>
+          <h3 class="horse-card-name">Cairnview Archy</h3>
+          <div class="horse-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            <span class="horse-stars-label">Champion de France</span>
+          </div>
+          <p class="horse-card-desc">Étalon élite, champion de France. Père de Nashi. Lignée Cairnview reconnue pour sa morphologie exceptionnelle et ses aplombs parfaits.</p>
+          <span class="horse-card-link">Découvrir <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <a href="reproducteurs/avangarde.html" class="horse-card reveal reveal-delay-2">
+        <div class="horse-card-img-placeholder">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B06070" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Photo à venir</span>
+        </div>
+        <span class="badge-reproducteur">Étalon</span>
+        <div class="horse-card-body">
+          <span class="horse-card-tag">Étalon · Irish Cob</span>
+          <h3 class="horse-card-name">Avangarde</h3>
+          <div class="horse-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span>
+          </div>
+          <p class="horse-card-desc">San Cler Avantgarde — Vice-Champion de France 2025 des étalons à 4 ans. Double pearl (père et mère). Premiers poulains nés en 2026.</p>
+          <span class="horse-card-link">Découvrir <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <a href="reproducteurs/sakura.html" class="horse-card reveal reveal-delay-3">
+        <div class="horse-card-img-placeholder">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B06070" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Photo à venir</span>
+        </div>
+        <span class="badge-reproducteur">Jument · Élite</span>
+        <div class="horse-card-body">
+          <span class="horse-card-tag">Jument · Irish Cob</span>
+          <h3 class="horse-card-name">SD Sakura</h3>
+          <div class="horse-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            <span class="horse-stars-label">Élite · Débourrée montée</span>
+          </div>
+          <p class="horse-card-desc">Jument élite, débourrée montée. Mère de Nashi. Conformation d'exception alliée à une facilité de travail remarquable.</p>
+          <span class="horse-card-link">Découvrir <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <a href="reproducteurs/suzie.html" class="horse-card reveal reveal-delay-1">
+        <div class="horse-card-img-placeholder">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B06070" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Photo à venir</span>
+        </div>
+        <span class="badge-reproducteur">Jument</span>
+        <div class="horse-card-body">
+          <span class="horse-card-tag">Jument · Irish Cob</span>
+          <h3 class="horse-card-name">SD Suzie</h3>
+          <div class="horse-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span>
+            <span class="horse-stars-label">Débourrée montée</span>
+          </div>
+          <p class="horse-card-desc">Jument débourrée montée, lignée Woolly Mammoth. Mère de SD Sakura (élite) et d'Omamori (4,5★). Une matriache au caractère transmis de génération en génération.</p>
+          <span class="horse-card-link">Découvrir <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <a href="reproducteurs/ruby-jane.html" class="horse-card reveal reveal-delay-2">
+        <div class="horse-card-img-placeholder">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B06070" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Photo à venir</span>
+        </div>
+        <span class="badge-reproducteur">Jument · Élite</span>
+        <div class="horse-card-body">
+          <span class="horse-card-tag">Jument · Irish Cob</span>
+          <h3 class="horse-card-name">SD Ruby Jane</h3>
+          <div class="horse-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            <span class="horse-stars-label">Élite</span>
+          </div>
+          <p class="horse-card-desc">Jument élite par SD Flash Harry. Lignée Flash Harry / Woolly Mammoth. Mère d'Orion (Grullo Silver 3,5★). Morphologie et crins d'exception.</p>
+          <span class="horse-card-link">Découvrir <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== POULAINS DISPONIBLES ====== -->
+<section id="poulains">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-badge">À vendre</span>
+      <h2 class="section-title">Poulains <em>disponibles</em></h2>
+      <div class="section-divider"></div>
+      <p class="section-text">Trois jeunes chevaux exceptionnels issus de nos meilleures lignées, manipulés, licolés, vermifugés et parés, prêts à rejoindre leur nouvelle famille.</p>
+    </div>
+
+    <div class="horses-grid">
+      <a href="poulains/nashi.html" class="horse-card reveal reveal-delay-1">
+        <div class="horse-card-img-placeholder">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B06070" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Photo à venir</span>
+        </div>
+        <span class="badge-available">Disponible</span>
+        <div class="horse-card-body">
+          <span class="horse-card-tag">Hongre · 2 ans · Irish Cob PP</span>
+          <h3 class="horse-card-name">Nashi</h3>
+          <div class="horse-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span>
+            <span class="horse-stars-label">4 étoiles</span>
+          </div>
+          <p class="horse-card-desc">Espiègle, pétillant, malin — un vrai crâneur proche de l'homme. Idéal spectacle, TAP, TREC, rando. Taille est. ~1m45. <strong style="color:var(--rose-deep)">4 000 €</strong></p>
+          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <a href="poulains/omamori.html" class="horse-card reveal reveal-delay-2">
+        <div class="horse-card-img-placeholder">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B06070" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Photo à venir</span>
+        </div>
+        <span class="badge-available">Disponible</span>
+        <div class="horse-card-body">
+          <span class="horse-card-tag">Entier · 2 ans · Irish Cob OC</span>
+          <h3 class="horse-card-name">Omamori</h3>
+          <div class="horse-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            <span class="horse-stars-label">4,5 étoiles</span>
+          </div>
+          <p class="horse-card-desc">Intelligent, réfléchi, polyvalent. Robe Grullo Silver rarissime. Taille est. ~1m50. Parfait TREC / rando / élevage. <strong style="color:var(--rose-deep)">4 500 €</strong></p>
+          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <a href="poulains/orion.html" class="horse-card reveal reveal-delay-3">
+        <div class="horse-card-img-placeholder">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B06070" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Photo à venir</span>
+        </div>
+        <span class="badge-available">Disponible</span>
+        <div class="horse-card-body">
+          <span class="horse-card-tag">Entier · 2 ans · Irish Cob OC</span>
+          <h3 class="horse-card-name">Orion</h3>
+          <div class="horse-stars">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span>
+            <span class="horse-stars-label">3,5 étoiles</span>
+          </div>
+          <p class="horse-card-desc">Fin, élégant, sensible — grand amoureux de l'humain. Robe Grullo Silver. Taille est. ~1m45. Mère élite par Flash Harry. <strong style="color:var(--rose-deep)">3 500 €</strong></p>
+          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONTACT ====== -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-wrap">
+      <div class="reveal">
+        <span class="section-badge">Nous écrire</span>
+        <h2 class="section-title">Nous <em>contacter</em></h2>
+        <div class="section-divider"></div>
+        <p class="section-text">Une question sur nos poulains ou reproducteurs ? Une visite à l'élevage ? Nous vous répondrons dans les meilleurs délais.</p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div class="contact-item-text">
+              <span class="contact-item-label">Localisation</span>
+              Gard (30) — France<br>
+              <small>Visites sur rendez-vous uniquement</small>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📸</div>
+            <div class="contact-item-text">
+              <span class="contact-item-label">Réseaux sociaux</span>
+              Suivez l'élevage sur Facebook &amp; Instagram<br>
+              <small>@HummingCob</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal reveal-delay-2">
+        <form>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prenom">Prénom</label>
+              <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
+            </div>
+            <div class="form-group">
+              <label for="nom">Nom</label>
+              <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="votre@email.fr" required>
+          </div>
+          <div class="form-group">
+            <label for="sujet">Sujet</label>
+            <select id="sujet" name="sujet">
+              <option value="">Sélectionner un sujet</option>
+              <option value="nashi">Poulain Nashi</option>
+              <option value="omamori">Poulain Omamori</option>
+              <option value="orion">Poulain Orion</option>
+              <option value="visite">Demande de visite</option>
+              <option value="reproducteurs">Nos reproducteurs</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Votre message..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Envoyer le message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Humming <span>Cob</span></div>
+    <div class="footer-social">
+      <a href="#" aria-label="Facebook">f</a>
+      <a href="#" aria-label="Instagram">◇</a>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#qui-sommes-nous">À propos</a></li>
+      <li><a href="#notre-elevage">L'élevage</a></li>
+      <li><a href="#reproducteurs">Reproducteurs</a></li>
+      <li><a href="#poulains">Poulains disponibles</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="memoire.html">Ils ont marqué notre histoire</a></li>
+    </ul>
+    <p class="footer-copy">© 2025 Humming Cob · Élevage Irish Cob · Gard, France</p>
+  </div>
+</footer>
+
+<script src="js/sakura.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
