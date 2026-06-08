@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arbre généalogique — Humming Cob</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:     #FEFBF6;
+      --rose:      #D4899A;
+      --rose-deep: #B06070;
+      --bleu:      #6A8FA0;
+      --bleu-pale: #C8DCE6;
+      --or:        #C0A050;
+      --noir:      #1C1C1C;
+      --gris:      #6A6A6A;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --sans:      'Jost', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--noir);
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .header {
+      text-align: center;
+      padding: 1.5rem 2rem 1rem;
+      position: relative;
+      margin-bottom: 0;
+    }
+    .header h1 { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; }
+    .header h1 em { color: var(--rose-deep); font-style: italic; }
+    .header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris); margin-top: 0.4rem; }
+
+    .back-btn {
+      position: absolute;
+      top: 50%; left: 1.5rem;
+      transform: translateY(-50%);
+      font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+      color: #3a2010; text-decoration: none;
+      border: 1px solid #b09080;
+      border-radius: 20px;
+      padding: .35rem .85rem;
+      display: flex; align-items: center; gap: .4rem;
+      transition: border-color .18s, color .18s;
+      white-space: nowrap;
+    }
+    .back-btn:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+    @media (max-width: 600px) {
+      .header { padding: 1.2rem 1.5rem 1rem; }
+      .back-btn {
+        position: static;
+        transform: none;
+        margin: 0 auto .9rem;
+        width: fit-content;
+      }
+    }
+
+    .tree-outer {
+      overflow: hidden;
+      touch-action: none;
+      cursor: grab;
+      height: 68vh;
+      position: relative;
+      user-select: none;
+    }
+    .tree-outer.panning { cursor: grabbing; }
+
+    /* SVG styles */
+    .tree-svg { display: block; width: 100%; height: 100%; }
+
+    .zoom-controls {
+      position: absolute; bottom: .75rem; right: .75rem;
+      display: flex; flex-direction: column; gap: .35rem; z-index: 5;
+    }
+    .zoom-btn {
+      width: 34px; height: 34px;
+      background: rgba(255,255,255,.88); backdrop-filter: blur(4px);
+      border: 1px solid rgba(0,0,0,.1); border-radius: 50%; cursor: pointer;
+      font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,.1); transition: background .15s;
+      color: var(--noir); line-height: 1;
+    }
+    .zoom-btn:hover { background: white; }
+
+    .mobile-hint {
+      display: none;
+      position: absolute; top: .5rem; left: 50%; transform: translateX(-50%);
+      font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gris); background: rgba(255,255,255,.82);
+      padding: .25rem .8rem; border-radius: 20px;
+      pointer-events: none; white-space: nowrap; z-index: 5;
+    }
+
+    @media (max-width: 900px) {
+      .mobile-hint { display: block; }
+      .header { padding: 1.2rem 1rem 0.8rem; }
+      .back-btn { font-size: .62rem; }
+      .info-panel { flex-direction: column; gap: .5rem; min-height: auto; padding: .8rem 1.2rem; }
+      .info-panel-name { min-width: unset; }
+      .info-panel-cta { margin-left: 0; }
+      .legend { gap: 1rem; }
+    }
+    @media (max-width: 600px) {
+      .header h1 { font-size: 1.6rem; }
+      .header p { display: none; }
+      .tree-outer { height: 60vh; }
+      .back-btn { font-size: .6rem; left: .75rem; }
+    }
+
+    /* Paths */
+    .rel-path {
+      fill: none;
+      stroke-width: 1.8;
+      opacity: 0;
+      transition: opacity 0.28s ease;
+      pointer-events: none;
+    }
+    .rel-path.on { opacity: 0.7; }
+
+    /* Nodes */
+    .node-circle {
+      cursor: pointer;
+      transition: r 0.18s ease;
+    }
+    .node-circle:hover { r: 16; }
+    .node-group:hover .node-circle { r: 16; }
+
+    .node-label {
+      font-family: var(--serif);
+      font-size: 13px;
+      font-weight: 500;
+      pointer-events: none;
+      user-select: none;
+    }
+    .node-sub-label {
+      font-family: var(--sans);
+      font-size: 9.5px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      pointer-events: none;
+      user-select: none;
+    }
+    .elite-star {
+      font-size: 9px;
+      fill: var(--or);
+      pointer-events: none;
+    }
+
+    /* Panneau d'info fixe */
+    .info-panel {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      margin: 1.5rem auto 0;
+      max-width: 1680px;
+      min-height: 90px;
+      padding: 1.1rem 2rem;
+      border-top: 1px solid rgba(176,96,112,0.15);
+      border-bottom: 1px solid rgba(176,96,112,0.15);
+      transition: background 0.22s ease;
+    }
+    .info-panel.active {
+      background: rgba(255,255,255,0.7);
+    }
+    .info-panel-name {
+      min-width: 200px;
+      flex-shrink: 0;
+    }
+    .info-panel-name h2 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--noir);
+    }
+    .info-panel-name h2 em { color: var(--rose-deep); font-style: italic; }
+    .info-panel-name .sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gris);
+      margin-top: 3px;
+    }
+    .info-panel-fields {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 2rem;
+      font-size: 0.78rem;
+    }
+    .info-panel-fields .field { color: var(--gris); }
+    .info-panel-fields .field strong { color: var(--noir); font-weight: 500; }
+    .info-panel-info {
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--gris);
+      flex-basis: 100%;
+      margin-top: 0.1rem;
+    }
+    .info-panel-empty {
+      width: 100%;
+      text-align: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(106,106,106,0.4);
+    }
+    .info-panel-cta {
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+    .info-panel-cta a {
+      display: inline-block;
+      padding: 0.45rem 1.1rem;
+      border: 1px solid var(--rose);
+      border-radius: 30px;
+      color: var(--rose-deep);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.18s, color 0.18s;
+    }
+    .info-panel-cta a:hover {
+      background: var(--rose);
+      color: white;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex; gap: 2rem; justify-content: center;
+      margin-top: 2rem; flex-wrap: wrap;
+    }
+    .leg { display: flex; align-items: center; gap: 8px; font-size: 0.72rem; color: var(--gris); }
+    .leg-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; }
+    .leg-line { width: 30px; height: 2px; border-radius: 2px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Retour au site
+  </a>
+  <h1>Arbre <em>généalogique</em></h1>
+  <p>Humming Cob · Élevage Irish Cob · Gard · Survoler un cheval pour voir ses liens</p>
+</div>
+
+<div class="tree-outer" id="treeOuter">
+  <svg class="tree-svg" id="tree"></svg>
+  <div class="mobile-hint">Glisser pour naviguer · Pincer pour zoomer</div>
+  <div class="zoom-controls">
+    <button class="zoom-btn" id="zoomIn" title="Zoom +">+</button>
+    <button class="zoom-btn" id="zoomOut" title="Zoom −">−</button>
+    <button class="zoom-btn" id="zoomReset" title="Réinitialiser" style="font-size:.75rem;letter-spacing:.05em;">⌂</button>
+  </div>
+</div>
+
+<div class="info-panel" id="infoPanel">
+  <div class="info-panel-empty">Survoler un cheval pour voir ses informations</div>
+</div>
+
+<div class="legend">
+  <div class="leg">
+    <div class="leg-dot" style="background:#EEF3F7;border-color:#6A8FA0;"></div>Étalon
+  </div>
+  <div class="leg">
+    <div class="leg-dot" style="background:#FFF0F4;border-color:#D4899A;"></div>Jument
+  </div>
+  <div class="leg">
+    <div class="leg-dot" style="background:#F5EDE0;border-color:#C0A050;"></div>Poulain
+  </div>
+  <div class="leg">
+    <div class="leg-dot" style="background:#F0EEE8;border-color:#C8C0BC;border-style:dashed;"></div>Externe
+  </div>
+  <div class="leg">
+    <div class="leg-dot" style="background:#EDE8E4;border-color:#9A8A84;border-style:dashed;opacity:.7;"></div>En mémoire
+  </div>
+  <div class="leg">
+    <div class="leg-line" style="background:#6A8FA0;"></div>Ligne paternelle
+  </div>
+  <div class="leg">
+    <div class="leg-line" style="background:#D4899A;"></div>Ligne maternelle
+  </div>
+</div>
+
+
+<script>
+// ── RADII
+const R        = 12;
+const R_ACTIVE = 52;
+
+// ── PHOTOS
+const PHOTOS = {
+  archy:     'img/tree/archy.jpg',
+  avangarde: 'img/tree/avangarde.jpg',
+  suzie:     'img/tree/suzie.jpg',
+  sakura:    'img/tree/sakura.jpg',
+  ruby:      'img/tree/ruby.jpg',
+  nashi:     'img/tree/nashi.jpg',
+  omamori:   'img/tree/omamori.jpg',
+  kaeru:     'img/tree/kaeru.jpg',
+  orion:     'img/tree/orion.jpg',
+};
+
+// ── DATA
+const DATA = [
+  // Ancêtres externes
+  { id:'llewewin', sex:'s', ext:true, em:'Llewewin',         sub:'né 2004',
+    tip:{ info:'Père de Cairnview Archy.' } },
+  { id:'kressa',   sex:'m', ext:true, em:'Kressa',           sub:'',
+    tip:{ info:'Mère de Cairnview Archy.' } },
+  { id:'talk',     sex:'s', ext:true, em:'Talk Of The Town', sub:'San Cler · Alezan · 14hh',
+    tip:{ parents:'The Milky Bar Kid × San Cler Orange Pop',
+          info:'Père de San Cler Avantgarde. Lignée San Cler, porteur double pearl.' } },
+  { id:'uptown',   sex:'m', ext:true, em:'Uptown Girl',      sub:'San Cler · 2018 · Bai noir',
+    tip:{ parents:'San Cler Razzamataz × San Cler Coffee Creme',
+          info:'Mère de San Cler Avantgarde. Gypsy Vanner bai noir.' } },
+  { id:'kuarahy',  sex:'s', ext:true, em:'Kuarahy OMD',      sub:'étalon externe',
+    tip:{ info:"Père de NURAN DC et HC Omamori (× SD Suzie), et d'Orion (× SD Ruby Jane)." } },
+  { id:'flash',    sex:'s', ext:true, em:'SD Flash Harry',   sub:'lignée de référence',
+    tip:{ info:'Père de Cherry Oh Baby, Sakura, Ruby Jane et HC Jinba Ittaï (× SD Suzie), et de SD Red Velvet (× SD Lizzy).' } },
+  { id:'lizzy',    sex:'m', ext:true, em:'SD Lizzy',         sub:'',
+    tip:{ info:'Mère de SD Red Velvet.' } },
+  { id:'mystic',   sex:'m', ext:true, em:"Mystic de L'Oume", sub:"Le Cros de l'Oume",
+    tip:{ info:"Mère de Qinaï." } },
+  { id:'milkybar',    sex:'s', ext:true, em:'The Milky Bar Kid',     sub:'2005 · Palomino Pearl · IRL',
+    tip:{ info:"Grand-père paternel d'Avantgarde. Gypsy Vanner Palomino Pearl. PSSM1 N/N." } },
+  { id:'orangepop',   sex:'m', ext:true, em:'San Cler Orange Pop',   sub:'2014 · Alezan · San Cler',
+    tip:{ info:"Grand-mère paternelle d'Avantgarde. Mère de San Cler Talk Of The Town." } },
+  { id:'razzamataz',  sex:'s', ext:true, em:'San Cler Razzamataz',   sub:'2015 · Buckskin · San Cler',
+    tip:{ parents:'San Cler Creme Cracker × San Cler Creme Dream', info:"Grand-père maternel d'Avantgarde. Père de San Cler Uptown Girl." } },
+  { id:'coffeecreme', sex:'m', ext:true, em:'San Cler Coffee Creme', sub:'2010 · Noir · San Cler',
+    tip:{ parents:'Cimla Jimboy × Black Shirley', info:"Grand-mère maternelle d'Avantgarde. Mère de San Cler Uptown Girl." } },
+
+  // Reproducteurs
+  { id:'archy',     sex:'s', elite:true, em:'Cairnview Archy',   sub:'Champion de France',
+    page:'reproducteurs/archy.html',
+    tip:{ statut:'Élite grade 1', titre:'Champion de France loisir junior',
+          parents:'Llewewin × Kressa',
+          info:'Père de Nashi, Fleur, Festival, Gribaulle et Inur. Lignée Cairnview.' } },
+  { id:'avangarde', sex:'s',             em:'San Cler Avantgarde',sub:'Vice-Champion 2025',
+    page:'reproducteurs/avangarde.html',
+    extLink:'https://beta.allbreedpedigree.com/san-cler-avantgarde-puIDOJXD',
+    tip:{ titre:'Vice-Champion France 2025 — 4 ans',
+          parents:'San Cler Talk Of The Town × San Cler Uptown Girl',
+          info:'Bay Pearl Gypsy Vanner · né 24/05/2022 · GBR. Père de Quercus Kaeru, Qinaï et Qoulitch.' } },
+  { id:'suzie',     sex:'m',             em:'SD Suzie',           sub:'débourrée montée',
+    page:'reproducteurs/suzie.html',
+    tip:{ lignee:'SD Woolly Mammoth',
+          info:'Mère de Cherry Oh Baby, Sakura, Ruby Jane, HC Jinba Ittaï, NURAN DC, Omamori et Quercus Kaeru.' } },
+  { id:'sakura',    sex:'m', elite:true, em:'SD Sakura',          sub:'débourrée montée',
+    page:'reproducteurs/sakura.html',
+    tip:{ statut:'Élite grade 1', parents:'SD Flash Harry × SD Suzie',
+          info:"Mère de Nashi. Sœur complète de Ruby Jane." } },
+  { id:'ruby',      sex:'m', elite:true, em:'SD Ruby Jane',       sub:'par SD Flash Harry',
+    page:'reproducteurs/ruby-jane.html',
+    tip:{ statut:'Élite grade 1', parents:'SD Flash Harry × SD Suzie',
+          info:'Mère de Neelu DC, Orion et Qoulitch. Sœur complète de Sakura.' } },
+
+  // Poulains vivants
+  { id:'fleur',     sex:'g', foal:true, hidden:true, em:'Fleur',
+    tip:{ parents:'Cairnview Archy', info:"Poulain d'Archy, hors élevage Humming Cob." } },
+  { id:'festival',  sex:'g', foal:true, hidden:true, em:'Festival',
+    tip:{ parents:'Cairnview Archy', info:"Poulain d'Archy, hors élevage." } },
+  { id:'gribaulle', sex:'g', foal:true, hidden:true, em:'Gribaulle',
+    tip:{ parents:'Cairnview Archy', info:"Poulain d'Archy, hors élevage." } },
+  { id:'inur',      sex:'g', foal:true, hidden:true, em:'Inur',
+    tip:{ parents:'Cairnview Archy', info:"Poulain d'Archy, hors élevage." } },
+  { id:'nashi',     sex:'g', foal:true, em:'Nashi',               sub:'2 ans · bai · 4 000 €',
+    page:'poulains/nashi.html',
+    tip:{ parents:'Cairnview Archy × SD Sakura',
+          info:"Espiègle, pétillant, proche de l'homme. TAP, TREC, rando." } },
+  { id:'cherry',    sex:'m', foal:true, hidden:true, em:'SD Cherry Oh Baby', sub:'2016 · hors élevage',
+    tip:{ parents:'SD Flash Harry × SD Suzie', info:"Née en 2016. Bai. Première fille de Suzie." } },
+  { id:'kaeru',     sex:'s', foal:true, em:'Quercus Kaeru',       sub:'né prématurément · 2026',
+    tip:{ parents:'San Cler Avantgarde × SD Suzie',
+          info:'Né prématurément le 13 mai 2026. Noir pearl.' } },
+  { id:'qinai',     sex:'s', foal:true, hidden:true, em:"Qinaï",  sub:"né 13 mai · Le Cros de l'Oume",
+    tip:{ parents:"San Cler Avantgarde × Mystic de L'Oume",
+          info:"Né le 13 mai 2026. Bai pearl. Élevage Le Cros de l'Oume." } },
+  { id:'nuran',     sex:'s', foal:true, hidden:true, em:'NURAN DC',          sub:'2023 · Smoky Grulla',
+    tip:{ parents:'Kuarahy OMD × SD Suzie', info:'Né en 2023. Smoky Grulla. Hors élevage.' } },
+  { id:'omamori',   sex:'s', foal:true, em:'Omamori',             sub:'2 ans · Grullo Silver · 4 500 €',
+    page:'poulains/omamori.html',
+    tip:{ parents:'Kuarahy OMD × SD Suzie',
+          info:'Robe Grullo Silver rarissime. Intelligent, polyvalent.' } },
+  { id:'neelu',     sex:'m', foal:true, hidden:true, em:'Neelu DC',          sub:'2023 · Jument',
+    tip:{ parents:'SD Ruby Jane (père non documenté)', info:'Née en 2023. Fille de Ruby Jane.' } },
+  { id:'qoulitch',  sex:'s', foal:true, hidden:true, em:'Qoulitch',          sub:'né 23 mai · Élevage Yasuke',
+    tip:{ parents:'San Cler Avantgarde × SD Ruby Jane',
+          info:'Né le 23 mai 2026. Bai pearl. Élevage Yasuke.' } },
+  { id:'orion',     sex:'s', foal:true, em:'Orion',               sub:'2 ans · Grullo Silver · 3 500 €',
+    page:'poulains/orion.html',
+    tip:{ parents:'Kuarahy OMD × SD Ruby Jane',
+          info:"Fin, élégant, sensible. Grand amoureux de l'humain." } },
+
+  // En mémoire
+  { id:'jinba',  sex:'m', foal:true, hidden:true, em:'HC Jinba Ittaï', sub:'2019 · vendue',
+    tip:{ parents:'SD Flash Harry × SD Suzie',
+          info:'Black Roan. Née le 4 avril 2019. Vendue.' } },
+  { id:'velvet', sex:'m', memorial:true, em:'SD Red Velvet',  sub:'— †2020',
+    page:'memoire.html',
+    tip:{ parents:'SD Flash Harry × SD Lizzy',
+          info:'Gypsy Vanner. Décédée en 2020.' } },
+];
+
+// ── POSITIONS
+const POS = {
+  // Rang 0 — grands-parents d'Avantgarde (y=-110)
+  milkybar:    { x: 470,  y: -110 },
+  orangepop:   { x: 655,  y: -110 },
+  razzamataz:  { x: 740,  y: -110 },
+  coffeecreme: { x: 930,  y: -110 },
+
+  // Rang 1 — ancêtres extérieurs (y=70)
+  llewewin:  { x: 120,  y: 70  },
+  kressa:    { x: 295,  y: 70  },
+  talk:      { x: 610,  y: 70  },
+  uptown:    { x: 785,  y: 70  },
+  kuarahy:   { x: 1150, y: 70  },
+  flash:     { x: 1480, y: 70  },
+  lizzy:     { x: 1660, y: 70  },
+
+  // Rang 2 — reproducteurs (y=255)
+  archy:     { x: 200,  y: 255 },
+  avangarde: { x: 715,  y: 255 },
+  suzie:     { x: 915,  y: 255 },
+  mystic:    { x: 1090, y: 255 },
+
+  // Rang 3 — juments productrices (y=440)
+  sakura:    { x: 475,  y: 440 },
+  ruby:      { x: 1460, y: 440 },
+
+  // Rang 4 — poulains vivants (y=630)
+  fleur:     { x:  80,  y: 630 },
+  festival:  { x: 188,  y: 630 },
+  gribaulle: { x: 296,  y: 630 },
+  inur:      { x: 404,  y: 630 },
+  nashi:     { x: 535,  y: 630 },
+  cherry:    { x: 655,  y: 630 },
+  kaeru:     { x: 775,  y: 630 },
+  qinai:     { x: 900,  y: 630 },
+  nuran:     { x: 1030, y: 630 },
+  omamori:   { x: 1155, y: 630 },
+  neelu:     { x: 1280, y: 630 },
+  qoulitch:  { x: 1405, y: 630 },
+  orion:     { x: 1530, y: 630 },
+
+  // Rang 5 — en mémoire (y=820)
+  velvet:    { x: 1570, y: 820 },
+
+  // Rang 4 — supplément (jinba déplacée dans les poulains)
+  jinba:     { x: 1690, y: 630 },
+};
+
+// ── RELATIONS { p1=père, p2=mère, c=enfant }
+const RELS = [
+  { p1:'milkybar',    p2:'orangepop',   c:'talk'     },
+  { p1:'razzamataz',  p2:'coffeecreme', c:'uptown'   },
+  { p1:'llewewin', p2:'kressa',    c:'archy'    },
+  { p1:'talk',     p2:'uptown',    c:'avangarde'},
+  { p1:'flash',    p2:'suzie',     c:'cherry'   },
+  { p1:'flash',    p2:'suzie',     c:'sakura'   },
+  { p1:'flash',    p2:'suzie',     c:'ruby'     },
+  { p1:'flash',    p2:'suzie',     c:'jinba'    },
+  { p1:'flash',    p2:'lizzy',     c:'velvet'   },
+  { p1:'archy',    p2:null,        c:'fleur'    },
+  { p1:'archy',    p2:null,        c:'festival' },
+  { p1:'archy',    p2:null,        c:'gribaulle'},
+  { p1:'archy',    p2:null,        c:'inur'     },
+  { p1:'archy',    p2:'sakura',    c:'nashi'    },
+  { p1:'kuarahy',  p2:'suzie',     c:'nuran'    },
+  { p1:'kuarahy',  p2:'suzie',     c:'omamori'  },
+  { p1:'avangarde',p2:'suzie',     c:'kaeru'    },
+  { p1:'avangarde',p2:'mystic',    c:'qinai'    },
+  { p1:'avangarde',p2:'ruby',      c:'qoulitch' },
+  { p1:'kuarahy',  p2:'ruby',      c:'orion'    },
+  { p1:null,       p2:'ruby',      c:'neelu'    },
+];
+
+// ── STATE
+const nodeGroups = {};   // groupe SVG par id
+const circleEls  = {};   // cercle principal par id
+const photoEls   = {};   // <image> SVG par id
+const starEls    = {};   // étoile élite par id
+let activeRevealIds    = new Set();
+let activeVisiblePairs = new Set();
+let activeNode         = null;  // nœud actuellement mis en avant
+
+// ── SVG
+const svg = document.getElementById('tree');
+const NS  = 'http://www.w3.org/2000/svg';
+function el(tag, attrs) {
+  const e = document.createElementNS(NS, tag);
+  for(const [k,v] of Object.entries(attrs)) e.setAttribute(k, v);
+  return e;
+}
+
+// ── DEFS (clipPaths)
+const defs = el('defs', {});
+svg.appendChild(defs);
+
+// ── VIEWPORT GROUP (pan/zoom target)
+const viewport = el('g', { id:'viewport' });
+svg.appendChild(viewport);
+
+// Layers (dans le viewport, pas directement dans svg)
+const pathLayer = el('g', { id:'paths' });
+const nodeLayer = el('g', { id:'nodes' });
+viewport.appendChild(pathLayer);
+viewport.appendChild(nodeLayer);
+
+// ── DRAW PATHS (hidden by default)
+RELS.forEach(r => {
+  function drawPath(fromId, toId, color) {
+    if(!fromId || !POS[fromId] || !POS[toId]) return;
+    const f = POS[fromId], t = POS[toId];
+    const midY = (f.y + t.y) / 2;
+    const d = `M ${f.x} ${f.y} C ${f.x} ${midY}, ${t.x} ${midY}, ${t.x} ${t.y}`;
+    const path = el('path', {
+      d, stroke: color, 'stroke-width':'2',
+      fill:'none', opacity:'0',
+      'data-nodes': `${fromId},${toId}`
+    });
+    path.classList.add('rel-path');
+    pathLayer.appendChild(path);
+  }
+  drawPath(r.p1, r.c, '#6A8FA0'); // père → bleu
+  drawPath(r.p2, r.c, '#D4899A'); // mère → rose
+});
+
+// ── PANNEAU D'INFO
+const infoPanel = document.getElementById('infoPanel');
+const EMPTY_HTML = '<div class="info-panel-empty">Survoler un cheval pour voir ses informations</div>';
+
+function showPanel(h) {
+  const t = h.tip || {};
+  let fields = '';
+  if(t.statut)  fields += `<span class="field"><strong>Statut :</strong> ${t.statut}</span>`;
+  if(t.titre)   fields += `<span class="field"><strong>Titre :</strong> ${t.titre}</span>`;
+  if(t.parents) fields += `<span class="field"><strong>Parents :</strong> ${t.parents}</span>`;
+  if(t.lignee)  fields += `<span class="field"><strong>Lignée :</strong> ${t.lignee}</span>`;
+  if(t.info)    fields += `<span class="info-panel-info">${t.info}</span>`;
+
+  // Nom — mise en italique du dernier mot si reproducteur (style site)
+  const words = h.em.split(' ');
+  const nameHtml = words.length > 1
+    ? words.slice(0, -1).join(' ') + ' <em>' + words[words.length - 1] + '</em>'
+    : `<em>${h.em}</em>`;
+
+  const subLabel = h.sub || (h.ext ? 'Ancêtre externe' : '');
+
+  infoPanel.innerHTML = `
+    <div class="info-panel-name">
+      <h2>${nameHtml}</h2>
+      ${subLabel ? `<div class="sub">${subLabel}</div>` : ''}
+    </div>
+    <div class="info-panel-fields">${fields}</div>
+    ${(h.page || h.extLink) ? `<div class="info-panel-cta">${h.page ? `<a href="${h.page}">Voir la fiche →</a>` : ''}${h.extLink ? `<a href="${h.extLink}" target="_blank" rel="noopener" style="margin-left:.6rem">Pédigrée ↗</a>` : ''}</div>` : ''}
+  `;
+  infoPanel.classList.add('active');
+}
+
+function hidePanel() {
+  infoPanel.innerHTML = EMPTY_HTML;
+  infoPanel.classList.remove('active');
+}
+
+// ── ÉTAT PARTAGÉ : calcul des nœuds à révéler pour un cheval donné
+function computeReveal(hid) {
+  const ids = new Set();
+  const pairs = new Set();
+  RELS.forEach(r => {
+    if(r.p1 === hid || r.p2 === hid || r.c === hid) {
+      if(r.p1) { pairs.add(r.p1 + ',' + r.c); ids.add(r.p1); }
+      if(r.p2) { pairs.add(r.p2 + ',' + r.c); ids.add(r.p2); }
+      ids.add(r.c);
+    }
+  });
+  return { ids, pairs };
+}
+
+// Applique l'état courant (activeRevealIds / activeVisiblePairs) au SVG
+function applyState() {
+  // Chemins
+  document.querySelectorAll('.rel-path').forEach(path => {
+    const key = path.getAttribute('data-nodes') || '';
+    path.style.opacity = activeVisiblePairs.has(key) ? '0.75' : '0';
+  });
+
+  // Nœuds
+  DATA.forEach(d => {
+    if(!nodeGroups[d.id]) return;
+    const revealed = activeRevealIds.has(d.id);
+
+    // Opacité nœuds externes / hors-élevage / mémoire
+    if(d.ext || d.hidden) {
+      nodeGroups[d.id].style.opacity = revealed ? '1' : '0.15';
+    } else if(d.memorial) {
+      nodeGroups[d.id].style.opacity = revealed ? '1' : '0.5';
+    }
+
+    // Taille du cercle
+    if(circleEls[d.id]) {
+      circleEls[d.id].setAttribute('r', revealed ? R_ACTIVE : R);
+    }
+
+    // Photo
+    if(photoEls[d.id]) {
+      photoEls[d.id].setAttribute('opacity', revealed ? '1' : '0');
+    }
+
+    // Étoile élite — suit le cercle
+    if(starEls[d.id]) {
+      const p = POS[d.id];
+      starEls[d.id].setAttribute('y', revealed ? p.y - R_ACTIVE - 6 : p.y - R - 8);
+    }
+  });
+}
+
+// ── DRAW NODES
+DATA.forEach(h => {
+  const p = POS[h.id];
+  if(!p) return;
+
+  const g = el('g', { class:'node-group', style:'cursor:pointer' });
+
+  // Couleurs selon sexe / catégorie
+  let fill, stroke;
+  if(h.memorial)      { fill = '#EDE8E4'; stroke = '#9A8A84'; }
+  else if(h.ext)      { fill = '#F0EEE8'; stroke = '#C8C0BC'; }
+  else if(h.foal)     { fill = '#F5EDE0'; stroke = '#C0A050'; }
+  else if(h.sex==='s'){ fill = '#EEF3F7'; stroke = '#6A8FA0'; }
+  else                { fill = '#FFF0F4'; stroke = '#D4899A'; }
+
+  // Anneau élite (toujours sous la photo)
+  if(h.elite) {
+    const ring = el('circle', {
+      cx: p.x, cy: p.y, r: R + 5,
+      fill: 'none', stroke: '#C0A050',
+      'stroke-width': '1.5', 'stroke-dasharray': '3 2', opacity: '0.7'
+    });
+    g.appendChild(ring);
+  }
+
+  // Pastille principale
+  const circle = el('circle', {
+    cx: p.x, cy: p.y, r: R,
+    fill, stroke,
+    'stroke-width': h.ext ? '1.5' : '2',
+    'stroke-dasharray': (h.ext || h.hidden || h.memorial) ? '4 2' : 'none'
+  });
+  circle.style.transition = 'r 0.25s ease';
+  circle.classList.add('node-circle');
+  g.appendChild(circle);
+  circleEls[h.id] = circle;
+
+  // Photo SVG (si disponible) — clipPath + <image>
+  if(PHOTOS[h.id]) {
+    const clipId = 'clip-' + h.id;
+    const clipPath = el('clipPath', { id: clipId });
+    clipPath.appendChild(el('circle', { cx: p.x, cy: p.y, r: R_ACTIVE }));
+    defs.appendChild(clipPath);
+
+    const img = el('image', {
+      href: PHOTOS[h.id],
+      x: p.x - R_ACTIVE, y: p.y - R_ACTIVE,
+      width: R_ACTIVE * 2, height: R_ACTIVE * 2,
+      'clip-path': `url(#${clipId})`,
+      opacity: '0',
+      preserveAspectRatio: 'xMidYMid slice'
+    });
+    img.style.transition = 'opacity 0.25s ease';
+    g.appendChild(img);
+    photoEls[h.id] = img;
+  }
+
+  // Étoile élite — position initiale près du petit cercle
+  if(h.elite) {
+    const star = el('text', {
+      x: p.x, y: p.y - R - 8,
+      'text-anchor':'middle', fill:'#C0A050',
+      'font-size':'9', 'font-family':'serif'
+    });
+    star.style.transition = 'y 0.25s ease';
+    star.textContent = '★';
+    g.appendChild(star);
+    starEls[h.id] = star;
+  }
+
+  // Label nom — positionné sous le cercle agrandi
+  const labelY = p.y + R_ACTIVE + 14;
+  const name = el('text', {
+    x: p.x, y: labelY,
+    'text-anchor': 'middle',
+    fill: h.ext ? '#9A9290' : '#1C1C1C',
+    'font-family': "'Cormorant Garamond', Georgia, serif",
+    'font-size': '13', 'font-weight': '500',
+    'font-style': h.ext ? 'italic' : 'normal'
+  });
+  name.textContent = h.memorial ? '† ' + h.em : h.em;
+  g.appendChild(name);
+
+  if(h.elite) {
+    const sub = el('text', {
+      x: p.x, y: labelY + 14,
+      'text-anchor': 'middle',
+      fill: '#C0A050',
+      'font-family': "'Jost', sans-serif",
+      'font-size': '9', 'letter-spacing': '0.06em'
+    });
+    sub.textContent = 'Élite grade 1';
+    g.appendChild(sub);
+  }
+
+  // Zone de clic élargie
+  const hit = el('circle', {
+    cx: p.x, cy: p.y, r: R_ACTIVE + 6,
+    fill: 'transparent', stroke: 'none'
+  });
+  g.appendChild(hit);
+
+  // ── Événements
+  g.addEventListener('mouseenter', () => {
+    activeNode = h;
+    const { ids, pairs } = computeReveal(h.id);
+    activeRevealIds    = ids;
+    activeVisiblePairs = pairs;
+    applyState();
+    showPanel(h);
+  });
+  // Pas de mouseleave : l'état persiste jusqu'au prochain hover ou clic dans le vide
+
+  if(h.page) {
+    g.addEventListener('click', () => {
+      if(!dragMoved) window.location.href = h.page;
+    });
+  }
+
+  nodeLayer.appendChild(g);
+  nodeGroups[h.id] = g;
+});
+
+// ── Opacité initiale
+DATA.forEach(d => {
+  if((d.ext || d.hidden) && nodeGroups[d.id]) {
+    nodeGroups[d.id].style.opacity = '0.15';
+  }
+  if(d.memorial && nodeGroups[d.id]) {
+    nodeGroups[d.id].style.opacity = '0.5';
+  }
+});
+
+// ── PAN / ZOOM ────────────────────────────────────────────────────────────
+const treeOuter = document.getElementById('treeOuter');
+const TREE_W = 1900, TREE_H = 1100; // inclut rang 0 (y=-110) → rang mémoire (y=820)
+const MIN_S = 0.12, MAX_S = 3;
+
+function fitTransform() {
+  const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
+  const s = Math.min(cw / TREE_W, ch / TREE_H) * 0.93;
+  // Centre vertical entre y=-110 (rang 0) et y=820 (mémoire) → milieu = 355
+  return { s, tx: (cw - TREE_W * s) / 2, ty: ch / 2 - 355 * s };
+}
+
+let { s: vScale, tx: vTx, ty: vTy } = fitTransform();
+
+function applyVP() {
+  viewport.setAttribute('transform', `translate(${vTx},${vTy}) scale(${vScale})`);
+}
+applyVP();
+
+// ── Mouse drag
+let dragging = false, dragMoved = false, dragOrig = null;
+treeOuter.addEventListener('mousedown', e => {
+  if(e.button !== 0) return;
+  dragging = true;
+  dragMoved = false;
+  dragOrig = { x: e.clientX - vTx, y: e.clientY - vTy };
+  treeOuter.classList.add('panning');
+  e.preventDefault();
+});
+window.addEventListener('mousemove', e => {
+  if(!dragging) return;
+  const dx = e.clientX - (dragOrig.x + vTx), dy = e.clientY - (dragOrig.y + vTy);
+  if(Math.abs(dx) > 4 || Math.abs(dy) > 4) dragMoved = true;
+  vTx = e.clientX - dragOrig.x;
+  vTy = e.clientY - dragOrig.y;
+  applyVP();
+});
+window.addEventListener('mouseup', e => {
+  const wasDrag = dragMoved;
+  dragging = false; dragMoved = false;
+  treeOuter.classList.remove('panning');
+
+  // Clic simple (pas un drag) sur fond vide → effacer la mise en avant
+  if(!wasDrag && activeNode) {
+    const r = treeOuter.getBoundingClientRect();
+    const sx = (e.clientX - r.left - vTx) / vScale;
+    const sy = (e.clientY - r.top  - vTy) / vScale;
+    const onNode = DATA.some(d => {
+      const p = POS[d.id];
+      return p && Math.hypot(sx - p.x, sy - p.y) < R_ACTIVE + 15;
+    });
+    if(!onNode) {
+      activeNode = null;
+      activeRevealIds    = new Set();
+      activeVisiblePairs = new Set();
+      applyState();
+    }
+  }
+});
+
+// ── Wheel zoom
+treeOuter.addEventListener('wheel', e => {
+  e.preventDefault();
+  const r = treeOuter.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
+  const factor = e.deltaY < 0 ? 1.15 : 0.87;
+  const ns = Math.min(MAX_S, Math.max(MIN_S, vScale * factor));
+  vTx = mx - (mx - vTx) * (ns / vScale);
+  vTy = my - (my - vTy) * (ns / vScale);
+  vScale = ns;
+  applyVP();
+}, { passive: false });
+
+// ── Touch (1 doigt = pan, 2 doigts = pinch-zoom, tap = info)
+let touchBase = null, pinchBase = null;
+let tapStart = null, tapMoved = false;
+
+treeOuter.addEventListener('touchstart', e => {
+  e.preventDefault();
+  if(e.touches.length === 1) {
+    tapMoved = false;
+    tapStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
+    touchBase = { cx: e.touches[0].clientX - vTx, cy: e.touches[0].clientY - vTy };
+    pinchBase = null;
+  } else if(e.touches.length === 2) {
+    const t1 = e.touches[0], t2 = e.touches[1];
+    pinchBase = {
+      dist: Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY),
+      mx: (t1.clientX + t2.clientX) / 2,
+      my: (t1.clientY + t2.clientY) / 2,
+      tx: vTx, ty: vTy, s: vScale
+    };
+    touchBase = null;
+  }
+}, { passive: false });
+
+treeOuter.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if(e.touches.length === 1 && touchBase) {
+    const dx = e.touches[0].clientX - tapStart.x, dy = e.touches[0].clientY - tapStart.y;
+    if(Math.abs(dx) > 4 || Math.abs(dy) > 4) tapMoved = true;
+    vTx = e.touches[0].clientX - touchBase.cx;
+    vTy = e.touches[0].clientY - touchBase.cy;
+    applyVP();
+  } else if(e.touches.length === 2 && pinchBase) {
+    const t1 = e.touches[0], t2 = e.touches[1];
+    const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+    const mx   = (t1.clientX + t2.clientX) / 2;
+    const my   = (t1.clientY + t2.clientY) / 2;
+    const r    = treeOuter.getBoundingClientRect();
+    const pmx  = mx - r.left, pmy = my - r.top;
+    const ns   = Math.min(MAX_S, Math.max(MIN_S, pinchBase.s * (dist / pinchBase.dist)));
+    vTx = pmx - (pmx - pinchBase.tx) * (ns / pinchBase.s);
+    vTy = pmy - (pmy - pinchBase.ty) * (ns / pinchBase.s);
+    vScale = ns;
+    applyVP();
+  }
+}, { passive: false });
+
+treeOuter.addEventListener('touchend', e => {
+  if(!tapMoved && tapStart && (Date.now() - tapStart.t) < 280) {
+    // Tap : trouver le nœud le plus proche en coordonnées SVG
+    const r = treeOuter.getBoundingClientRect();
+    const sx = (tapStart.x - r.left - vTx) / vScale;
+    const sy = (tapStart.y - r.top  - vTy) / vScale;
+    let closest = null, minD = Infinity;
+    DATA.forEach(d => {
+      const p = POS[d.id]; if(!p) return;
+      const dist = Math.hypot(sx - p.x, sy - p.y);
+      if(dist < minD) { minD = dist; closest = d; }
+    });
+    if(closest && minD < R_ACTIVE + 30) {
+      const { ids, pairs } = computeReveal(closest.id);
+      activeRevealIds = ids; activeVisiblePairs = pairs;
+      applyState(); showPanel(closest);
+    } else {
+      activeRevealIds = new Set(); activeVisiblePairs = new Set();
+      applyState();
+    }
+  }
+  touchBase = null; pinchBase = null; tapStart = null;
+});
+
+// ── Boutons zoom
+function zoomAround(factor) {
+  const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
+  const mx = cw / 2, my = ch / 2;
+  const ns = Math.min(MAX_S, Math.max(MIN_S, vScale * factor));
+  vTx = mx - (mx - vTx) * (ns / vScale);
+  vTy = my - (my - vTy) * (ns / vScale);
+  vScale = ns; applyVP();
+}
+document.getElementById('zoomIn').addEventListener('click',    () => zoomAround(1.35));
+document.getElementById('zoomOut').addEventListener('click',   () => zoomAround(1 / 1.35));
+document.getElementById('zoomReset').addEventListener('click', () => {
+  const f = fitTransform(); vScale = f.s; vTx = f.tx; vTy = f.ty; applyVP();
+});
+</script>
+</body>
+</html>

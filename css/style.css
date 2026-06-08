@@ -363,11 +363,13 @@ section { padding: 6rem 1.5rem; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5rem;
-  align-items: center;
+  align-items: stretch;
 }
 
 .qsn-image-wrap {
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .qsn-image-wrap::before {
   content: '';
@@ -900,7 +902,6 @@ footer {
   align-items: center;
   gap: 1rem;
   color: var(--rose-deep);
-  opacity: 0.5;
 }
 
 .horse-hero-info {

@@ -33,7 +33,6 @@
 <!-- ====== HERO MÉMOIRE ====== -->
 <section class="memorial-hero">
 
-  <!-- Branches décoratives — couleurs atténuées -->
   <svg class="hero-branch hero-branch-left" viewBox="0 0 400 700" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.14">
     <path d="M-20 700 C 40 560, 70 460, 110 360 C 150 260, 185 195, 165 100 C 155 55, 135 15, 145 -10" stroke="#7A6868" stroke-width="3.5" fill="none" stroke-linecap="round"/>
     <path d="M110 360 C 155 335, 205 315, 255 300" stroke="#7A6868" stroke-width="2" fill="none" stroke-linecap="round"/>
@@ -71,54 +70,64 @@
   <div class="section-inner">
     <div class="memorial-grid">
 
-      <!-- ===== CHEVAL 1 — À compléter par Alice ===== -->
-      <div class="memorial-card reveal">
-        <!-- Remplacer le placeholder par :
-             <img src="../img/memoire/nom-du-cheval.jpg" alt="Nom" class="memorial-card-img" onerror="this.style.display='none'">
-        -->
-        <div class="memorial-card-img-placeholder">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#8A8080" stroke-width="0.8">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <span>Photo à venir</span>
+
+      <!-- ===== SD RED VELVET ===== -->
+      <div class="memorial-card reveal reveal-delay-2">
+        <!-- Carousel Velvet -->
+        <div id="rvSlides" style="position:relative;overflow:hidden;border-radius:12px 12px 0 0;aspect-ratio:1/1;background:#1a1a1a;cursor:zoom-in;">
+          <div class="rv-slide" style="display:block;"><img src="img/velvet/rv-01.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-02.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-03.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-04.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-05.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-06.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-07.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-08.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-lizzy.jpg" alt="Velvet & Lizzy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <button class="rv-prev" style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">‹</button>
+          <button class="rv-next" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">›</button>
+          <span id="rvCounter" style="position:absolute;bottom:.5rem;right:.7rem;background:rgba(0,0,0,.45);color:#fff;font-size:.62rem;letter-spacing:.08em;padding:.15rem .45rem;border-radius:8px;"></span>
         </div>
         <span class="memorial-badge">En mémoire</span>
         <div class="memorial-card-body">
-          <!-- Remplacer par les vraies dates, ex: "2019 — 2024" -->
-          <p class="memorial-card-dates">AAAA — AAAA</p>
-          <!-- Remplacer par le vrai nom -->
-          <h2 class="memorial-card-name">Nom du cheval</h2>
-          <!-- Remplacer par le texte d'Alice -->
+          <p class="memorial-card-dates"><span style="opacity:.55;">date à préciser</span> — 2020</p>
+          <h2 class="memorial-card-name">SD Red Velvet</h2>
+          <p class="memorial-card-text" style="font-size:.78rem;color:var(--gris);margin-bottom:.6rem;">
+            Jument · Gypsy Vanner<br>
+            Fille de SD Flash Harry × SD Lizzy
+          </p>
           <p class="memorial-card-text">
-            Alice complétera ici avec les souvenirs, la personnalité et l'histoire de ce cheval.
+            Alice complétera ici avec les souvenirs et l'histoire de Velvet.
           </p>
         </div>
       </div>
 
-      <!-- ===== CHEVAL 2 — À compléter par Alice ===== -->
-      <div class="memorial-card reveal reveal-delay-2">
-        <!-- Remplacer le placeholder par :
-             <img src="../img/memoire/nom-du-cheval.jpg" alt="Nom" class="memorial-card-img" onerror="this.style.display='none'">
-        -->
-        <div class="memorial-card-img-placeholder">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#8A8080" stroke-width="0.8">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <span>Photo à venir</span>
+      <!-- ===== JBALLAR ===== -->
+      <div class="memorial-card reveal reveal-delay-3">
+        <div id="jbSlides" style="position:relative;overflow:hidden;border-radius:12px 12px 0 0;aspect-ratio:1/1;background:#1a1a1a;cursor:zoom-in;">
+          <div class="jb-slide active" style="display:block;"><img src="img/jballar/jb-01.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-02.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-03.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-04.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-05.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-06.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-07.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-08.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-09.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-10.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <button class="jb-prev" style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">‹</button>
+          <button class="jb-next" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">›</button>
+          <span id="jbCounter" style="position:absolute;bottom:.5rem;right:.7rem;background:rgba(0,0,0,.45);color:#fff;font-size:.62rem;letter-spacing:.08em;padding:.15rem .45rem;border-radius:8px;"></span>
         </div>
         <span class="memorial-badge">En mémoire</span>
         <div class="memorial-card-body">
-          <!-- Remplacer par les vraies dates, ex: "2020 — 2025" -->
-          <p class="memorial-card-dates">AAAA — AAAA</p>
-          <!-- Remplacer par le vrai nom -->
-          <h2 class="memorial-card-name">Nom du cheval</h2>
-          <!-- Remplacer par le texte d'Alice -->
+          <p class="memorial-card-dates"><span style="opacity:.55;">date à préciser</span> — date à préciser</p>
+          <h2 class="memorial-card-name">Jballar</h2>
+          <p class="memorial-card-text" style="font-size:.78rem;color:var(--gris);margin-bottom:.6rem;">
+            Hongre
+          </p>
           <p class="memorial-card-text">
-            Alice complétera ici avec les souvenirs, la personnalité et l'histoire de ce cheval.
+            Alice complétera ici avec les souvenirs et l'histoire de Jballar.
           </p>
         </div>
       </div>
@@ -154,6 +163,52 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  var jbWrap = document.getElementById('jbSlides');
+  if (jbWrap) {
+    var jbSlides = Array.from(jbWrap.querySelectorAll('.jb-slide'));
+    var jbCounter = document.getElementById('jbCounter');
+    var jbCur = 0;
+    function jbGoTo(n){
+      jbSlides[jbCur].style.display = 'none';
+      jbSlides[jbCur].classList.remove('active');
+      jbCur = (n + jbSlides.length) % jbSlides.length;
+      jbSlides[jbCur].style.display = 'block';
+      jbSlides[jbCur].classList.add('active');
+      if(jbCounter) jbCounter.textContent = (jbCur+1)+' / '+jbSlides.length;
+    }
+    jbGoTo(0);
+    jbWrap.querySelector('.jb-prev').addEventListener('click', function(e){ e.stopPropagation(); jbGoTo(jbCur-1); });
+    jbWrap.querySelector('.jb-next').addEventListener('click', function(e){ e.stopPropagation(); jbGoTo(jbCur+1); });
+    var jbTx=0;
+    jbWrap.addEventListener('touchstart', function(e){ jbTx=e.touches[0].clientX; },{passive:true});
+    jbWrap.addEventListener('touchend', function(e){ var dx=e.changedTouches[0].clientX-jbTx; if(Math.abs(dx)>40) jbGoTo(jbCur+(dx<0?1:-1)); },{passive:true});
+  }
+})();
+</script>
+<script>
+(function(){
+  const slides  = Array.from(document.querySelectorAll('.rv-slide'));
+  const counter = document.getElementById('rvCounter');
+  let cur = 0;
+  function goTo(n){
+    slides[cur].style.display = 'none';
+    slides[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].style.display = 'block';
+    slides[cur].classList.add('active');
+    if(counter) counter.textContent = (cur+1)+' / '+slides.length;
+  }
+  goTo(0);
+  document.querySelector('.rv-prev').addEventListener('click', e=>{ e.stopPropagation(); goTo(cur-1); });
+  document.querySelector('.rv-next').addEventListener('click', e=>{ e.stopPropagation(); goTo(cur+1); });
+  const wrap = document.getElementById('rvSlides');
+  let tx=0;
+  wrap.addEventListener('touchstart', e=>{ tx=e.touches[0].clientX; },{passive:true});
+  wrap.addEventListener('touchend',   e=>{ const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>40) goTo(cur+(dx<0?1:-1)); },{passive:true});
+})();
+</script>
 <script src="js/main.js"></script>
 </body>
 </html>
