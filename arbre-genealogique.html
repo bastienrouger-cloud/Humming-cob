@@ -235,6 +235,29 @@
       color: white;
     }
 
+    /* Étiquettes de génération */
+    .gen-label {
+      position: absolute;
+      left: 10px;
+      pointer-events: none;
+      z-index: 5;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .gen-label.visible { opacity: 1; }
+    .gen-label-text {
+      font-size: 0.56rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gris);
+      white-space: nowrap;
+      background: rgba(254,251,246,0.88);
+      padding: 2px 7px;
+      border-radius: 4px;
+      border-left: 2px solid rgba(176,96,112,0.25);
+    }
+
     /* Legend */
     .legend {
       display: flex; gap: 2rem; justify-content: center;
@@ -243,6 +266,7 @@
     .leg { display: flex; align-items: center; gap: 8px; font-size: 0.72rem; color: var(--gris); }
     .leg-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; }
     .leg-line { width: 30px; height: 2px; border-radius: 2px; flex-shrink: 0; }
+    .leg-cross { width: 14px; height: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #9A8A84; font-family: Georgia, serif; opacity: .8; }
   </style>
 </head>
 <body>
@@ -258,6 +282,9 @@
 
 <div class="tree-outer" id="treeOuter">
   <svg class="tree-svg" id="tree"></svg>
+  <div class="gen-label" data-y="-110"><div class="gen-label-text">Ascendants</div></div>
+  <div class="gen-label" data-y="255"><div class="gen-label-text">Reproducteurs</div></div>
+  <div class="gen-label" data-y="630"><div class="gen-label-text">Descendants</div></div>
   <div class="mobile-hint">Glisser pour naviguer · Pincer pour zoomer</div>
   <div class="zoom-controls">
     <button class="zoom-btn" id="zoomIn" title="Zoom +">+</button>
@@ -284,7 +311,7 @@
     <div class="leg-dot" style="background:#F0EEE8;border-color:#C8C0BC;border-style:dashed;"></div>Externe
   </div>
   <div class="leg">
-    <div class="leg-dot" style="background:#EDE8E4;border-color:#9A8A84;border-style:dashed;opacity:.7;"></div>En mémoire
+    <div class="leg-cross">†</div>En mémoire
   </div>
   <div class="leg">
     <div class="leg-line" style="background:#6A8FA0;"></div>Ligne paternelle
@@ -316,10 +343,14 @@ const PHOTOS = {
 // ── DATA
 const DATA = [
   // Ancêtres externes
-  { id:'llewewin', sex:'s', ext:true, em:'Llewewin',         sub:'né 2004',
-    tip:{ info:'Père de Cairnview Archy.' } },
-  { id:'kressa',   sex:'m', ext:true, em:'Kressa',           sub:'',
+  { id:'llewewin',   sex:'s', ext:true, em:'Cairnview Llewelyn', sub:'2004 · Tobiano Noir · IRL',
+    tip:{ parents:'Mr. Morris × Carrigburns Lady', info:'Père de Cairnview Archy. Irish Tinker, 158cm.' } },
+  { id:'kressa',     sex:'m', ext:true, em:'Cairnview Kessia',  sub:'~2004 · IRL',
     tip:{ info:'Mère de Cairnview Archy.' } },
+  { id:'mrmorris',   sex:'s', ext:true, em:'Mr. Morris',         sub:'1996 · Noir Pinto · IRL',
+    tip:{ info:"Grand-père paternel d'Archy. Gypsy Vanner, étalon élite ICS 03004086." } },
+  { id:'carrigburns',sex:'m', ext:true, em:'Carrigburns Lady',   sub:'1998 · Tobiano Noir · IRL',
+    tip:{ info:"Grand-mère paternelle d'Archy. Gypsy Vanner, 1.60m. FM03002132." } },
   { id:'talk',     sex:'s', ext:true, em:'Talk Of The Town', sub:'San Cler · Alezan · 14hh',
     tip:{ parents:'The Milky Bar Kid × San Cler Orange Pop',
           info:'Père de San Cler Avantgarde. Lignée San Cler, porteur double pearl.' } },
@@ -328,12 +359,29 @@ const DATA = [
           info:'Mère de San Cler Avantgarde. Gypsy Vanner bai noir.' } },
   { id:'kuarahy',  sex:'s', ext:true, em:'Kuarahy OMD',      sub:'étalon externe',
     tip:{ info:"Père de NURAN DC et HC Omamori (× SD Suzie), et d'Orion (× SD Ruby Jane)." } },
-  { id:'flash',    sex:'s', ext:true, em:'SD Flash Harry',   sub:'lignée de référence',
-    tip:{ info:'Père de Cherry Oh Baby, Sakura, Ruby Jane et HC Jinba Ittaï (× SD Suzie), et de SD Red Velvet (× SD Lizzy).' } },
+  { id:'flash',    sex:'s', ext:true, em:'SD Flash Harry',   sub:'2005 · Bai Sabino · 14hh',
+    tip:{ parents:'SD Jim × SD Pink Palomino',
+          info:'Père de Cherry Oh Baby, One Stop the Top, Sakura, Ruby Jane et HC Jinba Ittaï (× SD Suzie), et de SD Red Velvet (× SD Lizzy). GVHS GV13705P.' } },
   { id:'lizzy',    sex:'m', ext:true, em:'SD Lizzy',         sub:'',
     tip:{ info:'Mère de SD Red Velvet.' } },
   { id:'mystic',   sex:'m', ext:true, em:"Mystic de L'Oume", sub:"Le Cros de l'Oume",
     tip:{ info:"Mère de Qinaï." } },
+  { id:'woolly',    sex:'s', ext:true, em:'SD Woolly Mammoth', sub:'2002 · Noir · 13.3hh · GBR',
+    tip:{ parents:'Samson of Wales × Sovereign',
+          info:"Père de SD Suzie. Gypsy Vanner, GVHS GV04025." } },
+  { id:'olivia',    sex:'m', ext:true, em:'SD Olivia',         sub:'Alezan · Gypsy Vanner',
+    tip:{ info:"Mère de SD Suzie. Parents inconnus." } },
+  { id:'samson',    sex:'s', ext:true, em:'Samson of Wales',   sub:'~2000 · Noir Tobiano · GBR',
+    tip:{ parents:'The Old Horse of Wales × The Sweeper Mare',
+          info:"Grand-père paternel de SD Suzie. Gypsy Vanner." } },
+  { id:'sovereign', sex:'m', ext:true, em:'Sovereign',         sub:'1998 · Noir Tobiano · GBR',
+    tip:{ parents:'Bob the Blagdon × Price\'s Red & White Mare',
+          info:"Grand-mère paternelle de SD Suzie. Aka SD Sovereign. GVHS GV00053F." } },
+  { id:'sdjim',      sex:'s', ext:true, em:'SD Jim',             sub:'2003 · Noir · 15hh · GBR',
+    tip:{ parents:'Bob the Blagdon × The Sweeper Mare',
+          info:"Père de SD Flash Harry. Aka Nero. TGCA HSR06SL." } },
+  { id:'pinkpal',    sex:'m', ext:true, em:'SD Pink Palomino',   sub:'Alezan · Gypsy Vanner',
+    tip:{ info:"Mère de SD Flash Harry. Parents inconnus." } },
   { id:'milkybar',    sex:'s', ext:true, em:'The Milky Bar Kid',     sub:'2005 · Palomino Pearl · IRL',
     tip:{ info:"Grand-père paternel d'Avantgarde. Gypsy Vanner Palomino Pearl. PSSM1 N/N." } },
   { id:'orangepop',   sex:'m', ext:true, em:'San Cler Orange Pop',   sub:'2014 · Alezan · San Cler',
@@ -357,12 +405,14 @@ const DATA = [
           info:'Bay Pearl Gypsy Vanner · né 24/05/2022 · GBR. Père de Quercus Kaeru, Qinaï et Qoulitch.' } },
   { id:'suzie',     sex:'m',             em:'SD Suzie',           sub:'débourrée montée',
     page:'reproducteurs/suzie.html',
-    tip:{ lignee:'SD Woolly Mammoth',
-          info:'Mère de Cherry Oh Baby, Sakura, Ruby Jane, HC Jinba Ittaï, NURAN DC, Omamori et Quercus Kaeru.' } },
+    extLink:'https://beta.allbreedpedigree.com/sd-suzie-DDyIIowt/pedigree',
+    tip:{ parents:'SD Woolly Mammoth × SD Olivia',
+          info:'Mère de Cherry Oh Baby, One Stop the Top, Sakura, Ruby Jane, HC Jinba Ittaï, NURAN DC, Omamori et Quercus Kaeru.' } },
   { id:'sakura',    sex:'m', elite:true, em:'SD Sakura',          sub:'débourrée montée',
     page:'reproducteurs/sakura.html',
+    extLink:'https://beta.allbreedpedigree.com/sd-sakura-6qgyVP5l/pedigree',
     tip:{ statut:'Élite grade 1', parents:'SD Flash Harry × SD Suzie',
-          info:"Mère de Nashi. Sœur complète de Ruby Jane." } },
+          info:"Mère de Nashi. Sœur complète de Ruby Jane. Née 26/04/2017, Bai Sabino." } },
   { id:'ruby',      sex:'m', elite:true, em:'SD Ruby Jane',       sub:'par SD Flash Harry',
     page:'reproducteurs/ruby-jane.html',
     tip:{ statut:'Élite grade 1', parents:'SD Flash Harry × SD Suzie',
@@ -383,6 +433,8 @@ const DATA = [
           info:"Espiègle, pétillant, proche de l'homme. TAP, TREC, rando." } },
   { id:'cherry',    sex:'m', foal:true, hidden:true, em:'SD Cherry Oh Baby', sub:'2016 · hors élevage',
     tip:{ parents:'SD Flash Harry × SD Suzie', info:"Née en 2016. Bai. Première fille de Suzie." } },
+  { id:'onestop',   sex:'m', foal:true, hidden:true, em:'SD One Stop the Top', sub:'Alezan Sabino · hors élevage',
+    tip:{ parents:'SD Flash Harry × SD Suzie', info:"Alezan Sabino. Fille de Flash Harry et Suzie. Hors élevage." } },
   { id:'kaeru',     sex:'s', foal:true, em:'Quercus Kaeru',       sub:'né prématurément · 2026',
     tip:{ parents:'San Cler Avantgarde × SD Suzie',
           info:'Né prématurément le 13 mai 2026. Noir pearl.' } },
@@ -405,7 +457,7 @@ const DATA = [
     tip:{ parents:'Kuarahy OMD × SD Ruby Jane',
           info:"Fin, élégant, sensible. Grand amoureux de l'humain." } },
 
-  // En mémoire
+  // Vendue
   { id:'jinba',  sex:'m', foal:true, hidden:true, em:'HC Jinba Ittaï', sub:'2019 · vendue',
     tip:{ parents:'SD Flash Harry × SD Suzie',
           info:'Black Roan. Née le 4 avril 2019. Vendue.' } },
@@ -417,60 +469,71 @@ const DATA = [
 
 // ── POSITIONS
 const POS = {
-  // Rang 0 — grands-parents d'Avantgarde (y=-110)
+  // Rang 0 — grands-parents (y=-110)
+  mrmorris:    { x:  30,  y: -110 },
+  carrigburns: { x: 215,  y: -110 },
   milkybar:    { x: 470,  y: -110 },
   orangepop:   { x: 655,  y: -110 },
   razzamataz:  { x: 740,  y: -110 },
   coffeecreme: { x: 930,  y: -110 },
-
-  // Rang 1 — ancêtres extérieurs (y=70)
+  samson:      { x: 790,  y: -110 },
+  sovereign:   { x: 1010, y: -110 },
+  // Rang 1 — grands-parents (y=70)
   llewewin:  { x: 120,  y: 70  },
   kressa:    { x: 295,  y: 70  },
-  talk:      { x: 610,  y: 70  },
-  uptown:    { x: 785,  y: 70  },
-  kuarahy:   { x: 1150, y: 70  },
-  flash:     { x: 1480, y: 70  },
-  lizzy:     { x: 1660, y: 70  },
+  talk:      { x: 480,  y: 70  },
+  uptown:    { x: 615,  y: 70  },
+  woolly:    { x: 730,  y: 70  },
+  olivia:    { x: 860,  y: 70  },
+  sdjim:     { x: 1070, y: 70  },
+  pinkpal:   { x: 1160, y: 70  },
 
   // Rang 2 — reproducteurs (y=255)
-  archy:     { x: 200,  y: 255 },
-  avangarde: { x: 715,  y: 255 },
-  suzie:     { x: 915,  y: 255 },
-  mystic:    { x: 1090, y: 255 },
+  archy:     { x: 150,  y: 255 },
+  suzie:     { x: 700,  y: 255 },
+  flash:     { x: 870,  y: 255 },
+  kuarahy:   { x: 1100, y: 255 },
+  lizzy:     { x: 1500, y: 255 },
 
-  // Rang 3 — juments productrices (y=440)
-  sakura:    { x: 475,  y: 440 },
-  ruby:      { x: 1460, y: 440 },
+  // Rang 3 — deuxième génération (y=440)
+  sakura:    { x: 350,  y: 440 },
+  avangarde: { x: 650,  y: 440 },
+  mystic:    { x: 950,  y: 440 },
+  ruby:      { x: 1350, y: 440 },
 
-  // Rang 4 — poulains vivants (y=630)
-  fleur:     { x:  80,  y: 630 },
-  festival:  { x: 188,  y: 630 },
-  gribaulle: { x: 296,  y: 630 },
-  inur:      { x: 404,  y: 630 },
-  nashi:     { x: 535,  y: 630 },
-  cherry:    { x: 655,  y: 630 },
-  kaeru:     { x: 775,  y: 630 },
-  qinai:     { x: 900,  y: 630 },
-  nuran:     { x: 1030, y: 630 },
-  omamori:   { x: 1155, y: 630 },
-  neelu:     { x: 1280, y: 630 },
-  qoulitch:  { x: 1405, y: 630 },
-  orion:     { x: 1530, y: 630 },
+  // Rang 4 — descendants Humming Cob (y=630)
+  nashi:     { x: 300,  y: 630 },
+  omamori:   { x: 600,  y: 630 },
+  kaeru:     { x: 850,  y: 630 },
+  orion:     { x: 1100, y: 630 },
+  jinba:     { x: 1400, y: 630 },
 
-  // Rang 5 — en mémoire (y=820)
-  velvet:    { x: 1570, y: 820 },
-
-  // Rang 4 — supplément (jinba déplacée dans les poulains)
-  jinba:     { x: 1690, y: 630 },
+  // Rang 5 — autres descendants & en mémoire (y=820)
+  fleur:     { x:  60,  y: 820 },
+  festival:  { x: 220,  y: 820 },
+  gribaulle: { x: 380,  y: 820 },
+  inur:      { x: 540,  y: 820 },
+  cherry:    { x: 680,  y: 820 },
+  nuran:     { x: 820,  y: 820 },
+  onestop:   { x: 960,  y: 820 },
+  qinai:     { x: 1100, y: 820 },
+  neelu:     { x: 1240, y: 820 },
+  qoulitch:  { x: 1400, y: 820 },
+  velvet:    { x: 1560, y: 820 },
 };
 
 // ── RELATIONS { p1=père, p2=mère, c=enfant }
 const RELS = [
   { p1:'milkybar',    p2:'orangepop',   c:'talk'     },
   { p1:'razzamataz',  p2:'coffeecreme', c:'uptown'   },
-  { p1:'llewewin', p2:'kressa',    c:'archy'    },
+  { p1:'sdjim',     p2:'pinkpal',     c:'flash'    },
+  { p1:'samson',    p2:'sovereign',   c:'woolly'   },
+  { p1:'woolly',    p2:'olivia',      c:'suzie'    },
+  { p1:'mrmorris',  p2:'carrigburns', c:'llewewin' },
+  { p1:'llewewin',  p2:'kressa',     c:'archy'    },
   { p1:'talk',     p2:'uptown',    c:'avangarde'},
   { p1:'flash',    p2:'suzie',     c:'cherry'   },
+  { p1:'flash',    p2:'suzie',     c:'onestop'  },
   { p1:'flash',    p2:'suzie',     c:'sakura'   },
   { p1:'flash',    p2:'suzie',     c:'ruby'     },
   { p1:'flash',    p2:'suzie',     c:'jinba'    },
@@ -516,10 +579,24 @@ const viewport = el('g', { id:'viewport' });
 svg.appendChild(viewport);
 
 // Layers (dans le viewport, pas directement dans svg)
+const lineLayer = el('g', { id:'gen-lines' });
 const pathLayer = el('g', { id:'paths' });
 const nodeLayer = el('g', { id:'nodes' });
+viewport.appendChild(lineLayer);
 viewport.appendChild(pathLayer);
 viewport.appendChild(nodeLayer);
+
+// ── Lignes de génération (pointillées horizontales)
+const GEN_Y = [-110, 255, 630];
+GEN_Y.forEach(y => {
+  const line = el('line', {
+    x1: -150, y1: y, x2: 2050, y2: y,
+    stroke: 'rgba(176,96,112,0.22)',
+    'stroke-width': '1.5',
+    'stroke-dasharray': '6 4'
+  });
+  lineLayer.appendChild(line);
+});
 
 // ── DRAW PATHS (hidden by default)
 RELS.forEach(r => {
@@ -638,9 +715,11 @@ DATA.forEach(h => {
 
   // Couleurs selon sexe / catégorie
   let fill, stroke;
-  if(h.memorial)      { fill = '#EDE8E4'; stroke = '#9A8A84'; }
-  else if(h.ext)      { fill = '#F0EEE8'; stroke = '#C8C0BC'; }
-  else if(h.foal)     { fill = '#F5EDE0'; stroke = '#C0A050'; }
+  if(h.memorial)           { fill = '#EDE8E4'; stroke = '#9A8A84'; }
+  else if(h.ext && h.sex==='s') { fill = '#EEF3F7'; stroke = '#6A8FA0'; }
+  else if(h.ext && h.sex==='m') { fill = '#FFF0F4'; stroke = '#D4899A'; }
+  else if(h.ext)           { fill = '#F0EEE8'; stroke = '#C8C0BC'; }
+  else if(h.foal)          { fill = '#F5EDE0'; stroke = '#C0A050'; }
   else if(h.sex==='s'){ fill = '#EEF3F7'; stroke = '#6A8FA0'; }
   else                { fill = '#FFF0F4'; stroke = '#D4899A'; }
 
@@ -776,8 +855,25 @@ function fitTransform() {
 
 let { s: vScale, tx: vTx, ty: vTy } = fitTransform();
 
+const genLabels = Array.from(document.querySelectorAll('.gen-label'));
+
+function updateGenLabels() {
+  const h = treeOuter.clientHeight;
+  genLabels.forEach(lbl => {
+    const svgY = parseFloat(lbl.dataset.y);
+    const screenY = vTy + svgY * vScale;
+    if (screenY >= 10 && screenY <= h - 10) {
+      lbl.style.top = screenY + 'px';
+      lbl.classList.add('visible');
+    } else {
+      lbl.classList.remove('visible');
+    }
+  });
+}
+
 function applyVP() {
   viewport.setAttribute('transform', `translate(${vTx},${vTy}) scale(${vScale})`);
+  updateGenLabels();
 }
 applyVP();
 
