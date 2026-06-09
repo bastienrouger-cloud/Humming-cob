@@ -1328,9 +1328,12 @@ footer {
   .pedigree-connector { display: none; }
 }
 
+@media (max-width: 768px) {
+  .hero-branch { display: none; }
+}
+
 @media (max-width: 600px) {
   section { padding: 4rem 1rem; }
-  .elevage-grid { grid-template-columns: 1fr; }
   .horses-grid { grid-template-columns: 1fr; }
   .horse-specs { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
