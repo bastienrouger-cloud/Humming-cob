@@ -1334,4 +1334,5 @@ footer {
   .horses-grid { grid-template-columns: 1fr; }
   .horse-specs { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
+  .scroll-hint { display: none; }
 }
