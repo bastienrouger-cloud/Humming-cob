@@ -308,6 +308,9 @@
       .event-panel.open { transform: translateY(0); }
     }
   </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7Y0BZPH4Q"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-M7Y0BZPH4Q');</script>
 </head>
 <body>
 
@@ -337,7 +340,7 @@
     <div class="panel-divider"></div>
     <div id="panelImgWrap"></div>
     <div class="panel-text" id="panelText"></div>
-    <p class="panel-placeholder-note" id="panelNote" style="display:none">⚑ Photo d'Alice — à compléter avec Alice</p>
+    <p class="panel-placeholder-note" id="panelNote" style="display:none">⚑ Prochaine graine à semer - 2026 ? 2027 ?</p>
   </div>
 </aside>
 
@@ -352,7 +355,7 @@ const EVENTS = [
     subtitle: 'Que le cheval serait une drogue !',
     text: 'À 5 ans, elle m\'inscrit au poney-club. Une décision en apparence anodine qui allait pourtant changer toute ma vie.',
     image: 'img/frise/1990.jpg',
-    placeholder: true,
+    placeholder: false,
   },    
   {
     date: '1997',
@@ -360,7 +363,7 @@ const EVENTS = [
     subtitle: 'Ma première jument et quelle jument !',
     text: 'Mon premier cheval. Une immense Anglo-arabe d\'1m74 qui m\'apprend autant l\'humilité que l\'équitation. Une rencontre fondatrice.',
     image: 'img/frise/1997.jpg',
-    placeholder: true,
+    placeholder: false,
   },
   {
     date: '2010',
@@ -368,7 +371,7 @@ const EVENTS = [
     subtitle: 'vers une autre vision du cheval !',
     text: 'Après 5 ans sans cheval, Djb entre dans ma vie. Ce cheval atypique remet en question toutes mes certitudes et m\'ouvre à d\'autres façons de penser la relation avec le cheval. Une première graine est semée : un cheval ne devrait pas vivre seul.',
     image: 'img/frise/2010.jpg',
-        placeholder: true,
+        placeholder: false,
   },
   {
     date: '2011',
@@ -376,7 +379,7 @@ const EVENTS = [
     subtitle: 'Arrivée de Cairnview Archy',
     text: 'Petit poulain aux yeux bleus glacier et au look de Petit Tonnerre. Je lui offre la meilleure éducation possible avec un rêve déjà bien ancré : qu\'il devienne un jour l\'étalon de mon élevage.',
     image: 'img/frise/2011 Archy.jpg',
-    placeholder: true,
+    placeholder: false,
   },
   {
     date: '2013',
@@ -384,7 +387,7 @@ const EVENTS = [
     subtitle: 'SD Woolly Mammoth',
     text: 'Je découvre toujours davantage la race et tombe sous le charme de Woolly Mammoth, l\'un de ses représentants emblématiques. C\'est aussi le début d\'une belle amitié avec la famille Down, et plus particulièrement Janey.',
     image: 'img/frise/2013.jpg',
-    placeholder: true,
+    placeholder: false,
   },
   {
     date: '2011 - 2015',
@@ -392,7 +395,7 @@ const EVENTS = [
     subtitle: '... existe dans la race !',
     text: 'En découvrant le gène Pearl, chez Paco Marti en 2011, une nouvelle idée germe : associer cette génétique rare à la race que j\'aime. Mes recherches me conduisent jusqu\'aux élevages de James Taylor puis de Clive et Judith Hussell en 2014.',
     image: 'img/frise/2011-2015.jpg',
-    placeholder: true,
+    placeholder: false,
   },  
   {
     date: '2016-2018',
@@ -400,7 +403,7 @@ const EVENTS = [
     subtitle: 'qui ne se refuse pas !',
     text: 'Janey connaît mon admiration pour Cherry Oh Baby. Elle me propose alors Suzie, pleine de Flash Harry. Sans le savoir, elle vient de planter les racines du futur cheptel Humming Cob. Deux voyages chez SD Farm suivent, avant l\'arrivée des filles en juin 2018.',
     image: 'img/suzie/su-02.jpg',
-    placeholder: true,
+    placeholder: false,
   }, 
   {
     date: '2017',
@@ -408,7 +411,7 @@ const EVENTS = [
     subtitle: 'Par Swenn Jedraszczyk',
     text: 'Avec l\'arrivée annoncée de Sakura, une évidence s\'impose : le cerisier doit faire partie du logo. Archy et l\'arbre de transmission deviennent alors les symboles de l\'élevage.',
     image: 'img/frise/2017 Logo.jpg',
-    placeholder: true,
+    placeholder: false,
   }, 
   {
     date: '2020',
@@ -416,7 +419,7 @@ const EVENTS = [
     subtitle: 'SD Red Velvet nous quitte',
     text: 'Arrivée du Pays de Galles avec Sakura, Velvet nous quitte à l\'aube de ses trois ans. Malgré deux opérations menées avec succès, une colique fulgurante l\'emporte.',
     image: 'img/velvet/rv-08.jpg',
-    placeholder: true,
+    placeholder: false,
   },
   {
     date: '2021',
@@ -424,7 +427,7 @@ const EVENTS = [
     subtitle: 'Je dois laisser partir Djb',
     text: 'Suite à un grave accident, je dois confier Djb pour lui offrir toutes les chances de guérison. Une décision nécessaire, mais vécue comme un véritable deuil. Pendant longtemps, l\'élevage et moi avançons au ralenti.',
     image: 'img/jballar/jb-06.jpg',
-    placeholder: true,
+    placeholder: false,
   },
   {
     date: '2022',
@@ -432,7 +435,7 @@ const EVENTS = [
     subtitle: 'Archy et Sakura convolent',
     text: 'Premier mariage pensé au sein de l\'élevage, cette union concrétise plusieurs années de réflexion. Une nouvelle branche apparaît sur l\'arbre Humming Cob.',
     image: 'img/frise/2022.jpg',
-    placeholder: true,
+    placeholder: false,
   },
   {
     date: 'Juin 2023',
@@ -440,7 +443,7 @@ const EVENTS = [
     subtitle: 'La rencontre avec Bastien',
     text: 'Bastien apporte un nouvel élan au projet. Bien qu\'étranger au milieu équin, il s\'implique dans le quotidien de l\'élevage et participe activement à sa construction. À deux, nous faisons enfin éclore Humming Cob. Il est comme un tuteur qui aide l\'arbre à grandir droit.',
     image: 'img/qsn/qs-01.jpg',
-    placeholder: true,
+    placeholder: false,
   },  
   {
     date: 'Octobre 2023',
@@ -448,7 +451,7 @@ const EVENTS = [
     subtitle: 'Un temps pour dire oui',
     text: 'Certaines rencontres demandent des années de patience. Je visite enfin l’élevage San Cler de Clive et Judith Hussell. Ce voyage marque l’aboutissement d’une longue quête autour du gène Pearl. Clive me fait alors une proposition aussi généreuse qu’inattendue. Après tout, je n’ai qu’une vie. C’est ainsi qu’Avantgarde rejoint l’histoire de Humming Cob.',
     image: 'img/avangarde/av-poulain.jpg',
-    placeholder: true,
+    placeholder: false,
   },
   {
     date: 'Janvier 2024',
@@ -456,7 +459,7 @@ const EVENTS = [
     subtitle: 'Naissance de HC Nashi',
     text: 'Après de longues nuits de surveillance hivernale, Nashi voit le jour le 13 janvier 2024. Premier poulain né à Humming Cob, il marque l\'aboutissement de plus d\'une décennie de rêves, de réflexions et de travail.',
     image: 'img/nashi/na-11.jpg',
-    placeholder: true,
+    placeholder: false,
   },
   {
     date: '2024 - 2026',
@@ -464,7 +467,7 @@ const EVENTS = [
     subtitle: 'Naissances des poulains',
     text: 'Quatre poulains rejoignent l\'aventure : Nashi, Omamori, Orion puis Quercus Kaeru. Chacun écrit à sa manière un nouveau chapitre de l\'aventure.',
     image: 'img/frise/2024-2026.jpg',
-    placeholder: true,
+    placeholder: false,
   },
   {
     date: 'Demain',

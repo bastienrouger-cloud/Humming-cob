@@ -12,6 +12,9 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Humming Cob">
   <link rel="stylesheet" href="../css/style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7Y0BZPH4Q"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-M7Y0BZPH4Q');</script>
 </head>
 <body class="horse-page">
 
@@ -33,10 +36,8 @@
 
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
-    <div class="horse-hero-img-placeholder">
-      <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-      <span style="font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;">Photo à venir</span>
-    </div>
+    <img src="../img/orion/or-index.jpg" alt="Orion" class="horse-hero-img"
+         style="width:100%;height:100%;object-fit:cover;object-position:center center;">
   </div>
 
   <div class="horse-hero-info">
@@ -139,29 +140,145 @@
 </section>
 
 <!-- Galerie -->
-<section class="horse-gallery">
+<section style="background:#111;padding:5rem 0;">
   <div class="section-inner">
-    <span class="section-badge">Photos</span>
-    <h2 class="section-title">Galerie <em>photos</em></h2>
-    <div class="section-divider"></div>
-    <div class="gallery-grid">
-      <div class="gallery-item">Photo 1</div>
-      <div class="gallery-item">Photo 2</div>
-      <div class="gallery-item">Photo 3</div>
-      <div class="gallery-item">Photo 4</div>
-      <div class="gallery-item">Photo 5</div>
-      <div class="gallery-item">Photo 6</div>
+    <div style="text-align:center;margin-bottom:2rem;">
+      <span class="section-badge" style="color:rgba(255,255,255,0.45);">Galerie</span>
+      <h2 class="section-title" style="color:white;">En <em style="color:var(--rose);">images</em></h2>
+      <div class="section-divider" style="background:var(--rose);margin:1.2rem auto;"></div>
+    </div>
+
+    <style>
+      .na-carousel { max-width: 900px; margin: 0 auto; }
+      .na-main { position:relative; background:#000; border-radius:12px; overflow:hidden; aspect-ratio:4/3; cursor:zoom-in; }
+      .na-main img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center; opacity:0; transition:opacity .35s ease; pointer-events:none; }
+      .na-main img.on { opacity:1; }
+      .na-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:none; color:white; font-size:2rem; width:46px; height:46px; border-radius:50%; cursor:pointer; z-index:2; display:flex; align-items:center; justify-content:center; transition:background .18s; pointer-events:all; }
+      .na-arrow:hover { background:rgba(255,255,255,0.28); }
+      .na-prev { left:12px; }
+      .na-next { right:12px; }
+      .na-caption { text-align:center; margin-top:.9rem; font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,0.45); min-height:1.2em; }
+      .na-thumbs { display:flex; gap:.5rem; margin-top:1.1rem; overflow-x:auto; padding-bottom:4px; justify-content:center; flex-wrap:wrap; }
+      .na-thumb { width:72px; height:54px; object-fit:cover; border-radius:6px; cursor:pointer; opacity:.45; border:2px solid transparent; transition:opacity .18s, border-color .18s; flex-shrink:0; }
+      .na-thumb.on { opacity:1; border-color:var(--rose); }
+      /* Lightbox */
+      #na-lb { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:2000; align-items:center; justify-content:center; padding:1rem; }
+      #na-lb.open { display:flex; }
+      #na-lb-img { max-width:100%; max-height:90vh; object-fit:contain; border-radius:6px; display:block; }
+      #na-lb-close { position:fixed; top:1rem; right:1.2rem; background:rgba(255,255,255,.12); border:none; color:#fff; font-size:1.3rem; width:38px; height:38px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3; }
+      #na-lb-close:hover { background:rgba(255,255,255,.28); }
+      .na-lb-nav { position:fixed; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.12); border:none; color:#fff; font-size:2.2rem; width:50px; height:50px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3; transition:background .18s; }
+      .na-lb-nav:hover { background:rgba(255,255,255,.28); }
+      #na-lb-prev { left:1rem; }
+      #na-lb-next { right:1rem; }
+      #na-lb-cap { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5); white-space:nowrap; }
+    </style>
+
+    <div class="na-carousel">
+      <div class="na-main" id="naMain">
+        <img src="../img/orion/or-index.jpg" data-cap="Orion" class="on">
+        <img src="../img/orion/or-01.jpg" data-cap="Orion">
+        <img src="../img/orion/or-02.jpg" data-cap="Orion">
+        <img src="../img/orion/or-03.jpg" data-cap="Orion">
+        <img src="../img/orion/or-04.jpg" data-cap="Orion">
+        <button class="na-arrow na-prev" id="naPrev">‹</button>
+        <button class="na-arrow na-next" id="naNext">›</button>
+      </div>
+      <div class="na-caption" id="naCap">Orion</div>
+      <div class="na-thumbs" id="naThumbs"></div>
     </div>
   </div>
 </section>
 
-<section style="padding:4rem 1.5rem;background:var(--bg-light);">
+<!-- Lightbox -->
+<div id="na-lb">
+  <button id="na-lb-close" aria-label="Fermer">✕</button>
+  <button class="na-lb-nav" id="na-lb-prev">‹</button>
+  <img id="na-lb-img" src="" alt="">
+  <button class="na-lb-nav" id="na-lb-next">›</button>
+  <div id="na-lb-cap"></div>
+</div>
+
+<script>
+(function(){
+  const imgs   = Array.from(document.querySelectorAll('#naMain img[data-cap]'));
+  const cap    = document.getElementById('naCap');
+  const thumbs = document.getElementById('naThumbs');
+  const lb     = document.getElementById('na-lb');
+  const lbImg  = document.getElementById('na-lb-img');
+  const lbCap  = document.getElementById('na-lb-cap');
+  let cur = 0;
+
+  imgs.forEach((img, i) => {
+    const t = document.createElement('img');
+    t.src = img.src;
+    t.className = 'na-thumb' + (i === 0 ? ' on' : '');
+    t.addEventListener('click', () => go(i));
+    thumbs.appendChild(t);
+  });
+
+  function go(n) {
+    imgs[cur].classList.remove('on');
+    thumbs.children[cur].classList.remove('on');
+    cur = (n + imgs.length) % imgs.length;
+    imgs[cur].classList.add('on');
+    thumbs.children[cur].classList.add('on');
+    cap.textContent = imgs[cur].dataset.cap;
+    thumbs.children[cur].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+    if (lb.classList.contains('open')) openLb(cur);
+  }
+
+  function openLb(n) {
+    lbImg.src = imgs[n].src;
+    lbCap.textContent = imgs[n].dataset.cap;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('naPrev').addEventListener('click', e => { e.stopPropagation(); go(cur - 1); });
+  document.getElementById('naNext').addEventListener('click', e => { e.stopPropagation(); go(cur + 1); });
+  document.getElementById('naMain').addEventListener('click', () => openLb(cur));
+  document.getElementById('na-lb-close').addEventListener('click', closeLb);
+  document.getElementById('na-lb-prev').addEventListener('click', () => go(cur - 1));
+  document.getElementById('na-lb-next').addEventListener('click', () => go(cur + 1));
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')      closeLb();
+    if (e.key === 'ArrowLeft')   go(cur - 1);
+    if (e.key === 'ArrowRight')  go(cur + 1);
+  });
+
+  // Swipe carrousel
+  let sx = 0;
+  document.getElementById('naMain').addEventListener('touchstart', e => sx = e.touches[0].clientX);
+  document.getElementById('naMain').addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if(Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+  });
+
+  // Swipe lightbox
+  lb.addEventListener('touchstart', e => sx = e.touches[0].clientX);
+  lb.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if(Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+  });
+})();
+</script>
+
+<!-- Autres poulains -->
+<section style="padding:4rem 1.5rem;background:#111;">
   <div class="section-inner" style="text-align:center;">
-    <span class="section-badge">Aussi disponibles</span>
-    <h2 class="section-title" style="margin-bottom:2.5rem;">Les autres <em>poulains</em></h2>
+    <span class="section-badge" style="color:var(--rose);border-color:var(--rose);">Aussi disponibles</span>
+    <h2 class="section-title" style="color:#fff;margin-bottom:2.5rem;">Les autres <em>poulains</em></h2>
     <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
-      <a href="nashi.html" class="btn btn-outline">Nashi</a>
-      <a href="omamori.html" class="btn btn-outline">Omamori</a>
+      <a href="omamori.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Omamori</a>
+      <a href="orion.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Orion</a>
     </div>
   </div>
 </section>
