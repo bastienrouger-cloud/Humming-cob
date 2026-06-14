@@ -94,7 +94,7 @@
 </section>
 
 <!-- Pedigree -->
-<section class="horse-pedigree" style="background:var(--creme,#FAF7F2);">
+<section class="horse-pedigree" style="background:var(--bg-light);">
   <div class="section-inner">
     <span class="section-badge">Origines</span>
     <h2 class="section-title">Pedigree <em>& lignées</em></h2>
@@ -246,98 +246,93 @@
   </div>
 </section>
 
-<!-- ====== CARROUSEL SAKURA ====== -->
-<section class="horse-gallery" style="background:#111;padding:4rem 0;">
+<!-- Galerie -->
+<section style="background:#111;padding:5rem 0;">
+  <style>
+    .su-carousel { position:relative; max-width:900px; margin:0 auto; }
+    .su-slides { position:relative; width:100%; aspect-ratio:4/3; overflow:hidden; border-radius:8px; }
+    .su-slide { position:absolute; inset:0; opacity:0; transition:opacity .5s ease; }
+    .su-slide.active { opacity:1; }
+    .su-slide img { width:100%; height:100%; object-fit:cover; }
+    .su-caption { position:absolute; bottom:0; left:0; right:0; padding:.6rem 1rem;
+      background:linear-gradient(transparent,rgba(0,0,0,.65));
+      color:#fff; font-size:.78rem; letter-spacing:.06em; text-align:center; }
+    .su-btn { position:absolute; top:50%; transform:translateY(-50%);
+      background:rgba(255,255,255,.15); backdrop-filter:blur(4px);
+      border:none; color:#fff; font-size:1.6rem; width:44px; height:44px;
+      border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition:background .2s; z-index:2; }
+    .su-btn:hover { background:rgba(255,255,255,.3); }
+    .su-prev { left:12px; } .su-next { right:12px; }
+    .su-thumbs { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-top:14px; }
+    .su-thumb { width:56px; height:42px; object-fit:cover; border-radius:4px;
+      cursor:pointer; opacity:.45; transition:opacity .2s; border:2px solid transparent; }
+    .su-thumb.active { opacity:1; border-color:#B06070; }
+  </style>
   <div class="section-inner">
-    <span class="section-badge">Photos</span>
-    <h2 class="section-title">Galerie <em>photos</em></h2>
+    <span class="section-badge" style="color:#B06070;border-color:#B06070;">Photos</span>
+    <h2 class="section-title" style="color:#fff;">Galerie <em>photos</em></h2>
     <div class="section-divider"></div>
 
-    <!-- Carrousel principal -->
-    <div class="sa-carousel" style="position:relative;max-width:820px;margin:2.5rem auto 0;">
-      <div id="saSlides" style="position:relative;border-radius:10px;overflow:hidden;background:#1a1a1a;aspect-ratio:4/3;">
-
-        <div class="sa-slide active" style="display:none;"><img src="../img/sakura/sa-hero.jpg" alt="SD Sakura 2026" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-01.jpg" alt="SD Sakura 2022" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-02.jpg" alt="SD Sakura 2021 — Titre Élite" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-03.jpg" alt="SD Sakura 2018" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-04.jpg" alt="SD Sakura 2018" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-05.jpg" alt="SD Sakura — 2 mois (2017)" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-06.jpg" alt="SD Sakura" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-07.jpg" alt="SD Sakura" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-09.jpg" alt="SD Sakura — J+19 (14 mai 2017)" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-10.jpg" alt="SD Sakura — J+27 (22 mai 2017)" style="width:100%;height:100%;object-fit:contain;"></div>
-        <div class="sa-slide" style="display:none;"><img src="../img/sakura/sa-11.jpg" alt="SD Sakura — J+15 (10 mai 2017)" style="width:100%;height:100%;object-fit:contain;"></div>
-
-        <!-- Caption -->
-        <div id="saCaption" style="position:absolute;bottom:0;left:0;right:0;padding:.55rem 1rem;background:linear-gradient(transparent,rgba(0,0,0,.55));color:rgba(255,255,255,.88);font-size:.72rem;letter-spacing:.12em;text-align:center;pointer-events:none;"></div>
-
-        <!-- Flèches -->
-        <button class="sa-btn sa-prev" aria-label="Précédent"
-          style="position:absolute;left:.7rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.18);border:none;color:#fff;font-size:1.8rem;width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;">‹</button>
-        <button class="sa-btn sa-next" aria-label="Suivant"
-          style="position:absolute;right:.7rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.18);border:none;color:#fff;font-size:1.8rem;width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;">›</button>
-
-        <!-- Compteur -->
-        <div id="saCounter" style="position:absolute;top:.7rem;right:.9rem;background:rgba(0,0,0,.45);color:rgba(255,255,255,.75);font-size:.65rem;letter-spacing:.1em;padding:.2rem .5rem;border-radius:20px;pointer-events:none;"></div>
+    <div class="su-carousel" style="margin-top:2.5rem;">
+      <div class="su-slides" id="suSlides">
+        <div class="su-slide active"><img src="../img/sakura/sa-hero.jpg" alt="SD Sakura 2026"><div class="su-caption">SD Sakura 2026</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-01.jpg" alt="SD Sakura 2022"><div class="su-caption">SD Sakura 2022</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-02.jpg" alt="SD Sakura 2021 — Titre Élite"><div class="su-caption">SD Sakura 2021 — Titre Élite</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-03.jpg" alt="SD Sakura 2018"><div class="su-caption">SD Sakura 2018</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-04.jpg" alt="SD Sakura 2018"><div class="su-caption">SD Sakura 2018</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-05.jpg" alt="SD Sakura — 2 mois (2017)"><div class="su-caption">SD Sakura — 2 mois (2017)</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-06.jpg" alt="SD Sakura"><div class="su-caption">SD Sakura</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-07.jpg" alt="SD Sakura"><div class="su-caption">SD Sakura</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-08.jpg" alt="SD Sakura"><div class="su-caption">SD Sakura</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-09.jpg" alt="SD Sakura — J+19 (14 mai 2017)"><div class="su-caption">SD Sakura — J+19 (14 mai 2017)</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-10.jpg" alt="SD Sakura — J+27 (22 mai 2017)"><div class="su-caption">SD Sakura — J+27 (22 mai 2017)</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-11.jpg" alt="SD Sakura — J+15 (10 mai 2017)"><div class="su-caption">SD Sakura — J+15 (10 mai 2017)</div></div>
+        <div class="su-slide"><img src="../img/sakura/sa-12.jpg" alt="SD Sakura"><div class="su-caption">SD Sakura</div></div>
       </div>
-
-      <!-- Miniatures -->
-      <div style="display:flex;gap:.45rem;margin-top:.9rem;overflow-x:auto;padding-bottom:.3rem;scrollbar-width:thin;">
-        <img class="sa-thumb active" src="../img/sakura/sa-hero.jpg" alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:1;border:2px solid #9B7080;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-01.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-02.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-03.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-04.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-05.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-06.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-07.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-08.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-09.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-10.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-        <img class="sa-thumb" src="../img/sakura/sa-11.jpg"   alt="" style="width:68px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;opacity:.55;border:2px solid transparent;flex-shrink:0;">
-      </div>
+      <button class="su-btn su-prev" id="suPrev">&#8249;</button>
+      <button class="su-btn su-next" id="suNext">&#8250;</button>
+      <div class="su-thumbs" id="suThumbs"></div>
     </div>
   </div>
 </section>
 
 <script>
 (function(){
-  const slides   = Array.from(document.querySelectorAll('.sa-slide'));
-  const thumbs   = Array.from(document.querySelectorAll('.sa-thumb'));
-  const captions = ['2026','2022','2021 — Titre Élite','2018','2018','2017 — 2 mois','','','Évolution','J+19 — 14 mai 2017','J+27 — 22 mai 2017','J+15 — 10 mai 2017'];
-  const counter  = document.getElementById('saCounter');
-  const caption  = document.getElementById('saCaption');
+  const container = document.getElementById('suSlides');
+  const slides    = Array.from(container.querySelectorAll('.su-slide'));
+  const thumbsEl  = document.getElementById('suThumbs');
+  const prev      = document.getElementById('suPrev');
+  const next      = document.getElementById('suNext');
   let cur = 0;
 
-  function goTo(n, init){
-    slides[cur].style.display = 'none';
+  // Générer les vignettes
+  slides.forEach((slide, i) => {
+    const img = slide.querySelector('img');
+    const t = document.createElement('img');
+    t.src = img.src;
+    t.className = 'su-thumb' + (i === 0 ? ' active' : '');
+    t.addEventListener('click', () => goTo(i));
+    thumbsEl.appendChild(t);
+  });
+  const thumbs = Array.from(thumbsEl.querySelectorAll('.su-thumb'));
+
+  function goTo(n) {
     slides[cur].classList.remove('active');
-    thumbs[cur].style.opacity = '.55';
-    thumbs[cur].style.borderColor = 'transparent';
+    thumbs[cur].classList.remove('active');
     cur = (n + slides.length) % slides.length;
-    slides[cur].style.display = 'block';
     slides[cur].classList.add('active');
-    thumbs[cur].style.opacity = '1';
-    thumbs[cur].style.borderColor = '#9B7080';
-    if(!init) thumbs[cur].scrollIntoView({inline:'nearest',behavior:'smooth'});
-    if(counter) counter.textContent = (cur+1)+' / '+slides.length;
-    if(caption)  caption.textContent = captions[cur] || '';
+    thumbs[cur].classList.add('active');
+    thumbs[cur].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
   }
 
-  // Init
-  goTo(0, true);
-
-  document.querySelector('.sa-prev').addEventListener('click', ()=>goTo(cur-1));
-  document.querySelector('.sa-next').addEventListener('click', ()=>goTo(cur+1));
-  thumbs.forEach((t,i)=>t.addEventListener('click', ()=>goTo(i)));
-
-  const wrap = document.getElementById('saSlides');
+  prev.addEventListener('click', () => goTo(cur - 1));
+  next.addEventListener('click', () => goTo(cur + 1));
 
   // Swipe
-  let tx=0;
-  wrap.addEventListener('touchstart', e=>{ tx=e.touches[0].clientX; },{passive:true});
-  wrap.addEventListener('touchend',   e=>{ const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>40) goTo(cur+(dx<0?1:-1)); },{passive:true});
+  let tx = 0;
+  container.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  container.addEventListener('touchend',   e => { const dx = e.changedTouches[0].clientX - tx; if(Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1)); }, {passive:true});
 })();
 </script>
 
