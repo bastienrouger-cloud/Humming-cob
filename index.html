@@ -220,7 +220,10 @@
       </div>
 
       <div class="contact-form reveal reveal-delay-2">
-        <form>
+        <form action="https://api.web3forms.com/submit" method="POST" id="contact-form">
+          <input type="hidden" name="access_key" value="9a89ceda-b130-4159-b7fb-965cef9103db">
+          <input type="hidden" name="subject" value="Nouveau message — Humming Cob">
+          <input type="checkbox" name="botcheck" style="display:none;">
           <div class="form-row">
             <div class="form-group">
               <label for="prenom">Prénom</label>
@@ -253,7 +256,30 @@
             <textarea id="message" name="message" rows="5" placeholder="Votre message..." required></textarea>
           </div>
           <button type="submit" class="form-submit">Envoyer le message</button>
+          <p id="form-result" style="display:none;margin-top:1rem;text-align:center;font-size:.85rem;"></p>
         </form>
+        <script>
+        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const btn = this.querySelector('button[type=submit]');
+          const result = document.getElementById('form-result');
+          btn.disabled = true;
+          btn.textContent = 'Envoi en cours…';
+          const res = await fetch('https://api.web3forms.com/submit', { method:'POST', body: new FormData(this) });
+          const json = await res.json();
+          result.style.display = 'block';
+          if (json.success) {
+            result.style.color = 'var(--rose-deep, #8B5A6B)';
+            result.textContent = 'Message envoyé ! Nous vous répondrons dans les meilleurs délais.';
+            this.reset();
+          } else {
+            result.style.color = '#c0392b';
+            result.textContent = 'Une erreur est survenue, veuillez réessayer.';
+          }
+          btn.disabled = false;
+          btn.textContent = 'Envoyer le message';
+        });
+        </script>
       </div>
     </div>
   </div>
