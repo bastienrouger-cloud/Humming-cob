@@ -142,6 +142,43 @@ if (revealEls.length) {
   });
 })();
 
+// Bouton de partage natif
+const shareBtn = document.querySelector('.footer-share');
+if (shareBtn) {
+  shareBtn.addEventListener('click', async () => {
+    const url = window.location.href;
+    const svg = shareBtn.innerHTML;
+
+    // 1. Web Share API (mobile natif)
+    if (navigator.share) {
+      try { await navigator.share({ title: document.title, url }); return; } catch {}
+    }
+
+    // 2. Clipboard API (HTTPS / localhost)
+    let copied = false;
+    try {
+      await navigator.clipboard.writeText(url);
+      copied = true;
+    } catch {
+      // 3. Fallback execCommand (file://, navigateurs anciens)
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+        document.body.appendChild(ta);
+        ta.select();
+        copied = document.execCommand('copy');
+        document.body.removeChild(ta);
+      } catch {}
+    }
+
+    if (copied) {
+      shareBtn.innerHTML = '✓';
+      setTimeout(() => { shareBtn.innerHTML = svg; }, 1800);
+    }
+  });
+}
+
 // Formulaire contact — feedback visuel simple
 const form = document.querySelector('.contact-form form');
 if (form) {
