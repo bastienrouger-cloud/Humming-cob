@@ -863,7 +863,8 @@ footer {
   display: flex;
   gap: 1rem;
 }
-.footer-social a {
+.footer-social a,
+.footer-social button {
   width: 36px; height: 36px;
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 50%;
@@ -873,8 +874,12 @@ footer {
   color: rgba(255,255,255,0.45);
   font-size: 0.9rem;
   transition: var(--transition);
+  background: none;
+  cursor: pointer;
+  padding: 0;
 }
-.footer-social a:hover {
+.footer-social a:hover,
+.footer-social button:hover {
   border-color: var(--rose);
   color: var(--rose);
   background: rgba(212,137,154,0.1);
