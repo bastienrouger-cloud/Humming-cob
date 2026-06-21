@@ -38,7 +38,7 @@
 
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
-    <img src="../img/sakura/sa-hero.jpg" alt="SD Sakura" class="sa-hero-img" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <img src="../img/sakura/Sakura Portrait 02.jpg" alt="SD Sakura" class="sa-hero-img" style="width:100%;height:100%;object-fit:cover;display:block;">
   </div>
 
   <div class="horse-hero-info">
@@ -259,9 +259,7 @@
     .su-slide { position:absolute; inset:0; opacity:0; transition:opacity .5s ease; }
     .su-slide.active { opacity:1; }
     .su-slide img { width:100%; height:100%; object-fit:cover; }
-    .su-caption { position:absolute; bottom:0; left:0; right:0; padding:.6rem 1rem;
-      background:linear-gradient(transparent,rgba(0,0,0,.65));
-      color:#fff; font-size:.78rem; letter-spacing:.06em; text-align:center; }
+    .su-cap-ext { text-align:center; margin-top:.6rem; font-size:.78rem; color:rgba(255,255,255,.55); min-height:1.2em; letter-spacing:.06em; }
     .su-btn { position:absolute; top:50%; transform:translateY(-50%);
       background:rgba(255,255,255,.15); backdrop-filter:blur(4px);
       border:none; color:#fff; font-size:1.6rem; width:44px; height:44px;
@@ -281,21 +279,26 @@
 
     <div class="su-carousel" style="margin-top:2.5rem;">
       <div class="su-slides" id="suSlides">
-        <div class="su-slide active"><img src="../img/sakura/sa-hero.jpg" alt="SD Sakura 2026"><div class="su-caption">SD Sakura 2026</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-01.jpg" alt="SD Sakura 2022"><div class="su-caption">SD Sakura 2022</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-02.jpg" alt="SD Sakura 2021 — Titre Élite"><div class="su-caption">SD Sakura 2021 — Titre Élite</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-03.jpg" alt="SD Sakura 2018"><div class="su-caption">SD Sakura 2018</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-04.jpg" alt="SD Sakura 2018"><div class="su-caption">SD Sakura 2018</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-05.jpg" alt="SD Sakura — 2 mois (2017)"><div class="su-caption">SD Sakura — 2 mois (2017)</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-06.jpg" alt="SD Sakura"><div class="su-caption">SD Sakura</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-07.jpg" alt="SD Sakura"><div class="su-caption">SD Sakura</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-08.jpg" alt="SD Sakura"><div class="su-caption">SD Sakura</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-09.jpg" alt="SD Sakura — J+19 (14 mai 2017)"><div class="su-caption">SD Sakura — J+19 (14 mai 2017)</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-10.jpg" alt="SD Sakura — J+27 (22 mai 2017)"><div class="su-caption">SD Sakura — J+27 (22 mai 2017)</div></div>
-        <div class="su-slide"><img src="../img/sakura/sa-11.jpg" alt="SD Sakura — J+15 (10 mai 2017)"><div class="su-caption">SD Sakura — J+15 (10 mai 2017)</div></div>
+        <div class="su-slide active"><img src="../img/sakura/sa- 01 J8.jpg" alt="SD Sakura 2026" data-cap="2017, au Pays de Galles — J+8"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 02 J15.jpg" alt="SD Sakura 2022" data-cap="2017, au Pays de Galles — J+15"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 03 J19.jpg" alt="SD Sakura 2021 — Titre Élite" data-cap="2017, au Pays de Galles — J+19"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 05 J27.jpg" alt="SD Sakura 2018" data-cap="2017, au Pays de Galles — J+27"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 06 J75.jpg" alt="SD Sakura 2018" data-cap="2017, au Pays de Galles — J+75"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 07 2018.jpg" alt="SD Sakura — 2 mois (2017)" data-cap="2018, arrivée à L'Isle-sur-la-Sorgue (84)"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 08 2019.jpg" alt="SD Sakura" data-cap="2019, passage en ITI, à Orange (30)"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 10 2020.jpg" alt="SD Sakura" data-cap="2020, travail à pied"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 09 2020.jpg" alt="SD Sakura" data-cap="2021, M&A obtention de la mention Élite, à Saint-Bauzille-de-Montmel (34)"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 2021.jpg" alt="SD Sakura" data-cap="2021, première sortie montée à cru et en licol"></div>
+        <div class="su-slide"><img src="../img/sakura/sa-2021 01.jpg" alt="SD Sakura" data-cap="2021, sa magnifique tête"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 11 2022.jpg" alt="SD Sakura" data-cap="2022, finition du débourrage par Pauline Rives, à Saint-Martin-de-Londres (34)"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 12 2023.jpg" alt="SD Sakura" data-cap="2023, le bidon s'arrondit pour son premier poulain, à Carnas (30)"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 13 2024.jpg" alt="SD Sakura" data-cap="2024, suitée de son premier poulain HC Nashi"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 14 2025.JPG" alt="SD Sakura" data-cap="2025, petite remise en selle avant de partir pour la Drôme"></div>
+        <div class="su-slide"><img src="../img/sakura/sa- 15 2026.JPG" alt="SD Sakura" data-cap="2026, en confiage pour faire de la randonnée, en Drôme (26)"></div>
       </div>
       <button class="su-btn su-prev" id="suPrev">&#8249;</button>
       <button class="su-btn su-next" id="suNext">&#8250;</button>
+      <div class="su-cap-ext" id="suCap">2017, au Pays de Galles — J+8</div>
       <div class="su-thumbs" id="suThumbs"></div>
     </div>
   </div>
@@ -321,6 +324,7 @@
   });
   const thumbs = Array.from(thumbsEl.querySelectorAll('.su-thumb'));
 
+  const capEl = document.getElementById('suCap');
   function goTo(n) {
     slides[cur].classList.remove('active');
     thumbs[cur].classList.remove('active');
@@ -328,6 +332,7 @@
     slides[cur].classList.add('active');
     thumbs[cur].classList.add('active');
     thumbs[cur].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+    if (capEl) capEl.textContent = slides[cur].querySelector('img').dataset.cap || '';
   }
 
   prev.addEventListener('click', () => goTo(cur - 1));

@@ -46,7 +46,22 @@
 <section id="page-header" style="padding:8rem 0 4rem;background:var(--bg-light);text-align:center;">
   <div class="section-inner">
     <span class="section-badge">L'élevage</span>
-    <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Notre <em>élevage</em></h1>
+    <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Pourquoi <em>"Humming Cob" ?</em></h1>
+    <div class="section-divider" style="margin:1.5rem auto;"></div>
+    <p class="section-text" style="max-width:580px;margin:0 auto;">
+      En Angleterre, je découvre un spectacle que je n'oublierais jamais. 
+      Lorsque le troupeau est appelé, les chevaux arrivent au galop depuis les collines. 
+      Avant même de les voir, on ressent leur présence : le sol vibre sous leurs foulées.
+      Cette sensation me rappelle le bourdonnement des ailes du colibri (Hummingbird en Anglais). 
+      Un bruit presque imperceptible, mais une énergie bien réelle. 
+    </p>
+    <p class="section-text" style="max-width:580px;margin:0 auto;">
+      <em style="color:var(--rose-deep);font-weight:600;">Humming Cob est né de cette rencontre entre le vombrissement du colibri et la puissance tranquille des chevaux.</em>
+    </p>
+  </div>
+  <div class="section-inner">
+    <span class="section-badge"></span>
+    <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Notre <em>Philosophie</em></h1>
     <div class="section-divider" style="margin:1.5rem auto;"></div>
     <p class="section-text" style="max-width:580px;margin:0 auto;">
       Fondé sur des valeurs d'authenticité, notre élevage place le bien-être de ses chevaux au premier plan.
@@ -60,41 +75,47 @@
 <section id="notre-elevage" style="padding:4rem 0;">
   <div class="section-inner">
     <div class="elevage-grid">
-      <div class="elevage-card reveal reveal-delay-1">
+      <div class="elevage-card elevage-card--clickable reveal reveal-delay-1" data-elevage="irish-cob">
         <div class="elevage-card-icon">🐴</div>
         <div class="elevage-card-title">Irish Cob / Gypsy Cob</div>
         <p class="elevage-card-text">Une même race, 2 studbooks. Chaque cheval a été soigneusement séléctionné et
           inscrit au studbook France Irish Cob. Une attention particulière ayant été porté sur des critères de niveau
            « Élite » : une morphologie harmonieuse et un bon tempérament.</p>
+        <span class="elevage-card-more">En savoir plus</span>
       </div>
-      <div class="elevage-card reveal reveal-delay-2">
+      <div class="elevage-card elevage-card--clickable reveal reveal-delay-2" data-elevage="besoins">
         <div class="elevage-card-icon">🌿</div>
         <div class="elevage-card-title">Besoins Fondamentaux</div>
         <p class="elevage-card-text">Nos chevaux évoluent de façon à respecter au mieux les 3F (FORAGE FRIENDS FREEDOM) ou les 6 besoins : RESPIRER - BOIRE - DORMIR - MANGER - BOUGER - COMMUNIQUER. Une vie en troupeau est indispensable pour forger des caractères sains, sociables et bien dans leur peau.</p>
+        <span class="elevage-card-more">En savoir plus</span>
       </div>
-      <div class="elevage-card reveal reveal-delay-3">
+      <div class="elevage-card elevage-card--clickable reveal reveal-delay-3" data-elevage="lignes">
         <div class="elevage-card-icon">⭐</div>
         <div class="elevage-card-title">Lignées reconnues</div>
         <p class="elevage-card-text">Nos reproducteurs sont issus des meilleures lignées irlandaises et anglaises.
           Chaque individu constituant notre cheptel a été rencontré dans son pays d'origine
           (Oxford en Angleterre pour les SD - St Clears au Pays de Galles pour Avantgarde), avant d'être importé.</p>
+        <span class="elevage-card-more">En savoir plus</span>
       </div>
-      <div class="elevage-card reveal reveal-delay-1">
+      <div class="elevage-card elevage-card--clickable reveal reveal-delay-1" data-elevage="poulains">
         <div class="elevage-card-icon">🫶</div>
         <div class="elevage-card-title">Poulains socialisés</div>
         <p class="elevage-card-text">Dès la naissance et tout au long de sa croissance, chaque poulain est manipulé à
           son rythme. Licol, marche en main, parage, vermifuges — tous nos jeunes chevaux partent avec les bases essentielles.</p>
+        <span class="elevage-card-more">En savoir plus</span>
       </div>
-      <div class="elevage-card reveal reveal-delay-2">
+      <div class="elevage-card elevage-card--clickable reveal reveal-delay-2" data-elevage="transparence">
         <div class="elevage-card-icon">📋</div>
         <div class="elevage-card-title">Transparence totale</div>
         <p class="elevage-card-text">Dossier complet fourni à l'achat : contrat de vente, carnet IFCE, suivi vétérinaire
           et album photo. Nous faisons appel à des professionnels spécialisés lorsque cela est nécessaire.</p>
+        <span class="elevage-card-more">En savoir plus</span>
       </div>
-      <div class="elevage-card reveal reveal-delay-3">
+      <div class="elevage-card elevage-card--clickable reveal reveal-delay-3" data-elevage="gard">
         <div class="elevage-card-icon">📍</div>
         <div class="elevage-card-title">Élevage du Gard</div>
         <p class="elevage-card-text">Implantés dans le Gard (30), au cœur de la garrigue cévenole. Visites sur rendez-vous pour rencontrer nos chevaux dans leur environnement naturel.</p>
+        <span class="elevage-card-more">En savoir plus</span>
       </div>
     </div>
   </div>
@@ -136,5 +157,447 @@
 </footer>
 
 <script src="js/main.js"></script>
+
+<!-- ====== MODAUX ÉLEVAGE ====== -->
+
+<!-- Overlay -->
+<div id="elev-modal" role="dialog" aria-modal="true" aria-labelledby="elev-title">
+  <div id="elev-panel">
+    <button id="elev-close" aria-label="Fermer">✕</button>
+    <div id="elev-header">
+      <div id="elev-icon"></div>
+      <h2 id="elev-title"></h2>
+      <div class="elev-divider"></div>
+    </div>
+    <div id="elev-body">
+      <div id="elev-images"></div>
+      <div id="elev-text"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ---- Cards clickables ---- */
+.elevage-card--clickable {
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.elevage-card--clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.10);
+}
+.elevage-card-more {
+  display: inline-block;
+  margin-top: .85rem;
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--rose);
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .2s, transform .2s;
+}
+.elevage-card--clickable:hover .elevage-card-more {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Modal overlay ---- */
+#elev-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 28, 28, .65);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: elev-fade-in .22s ease;
+}
+#elev-modal.open { display: flex; }
+@keyframes elev-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---- Panel ---- */
+#elev-panel {
+  background: #fff;
+  border-radius: 18px;
+  max-width: 960px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: 0 32px 80px rgba(0,0,0,.22);
+  position: relative;
+  animation: elev-slide-up .28s cubic-bezier(.16,1,.3,1);
+}
+@keyframes elev-slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Close button ---- */
+#elev-close {
+  position: sticky;
+  top: 1rem;
+  float: right;
+  margin: 1rem 1rem 0 0;
+  background: rgba(0,0,0,.07);
+  border: none;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: .95rem;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--noir);
+  z-index: 2;
+  transition: background .15s;
+  font-family: sans-serif;
+}
+#elev-close:hover { background: rgba(0,0,0,.15); }
+
+/* ---- Header pleine largeur ---- */
+#elev-header {
+  padding: 2rem 2rem 0;
+  clear: both;
+}
+#elev-icon {
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: .4rem;
+}
+#elev-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 500;
+  color: var(--noir);
+  margin: 0 0 .3rem;
+  line-height: 1.2;
+}
+
+/* ---- Body — image gauche / texte droite sur desktop ---- */
+#elev-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 0 2rem 2.5rem;
+  align-items: start;
+}
+#elev-images:empty { display: none; }
+/* Texte vide (modal photos seules) → images pleine largeur */
+#elev-body.photos-only #elev-images { grid-column: 1 / -1; }
+#elev-body.photos-only #elev-text  { display: none; }
+/* Pas d'images → texte pleine largeur */
+#elev-text:only-child { grid-column: 1 / -1; }
+.elev-divider {
+  width: 48px; height: 2px;
+  background: var(--rose);
+  margin: .6rem 0 1.2rem;
+  border-radius: 2px;
+}
+
+/* ---- Images — sans conteneur, proportions naturelles ---- */
+.elev-img-main {
+  border-radius: 10px;
+  overflow: hidden;
+  /* pas de background, pas d'aspect-ratio fixé */
+}
+.elev-img-main img {
+  width: 100%;
+  height: auto;
+  max-height: 65vh;
+  object-fit: contain;
+  display: block;
+}
+/* Carrousel (si 4+ images) */
+.elev-carousel-wrap { position: relative; }
+.elev-carousel-wrap .elev-img-main img { display: none; }
+.elev-carousel-wrap .elev-img-main img.on { display: block; }
+.elev-carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: .6rem;
+}
+.elev-carousel-btn {
+  background: none;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 50%;
+  width: 28px; height: 28px;
+  cursor: pointer;
+  font-size: .85rem;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--noir);
+  transition: border-color .15s;
+}
+.elev-carousel-btn:hover { border-color: var(--rose); color: var(--rose); }
+.elev-carousel-counter {
+  font-size: .75rem;
+  color: var(--gris);
+  font-family: 'Jost', sans-serif;
+  min-width: 2.5rem;
+  text-align: center;
+}
+/* Grille simple (2-3 images) — côte à côte */
+.elev-img-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .6rem;
+}
+.elev-img-grid.two-cols { grid-template-columns: 1fr 1fr; }
+.elev-img-grid .elev-img-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+.elev-img-grid .elev-img-item img {
+  width: 100%;
+  height: auto;
+  max-height: 55vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* ---- Text ---- */
+#elev-text p {
+  font-size: .88rem;
+  line-height: 1.78;
+  color: var(--gris);
+  margin: 0 0 .85rem;
+  font-family: 'Jost', sans-serif;
+}
+#elev-text p:last-child { margin-bottom: 0; }
+#elev-text ul {
+  padding-left: 1.2rem;
+  margin: .4rem 0 .85rem;
+}
+#elev-text li {
+  font-size: .86rem;
+  line-height: 1.7;
+  color: var(--gris);
+  margin-bottom: .2rem;
+  font-family: 'Jost', sans-serif;
+}
+#elev-text strong { color: var(--noir); font-weight: 500; }
+#elev-text em { color: var(--rose-deep); font-style: italic; }
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  #elev-header { padding: 1.5rem 1.2rem 0; }
+  #elev-body {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 1.2rem 2rem;
+  }
+}
+</style>
+
+<script>
+(function () {
+  // ── Contenu des modaux ──────────────────────────────────────────────────────
+  var CONTENT = {
+    'irish-cob': {
+      icon: '🐴',
+      title: 'Irish Cob / Gypsy Cob',
+      images: ['img/elevage/Schéma Conformation IC GC.jpg'],
+      html: `
+        <p><strong>Une même race, deux noms, deux studbooks.</strong> L'Irish Cob et le Gypsy Cob désignent la même race de cheval — selon qu'on se réfère au studbook français (France Irish Cob) ou au studbook d'origine britannique (GVHS). Cette dualité reflète l'histoire d'une race développée dans les îles britanniques avant d'être reconnue à l'international.</p>
+        <p>La race se distingue par ses <strong>aplombs solides</strong>, son abondante crinière et ses fanons soyeux, et surtout par son <strong>tempérament exceptionnel</strong> : calme, polyvalent, proche de l'humain. C'est ce mélange de puissance et de douceur qui en fait une race adaptée à tous les publics.</p>
+        <p>Chez Humming Cob, chaque reproducteur est inscrit au studbook France Irish Cob avec un niveau <em>Élite</em> — la plus haute distinction, obtenue sur inspection morphologique et comportementale.</p>
+      `
+    },
+    'besoins': {
+      icon: '🌿',
+      title: 'Besoins Fondamentaux',
+      images: [],
+      html: `
+        <p>L'Irish Cob est avant tout un cheval de troupeau. Pour qu'il s'épanouisse pleinement, nous nous appuyons sur deux référentiels complémentaires.</p>
+        <p><strong>Les 3F</strong> (Forage, Friends, Freedom) — issus des recherches en bien-être équin — garantissent l'accès permanent au fourrage, la vie en groupe et une liberté de mouvement adaptée.</p>
+        <p>Les <strong>6 besoins physiologiques</strong> guident notre quotidien : Respirer, Boire, Dormir, Manger, Bouger, Communiquer. Nos chevaux vivent en troupeau toute l'année, avec accès au pré dès que les conditions le permettent.</p>
+        <p>Un cheval bien dans ses besoins fondamentaux est un cheval <strong>équilibré, confiant et facile</strong> — c'est la base de tout ce que nous transmettons à nos poulains.</p>
+      `
+    },
+    'lignes': {
+      icon: '⭐',
+      title: 'Lignées reconnues',
+      images: [],
+      html: `
+        <p>Avant de faire entrer un cheval à l'élevage, nous allons le rencontrer dans son pays d'origine. Pas de photos sur écran, pas d'intermédiaires — un contact direct avec l'animal, son éleveur et son environnement.</p>
+        <p><strong>SD Farm (Oxfordshire, Angleterre)</strong> — nous devons à Janey Down l'arrivée de SD Suzie et de ses descendantes. La ferme perpétue les grandes lignées de la région, avec en figure centrale <em>SD Woolly Mammoth</em>, descendant du Old Horse of Wales.</p>
+        <p><strong>San Cler Stud (Pays de Galles)</strong> — c'est à St Clears que nous avons découvert Avantgarde. Un élevage reconnu pour la qualité morphologique de ses reproducteurs et l'attention portée à la génétique couleur.</p>
+        <p>Ces origines sont des fondations. Elles garantissent la traçabilité, la santé génétique et la cohérence de notre cheptel sur le long terme.</p>
+      `
+    },
+    'poulains': {
+      icon: '🫶',
+      title: 'Poulains socialisés',
+      images: [],
+      html: `
+        <p>La socialisation commence dès le premier jour. Dès la naissance, chaque poulain est manipulé avec douceur et régularité : toucher des oreilles, des membres, des sabots — créer un lien de confiance avant même que le dressage ne commence.</p>
+        <p>Au fil des semaines, nous introduisons les premières interactions : <strong>licol, marche en main, brossage, parage</strong>. Chaque étape se fait au rythme du poulain, sans pression, avec beaucoup de répétitions positives.</p>
+        <p>Avant la vente, tous nos jeunes chevaux savent :</p>
+        <ul>
+          <li>Se laisser attraper, licol, mener en main</li>
+          <li>Donner les quatre pieds au pareur</li>
+          <li>Tolérer les soins vétérinaires de base</li>
+          <li>Voyager en van sans stress</li>
+        </ul>
+        <p>Un poulain bien parti, c'est un cheval facile pour toute sa vie.</p>
+      `
+    },
+    'transparence': {
+      icon: '📋',
+      title: 'Transparence totale',
+      images: [],
+      html: `
+        <p>Acheter un cheval chez Humming Cob, c'est recevoir un dossier complet et honnête. Pas de surprises, pas d'omissions.</p>
+        <p><strong>Le dossier fourni à l'achat comprend :</strong></p>
+        <ul>
+          <li>Contrat de vente détaillé</li>
+          <li>Carnet IFCE et documents studbook</li>
+          <li>Résultats des tests ADN (génétique couleur, maladies héréditaires)</li>
+          <li>Suivi vétérinaire complet : vaccins, vermifuges, parages</li>
+          <li>Album photo de la croissance</li>
+        </ul>
+        <p>Nous restons disponibles <strong>après la vente</strong> pour répondre à vos questions. Plusieurs de nos acheteurs font partie de notre réseau proche — c'est la meilleure preuve que nous faisons les choses sérieusement.</p>
+      `
+    },
+    'gard': {
+      icon: '📍',
+      title: 'Élevage du Gard',
+      images: [],
+      html: `
+        <p>Nous sommes installés dans le <strong>Gard (30)</strong>, au cœur de la garrigue cévenole — un territoire de collines, de chênes verts et de lumière. Un cadre exceptionnel pour les chevaux comme pour nous.</p>
+        <p>Le climat méditerranéen offre de longues saisons de pâture en extérieur. Nos chevaux profitent de grands espaces, d'herbes variées et d'une liberté de mouvement que peu d'élevages peuvent proposer.</p>
+        <p>Les visites sont possibles <strong>sur rendez-vous</strong>. Nous vous accueillerons avec plaisir pour vous présenter nos chevaux dans leur environnement — c'est toujours la meilleure façon de les découvrir.</p>
+      `
+    }
+  };
+
+  // ── Logique modal ───────────────────────────────────────────────────────────
+  var modal     = document.getElementById('elev-modal');
+  var panel     = document.getElementById('elev-panel');
+  var closeBtn  = document.getElementById('elev-close');
+  var iconEl    = document.getElementById('elev-icon');
+  var titleEl   = document.getElementById('elev-title');
+  var imagesEl  = document.getElementById('elev-images');
+  var textEl    = document.getElementById('elev-text');
+  var body      = document.getElementById('elev-body');
+
+  function openModal(key) {
+    var data = CONTENT[key];
+    if (!data) return;
+
+    // Header
+    iconEl.textContent  = data.icon;
+    titleEl.textContent = data.title;
+
+    // Texte
+    var hasText = data.html && data.html.trim().length > 0;
+    textEl.innerHTML = hasText ? data.html : '';
+    body.classList.toggle('photos-only', !hasText);
+
+    // Images
+    imagesEl.innerHTML = '';
+    var imgs = data.images || [];
+
+    if (imgs.length > 0) {
+
+      if (imgs.length <= 3) {
+        // Grille simple
+        var grid = document.createElement('div');
+        grid.className = 'elev-img-grid' + (imgs.length === 2 ? ' two-cols' : '');
+        imgs.forEach(function (src) {
+          var item = document.createElement('div');
+          item.className = 'elev-img-item';
+          var img = document.createElement('img');
+          img.src = src;
+          img.alt = data.title;
+          img.loading = 'lazy';
+          item.appendChild(img);
+          grid.appendChild(item);
+        });
+        imagesEl.appendChild(grid);
+      } else {
+        // Carrousel
+        var wrap = document.createElement('div');
+        wrap.className = 'elev-carousel-wrap';
+        var main = document.createElement('div');
+        main.className = 'elev-img-main';
+        imgs.forEach(function (src, i) {
+          var img = document.createElement('img');
+          img.src = src;
+          img.alt = data.title + ' ' + (i + 1);
+          img.loading = 'lazy';
+          if (i === 0) img.classList.add('on');
+          main.appendChild(img);
+        });
+        wrap.appendChild(main);
+
+        // Contrôles
+        var nav = document.createElement('div');
+        nav.className = 'elev-carousel-nav';
+        var prev = document.createElement('button');
+        prev.className = 'elev-carousel-btn';
+        prev.innerHTML = '‹';
+        prev.setAttribute('aria-label', 'Précédent');
+        var counter = document.createElement('span');
+        counter.className = 'elev-carousel-counter';
+        counter.textContent = '1 / ' + imgs.length;
+        var next = document.createElement('button');
+        next.className = 'elev-carousel-btn';
+        next.innerHTML = '›';
+        next.setAttribute('aria-label', 'Suivant');
+        nav.appendChild(prev);
+        nav.appendChild(counter);
+        nav.appendChild(next);
+        wrap.appendChild(nav);
+        imagesEl.appendChild(wrap);
+
+        var current = 0;
+        var allImgs = main.querySelectorAll('img');
+        function goTo(n) {
+          allImgs[current].classList.remove('on');
+          current = (n + imgs.length) % imgs.length;
+          allImgs[current].classList.add('on');
+          counter.textContent = (current + 1) + ' / ' + imgs.length;
+        }
+        prev.addEventListener('click', function () { goTo(current - 1); });
+        next.addEventListener('click', function () { goTo(current + 1); });
+      }
+    }
+
+    // Ouvre
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    panel.scrollTop = 0;
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Listeners cartes
+  document.querySelectorAll('.elevage-card--clickable').forEach(function (card) {
+    card.addEventListener('click', function () {
+      openModal(card.dataset.elevage);
+    });
+  });
+
+  // Fermeture
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+  });
+})();
+</script>
+
 </body>
 </html>

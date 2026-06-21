@@ -44,7 +44,7 @@ if (revealEls.length) {
 
 // ── Lightbox carrousel ──────────────────────────────────────────────────────
 (function () {
-  let lbImages = [], lbIdx = 0;
+  let lbImages = [], lbCaptions = [], lbIdx = 0;
 
   // Overlay
   const overlay = document.createElement('div');
@@ -52,11 +52,15 @@ if (revealEls.length) {
 
   // Image
   const lbImg = document.createElement('img');
-  lbImg.style.cssText = 'max-width:82vw;max-height:88vh;object-fit:contain;border-radius:6px;box-shadow:0 12px 60px rgba(0,0,0,.9);cursor:default;transition:opacity .18s;';
+  lbImg.style.cssText = 'max-width:82vw;max-height:84vh;object-fit:contain;border-radius:6px;box-shadow:0 12px 60px rgba(0,0,0,.9);cursor:default;transition:opacity .18s;';
+
+  // Caption
+  const lbCap = document.createElement('div');
+  lbCap.style.cssText = 'position:absolute;bottom:2.4rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.65);font-size:.78rem;letter-spacing:.06em;text-align:center;max-width:80vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;';
 
   // Compteur
   const counter = document.createElement('div');
-  counter.style.cssText = 'position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);font-size:.72rem;letter-spacing:.14em;';
+  counter.style.cssText = 'position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.35);font-size:.68rem;letter-spacing:.14em;pointer-events:none;';
 
   // Boutons
   function makeBtn(label, extra) {
@@ -71,11 +75,11 @@ if (revealEls.length) {
   const prevBtn  = makeBtn('‹', 'left:1rem;top:50%;transform:translateY(-50%);font-size:2.4rem;width:48px;height:48px;');
   const nextBtn  = makeBtn('›', 'right:1rem;top:50%;transform:translateY(-50%);font-size:2.4rem;width:48px;height:48px;');
 
-  overlay.append(closeBtn, prevBtn, lbImg, nextBtn, counter);
+  overlay.append(closeBtn, prevBtn, lbImg, nextBtn, lbCap, counter);
   document.body.appendChild(overlay);
 
-  function openLb(images, idx) {
-    lbImages = images; lbIdx = idx;
+  function openLb(images, idx, captions) {
+    lbImages = images; lbIdx = idx; lbCaptions = captions || [];
     show();
     overlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -88,6 +92,9 @@ if (revealEls.length) {
   function show() {
     lbImg.style.opacity = '0';
     setTimeout(() => { lbImg.src = lbImages[lbIdx]; lbImg.style.opacity = '1'; }, 80);
+    const cap = lbCaptions[lbIdx] || '';
+    lbCap.textContent = cap;
+    lbCap.style.display = cap ? 'block' : 'none';
     counter.textContent = lbImages.length > 1 ? (lbIdx + 1) + ' / ' + lbImages.length : '';
     prevBtn.style.display = lbImages.length > 1 ? 'flex' : 'none';
     nextBtn.style.display = lbImages.length > 1 ? 'flex' : 'none';
@@ -130,14 +137,16 @@ if (revealEls.length) {
   carousels.forEach(({ containerSel, imgsSel, activeSel }) => {
     const container = document.querySelector(containerSel);
     if (!container) return;
-    const srcs = Array.from(document.querySelectorAll(imgsSel)).map(i => i.src);
+    const allImgs = Array.from(document.querySelectorAll(imgsSel));
+    const srcs = allImgs.map(i => i.src);
+    const caps = allImgs.map(i => i.dataset.cap || '');
     container.style.cursor = 'zoom-in';
     container.addEventListener('click', e => {
       if (e.target.closest('button')) return;     // ignorer flèches prev/next
       const activeImg = document.querySelector(activeSel);
       if (!activeImg) return;
       const idx = srcs.indexOf(activeImg.src);
-      openLb(srcs, idx >= 0 ? idx : 0);
+      openLb(srcs, idx >= 0 ? idx : 0, caps);
     });
   });
 })();

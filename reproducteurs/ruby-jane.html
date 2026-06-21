@@ -38,7 +38,7 @@
 
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
-    <img src="../img/ruby/rj-index.jpg" alt="SD Ruby Jane" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <img src="../img/ruby/Ruby Portrait.jpg" alt="SD Ruby Jane" style="width:100%;height:100%;object-fit:cover;display:block;">
   </div>
 
   <div class="horse-hero-info">
@@ -252,9 +252,9 @@
       <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
            data-name="Neelu DC"
            data-desc="Fille de SD Ruby Jane. Née en 2023."
-           data-images='["../img/ruby/rj-neelu.jpg"]'>
+           data-images='["../img/ruby/Neelu 05.jpg","../img/ruby/Ne-01.jpg", "../img/ruby/Ne-02.jpg", "../img/ruby/Ne-03.jpg", "../img/ruby/Ne-04.jpg", "../img/ruby/Ne-05.jpg", "../img/ruby/neelu-01.jpg"]'>
         <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/ruby/rj-neelu.jpg" alt="Neelu DC" style="width:100%;height:100%;object-fit:cover;">
+          <img src="../img/ruby/Ruby Neelu.jpg" alt="Neelu DC" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <div class="horse-card-body">
           <span style="position:absolute;top:1rem;left:1rem;background:rgba(80,80,80,0.75);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;">Vendue par DC</span>
@@ -270,9 +270,9 @@
       <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
            data-name="Qoulitch Yasuke"
            data-desc="Troisième fils d'Avantgarde, il est né le 23 mai 2026, en Bretagne, à l'Élevage Yasuke. Observateur, posé et réfléchi."
-           data-images='["../img/ruby/qoulitch-01.jpg"]'>
+           data-images='["../img/ruby/Qoulitch 013.jpg","../img/ruby/Qoulitch 01.jpg","../img/ruby/Qoulitch 02.jpg","../img/ruby/Qoulitch 03.jpg","../img/ruby/Qoulitch 04.jpg","../img/ruby/Qoulitch 05.jpg","../img/ruby/Qoulitch 06.jpg"]'>
         <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/ruby/qoulitch-01.jpg" alt="Qoulitch Yasuke" style="width:100%;height:100%;object-fit:cover;">
+          <img src="../img/ruby/Ruby Qoulitch.jpg" alt="Qoulitch Yasuke" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <div class="horse-card-body">
           <span style="position:absolute;top:1rem;left:1rem;background:rgba(80,80,80,0.75);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;">À vendre par Yasuke</span>
@@ -295,9 +295,7 @@
     .su-slide { position:absolute; inset:0; opacity:0; transition:opacity .5s ease; }
     .su-slide.active { opacity:1; }
     .su-slide img { width:100%; height:100%; object-fit:cover; }
-    .su-caption { position:absolute; bottom:0; left:0; right:0; padding:.6rem 1rem;
-      background:linear-gradient(transparent,rgba(0,0,0,.65));
-      color:#fff; font-size:.78rem; letter-spacing:.06em; text-align:center; }
+    .su-cap-ext { text-align:center; margin-top:.6rem; font-size:.78rem; color:rgba(255,255,255,.55); min-height:1.2em; letter-spacing:.06em; }
     .su-btn { position:absolute; top:50%; transform:translateY(-50%);
       background:rgba(255,255,255,.15); backdrop-filter:blur(4px);
       border:none; color:#fff; font-size:1.6rem; width:44px; height:44px;
@@ -317,21 +315,28 @@
 
     <div class="su-carousel" style="margin-top:2.5rem;">
       <div class="su-slides" id="suSlides">
-        <div class="su-slide active"><img src="../img/ruby/Ruby Portrait.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-01.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-02.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-03.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-04.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-05.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-06.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-07.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-08.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-09.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-010.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
-        <div class="su-slide"><img src="../img/ruby/rj-011.jpg" alt="SD Ruby"><div class="su-caption">SD Ruby</div></div>
+        <div class="su-slide active"><img src="../img/ruby/rj-01.jpg" alt="SD Ruby" data-cap="2018, au Pays de Galles — J+1"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-04.jpg" alt="SD Ruby" data-cap="2018, au Pays de Galles — J+13"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-05.jpg" alt="SD Ruby" data-cap="2018, au Pays de Galles — J+13"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-2017 01.jpg" alt="SD Ruby" data-cap="2018, au Pays de Galles — J+13"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-2017.jpg" alt="SD Ruby" data-cap="2018, au Pays de Galles — J+137"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-2018.jpg" alt="SD Ruby" data-cap="2018, arrivée à L'Isle-sur-la-Sorgue (84)"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-2019.jpg" alt="SD Ruby" data-cap="2019, à L'Isle-sur-la-Sorgue (84)"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-07.jpg" alt="SD Ruby" data-cap="2020, démarrage du dextre avec Djb (34)"></div>
+        <div class="su-slide"><img src="../img/ruby/ruby 2021.jpg" alt="SD Ruby" data-cap="2021, passage en ITI & obtention de l'Élite à seulement 3 ans, à Saint-Bauzille-de-Montmel (34)"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-09.jpg" alt="SD Ruby" data-cap="2022, confiée en Dordogne (24)"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-010.jpg" alt="SD Ruby" data-cap="2022, confiée en Dordogne (24)"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-011.jpg" alt="SD Ruby" data-cap="2023, pleine de Kuarahy pour son premier poulain"></div>
+        <div class="su-slide"><img src="../img/ruby/Neelu 05.jpg" alt="SD Ruby" data-cap="2023, suitée de Neelu DC, en Dordogne (24)"></div>
+        <div class="su-slide"><img src="../img/ruby/Ruby Orion.jpg" alt="SD Ruby" data-cap="2024, suitée d'Orion, à Carnas (30)"></div>
+        <div class="su-slide"><img src="../img/ruby/Ruby Portrait.jpg" alt="SD Ruby" data-cap="2025, portrait par Lilou Schrive"></div>
+        <div class="su-slide"><img src="../img/ruby/rj-index.jpg" alt="SD Ruby" data-cap="2025, très expressive aux gratouilles"></div>
+        <div class="su-slide"><img src="../img/ruby/Ruby 2026.jpg" alt="SD Ruby" data-cap="2026, confiée pleine d'Avantgarde, en Bretagne (35)"></div>
+        <div class="su-slide"><img src="../img/ruby/Qoulitch 013.jpg" alt="SD Ruby" data-cap="2026, suitée de Qoulitch Yasuke, en Bretagne (35)"></div>
       </div>
       <button class="su-btn su-prev" id="suPrev">&#8249;</button>
       <button class="su-btn su-next" id="suNext">&#8250;</button>
+      <div class="su-cap-ext" id="suCap">2018, au Pays de Galles — J+1</div>
       <div class="su-thumbs" id="suThumbs"></div>
     </div>
   </div>
@@ -350,97 +355,123 @@
   #foal-panel-info { padding:1.4rem 1.6rem 1.8rem; }
   #foal-panel-name { font-size:1.3rem; font-weight:700; margin:0 0 .5rem; color:#1a1a1a; }
   #foal-panel-desc { font-size:.88rem; color:#555; margin:0; line-height:1.6; }
+  #foal-panel-counter { font-size:.72rem; color:#aaa; margin-top:.6rem; letter-spacing:.06em; }
   #foal-modal-close { position:absolute; top:10px; right:14px;
     background:rgba(0,0,0,.5); border:none; color:#fff; font-size:1.2rem;
     width:32px; height:32px; border-radius:50%; cursor:pointer; z-index:2;
     display:flex; align-items:center; justify-content:center; }
   #foal-modal-close:hover { background:rgba(0,0,0,.8); }
+  .foal-nav { position:absolute; top:50%; transform:translateY(-50%);
+    background:rgba(0,0,0,.4); backdrop-filter:blur(4px);
+    border:none; color:#fff; font-size:2rem; width:44px; height:44px;
+    border-radius:50%; cursor:pointer; display:flex; align-items:center;
+    justify-content:center; transition:background .2s; z-index:2; }
+  .foal-nav:hover { background:rgba(0,0,0,.7); }
+  #foal-prev { left:10px; } #foal-next { right:10px; }
+  .foal-nav.hidden { display:none; }
 </style>
+
 <div id="foal-modal">
   <div id="foal-panel">
     <div id="foal-panel-img-wrap">
       <button id="foal-modal-close" aria-label="Fermer">✕</button>
+      <button class="foal-nav" id="foal-prev">&#8249;</button>
       <img id="foal-panel-img" src="" alt="">
+      <button class="foal-nav" id="foal-next">&#8250;</button>
     </div>
     <div id="foal-panel-info">
       <h3 id="foal-panel-name"></h3>
       <p id="foal-panel-desc"></p>
+      <p id="foal-panel-counter"></p>
     </div>
   </div>
 </div>
 
+<script src="../js/main.js"></script>
 <script>
-(function(){
-  // ── Carrousel ──
-  const container = document.getElementById('suSlides');
-  const slides    = Array.from(container.querySelectorAll('.su-slide'));
-  const thumbsEl  = document.getElementById('suThumbs');
-  const prev      = document.getElementById('suPrev');
-  const next      = document.getElementById('suNext');
-  let cur = 0;
+(function() {
+  /* ── Modal poulain ── */
+  var modal  = document.getElementById('foal-modal');
+  var mImg   = document.getElementById('foal-panel-img');
+  var mName  = document.getElementById('foal-panel-name');
+  var mDesc  = document.getElementById('foal-panel-desc');
+  var mCount = document.getElementById('foal-panel-counter');
+  var mPrev  = document.getElementById('foal-prev');
+  var mNext  = document.getElementById('foal-next');
+  var mImgs = [], mIdx = 0;
 
-  slides.forEach((slide, i) => {
-    const img = slide.querySelector('img');
-    const t = document.createElement('img');
-    t.src = img.src;
-    t.className = 'su-thumb' + (i === 0 ? ' active' : '');
-    t.addEventListener('click', () => goTo(i));
-    thumbsEl.appendChild(t);
+  function openModal(name, desc, imgs) {
+    mImgs = imgs; mIdx = 0;
+    mName.textContent = name;
+    mDesc.textContent = desc;
+    update();
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function update() {
+    mImg.src = mImgs[mIdx];
+    mCount.textContent = mImgs.length > 1 ? (mIdx + 1) + ' / ' + mImgs.length : '';
+    mPrev.classList.toggle('hidden', mImgs.length <= 1);
+    mNext.classList.toggle('hidden', mImgs.length <= 1);
+  }
+  function go(n) { mIdx = (n + mImgs.length) % mImgs.length; update(); }
+
+  document.getElementById('foal-modal-close').addEventListener('click', closeModal);
+  mPrev.addEventListener('click', function(e) { e.stopPropagation(); go(mIdx - 1); });
+  mNext.addEventListener('click', function(e) { e.stopPropagation(); go(mIdx + 1); });
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e) {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft') go(mIdx - 1);
+    if (e.key === 'ArrowRight') go(mIdx + 1);
   });
-  const thumbs = Array.from(thumbsEl.querySelectorAll('.su-thumb'));
+
+  document.querySelectorAll('.foal-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      var imgs = JSON.parse(card.dataset.images);
+      openModal(card.dataset.name, card.dataset.desc, imgs);
+    });
+  });
+
+  /* ── Carrousel Ruby Jane ── */
+  var slides = document.querySelectorAll('#suSlides .su-slide');
+  var thumbsEl = document.getElementById('suThumbs');
+  var capEl = document.getElementById('suCap');
+  var cur = 0;
+
+  slides.forEach(function(sl, i) {
+    var img = sl.querySelector('img');
+    var th = document.createElement('img');
+    th.src = img.src; th.alt = img.alt;
+    th.className = 'su-thumb' + (i === 0 ? ' active' : '');
+    th.addEventListener('click', function() { goTo(i); });
+    thumbsEl.appendChild(th);
+  });
 
   function goTo(n) {
     slides[cur].classList.remove('active');
-    thumbs[cur].classList.remove('active');
+    thumbsEl.querySelectorAll('.su-thumb')[cur].classList.remove('active');
     cur = (n + slides.length) % slides.length;
     slides[cur].classList.add('active');
-    thumbs[cur].classList.add('active');
-    thumbs[cur].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+    thumbsEl.querySelectorAll('.su-thumb')[cur].classList.add('active');
+    if (capEl) capEl.textContent = slides[cur].querySelector('img').dataset.cap || '';
   }
 
-  prev.addEventListener('click', () => goTo(cur - 1));
-  next.addEventListener('click', () => goTo(cur + 1));
+  document.getElementById('suPrev').addEventListener('click', function() { goTo(cur - 1); });
+  document.getElementById('suNext').addEventListener('click', function() { goTo(cur + 1); });
 
-  let tx = 0;
-  container.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
-  container.addEventListener('touchend',   e => { const dx = e.changedTouches[0].clientX - tx; if(Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1)); }, {passive:true});
-
-  // ── Modal foal ──
-  const modal = document.getElementById('foal-modal');
-  const mImg  = document.getElementById('foal-panel-img');
-  const mName = document.getElementById('foal-panel-name');
-  const mDesc = document.getElementById('foal-panel-desc');
-  document.getElementById('foal-modal-close').addEventListener('click', () => { modal.classList.remove('open'); document.body.style.overflow = ''; });
-  modal.addEventListener('click', e => { if(e.target === modal) { modal.classList.remove('open'); document.body.style.overflow = ''; } });
-  document.querySelectorAll('.foal-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const imgs = JSON.parse(card.dataset.images);
-      mImg.src = imgs[0];
-      mName.textContent = card.dataset.name;
-      mDesc.textContent = card.dataset.desc;
-      modal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    });
-  });
+  var ts = 0;
+  document.getElementById('suSlides').addEventListener('touchstart', function(e) { ts = e.touches[0].clientX; }, {passive:true});
+  document.getElementById('suSlides').addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - ts;
+    if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
+  }, {passive:true});
 })();
 </script>
-
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">Humming <span>Cob</span></div>
-    <div class="footer-social">
-      <a href="https://www.facebook.com/people/Humming-Cob/61590861954436/" aria-label="Facebook" target="_blank" rel="noopener">f</a>
-      <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
-      <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
-    </div>
-    <ul class="footer-links">
-      <li><a href="../reproducteurs.html">Reproducteurs</a></li>
-      <li><a href="../poulains.html">Poulains disponibles</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
-    </ul>
-    <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
-  </div>
-</footer>
-<script src="../js/main.js"></script>
 </body>
 </html>
