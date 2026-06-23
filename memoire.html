@@ -16,6 +16,17 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     .jb-slide, .rv-slide { height: 100%; }
+    .mem-caption {
+      min-height: 1.6rem;
+      font-family: 'Jost', sans-serif;
+      font-size: .75rem;
+      font-style: italic;
+      color: var(--gris);
+      text-align: center;
+      padding: .4rem .8rem .1rem;
+      transition: opacity .2s;
+    }
+    .mem-caption:empty { visibility: hidden; }
   </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7Y0BZPH4Q"></script>
@@ -87,28 +98,62 @@
 <section class="memorial-cards-section">
   <div class="section-inner">
     <div class="memorial-grid">
+      <!-- ===== JBALLAR ===== -->
+      <div class="memorial-card reveal reveal-delay-3">
+        <div id="jbSlides" style="position:relative;overflow:hidden;border-radius:12px 12px 0 0;aspect-ratio:1/1;background:#1a1a1a;cursor:zoom-in;">
+          <div class="jb-slide active" data-cap="Jballar — photo de l'annonce qui m'a fait fondre" style="display:block;"><img src="img/jballar/jb-01.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" data-cap="Jballar — Blanchissant, à Chateaurenard" style="display:none;"><img src="img/jballar/jb-02.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" data-cap="Jballar — Toujours prêt pour un bisou" style="display:none;"><img src="img/jballar/jb-03.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" data-cap="Jballar — Encore des bisous" style="display:none;"><img src="img/jballar/jb-04.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" data-cap="Jballar — Sous la selle, un fauteuil" style="display:none;"><img src="img/jballar/jb-05.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" data-cap="Jballar — Encore 😘​ !" style="display:none;"><img src="img/jballar/jb-06.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" data-cap="Jballar — Balade en dextre" style="display:none;"><img src="img/jballar/jb-07.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" data-cap="Jballar — Balade en dextre" style="display:none;"><img src="img/jballar/jb-08.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" data-cap="Jballar — LE tonton des filles" style="display:none;"><img src="img/jballar/jb-09.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="jb-slide" data-cap="Jballar — Un grand coeur 💝​" style="display:none;"><img src="img/jballar/jb-10.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <button class="jb-prev" style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">‹</button>
+          <button class="jb-next" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">›</button>
+          <span id="jbCounter" style="position:absolute;bottom:.5rem;right:.7rem;background:rgba(0,0,0,.45);color:#fff;font-size:.62rem;letter-spacing:.08em;padding:.15rem .45rem;border-radius:8px;"></span>
+        </div>
+        <p class="mem-caption" id="jbCaption"></p>
+        <span class="memorial-badge">En mémoire</span>
+        <div class="memorial-card-body">
+          <p class="memorial-card-dates"><span style="opacity:.85;">2004</span> — 2023</p>
+           <h2 class="memorial-card-name">Jballar</h2>
+          <p class="memorial-card-text" style="font-size:.78rem;color:var(--gris);margin-bottom:.6rem;">
+            Hongre · Espagnol · Gris
+          </p>
+          <p class="memorial-card-text">
+            En 2010, après cinq ans sans cheval, Djb, véritable coup de cœur, fut mon compagnon de vie pendant douze ans. 
+            Grand ami d'Archy et tonton des pouliches, il marque ceux qui croisent sa route. 
+            Guerrier, maître d'école et révélateur, il bouleverse mes certitudes, laisse son empreinte 
+            et transforme à jamais ma vision du cheval.
+          </p>
+        </div>
+      </div>
 
 
       <!-- ===== SD RED VELVET ===== -->
       <div class="memorial-card reveal reveal-delay-2">
         <!-- Carousel Velvet -->
         <div id="rvSlides" style="position:relative;overflow:hidden;border-radius:12px 12px 0 0;aspect-ratio:1/1;background:#1a1a1a;cursor:zoom-in;">
-          <div class="rv-slide" style="display:block;"><img src="img/velvet/rv-01.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-lizzy.jpg" alt="Velvet & Lizzy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-02.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-03.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-04.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-05.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-06.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-07.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="rv-slide" style="display:none;"><img src="img/velvet/rv-08.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" data-cap="SD Red Velvet — notre rencontre" style="display:block;"><img src="img/velvet/rv-01.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" data-cap="SD Red Velvet — avec sa mère SD Lizzy" style="display:none;"><img src="img/velvet/rv-lizzy.jpg" alt="Velvet & Lizzy" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" data-cap="SD Red Velvet — Mon Dieu, ses yeux ! Bleu de glace !" style="display:none;"><img src="img/velvet/rv-02.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" data-cap="SD Red Velvet — Et quel modèle." style="display:none;"><img src="img/velvet/rv-03.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" data-cap="SD Red Velvet — Cette encolure !" style="display:none;"><img src="img/velvet/rv-04.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" data-cap="SD Red Velvet — A son arrivée à L'Isle-sur-la-Sorgue" style="display:none;"><img src="img/velvet/rv-05.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" data-cap="SD Red Velvet — Cette élégance " style="display:none;"><img src="img/velvet/rv-06.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" data-cap="SD Red Velvet — Ce regard doux" style="display:none;"><img src="img/velvet/rv-07.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="rv-slide" data-cap="SD Red Velvet — Avec elle" style="display:none;"><img src="img/velvet/rv-08.jpg" alt="SD Red Velvet" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
           <button class="rv-prev" style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">‹</button>
           <button class="rv-next" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">›</button>
           <span id="rvCounter" style="position:absolute;bottom:.5rem;right:.7rem;background:rgba(0,0,0,.45);color:#fff;font-size:.62rem;letter-spacing:.08em;padding:.15rem .45rem;border-radius:8px;"></span>
         </div>
+        <p class="mem-caption" id="rvCaption"></p>
         <span class="memorial-badge">En mémoire</span>
         <div class="memorial-card-body">
-          <p class="memorial-card-dates"><span style="opacity:.55;">2017</span> — 2020</p>
+          <p class="memorial-card-dates"><span style="opacity:.85;">2017</span> — 2020</p>
           <h2 class="memorial-card-name">SD Red Velvet</h2>
           <p class="memorial-card-text" style="font-size:.78rem;color:var(--gris);margin-bottom:.6rem;">
             Pouliche · Gypsy Cob · SD Flash Harry × SD Lizzy<br>
@@ -118,39 +163,6 @@
             Rien ne la destinait à rejoindre l'aventure. Arrivée avec Sakura dont elle était l'ombre, 
             ma Princesse Petit Pois était d'une sensibilité rare. D'abord réservée, elle comprit vite l'intérêt des 
             humains et venait me réclamer sa séance de gratouilles.
-          </p>
-        </div>
-      </div>
-
-      <!-- ===== JBALLAR ===== -->
-      <div class="memorial-card reveal reveal-delay-3">
-        <div id="jbSlides" style="position:relative;overflow:hidden;border-radius:12px 12px 0 0;aspect-ratio:1/1;background:#1a1a1a;cursor:zoom-in;">
-          <div class="jb-slide active" style="display:block;"><img src="img/jballar/jb-01.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-02.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-03.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-04.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-05.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-06.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-07.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-08.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-09.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <div class="jb-slide" style="display:none;"><img src="img/jballar/jb-10.jpg" alt="Jballar" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
-          <button class="jb-prev" style="position:absolute;left:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">‹</button>
-          <button class="jb-next" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.38);border:none;color:#fff;border-radius:50%;width:32px;height:32px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">›</button>
-          <span id="jbCounter" style="position:absolute;bottom:.5rem;right:.7rem;background:rgba(0,0,0,.45);color:#fff;font-size:.62rem;letter-spacing:.08em;padding:.15rem .45rem;border-radius:8px;"></span>
-        </div>
-        <span class="memorial-badge">En mémoire</span>
-        <div class="memorial-card-body">
-          <p class="memorial-card-dates"><span style="opacity:.55;">2004</span> — 2023</p>
-          <h2 class="memorial-card-name">Jballar</h2>
-          <p class="memorial-card-text" style="font-size:.78rem;color:var(--gris);margin-bottom:.6rem;">
-            Hongre · Espagnol · Gris
-          </p>
-          <p class="memorial-card-text">
-            En 2010, après cinq ans sans cheval, Djb, véritable coup de cœur, fut mon compagnon de vie pendant douze ans. 
-            Grand ami d'Archy et tonton des pouliches, il marque ceux qui croisent sa route. 
-            Guerrier, maître d'école et révélateur, il bouleverse mes certitudes, laisse son empreinte 
-            et transforme à jamais ma vision du cheval.
           </p>
         </div>
       </div>
@@ -192,6 +204,7 @@
   if (jbWrap) {
     var jbSlides = Array.from(jbWrap.querySelectorAll('.jb-slide'));
     var jbCounter = document.getElementById('jbCounter');
+    var jbCaption = document.getElementById('jbCaption');
     var jbCur = 0;
     function jbGoTo(n){
       jbSlides[jbCur].style.display = 'none';
@@ -200,6 +213,7 @@
       jbSlides[jbCur].style.display = 'block';
       jbSlides[jbCur].classList.add('active');
       if(jbCounter) jbCounter.textContent = (jbCur+1)+' / '+jbSlides.length;
+      if(jbCaption) jbCaption.textContent = jbSlides[jbCur].dataset.cap || '';
     }
     jbGoTo(0);
     jbWrap.querySelector('.jb-prev').addEventListener('click', function(e){ e.stopPropagation(); jbGoTo(jbCur-1); });
@@ -214,6 +228,7 @@
 (function(){
   const slides  = Array.from(document.querySelectorAll('.rv-slide'));
   const counter = document.getElementById('rvCounter');
+  const caption = document.getElementById('rvCaption');
   let cur = 0;
   function goTo(n){
     slides[cur].style.display = 'none';
@@ -222,6 +237,7 @@
     slides[cur].style.display = 'block';
     slides[cur].classList.add('active');
     if(counter) counter.textContent = (cur+1)+' / '+slides.length;
+    if(caption) caption.textContent = slides[cur].dataset.cap || '';
   }
   goTo(0);
   document.querySelector('.rv-prev').addEventListener('click', e=>{ e.stopPropagation(); goTo(cur-1); });

@@ -139,7 +139,7 @@ if (revealEls.length) {
     if (!container) return;
     const allImgs = Array.from(document.querySelectorAll(imgsSel));
     const srcs = allImgs.map(i => i.src);
-    const caps = allImgs.map(i => i.dataset.cap || '');
+    const caps = allImgs.map(i => i.dataset.cap || i.parentElement.dataset.cap || '');
     container.style.cursor = 'zoom-in';
     container.addEventListener('click', e => {
       if (e.target.closest('button')) return;     // ignorer flèches prev/next
