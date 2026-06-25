@@ -32,7 +32,16 @@
   <ul class="nav-links">
     <li><a href="index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="elevage.html" class="nav-active">L'élevage</a></li>
-    <li><a href="reproducteurs.html">Reproducteurs</a></li>
+    <li class="has-dropdown">
+      <a href="reproducteurs.html">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="reproducteurs/archy.html" class="nav-etalon">Archy</a></li>
+        <li><a href="reproducteurs/avantgarde.html" class="nav-etalon">Avantgarde</a></li>
+        <li><a href="reproducteurs/suzie.html">Suzie</a></li>
+        <li><a href="reproducteurs/sakura.html">Sakura</a></li>
+        <li><a href="reproducteurs/ruby-jane.html">Ruby Jane</a></li>
+      </ul>
+    </li>
     <li><a href="poulains.html">Poulains</a></li>
     <li><a href="arbre-genealogique.html">Généalogie</a></li>
     <li><a href="index.html#contact">Contact</a></li>
@@ -721,7 +730,6 @@
       `
     },
     'lignes': {
-      alignItems: 'center',
       title: '⭐ Lignées reconnues',
       images: [
         { src: 'img/elevage/Genetique-en-image.jpg', caption: '' }
@@ -731,7 +739,7 @@
         <p>Ces origines sont des fondations. Elles garantissent la traçabilité, la santé génétique et la cohérence de notre cheptel sur le long terme.</p>
 </p>`, 
       html: `
-        <img src="img/elevage/sdfarmfam02.jpg" alt="SD Farm" style="width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:8px;display:block;margin:.5rem 0;">
+        <img src="img/elevage/sdfarmfam02.jpg" alt="SD Farm" style="width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:8px;display:block;">
         <p><em style="color:var(--rose-deep);font-weight:600;">SD Farm</em> (Oxfordshire, Angleterre) — c'est avant tout une histoire de famille ! Sur cette photo, <em style="color:var(--rose-deep);font-weight:600;">Steve Down</em> (SD), le patriarche, est accompagné d'une partie de ses petits-enfants. Sa fille, Janey, est à l'origine de l'arrivée de Suzie et de ses filles. Leur élevage perpétue de grande lignée.</p>
         <img src="img/elevage/Clive-SC.jpg" alt="San Cler Stud" style="width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:8px;margin:.5rem 0;">
         <p><em style="color:var(--rose-deep);font-weight:600;">San Cler Stud</em> (St Clears, Pays de Galles) — Ici, <em style="color:var(--rose-deep);font-weight:600;">Clive Hussell</em> (avec un étalon, Hermits Starburst), connu pour la qualité morphologique de ses reproducteurs et l'attention portée à la génétique des robes. J'ai découvert Avantgarde grâce à lui.</p>
@@ -739,20 +747,22 @@
     },
     'poulains': {
       title: '🫶 Poulains socialisés',
-      leftNote: `<p>Chaque poulain est manipulé dès son plus jeune âge afin de développer confiance et sérénité. Les premiers apprentissages (licol, marche en main, soins et parage) sont introduits progressivement, dans le respect de son rythme et avec une approche positive.</p>`,
       images: [
-        { src: 'img/partenaires/Pauline-Ethologue.jpg', caption: '', style: 'width:100%;aspect-ratio:1/1;object-fit:cover;max-height:none;' }
+        { src: 'img/partenaires/manipulation.jpg', caption: '', style: 'width:100%;aspect-ratio:1/1;object-fit:cover;max-height:none;' }
       ],
-      leftNote: `<p>Chaque poulain est manipulé dès son plus jeune âge afin de développer confiance et sérénité. Les premiers apprentissages (licol, marche en main, soins et parage) sont introduits progressivement, dans le respect de son rythme et avec une approche positive.</p>`,
+      leftNote: `<p>Chaque poulain est manipulé dans le respect de son rythme afin de développer confiance et sérénité. Les premiers apprentissages (licol, marche en main, soins et parage) sont introduits progressivement et avec une approche positive.</p>
+       `,
       html: `
-        <img src="img/partenaires/Vanessa-Podologue.jpg" alt="Vanessa — Podologue" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;margin:0 0 .5rem 0;">
         <p>Avant la vente, tous nos jeunes chevaux savent :</p>
         <ul>
-          <li>Se laisser attraper, licol, mener en main</li>
+          <li>Se laisser attraper, licoler, mener en main</li>
           <li>Donner les quatre pieds au pareur</li>
           <li>Tolérer les soins vétérinaires de base</li>
         </ul>
         <p><em style="color:var(--rose-deep);font-weight:600;">Un poulain bien démarré, c'est un cheval facile pour toute sa vie.</em></p>
+
+        <img src="img/elevage/croissance-osseuse.jpg" alt="croissance-osseuse" style="width:100%;aspect-ratio:none;object-fit:cover;border-radius:8px;margin:0 0 .5rem 0;">
+        <p>Nous respectons également sa croissance osseuse : vous ne trouverez pas de cheval débourré à partir de 3 ou 4 ans chez Humming Cob.</p>
       `
     },
     'transparence': {

@@ -28,7 +28,16 @@
   <ul class="nav-links">
     <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
-    <li><a href="../reproducteurs.html">Reproducteurs</a></li>
+    <li class="has-dropdown">
+      <a href="../reproducteurs.html">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="../reproducteurs/archy.html" class="nav-etalon">Archy</a></li>
+        <li><a href="../reproducteurs/avantgarde.html" class="nav-etalon">Avantgarde</a></li>
+        <li><a href="../reproducteurs/suzie.html">Suzie</a></li>
+        <li><a href="../reproducteurs/sakura.html">Sakura</a></li>
+        <li><a href="../reproducteurs/ruby-jane.html">Ruby Jane</a></li>
+      </ul>
+    </li>
     <li><a href="../poulains.html" class="nav-active">Poulains</a></li>
     <li><a href="../arbre-genealogique.html">Généalogie</a></li>
     <li><a href="../index.html#contact">Contact</a></li>
@@ -48,7 +57,7 @@
       <a href="../poulains.html">Poulains</a><span>›</span>
       <span style="color:var(--noir)">Omamori</span>
     </nav>
-    <span class="badge-available" style="position:static;display:inline-block;margin-bottom:1rem;">Disponible</span>
+    <span class="badge-available" style="position:static;display:inline-block;margin-bottom:1rem;"><strong>Disponible</strong></span>
     <p class="horse-hero-race">Entier · OC 75 % Irish Cob · Grullo Silver</p>
     <h1 class="horse-hero-name"><em>Omamori</em></h1>
 
@@ -90,24 +99,30 @@
     <div class="section-divider"></div>
     <div class="pedigree-tree">
       <div class="pedigree-node">
+        <img src="../img/tree/kuarahy.jpg" alt="Kuarahy OMD" class="pedigree-node-photo">
         <div class="pedigree-node-label">Père</div>
         <div class="pedigree-node-name">Kuarahy OMD</div>
-        <div class="pedigree-node-sub">Irish Cob · Père d'Omamori &amp; Orion</div>
-        <img src="../img/suzie/KUARAHY OMD/Kuarahy 02.jpg" alt="Omamori" class="horse-hero-img"
-         style="width:100%;height:100%;object-fit:cover;object-position:center center;">
+        <div class="pedigree-node-sub">par Cairnview Famous<br>
+          ×<br>
+          Gazelle (Welsh x New forest x Comtois x Konik)</div>
+        <div style="font-size:.75rem;color:var(--gris);line-height:1.3;">
+          <span style="display:block;margin-top:.5rem;opacity:.7;">Irish Cob Partbred</span>
+        </div>
       </div>
       <div class="pedigree-connector">
         <span style="font-family:var(--font-serif);font-size:2.5rem;color:var(--rose-pale);">×</span>
       </div>
       <div class="pedigree-node">
+        <img src="../img/tree/suzie.jpg" alt="SD Suzie" class="pedigree-node-photo">
         <div class="pedigree-node-label">Mère</div>
         <div class="pedigree-node-name">SD Suzie</div>
-        <div class="pedigree-node-sub">Débourrée montée · Lignée Woolly Mammoth</div>
-        <div style="margin-top:.6rem;font-size:.75rem;color:var(--gris);line-height:1.6;">
-          par SD Woolly Mammoth<br>
-          <span style="opacity:.7;">Mère également de SD Sakura</span>
+        <div class="pedigree-node-sub">par SD Woolly Mammoth<br>
+          ×<br>
+          SD Olivia</div>
+        <div style="font-size:.75rem;color:var(--gris);line-height:1.3;">
+          <span style="display:block;margin-top:.5rem;opacity:.7;">Facteur Irish Cob</span>
         </div>
-        <a href="../reproducteurs/suzie.html" style="display:inline-block;margin-top:.8rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rose-deep);">Voir la fiche →</a>
+        <a href="../reproducteurs/suzie.html" class="pedigree-node-link">Voir la fiche →</a>
       </div>
     </div>
   </div>
@@ -136,7 +151,10 @@
         <div class="section-divider"></div>
         <p class="section-text">Nous vendons sur coup de cœur, après une visite. Nous vous demanderons de nous décrire votre projet de vie avec lui.</p>
         <p class="section-text" style="margin-top:.8rem;">Nous pouvons vous accueillir un week-end dans le Gard (30).</p>
-        <a href="../index.html#contact" class="btn btn-primary" style="margin-top:1.5rem;display:inline-block;">Nous contacter</a>
+        <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap;">
+          <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
+          <a href="acheter.html" style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);">Comment ça se passe ? →</a>
+        </div>
       </div>
     </div>
   </div>
@@ -151,136 +169,30 @@
       <div class="section-divider" style="background:var(--rose);margin:1.2rem auto;"></div>
     </div>
 
-    <style>
-      .na-carousel { max-width: 900px; margin: 0 auto; }
-      .na-main { position:relative; background:#000; border-radius:12px; overflow:hidden; aspect-ratio:4/3; cursor:zoom-in; }
-      .na-main img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center; opacity:0; transition:opacity .35s ease; pointer-events:none; }
-      .na-main img.on { opacity:1; }
-      .na-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:none; color:white; font-size:2rem; width:46px; height:46px; border-radius:50%; cursor:pointer; z-index:2; display:flex; align-items:center; justify-content:center; transition:background .18s; pointer-events:all; }
-      .na-arrow:hover { background:rgba(255,255,255,0.28); }
-      .na-prev { left:12px; }
-      .na-next { right:12px; }
-      .na-caption { text-align:center; margin-top:.9rem; font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,0.45); min-height:1.2em; }
-      .na-thumbs { display:flex; gap:.5rem; margin-top:1.1rem; overflow-x:auto; padding-bottom:4px; justify-content:center; flex-wrap:wrap; }
-      .na-thumb { width:72px; height:54px; object-fit:cover; border-radius:6px; cursor:pointer; opacity:.45; border:2px solid transparent; transition:opacity .18s, border-color .18s; flex-shrink:0; }
-      .na-thumb.on { opacity:1; border-color:var(--rose); }
-      /* Lightbox */
-      #na-lb { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:2000; align-items:center; justify-content:center; padding:1rem; }
-      #na-lb.open { display:flex; }
-      #na-lb-img { max-width:100%; max-height:90vh; object-fit:contain; border-radius:6px; display:block; }
-      #na-lb-close { position:fixed; top:1rem; right:1.2rem; background:rgba(255,255,255,.12); border:none; color:#fff; font-size:1.3rem; width:38px; height:38px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3; }
-      #na-lb-close:hover { background:rgba(255,255,255,.28); }
-      .na-lb-nav { position:fixed; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.12); border:none; color:#fff; font-size:2.2rem; width:50px; height:50px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3; transition:background .18s; }
-      .na-lb-nav:hover { background:rgba(255,255,255,.28); }
-      #na-lb-prev { left:1rem; }
-      #na-lb-next { right:1rem; }
-      #na-lb-cap { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5); white-space:nowrap; }
-    </style>
-
-    <div class="na-carousel">
-      <div class="na-main" id="naMain">
-        <img src="../img/omamori/Oma 20240419.jpg" data-cap="Avril 2024" class="on">
-        <img src="../img/omamori/Oma 20240417.jpg" data-cap="Avril 2024">
-        <img src="../img/omamori/Oma 20240409.jpg" data-cap="Avril 2024">
-        <img src="../img/omamori/Oma 20240412.jpg" data-cap="Avril 2024">
-        <img src="../img/omamori/Oma 20240508.jpg" data-cap="Mai 2024">
-        <img src="../img/omamori/om-index.jpg" data-cap="Mai 2024">
-        <img src="../img/omamori/om-01.jpg" data-cap="Mai 2024">
-        <img src="../img/omamori/Oma 20240626.jpg" data-cap="Juin 2024">
-        <img src="../img/omamori/Oma 20240716.jpg" data-cap="Juillet 2024">
-        <img src="../img/omamori/Oma 20250513.jpg" data-cap="Mai 2025">
-        <img src="../img/omamori/Oma 20250909.jpg" data-cap="Septembre 2025">
-        <img src="../img/omamori/Oma 20260607.jpg" data-cap="Juin 2026">
-        <img src="../img/omamori/Oma 20260616.jpg" data-cap="Juin 2026">
-        <button class="na-arrow na-prev" id="naPrev">‹</button>
-        <button class="na-arrow na-next" id="naNext">›</button>
+    <div class="ar-carousel">
+      <div class="ar-slides" id="horseSlides">
+        <div class="ar-slide active"><img src="../img/omamori/Oma 20240419.jpg" data-cap="Avril 2024"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20240417.jpg" data-cap="Avril 2024"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20240409.jpg" data-cap="Avril 2024"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20240412.jpg" data-cap="Avril 2024"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20240508.jpg" data-cap="Mai 2024"></div>
+        <div class="ar-slide"><img src="../img/omamori/om-index.jpg" data-cap="Mai 2024"></div>
+        <div class="ar-slide"><img src="../img/omamori/om-01.jpg" data-cap="Mai 2024"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20240626.jpg" data-cap="Juin 2024"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20240716.jpg" data-cap="Juillet 2024"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20250513.jpg" data-cap="Mai 2025"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20250909.jpg" data-cap="Septembre 2025"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20260607.jpg" data-cap="Juin 2026"></div>
+        <div class="ar-slide"><img src="../img/omamori/Oma 20260616.jpg" data-cap="Juin 2026"></div>
+        <button class="ar-btn ar-prev" id="horsePrev">‹</button>
+        <button class="ar-btn ar-next" id="horseNext">›</button>
       </div>
-      <div class="na-caption" id="naCap">Omamori</div>
-      <div class="na-thumbs" id="naThumbs"></div>
+      <div class="ar-cap-ext" id="horseCap">Avril 2024</div>
+      <div class="ar-thumbs" id="horseThumbs"></div>
     </div>
   </div>
 </section>
 
-<!-- Lightbox -->
-<div id="na-lb">
-  <button id="na-lb-close" aria-label="Fermer">✕</button>
-  <button class="na-lb-nav" id="na-lb-prev">‹</button>
-  <img id="na-lb-img" src="" alt="">
-  <button class="na-lb-nav" id="na-lb-next">›</button>
-  <div id="na-lb-cap"></div>
-</div>
-
-<script>
-(function(){
-  const imgs   = Array.from(document.querySelectorAll('#naMain img[data-cap]'));
-  const cap    = document.getElementById('naCap');
-  const thumbs = document.getElementById('naThumbs');
-  const lb     = document.getElementById('na-lb');
-  const lbImg  = document.getElementById('na-lb-img');
-  const lbCap  = document.getElementById('na-lb-cap');
-  let cur = 0;
-
-  imgs.forEach((img, i) => {
-    const t = document.createElement('img');
-    t.src = img.src;
-    t.className = 'na-thumb' + (i === 0 ? ' on' : '');
-    t.addEventListener('click', () => go(i));
-    thumbs.appendChild(t);
-  });
-
-  function go(n) {
-    imgs[cur].classList.remove('on');
-    thumbs.children[cur].classList.remove('on');
-    cur = (n + imgs.length) % imgs.length;
-    imgs[cur].classList.add('on');
-    thumbs.children[cur].classList.add('on');
-    cap.textContent = imgs[cur].dataset.cap;
-    thumbs.children[cur].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
-    if (lb.classList.contains('open')) openLb(cur);
-  }
-
-  function openLb(n) {
-    lbImg.src = imgs[n].src;
-    lbCap.textContent = imgs[n].dataset.cap;
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLb() {
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('naPrev').addEventListener('click', e => { e.stopPropagation(); go(cur - 1); });
-  document.getElementById('naNext').addEventListener('click', e => { e.stopPropagation(); go(cur + 1); });
-  document.getElementById('naMain').addEventListener('click', () => openLb(cur));
-  document.getElementById('na-lb-close').addEventListener('click', closeLb);
-  document.getElementById('na-lb-prev').addEventListener('click', () => go(cur - 1));
-  document.getElementById('na-lb-next').addEventListener('click', () => go(cur + 1));
-  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
-
-  document.addEventListener('keydown', e => {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape')      closeLb();
-    if (e.key === 'ArrowLeft')   go(cur - 1);
-    if (e.key === 'ArrowRight')  go(cur + 1);
-  });
-
-  // Swipe carrousel
-  let sx = 0;
-  document.getElementById('naMain').addEventListener('touchstart', e => sx = e.touches[0].clientX);
-  document.getElementById('naMain').addEventListener('touchend',   e => {
-    const dx = e.changedTouches[0].clientX - sx;
-    if(Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
-  });
-
-  // Swipe lightbox
-  lb.addEventListener('touchstart', e => sx = e.touches[0].clientX);
-  lb.addEventListener('touchend',   e => {
-    const dx = e.changedTouches[0].clientX - sx;
-    if(Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
-  });
-})();
-</script>
 
 <!-- Autres poulains -->
 <section style="padding:4rem 1.5rem;background:#111;">

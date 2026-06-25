@@ -28,7 +28,16 @@
   <ul class="nav-links">
     <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
-    <li><a href="../reproducteurs.html">Reproducteurs</a></li>
+    <li class="has-dropdown">
+      <a href="../reproducteurs.html">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="../reproducteurs/archy.html" class="nav-etalon">Archy</a></li>
+        <li><a href="../reproducteurs/avantgarde.html" class="nav-etalon">Avantgarde</a></li>
+        <li><a href="../reproducteurs/suzie.html">Suzie</a></li>
+        <li><a href="../reproducteurs/sakura.html">Sakura</a></li>
+        <li><a href="../reproducteurs/ruby-jane.html">Ruby Jane</a></li>
+      </ul>
+    </li>
     <li><a href="../poulains.html" class="nav-active">Poulains</a></li>
     <li><a href="../arbre-genealogique.html">Généalogie</a></li>
     <li><a href="../index.html#contact">Contact</a></li>
@@ -48,26 +57,23 @@
       <a href="../poulains.html">Poulains</a><span>›</span>
       <span style="color:var(--noir)">Quercus Kaeru</span>
     </nav>
-    <span style="position:static;display:inline-block;margin-bottom:1rem;
-      background:rgba(180,130,60,0.12);color:#9a6c20;border:1px solid rgba(180,130,60,0.35);
-      font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
-      padding:.35rem .9rem;border-radius:50px;">Croissance en cours</span>
+    <span style="position:static;display:inline-block;margin-bottom:1rem;background:rgba(60,160,160,0.85);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;"><strong>Croissance en cours</strong></span>
     <p class="horse-hero-race">Entier · Irish Cob · Noir Pearl</p>
     <h1 class="horse-hero-name">Quercus <em>Kaeru</em></h1>
 
     <div class="horse-specs">
-      <div class="horse-spec"><div class="horse-spec-label">Né le</div><div class="horse-spec-value">13 mai 2026</div></div>
-      <div class="horse-spec"><div class="horse-spec-label">Pays d'origine</div><div class="horse-spec-value">France · Élevage Humming Cob</div></div>
+      <div class="horse-spec"><div class="horse-spec-label">Né le</div><div class="horse-spec-value">13/05/2026</div></div>
+      <div class="horse-spec"><div class="horse-spec-label">Pays d'origine</div><div class="horse-spec-value">France · Humming Cob</div></div>
       <div class="horse-spec"><div class="horse-spec-label">Robe</div><div class="horse-spec-value">Noir Pearl</div></div>
       <div class="horse-spec"><div class="horse-spec-label">Taille</div><div class="horse-spec-value">Croissance en cours</div></div>
       <div class="horse-spec"><div class="horse-spec-label">Père</div><div class="horse-spec-value">San Cler Avantgarde</div></div>
       <div class="horse-spec"><div class="horse-spec-label">Mère</div><div class="horse-spec-value">SD Suzie</div></div>
-      <div class="horse-spec"><div class="horse-spec-label">Test ADN</div><div class="horse-spec-value">E_ aa Prl_</div></div>
-      <div class="horse-spec"><div class="horse-spec-label">Titres</div><div class="horse-spec-value">—</div></div>
+      <div class="horse-spec"><div class="horse-spec-label">Test ADN</div><div class="horse-spec-value">E_ aa prl/n</div></div>
+      <div class="horse-spec"><div class="horse-spec-label">Titres</div><div class="horse-spec-value">Plein Papier</div></div>
     </div>
 
     <p class="horse-description">
-     HC Quercus Kaeru est arrivé bien avant l'heure, le 13 mai 2026. Ses premiers jours nous ont rappelé à quel point la vie peut être fragile, mais lui semblait avoir déjà choisi son chemin. Pendant une semaine, il s'est battu avec une détermination qui force le respect.    </p>
+     Quercus Kaeru est arrivé bien avant l'heure, le 13 mai 2026. Ses premiers jours nous ont rappelé à quel point la vie peut être fragile, mais lui semblait avoir déjà choisi son chemin. Pendant une semaine, il s'est battu avec une détermination qui force le respect.    </p>
     <p class="horse-description">
      Son nom n'a pas été choisi au hasard : Quercus signifie « chêne ». Un symbole qui lui ressemble déjà. Encore jeune pousse aujourd'hui, il a pourtant montré très tôt une remarquable force de vivre. Fils de San Cler Avantgarde et de SD Suzie, il porte en lui une nouvelle branche de l'histoire Humming Cob.    </p>
     <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 1.2rem;">
@@ -79,7 +85,7 @@
     </div>
 
     <div style="margin: 1.2rem 0 0.4rem; display:flex; align-items:baseline; gap:0.6rem;">
-      <span style="font-family:var(--font-serif);font-size:2rem;font-weight:500;color:var(--rose-dark);">En réflexion €</span>
+      <span style="font-family:var(--font-serif);font-size:2rem;font-weight:500;color:var(--rose-dark);">En réflexion</span>
       <span style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gris);">Prix indicatif</span>
     </div>
 
@@ -96,28 +102,31 @@
 
     <div class="pedigree-tree">
       <div class="pedigree-node">
+        <img src="../img/tree/avantgarde.jpg" alt="San Cler Avantgarde" class="pedigree-node-photo">
         <div class="pedigree-node-label">Père</div>
         <div class="pedigree-node-name">San Cler Avantgarde</div>
-        <div class="pedigree-node-sub">Vice-Champion de France 2025 · Double Pearl</div>
-        <div style="margin-top:.5rem;font-size:.73rem;color:var(--gris);line-height:1.7;">
-          Bay Pearl · Gypsy Vanner · né 2022<br>
-          par San Cler Talk Of The Town<br>
-          <span style="opacity:.7;">× San Cler Uptown Girl</span>
+        <div class="pedigree-node-sub">par San Cler Talk Of The Town<br>
+          ×<br>
+          San Cler Uptown Girl</div>
+        <div style="font-size:.75rem;color:var(--gris);line-height:1.3;">
+          <span style="display:block;margin-top:.5rem;opacity:.7;">Vice-Champion de France 2025</span>
         </div>
-        <a href="../reproducteurs/avangarde.html" style="display:inline-block;margin-top:.8rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rose-deep);">Voir la fiche →</a>
+        <a href="../reproducteurs/avantgarde.html" class="pedigree-node-link">Voir la fiche →</a>
       </div>
       <div class="pedigree-connector">
         <span style="font-family:var(--font-serif);font-size:2.5rem;color:var(--rose-pale);">×</span>
       </div>
       <div class="pedigree-node">
+        <img src="../img/tree/suzie.jpg" alt="SD Suzie" class="pedigree-node-photo">
         <div class="pedigree-node-label">Mère</div>
         <div class="pedigree-node-name">SD Suzie</div>
-        <div class="pedigree-node-sub">Débourrée montée · Lignée Woolly Mammoth</div>
-        <div style="margin-top:.6rem;font-size:.75rem;color:var(--gris);line-height:1.6;">
-          Mère de SD Sakura (élite), SD Ruby Jane (élite)<br>
-          <span style="opacity:.7;">et d'Omamori (× Kuarahy OMD)</span>
+        <div class="pedigree-node-sub">par SD Woolly Mammoth<br>
+          ×<br>
+          SD Olivia</div>
+        <div style="font-size:.75rem;color:var(--gris);line-height:1.3;">
+          <span style="display:block;margin-top:.5rem;opacity:.7;">Facteur Irish Cob</span>
         </div>
-        <a href="../reproducteurs/suzie.html" style="display:inline-block;margin-top:.8rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rose-deep);">Voir la fiche →</a>
+        <a href="../reproducteurs/suzie.html" class="pedigree-node-link">Voir la fiche →</a>
       </div>
     </div>
   </div>
@@ -155,141 +164,33 @@
       <div class="section-divider" style="background:var(--rose);margin:1.2rem auto;"></div>
     </div>
 
-    <style>
-      .na-carousel { max-width: 900px; margin: 0 auto; }
-      .na-main { position:relative; background:#000; border-radius:12px; overflow:hidden; aspect-ratio:4/3; cursor:zoom-in; }
-      .na-main img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center; opacity:0; transition:opacity .35s ease; pointer-events:none; }
-      .na-main img.on { opacity:1; }
-      .na-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:none; color:white; font-size:2rem; width:46px; height:46px; border-radius:50%; cursor:pointer; z-index:2; display:flex; align-items:center; justify-content:center; transition:background .18s; pointer-events:all; }
-      .na-arrow:hover { background:rgba(255,255,255,0.28); }
-      .na-prev { left:12px; }
-      .na-next { right:12px; }
-      .na-caption { text-align:center; margin-top:.9rem; font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,0.45); min-height:1.2em; }
-      .na-thumbs { display:flex; gap:.5rem; margin-top:1.1rem; overflow-x:auto; padding-bottom:4px; justify-content:center; flex-wrap:wrap; }
-      .na-thumb { width:72px; height:54px; object-fit:cover; border-radius:6px; cursor:pointer; opacity:.45; border:2px solid transparent; transition:opacity .18s, border-color .18s; flex-shrink:0; }
-      .na-thumb.on { opacity:1; border-color:var(--rose); }
-      /* Lightbox */
-      #na-lb { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:2000; align-items:center; justify-content:center; padding:1rem; }
-      #na-lb.open { display:flex; }
-      #na-lb-img { max-width:100%; max-height:90vh; object-fit:contain; border-radius:6px; display:block; }
-      #na-lb-close { position:fixed; top:1rem; right:1.2rem; background:rgba(255,255,255,.12); border:none; color:#fff; font-size:1.3rem; width:38px; height:38px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3; }
-      #na-lb-close:hover { background:rgba(255,255,255,.28); }
-      .na-lb-nav { position:fixed; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.12); border:none; color:#fff; font-size:2.2rem; width:50px; height:50px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3; transition:background .18s; }
-      .na-lb-nav:hover { background:rgba(255,255,255,.28); }
-      #na-lb-prev { left:1rem; }
-      #na-lb-next { right:1rem; }
-      #na-lb-cap { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.5); white-space:nowrap; }
-    </style>
-
-    <div class="na-carousel">
-      <div class="na-main" id="naMain">
-        <img src="../img/kaeru/ka-portrait.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-body-01.jpg"  data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-run.jpg"      data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-nombre.jpg"   data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-oeil-01.jpg"  data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-oeil-02.jpg"  data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-01.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-05.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-12.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-13.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-15.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-19.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-22.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-26.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-28.jpg" data-cap="Quercus Kaeru">
-        <img src="../img/kaeru/ka-bache.jpg" data-cap="Quercus Kaeru">
-
-        <button class="na-arrow na-prev" id="naPrev">‹</button>
-        <button class="na-arrow na-next" id="naNext">›</button>
+    <div class="ar-carousel">
+      <div class="ar-slides" id="horseSlides">
+        <div class="ar-slide active"><img src="../img/kaeru/ka-portrait.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-body-01.jpg"  data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-run.jpg"      data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-nombre.jpg"   data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-oeil-01.jpg"  data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-oeil-02.jpg"  data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-01.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-05.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-12.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-13.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-15.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-19.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-22.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-26.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-28.jpg" data-cap="Quercus Kaeru"></div>
+        <div class="ar-slide"><img src="../img/kaeru/ka-bache.jpg" data-cap="Quercus Kaeru"></div>
+        <button class="ar-btn ar-prev" id="horsePrev">‹</button>
+        <button class="ar-btn ar-next" id="horseNext">›</button>
       </div>
-      <div class="na-caption" id="naCap">Quercus Kaeru</div>
-      <div class="na-thumbs" id="naThumbs"></div>
+      <div class="ar-cap-ext" id="horseCap">Quercus Kaeru</div>
+      <div class="ar-thumbs" id="horseThumbs"></div>
     </div>
   </div>
 </section>
 
-<!-- Lightbox -->
-<div id="na-lb">
-  <button id="na-lb-close" aria-label="Fermer">✕</button>
-  <button class="na-lb-nav" id="na-lb-prev">‹</button>
-  <img id="na-lb-img" src="" alt="">
-  <button class="na-lb-nav" id="na-lb-next">›</button>
-  <div id="na-lb-cap"></div>
-</div>
-
-<script>
-(function(){
-  const imgs   = Array.from(document.querySelectorAll('#naMain img[data-cap]'));
-  const cap    = document.getElementById('naCap');
-  const thumbs = document.getElementById('naThumbs');
-  const lb     = document.getElementById('na-lb');
-  const lbImg  = document.getElementById('na-lb-img');
-  const lbCap  = document.getElementById('na-lb-cap');
-  let cur = 0;
-
-  imgs.forEach((img, i) => {
-    const t = document.createElement('img');
-    t.src = img.src;
-    t.className = 'na-thumb' + (i === 0 ? ' on' : '');
-    t.addEventListener('click', () => go(i));
-    thumbs.appendChild(t);
-  });
-  imgs[0].classList.add('on');
-
-  function go(n) {
-    imgs[cur].classList.remove('on');
-    thumbs.children[cur].classList.remove('on');
-    cur = (n + imgs.length) % imgs.length;
-    imgs[cur].classList.add('on');
-    thumbs.children[cur].classList.add('on');
-    cap.textContent = imgs[cur].dataset.cap;
-    thumbs.children[cur].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
-    if (lb.classList.contains('open')) openLb(cur);
-  }
-
-  function openLb(n) {
-    lbImg.src = imgs[n].src;
-    lbCap.textContent = imgs[n].dataset.cap;
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLb() {
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('naPrev').addEventListener('click', e => { e.stopPropagation(); go(cur - 1); });
-  document.getElementById('naNext').addEventListener('click', e => { e.stopPropagation(); go(cur + 1); });
-  document.getElementById('naMain').addEventListener('click', () => openLb(cur));
-  document.getElementById('na-lb-close').addEventListener('click', closeLb);
-  document.getElementById('na-lb-prev').addEventListener('click', () => go(cur - 1));
-  document.getElementById('na-lb-next').addEventListener('click', () => go(cur + 1));
-  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
-
-  document.addEventListener('keydown', e => {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape')      closeLb();
-    if (e.key === 'ArrowLeft')   go(cur - 1);
-    if (e.key === 'ArrowRight')  go(cur + 1);
-  });
-
-  // Swipe carrousel
-  let sx = 0;
-  document.getElementById('naMain').addEventListener('touchstart', e => sx = e.touches[0].clientX);
-  document.getElementById('naMain').addEventListener('touchend',   e => {
-    const dx = e.changedTouches[0].clientX - sx;
-    if(Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
-  });
-
-  // Swipe lightbox
-  lb.addEventListener('touchstart', e => sx = e.touches[0].clientX);
-  lb.addEventListener('touchend',   e => {
-    const dx = e.changedTouches[0].clientX - sx;
-    if(Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
-  });
-})();
-</script>
 
 <!-- Autres poulains -->
 <section style="padding:4rem 1.5rem;background:#111;">
@@ -322,40 +223,6 @@
 </footer>
 
 <script src="../js/main.js"></script>
-<script>
-(function() {
-  var slides = document.querySelectorAll('#kaSlides .ka-slide');
-  var thumbsEl = document.getElementById('kaThumbs');
-  var cur = 0;
-
-  slides.forEach(function(sl, i) {
-    var img = sl.querySelector('img');
-    var th = document.createElement('img');
-    th.src = img.src; th.alt = img.alt;
-    th.className = 'ka-thumb' + (i === 0 ? ' active' : '');
-    th.addEventListener('click', function() { goTo(i); });
-    thumbsEl.appendChild(th);
-  });
-
-  function goTo(n) {
-    slides[cur].classList.remove('active');
-    thumbsEl.querySelectorAll('.ka-thumb')[cur].classList.remove('active');
-    cur = (n + slides.length) % slides.length;
-    slides[cur].classList.add('active');
-    thumbsEl.querySelectorAll('.ka-thumb')[cur].classList.add('active');
-  }
-
-  document.getElementById('kaPrev').addEventListener('click', function() { goTo(cur - 1); });
-  document.getElementById('kaNext').addEventListener('click', function() { goTo(cur + 1); });
-
-  var ts = 0;
-  document.getElementById('kaSlides').addEventListener('touchstart', function(e) { ts = e.touches[0].clientX; }, {passive:true});
-  document.getElementById('kaSlides').addEventListener('touchend', function(e) {
-    var dx = e.changedTouches[0].clientX - ts;
-    if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
-  }, {passive:true});
-})();
-</script>
 
 </body>
 </html>
