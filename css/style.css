@@ -1518,8 +1518,8 @@ footer {
     min-width: auto;
     display: none;
   }
-  .has-dropdown.open .nav-dropdown { display: block; }
-  .has-dropdown.open .nav-caret { transform: rotate(180deg); }
+  .has-dropdown .nav-dropdown { display: none !important; }
+  .has-dropdown .nav-caret { display: none !important; }
   .nav-dropdown::before { display: none; }
   .nav-caret { display: inline-flex; padding: .5rem; margin: -.5rem; }
   .nav-dropdown a { padding: .35rem .5rem; }
