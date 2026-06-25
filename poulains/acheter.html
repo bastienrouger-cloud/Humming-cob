@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acheter un poulain — Humming Cob</title>
+  <meta name="description" content="Comment acheter un poulain chez Humming Cob — transport, paiement, visite, dossier complet. Élevage Irish Cob dans le Gard.">
+  <meta property="og:title" content="Acheter un poulain — Humming Cob">
+  <meta property="og:description" content="Comment acheter un poulain chez Humming Cob — transport, paiement, visite, dossier complet.">
+  <meta property="og:image" content="https://hummingcob.fr/img/og-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://hummingcob.fr/poulains/acheter.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Humming Cob">
+  <link rel="stylesheet" href="../css/style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7Y0BZPH4Q"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-M7Y0BZPH4Q');</script>
+
+  <style>
+    /* ---- Page header ---- */
+    .buy-header {
+      padding: 9rem 1.5rem 5rem;
+      background: linear-gradient(160deg, #FFF8F0 0%, #FEF3F5 60%, #FEFBF6 100%);
+      text-align: center;
+    }
+    .buy-header .breadcrumb {
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ---- Steps ---- */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 1px; height: 40px;
+      background: var(--border);
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--rose-pale);
+      background: var(--bg-cream);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      color: var(--rose-deep);
+      margin-bottom: .75rem;
+      flex-shrink: 0;
+    }
+    .step-label {
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--noir);
+      font-weight: 400;
+      line-height: 1.4;
+    }
+    .step-sub {
+      margin-top: .35rem;
+      font-size: .78rem;
+      color: var(--gris);
+      font-weight: 300;
+    }
+
+    /* ---- Info cards ---- */
+    .info-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 2.2rem;
+    }
+    .info-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: .8rem;
+    }
+    .info-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--noir);
+      margin-bottom: .5rem;
+    }
+    .info-card p, .info-card li {
+      font-size: .92rem;
+      color: var(--gris);
+      font-weight: 300;
+      line-height: 1.8;
+    }
+    .info-card ul {
+      list-style: none;
+      padding: 0;
+      margin-top: .5rem;
+    }
+    .info-card ul li::before {
+      content: '—';
+      color: var(--rose);
+      margin-right: .5rem;
+    }
+
+    /* ---- Dossier inclus ---- */
+    .dossier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .dossier-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .dossier-item-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--rose-pale);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem;
+      flex-shrink: 0;
+      margin-top: .1rem;
+    }
+    .dossier-item-text strong {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: .82rem;
+      font-weight: 400;
+      color: var(--noir);
+      letter-spacing: .04em;
+      margin-bottom: .15rem;
+    }
+    .dossier-item-text span {
+      font-size: .78rem;
+      color: var(--gris);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ---- FAQ ---- */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 1.4rem 1.8rem;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--font-sans);
+      font-size: .92rem;
+      font-weight: 400;
+      color: var(--noir);
+      transition: background var(--transition);
+    }
+    .faq-q:hover { background: var(--bg-light); }
+    .faq-q .faq-arrow {
+      font-size: .8rem;
+      color: var(--rose);
+      transition: transform var(--transition);
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a {
+      display: none;
+      padding: 0 1.8rem 1.4rem;
+      font-size: .88rem;
+      color: var(--gris);
+      font-weight: 300;
+      line-height: 1.9;
+      background: var(--bg-light);
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ---- CTA ---- */
+    .buy-cta {
+      text-align: center;
+      padding: 5rem 1.5rem;
+      background: var(--bg-light);
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 700px) {
+      .info-cards { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .step:not(:last-child)::after { display: none; }
+    }
+    @media (max-width: 420px) {
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="horse-page">
+
+<nav class="navbar" id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <img src="../img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
+    <div class="nav-logo-text">Humming Cob<span>Élevage Irish Cob · Gard</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
+    <li><a href="../elevage.html">L'élevage</a></li>
+    <li class="has-dropdown">
+      <a href="../reproducteurs.html">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="../reproducteurs/archy.html" class="nav-etalon">Archy</a></li>
+        <li><a href="../reproducteurs/avantgarde.html" class="nav-etalon">Avantgarde</a></li>
+        <li><a href="../reproducteurs/suzie.html">Suzie</a></li>
+        <li><a href="../reproducteurs/sakura.html">Sakura</a></li>
+        <li><a href="../reproducteurs/ruby-jane.html">Ruby Jane</a></li>
+      </ul>
+    </li>
+    <li><a href="../poulains.html" class="nav-active">Poulains</a></li>
+    <li><a href="../arbre-genealogique.html">Généalogie</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- En-tête de page -->
+<header class="buy-header">
+  <span class="section-badge">Processus d'achat</span>
+  <h1 class="section-title" style="margin-top:.5rem;">Comment ça <em>se passe</em>&nbsp;?</h1>
+  <div class="section-divider" style="margin:1.5rem auto;"></div>
+  <p class="section-text" style="max-width:580px;margin:0 auto;">
+  <em style="color:var(--rose-deep);font-weight:600;">Acheter un cheval, c'est choisir un compagnon pour de nombreuses années.</em>
+  <p class="section-text" style="max-width:580px;margin:0 auto;">Chez Humming Cob, nous accordons autant d'importance au futur de nos poulains qu'à leur naissance. Chaque rencontre est le début d'une histoire que nous espérons durable, c'est pourquoi nous prenons le temps de 
+  connaître les futurs propriétaires comme les projets qui les accompagnent.</div>
+  <div>Voici comment se déroule cette étape importante.</div>
+  </p>
+</header>
+
+<!-- Le processus étape par étape -->
+<section style="background:var(--bg-cream);padding:4rem 1.5rem;">
+  <div class="section-inner">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-label">Contact</div>
+        <div class="step-sub">Un poulain vous plaît ? Vous nous présentez votre projet. On voit ensemble si vous êtes compatibles.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-label">Visite</div>
+        <div class="step-sub">Rendez-vous dans le Gard pour rencontrer le poulain, son troupeau et découvrir son cadre de vie..</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-label">Coup de cœur</div>
+        <div class="step-sub">Le courant passe ? Nous confirmons ensemble que le projet convient autant au poulain qu'à sa future famille.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-label">Réservation</div>
+        <div class="step-sub">Contrat signé &amp; acompte versé.</br>
+          Le poulain quitte la liste des disponibles et vous est désormais réservé .</div>
+      
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-label">Départ</div>
+        <div class="step-sub">Transport préparé en amont, accueil anticipé dans sa future maison et dossier complet remis lors du départ.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Transport & Paiement -->
+<section style="background:var(--bg-light);padding:5rem 1.5rem;">
+  <div class="section-inner">
+    <div class="info-cards">
+
+      <div class="info-card">
+        <div class="info-card-icon">🚚</div>
+        <h3>Transport</h3>
+        <div class="section-divider" style="margin:.8rem 0 1.2rem;"></div>
+        <p>
+          Des importations depuis l'Angleterre aux départs vers les quatre coins de la France, nous avons acquis une solide expérience du transport équin.
+        </p>
+        <ul style="margin-top:1rem;">
+          <li>Enlèvement sur place possible (Gard, 30)</li>
+          <li>Livraison organisée à la carte selon la distance</li>
+          <li>Devis transport sur demande, au cas par cas</li>
+          <li>Nous vous accompagnons dans le choix du prestataire</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icon">💳</div>
+        <h3>Paiement</h3>
+        <div class="section-divider" style="margin:.8rem 0 1.2rem;"></div>
+        <p>
+          Un acompte de 30 % est demandé à la réservation. 
+          Il officialise notre engagement mutuel et permet de retirer définitivement le poulain de la vente. 
+          Le solde est réglé avant ou lors de son départ.
+        </p>
+        <ul style="margin-top:1rem;">
+          <li>Virement bancaire (préféré)</li>
+          <li>Chèque de banque accepté</li>
+          <li>Contrat de vente signé</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Ce qui est inclus -->
+<section style="background:var(--bg-cream);padding:5rem 1.5rem;">
+  <div class="section-inner">
+    <span class="section-badge">À l'achat</span>
+    <h2 class="section-title">Ce qui est <em>inclus</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-text">
+      Acheter un cheval chez Humming Cob, c'est recevoir un dossier complet et honnête.
+      Pas de surprises, pas d'omissions.
+    </p>
+
+    <div class="dossier-grid">
+      <div class="dossier-item">
+        <div class="dossier-item-icon">📄</div>
+        <div class="dossier-item-text">
+          <strong>Contrat de vente détaillé</strong>
+          <span>Document complet précisant les conditions de la vente</span>
+        </div>
+      </div>
+      <div class="dossier-item">
+        <div class="dossier-item-icon">📘</div>
+        <div class="dossier-item-text">
+          <strong>Carnet IFCE</strong>
+          <span>Identification officielle, passeport équin à jour</span>
+        </div>
+      </div>
+      <div class="dossier-item">
+        <div class="dossier-item-icon">🧬</div>
+        <div class="dossier-item-text">
+          <strong>Tests ADN</strong>
+          <span>Maladies héréditaires et génétique des robes</span>
+        </div>
+      </div>
+      <div class="dossier-item">
+        <div class="dossier-item-icon">🩺</div>
+        <div class="dossier-item-text">
+          <strong>Suivi vétérinaire complet</strong>
+          <span>Vaccins, vermifuges, parages — tout l'historique</span>
+        </div>
+      </div>
+      <div class="dossier-item">
+        <div class="dossier-item-icon">📷</div>
+        <div class="dossier-item-text">
+          <strong>Album photo</strong>
+          <span>Toutes les étapes, depuis sa naissance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="background:var(--bg-light);padding:5rem 1.5rem;">
+  <div class="section-inner" style="max-width:820px;">
+    <span class="section-badge">Questions fréquentes</span>
+    <h2 class="section-title">Vous avez des <em>questions</em>&nbsp;?</h2>
+    <div class="section-divider"></div>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q">
+          La visite est-elle obligatoire ?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-a">
+        <em style="color:var(--rose-deep);font-weight:600;">Oui, dans l'idéal.</em> Nous vendons sur coup de cœur, mais toujours après une rencontre. Elle permet de découvrir le poulain dans son environnement, d'échanger autour de votre projet et de vérifier ensemble que tout semble réuni pour une belle histoire.
+        Si vous habitez loin, nous pouvons nous organiser sur un week-end dans le Gard (30). Nous pouvons vous accueillir sur place, sans frais supplémentaires.        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          Puis-je voir plusieurs poulains lors de la visite ?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-a">
+          <em style="color:var(--rose-deep);font-weight:600;">Bien sûr.</em> Si vous avez des candidats en tête, nous les présentons ensemble. Et si vous venez sans a priori, on vous fait visiter l'élevage — parfois c'est le poulain qui choisit.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          Comment se passe la réservation ?
+          <span class="faq-arrow">▾</span> 
+        <div class="faq-a">
+          Après la visite, si c'est le bon, on acte ensemble par un contrat signé et un acompte. Le poulain est alors retiré de la vente. L'acompte est versé par virement bancaire ou chèque de banque.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          À quel âge peut partir le poulain ?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-a">
+          Nous pratiquons le <em style="color:var(--rose-deep);font-weight:600;">sevrage tardif</em>, dans le respect du développement du poulain. La date de départ est définie ensemble en fonction de son évolution — jamais dans la précipitation.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          Proposez-vous la livraison ?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-a">
+          <em style="color:var(--rose-deep);font-weight:600;">Oui.</em> Nous avons l'expérience du transport longue distance — nous avons ramené des chevaux d'Angleterre et livré jusqu'en Bretagne. Nous organisons le transport à la carte selon votre localisation, avec des prestataires que nous connaissons. Les frais sont à la charge de l'acheteur, devis sur demande.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          Et après la vente — restez-vous disponibles ?
+          <span class="faq-arrow">▾</span>
+        </button>
+        <div class="faq-a">
+          <em style="color:var(--rose-deep);font-weight:600;">Absolument.</em> Nous restons joignables pour répondre à vos questions sur le comportement, l'alimentation ou la santé du poulain. C'est notre façon de faire — on ne disparaît pas après la signature.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="buy-cta">
+  <div class="section-inner">
+    <span class="section-badge">Une question&nbsp;? Un projet&nbsp;?</span>
+    <h2 class="section-title" style="margin:.5rem 0 1rem;">On est <em>disponibles</em></h2>
+    <p class="section-text" style="margin:0 auto 2rem;text-align:center;">
+      Vous avez une question qui n'est pas dans la FAQ, ou vous voulez nous parler d'un poulain en particulier&nbsp;?
+    </p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
+      <a href="../poulains.html" class="btn btn-outline">Voir les poulains</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Humming <span>Cob</span></div>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/people/Humming-Cob/61590861954436/" aria-label="Facebook" target="_blank" rel="noopener">f</a>
+      <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
+      <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
+    <ul class="footer-links">
+      <li><a href="../reproducteurs.html">Reproducteurs</a></li>
+      <li><a href="../poulains.html">Poulains disponibles</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

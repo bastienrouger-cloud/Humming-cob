@@ -28,7 +28,16 @@
   <ul class="nav-links">
     <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
-    <li><a href="../reproducteurs.html" class="nav-active">Reproducteurs</a></li>
+    <li class="has-dropdown">
+      <a href="../reproducteurs.html" class="nav-active">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="archy.html" class="nav-etalon">Archy</a></li>
+        <li><a href="avantgarde.html" class="nav-etalon">Avantgarde</a></li>
+        <li><a href="suzie.html">Suzie</a></li>
+        <li><a href="sakura.html">Sakura</a></li>
+        <li><a href="ruby-jane.html">Ruby Jane</a></li>
+      </ul>
+    </li>
     <li><a href="../poulains.html">Poulains</a></li>
     <li><a href="../arbre-genealogique.html">Généalogie</a></li>
     <li><a href="../index.html#contact">Contact</a></li>
@@ -282,7 +291,6 @@
           <p class="horse-card-desc">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l'homme. 
             Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. 
             Taille estimée ~1m45.</p>
-          <p class="horse-card-desc"></p>  <strong style="color:var(--rose-deep)">4 000 €</strong></p>
           <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
@@ -293,7 +301,7 @@
 
       <!-- Fleur -->
       <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Fleur" data-desc="Descendante de Cairnview Archy."
+           data-name="Fleur" data-desc="Née au Domaine Du Vallat (13). Facile sous la selle même avec les enfants, elle toise 1m44."
            data-images='["../img/archy/fleur-01.jpg","../img/archy/Fleur 04.jpg","../img/archy/Fleur 08.jpg","../img/archy/Fleur 05.jpg","../img/archy/Fleur 09.jpg"]'>
         <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
           <img src="../img/archy/fleur-01.jpg" alt="Fleur" style="width:100%;height:100%;object-fit:cover;">
@@ -308,7 +316,7 @@
 
       <!-- Festival -->
       <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Festival" data-desc="Descendant de Cairnview Archy."
+           data-name="Festival" data-desc="Né dans le Gard (30), il toise 1m40, croisé PFS. Un véritable randonneur."
            data-images='["../img/archy/festival-01.jpg","../img/archy/festival-02.jpg"]'>
         <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
           <img src="../img/archy/festival-01.jpg" alt="Festival" style="width:100%;height:100%;object-fit:cover;">
@@ -323,7 +331,7 @@
 
       <!-- Gribaulle -->
       <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Gribouille" data-desc="Descendant de Cairnview Archy."
+           data-name="Gribouille" data-desc="Né d'un croisement avec une maman Morgan. Malheureusement décédé en 2018."
            data-images='["../img/archy/gribouille-01.jpg","../img/archy/gribouille-02.jpg"]'>
         <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
           <img src="../img/archy/gribouille-01.jpg" alt="Gribouille" style="width:100%;height:100%;object-fit:cover;">
@@ -338,7 +346,7 @@
 
       <!-- Inuk -->
       <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Inuk" data-desc="Descendant de Cairnview Archy."
+           data-name="Inuk" data-desc="Né dans la Drôme, il toise 1m53 à 4 ans et est un maitre d'école pour les enfants."
            data-images='["../img/archy/inuk-01.jpg","../img/archy/inuk-02.jpg","../img/archy/Inuk 10.jpg","../img/archy/Inuk 12.jpg"]'>
         <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
           <img src="../img/archy/inuk-01.jpg" alt="Inuk" style="width:100%;height:100%;object-fit:cover;">
@@ -357,32 +365,13 @@
 
 <!-- Galerie -->
 <section style="background:#111;padding:5rem 0;">
-  <style>
-    .ar-carousel { position:relative; max-width:900px; margin:0 auto; }
-    .ar-slides { position:relative; width:100%; aspect-ratio:4/3; overflow:hidden; border-radius:8px; }
-    .ar-slide { position:absolute; inset:0; opacity:0; transition:opacity .5s ease; }
-    .ar-slide.active { opacity:1; }
-    .ar-slide img { width:100%; height:100%; object-fit:cover; }
-    .ar-cap-ext { text-align:center; margin-top:.6rem; font-size:.78rem; color:rgba(255,255,255,.55); min-height:1.2em; letter-spacing:.06em; }
-    .ar-btn { position:absolute; top:50%; transform:translateY(-50%);
-      background:rgba(255,255,255,.15); backdrop-filter:blur(4px);
-      border:none; color:#fff; font-size:1.6rem; width:44px; height:44px;
-      border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
-      transition:background .2s; z-index:2; }
-    .ar-btn:hover { background:rgba(255,255,255,.3); }
-    .ar-prev { left:12px; } .ar-next { right:12px; }
-    .ar-thumbs { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-top:14px; }
-    .ar-thumb { width:56px; height:42px; object-fit:cover; border-radius:4px;
-      cursor:pointer; opacity:.45; transition:opacity .2s; border:2px solid transparent; }
-    .ar-thumb.active { opacity:1; border-color:#C0A050; }
-  </style>
   <div class="section-inner">
     <span class="section-badge" style="color:#B06070;border-color:#B06070;">Photos</span>
     <h2 class="section-title" style="color:#fff;">Galerie <em>photos</em></h2>
     <div class="section-divider"></div>
 
     <div class="ar-carousel" style="margin-top:2.5rem;">
-      <div class="ar-slides" id="arSlides">
+      <div class="ar-slides" id="horseSlides">
         <div class="ar-slide active"><img src="../img/archy/ar-2010 02.jpg" alt="2010" data-cap="2010, en Irlande"></div>
         <div class="ar-slide"><img src="../img/archy/ar-2011 01.jpg" alt="2011" data-cap="2011, à Nord-sur-Erdre (44)"></div>
         <div class="ar-slide"><img src="../img/archy/ar-equita-01.jpg" alt="2012" data-cap="2012, Equita Lyon"></div>
@@ -405,10 +394,10 @@
         <div class="ar-slide"><img src="../img/archy/ar-2025.jpg" alt="2025" data-cap="2025, à Carnas (30)"></div>
         <div class="ar-slide"><img src="../img/archy/ar-2025 02.jpg" alt="2025" data-cap="2025, à Carnas (30)"></div>
       </div>
-      <button class="ar-btn ar-prev" id="arPrev">&#8249;</button>
-      <button class="ar-btn ar-next" id="arNext">&#8250;</button>
-      <div class="ar-cap-ext" id="arCap">2010, en Irlande</div>
-      <div class="ar-thumbs" id="arThumbs"></div>
+      <button class="ar-btn ar-prev" id="horsePrev">&#8249;</button>
+      <button class="ar-btn ar-next" id="horseNext">&#8250;</button>
+      <div class="ar-cap-ext" id="horseCap">2010, en Irlande</div>
+      <div class="ar-thumbs" id="horseThumbs"></div>
     </div>
   </div>
 </section>
@@ -430,138 +419,7 @@
   </div>
 </footer>
 
-<!-- Modal poulain -->
-<style>
-  #foal-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85);
-    z-index:1000; align-items:center; justify-content:center; padding:1rem; }
-  #foal-modal.open { display:flex; }
-  #foal-panel { background:#fff; border-radius:12px; overflow:hidden;
-    display:flex; flex-direction:column; max-width:560px; width:100%;
-    max-height:90vh; box-shadow:0 20px 60px rgba(0,0,0,.5); }
-  #foal-panel-img-wrap { position:relative; background:#111; flex:0 0 auto; }
-  #foal-panel-img { display:block; width:100%; max-height:60vh; object-fit:contain; }
-  #foal-panel-info { padding:1.4rem 1.6rem 1.8rem; }
-  #foal-panel-name { font-size:1.3rem; font-weight:700; margin:0 0 .5rem; color:#1a1a1a; }
-  #foal-panel-desc { font-size:.88rem; color:#555; margin:0; line-height:1.6; }
-  #foal-panel-counter { font-size:.72rem; color:#aaa; margin-top:.6rem; letter-spacing:.06em; }
-  #foal-modal-close { position:absolute; top:10px; right:14px;
-    background:rgba(0,0,0,.5); border:none; color:#fff; font-size:1.2rem;
-    width:32px; height:32px; border-radius:50%; cursor:pointer; z-index:2;
-    display:flex; align-items:center; justify-content:center; }
-  #foal-modal-close:hover { background:rgba(0,0,0,.8); }
-  .foal-nav { position:absolute; top:50%; transform:translateY(-50%);
-    background:rgba(0,0,0,.4); backdrop-filter:blur(4px);
-    border:none; color:#fff; font-size:2rem; width:44px; height:44px;
-    border-radius:50%; cursor:pointer; display:flex; align-items:center;
-    justify-content:center; transition:background .2s; z-index:2; }
-  .foal-nav:hover { background:rgba(0,0,0,.7); }
-  #foal-prev { left:10px; } #foal-next { right:10px; }
-  /* hide nav when only 1 photo */
-  .foal-nav.hidden { display:none; }
-</style>
-
-<div id="foal-modal">
-  <div id="foal-panel">
-    <div id="foal-panel-img-wrap">
-      <button id="foal-modal-close" aria-label="Fermer">✕</button>
-      <button class="foal-nav" id="foal-prev">&#8249;</button>
-      <img id="foal-panel-img" src="" alt="">
-      <button class="foal-nav" id="foal-next">&#8250;</button>
-    </div>
-    <div id="foal-panel-info">
-      <h3 id="foal-panel-name"></h3>
-      <p id="foal-panel-desc"></p>
-      <p id="foal-panel-counter"></p>
-    </div>
-  </div>
-</div>
-
 <script src="../js/main.js"></script>
-<script>
-(function() {
-  /* ── Modal poulain ── */
-  var modal   = document.getElementById('foal-modal');
-  var mImg    = document.getElementById('foal-panel-img');
-  var mName   = document.getElementById('foal-panel-name');
-  var mDesc   = document.getElementById('foal-panel-desc');
-  var mCount  = document.getElementById('foal-panel-counter');
-  var mPrev   = document.getElementById('foal-prev');
-  var mNext   = document.getElementById('foal-next');
-  var mImgs = [], mIdx = 0;
-
-  function openModal(name, desc, imgs) {
-    mImgs = imgs; mIdx = 0;
-    mName.textContent = name;
-    mDesc.textContent = desc;
-    update();
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModal() {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  function update() {
-    mImg.src = mImgs[mIdx];
-    mCount.textContent = mImgs.length > 1 ? (mIdx + 1) + ' / ' + mImgs.length : '';
-    mPrev.classList.toggle('hidden', mImgs.length <= 1);
-    mNext.classList.toggle('hidden', mImgs.length <= 1);
-  }
-  function go(n) { mIdx = (n + mImgs.length) % mImgs.length; update(); }
-
-  document.getElementById('foal-modal-close').addEventListener('click', closeModal);
-  mPrev.addEventListener('click', function(e) { e.stopPropagation(); go(mIdx - 1); });
-  mNext.addEventListener('click', function(e) { e.stopPropagation(); go(mIdx + 1); });
-  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', function(e) {
-    if (!modal.classList.contains('open')) return;
-    if (e.key === 'Escape') closeModal();
-    if (e.key === 'ArrowLeft') go(mIdx - 1);
-    if (e.key === 'ArrowRight') go(mIdx + 1);
-  });
-
-  document.querySelectorAll('.foal-card').forEach(function(card) {
-    card.addEventListener('click', function() {
-      var imgs = JSON.parse(card.dataset.images);
-      openModal(card.dataset.name, card.dataset.desc, imgs);
-    });
-  });
-
-  /* ── Main gallery carousel ── */
-  var slides = document.querySelectorAll('#arSlides .ar-slide');
-  var thumbsEl = document.getElementById('arThumbs');
-  var capEl = document.getElementById('arCap');
-  var cur = 0;
-
-  slides.forEach(function(sl, i) {
-    var img = sl.querySelector('img');
-    var th = document.createElement('img');
-    th.src = img.src; th.alt = img.alt;
-    th.className = 'ar-thumb' + (i === 0 ? ' active' : '');
-    th.addEventListener('click', function() { goTo(i); });
-    thumbsEl.appendChild(th);
-  });
-
-  function goTo(n) {
-    slides[cur].classList.remove('active');
-    thumbsEl.querySelectorAll('.ar-thumb')[cur].classList.remove('active');
-    cur = (n + slides.length) % slides.length;
-    slides[cur].classList.add('active');
-    thumbsEl.querySelectorAll('.ar-thumb')[cur].classList.add('active');
-    if (capEl) capEl.textContent = slides[cur].querySelector('img').dataset.cap || '';
-  }
-
-  document.getElementById('arPrev').addEventListener('click', function() { goTo(cur - 1); });
-  document.getElementById('arNext').addEventListener('click', function() { goTo(cur + 1); });
-
-  var ts = 0;
-  document.getElementById('arSlides').addEventListener('touchstart', function(e) { ts = e.touches[0].clientX; }, {passive:true});
-  document.getElementById('arSlides').addEventListener('touchend', function(e) {
-    var dx = e.changedTouches[0].clientX - ts;
-    if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
-  }, {passive:true});
-})();
-</script>
 
 
 </body>

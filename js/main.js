@@ -124,12 +124,8 @@ if (revealEls.length) {
   // Pas de handler par img → aucun problème de slides empilés/opacité.
   const carousels = [
     { containerSel: '#qsnSlides', imgsSel: '#qsnSlides .qsn-slide img', activeSel: '#qsnSlides .qsn-slide.active img'},
-    { containerSel: '#arSlides', imgsSel: '#arSlides .ar-slide img', activeSel: '#arSlides .ar-slide.active img' },
-    { containerSel: '#avMain',   imgsSel: '#avMain img[data-cap]',   activeSel: '#avMain img.on'                },
+    { containerSel: '#horseSlides', imgsSel: '#horseSlides .ar-slide img', activeSel: '#horseSlides .ar-slide.active img' },
     { containerSel: '#kaSlides', imgsSel: '#kaSlides .ka-slide img', activeSel: '#kaSlides .ka-slide.active img'},
-    { containerSel: '#suSlides', imgsSel: '#suSlides .su-slide img', activeSel: '#suSlides .su-slide.active img'},
-    { containerSel: '#saSlides', imgsSel: '#saSlides .sa-slide img', activeSel: '#saSlides .sa-slide.active img'},
-    { containerSel: '#rjSlides', imgsSel: '#rjSlides .rj-slide img', activeSel: '#rjSlides .rj-slide.active img'},
     { containerSel: '#rvSlides', imgsSel: '#rvSlides .rv-slide img', activeSel: '#rvSlides .rv-slide.active img'},
     { containerSel: '#jbSlides', imgsSel: '#jbSlides .jb-slide img', activeSel: '#jbSlides .jb-slide.active img'},
   ];
@@ -147,6 +143,120 @@ if (revealEls.length) {
       if (!activeImg) return;
       const idx = srcs.indexOf(activeImg.src);
       openLb(srcs, idx >= 0 ? idx : 0, caps);
+    });
+  });
+})();
+
+// ── Carousel cheval ────────────────────────────────────────────────────────────
+(function () {
+  const slidesEl = document.getElementById('horseSlides');
+  if (!slidesEl) return;
+
+  const slides   = slidesEl.querySelectorAll('.ar-slide');
+  const thumbsEl = document.getElementById('horseThumbs');
+  const capEl    = document.getElementById('horseCap');
+  let cur = 0;
+
+  // Génère les vignettes
+  slides.forEach((sl, i) => {
+    const img = sl.querySelector('img');
+    const th  = document.createElement('img');
+    th.src = img.src; th.alt = img.alt;
+    th.className = 'ar-thumb' + (i === 0 ? ' active' : '');
+    th.addEventListener('click', () => goTo(i));
+    thumbsEl.appendChild(th);
+  });
+
+  // Initialise la légende sur la première slide
+  if (capEl) capEl.textContent = slides[0].querySelector('img').dataset.cap || '';
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    thumbsEl.querySelectorAll('.ar-thumb')[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    thumbsEl.querySelectorAll('.ar-thumb')[cur].classList.add('active');
+    if (capEl) capEl.textContent = slides[cur].querySelector('img').dataset.cap || '';
+  }
+
+  document.getElementById('horsePrev').addEventListener('click', () => goTo(cur - 1));
+  document.getElementById('horseNext').addEventListener('click', () => goTo(cur + 1));
+
+  // Swipe tactile
+  let ts = 0;
+  slidesEl.addEventListener('touchstart', e => { ts = e.touches[0].clientX; }, {passive:true});
+  slidesEl.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - ts;
+    if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
+  }, {passive:true});
+})();
+
+// ── Modal descendants (foal-card) ──────────────────────────────────────────────
+(function () {
+  if (!document.querySelector('.foal-card')) return;
+
+  // Injection HTML (évite de dupliquer dans chaque page)
+  document.body.insertAdjacentHTML('beforeend', `
+    <div id="foal-modal">
+      <div id="foal-panel">
+        <div id="foal-panel-img-wrap">
+          <button id="foal-modal-close" aria-label="Fermer">✕</button>
+          <button class="foal-nav" id="foal-prev">&#8249;</button>
+          <img id="foal-panel-img" src="" alt="">
+          <button class="foal-nav" id="foal-next">&#8250;</button>
+        </div>
+        <div id="foal-panel-info">
+          <h3 id="foal-panel-name"></h3>
+          <p id="foal-panel-desc"></p>
+          <p id="foal-panel-counter"></p>
+        </div>
+      </div>
+    </div>`);
+
+  const modal  = document.getElementById('foal-modal');
+  const mImg   = document.getElementById('foal-panel-img');
+  const mName  = document.getElementById('foal-panel-name');
+  const mDesc  = document.getElementById('foal-panel-desc');
+  const mCount = document.getElementById('foal-panel-counter');
+  const mPrev  = document.getElementById('foal-prev');
+  const mNext  = document.getElementById('foal-next');
+  let mImgs = [], mIdx = 0;
+
+  function openModal(name, desc, imgs, startIdx) {
+    mImgs = imgs; mIdx = (startIdx >= 0 && startIdx < imgs.length) ? startIdx : 0;
+    mName.textContent = name;
+    mDesc.textContent = desc;
+    update();
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function update() {
+    mImg.src = mImgs[mIdx];
+    mCount.textContent = mImgs.length > 1 ? (mIdx + 1) + ' / ' + mImgs.length : '';
+    mPrev.classList.toggle('hidden', mImgs.length <= 1);
+    mNext.classList.toggle('hidden', mImgs.length <= 1);
+  }
+  function go(n) { mIdx = (n + mImgs.length) % mImgs.length; update(); }
+
+  document.getElementById('foal-modal-close').addEventListener('click', closeModal);
+  mPrev.addEventListener('click', e => { e.stopPropagation(); go(mIdx - 1); });
+  mNext.addEventListener('click', e => { e.stopPropagation(); go(mIdx + 1); });
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape')     closeModal();
+    if (e.key === 'ArrowLeft')  go(mIdx - 1);
+    if (e.key === 'ArrowRight') go(mIdx + 1);
+  });
+
+  document.querySelectorAll('.foal-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const imgs = JSON.parse(card.dataset.images);
+      openModal(card.dataset.name, card.dataset.desc, imgs, 0);
     });
   });
 })();
@@ -187,6 +297,31 @@ if (shareBtn) {
     }
   });
 }
+
+// ── Photo pedigree — zoom plein écran ─────────────────────────────────────────
+(function () {
+  const photos = document.querySelectorAll('.pedigree-node-photo');
+  if (!photos.length) return;
+
+  const ov = document.createElement('div');
+  ov.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out;';
+  const img = document.createElement('img');
+  img.style.cssText = 'max-width:88vw;max-height:88vh;object-fit:contain;border-radius:8px;box-shadow:0 16px 60px rgba(0,0,0,.9);cursor:default;';
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '✕';
+  closeBtn.style.cssText = 'position:absolute;top:1rem;right:1.5rem;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:1.3rem;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+  ov.append(closeBtn, img);
+  document.body.appendChild(ov);
+
+  function open(src) { img.src = src; ov.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+  function close()   { ov.style.display = 'none'; document.body.style.overflow = ''; }
+
+  photos.forEach(p => p.addEventListener('click', () => open(p.src)));
+  closeBtn.addEventListener('click', e => { e.stopPropagation(); close(); });
+  ov.addEventListener('click', close);
+  img.addEventListener('click', e => e.stopPropagation());
+  document.addEventListener('keydown', e => { if (ov.style.display !== 'none' && e.key === 'Escape') close(); });
+})();
 
 // Formulaire contact — feedback visuel simple
 const form = document.querySelector('.contact-form form');

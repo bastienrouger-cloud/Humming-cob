@@ -215,6 +215,19 @@
       flex-basis: 100%;
       margin-top: 0.1rem;
     }
+    .robe-pill {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(212,137,154,0.10);
+      border: 1px solid rgba(176,96,112,0.22);
+      color: var(--rose-deep);
+      border-radius: 20px;
+      padding: .18rem .65rem;
+      font-size: .67rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      align-self: flex-start;
+    }
     .info-panel-empty {
       width: 100%;
       text-align: center;
@@ -266,6 +279,30 @@
       border-radius: 4px;
       border-left: 2px solid rgba(176,96,112,0.25);
     }
+
+    /* Lightbox photo arbre */
+    #lb-photo-ov {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.92); z-index: 9000;
+      align-items: center; justify-content: center;
+      flex-direction: column; gap: 1rem; cursor: zoom-out;
+    }
+    #lb-photo-ov img {
+      max-width: 88vw; max-height: 80vh; object-fit: contain;
+      border-radius: 8px; box-shadow: 0 16px 60px rgba(0,0,0,.9); cursor: default;
+    }
+    #lb-photo-ov .lb-name {
+      color: rgba(255,255,255,.75); font-family: var(--serif);
+      font-size: 1.2rem; font-weight: 300; font-style: italic;
+      pointer-events: none;
+    }
+    #lb-photo-close {
+      position: absolute; top: 1rem; right: 1.5rem;
+      background: rgba(255,255,255,.12); border: none; color: #fff;
+      font-size: 1.3rem; width: 38px; height: 38px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    #lb-photo-close:hover { background: rgba(255,255,255,.28); }
 
     /* Legend */
     .legend {
@@ -336,8 +373,9 @@
 
 <script>
 // ── RADII
-const R        = 12;
-const R_ACTIVE = 52;
+const R          = 12;
+const R_ACTIVE   = 52;
+const R_SELECTED = 64;
 
 // ── PHOTOS
 const PHOTOS = {
@@ -393,127 +431,145 @@ const PHOTOS = {
 // ── DATA
 const DATA = [
   // Ancêtres externes
-  { id:'llewewin',   sex:'s', ext:true, em:'Cairnview Llewelyn', sub:'2004 · Tobiano Noir · IRL',
-    tip:{ parents:'Mr. Morris × Carrigburns Lady', info:'Père de Cairnview Archy. Irish Tinker, 158cm.' } },
-  { id:'kressa',     sex:'m', ext:true, em:'Cairnview Kessia',  sub:'~2004 · IRL',
-    tip:{ info:'Mère de Cairnview Archy.' } },
-  { id:'mrmorris',   sex:'s', ext:true, em:'Mr. Morris',         sub:'1996 · Noir Pinto · IRL',
-    tip:{ info:"Grand-père paternel d'Archy. Gypsy Vanner, étalon élite ICS 03004086." } },
-  { id:'carrigburns',sex:'m', ext:true, em:'Carrigburns Lady',   sub:'1998 · Tobiano Noir · IRL',
-    tip:{ info:"Grand-mère paternelle d'Archy. Gypsy Vanner, 1.60m. FM03002132." } },
-  { id:'talk',     sex:'s', ext:true, em:'San Cler Talk Of The Town', sub:'San Cler · Alezan · 14hh',
+  { id:'llewewin',    sex:'s', ext:true,  em:'Cairnview Llewelyn',        sub:'Cairnview · IRL',
+    naissance:'2004',  robe:'Tobiano Noir',
+    tip:{ parents:'Mr. Morris × Carrigburns Lady', info:'Irish Tinker, 158 cm.' } },
+  { id:'kressa',      sex:'m', ext:true,  em:'Cairnview Kessia',           sub:'Cairnview · IRL',
+    naissance:'~2004',
+    tip:{} },
+  { id:'mrmorris',    sex:'s', ext:true,  em:'Mr. Morris',                 sub:'IRL',
+    naissance:'1996',  robe:'Noir Pinto',
+    tip:{ info:"Étalon élite ICS 03004086." } },
+  { id:'carrigburns', sex:'m', ext:true,  em:'Carrigburns Lady',           sub:'IRL',
+    naissance:'1998',  robe:'Tobiano Noir',
+    tip:{ info:"Gypsy Vanner, 1,60 m. FM03002132." } },
+  { id:'talk',        sex:'s', ext:true,  em:'San Cler Talk Of The Town',  sub:'San Cler',
+    robe:'Alezan',
     tip:{ parents:'The Milky Bar Kid × San Cler Orange Pop',
-          info:'Père de San Cler Avantgarde. Lignée San Cler, porteur double pearl.' } },
-  { id:'uptown',   sex:'m', ext:true, em:'San Cler Uptown Girl',      sub:'San Cler · 2018 · Bai noir',
+          info:'Porteur double pearl. 14hh.' } },
+  { id:'uptown',      sex:'m', ext:true,  em:'San Cler Uptown Girl',       sub:'San Cler',
+    naissance:'2018',  robe:'Bai Noir',
     tip:{ parents:'San Cler Razzamataz × San Cler Coffee Creme',
-          info:'Mère de San Cler Avantgarde. Gypsy Vanner bai noir.' } },
-  { id:'kuarahy',  sex:'s', ext:true, em:'Kuarahy OMD',      sub:'étalon externe',
-    tip:{ info:"Père de Nuran DC et Omamori HC (× SD Suzie), et d'Orion (× SD Ruby Jane)." } },
-  { id:'flash',    sex:'s', ext:true, em:'SD Flash Harry',   sub:'2005 · Bai Sabino · 14hh',
+          info:'Gypsy Vanner.' } },
+  { id:'kuarahy',     sex:'s', ext:true,  em:'Kuarahy OMD',               sub:'',
+    tip:{} },
+  { id:'flash',       sex:'s', ext:true,  em:'SD Flash Harry',             sub:'SD',
+    naissance:'2005',  robe:'Bai Sabino',
     tip:{ parents:'SD Jim × SD Pink Palomino',
-          info:'Père de Cherry Oh Baby, One Stop The Top, Sakura, Ruby Jane et Jinba Ittaï HC (× SD Suzie), et de SD Red Velvet (× SD Lizzy). GVHS GV13705P.' } },
-  { id:'lizzy',    sex:'m', ext:true, em:'SD Lizzy',         sub:'',
-    tip:{ info:'Mère de SD Red Velvet.' } },
-  { id:'mystic',   sex:'m', ext:true, em:"Mystic de L'Oume", sub:"Le Cros de l'Oume",
-    tip:{ info:"Mère de Qinaï." } },
-  { id:'woolly',    sex:'s', ext:true, em:'SD Woolly Mammoth', sub:'2002 · Noir · 13.3hh · GBR',
+          info:'GVHS GV13705P. 14hh.' } },
+  { id:'lizzy',       sex:'m', ext:true,  em:'SD Lizzy',                   sub:'SD',
+    tip:{} },
+  { id:'mystic',      sex:'m', ext:true,  em:"Mystic de L'Oume",           sub:"Le Cros de l'Oume",
+    tip:{} },
+  { id:'woolly',      sex:'s', ext:true,  em:'SD Woolly Mammoth',          sub:'SD',
+    naissance:'2002',  robe:'Noir',
     tip:{ parents:'Samson of Wales × Sovereign',
-          info:"Père de SD Suzie. Gypsy Vanner, GVHS GV04025." } },
-  { id:'olivia',    sex:'m', ext:true, em:'SD Olivia',         sub:'Alezan · Gypsy Vanner',
-    tip:{ info:"Mère de SD Suzie. Parents inconnus." } },
-  { id:'samson',    sex:'s', ext:true, em:'Samson of Wales',   sub:'~2000 · Noir Tobiano · GBR',
+          info:'Gypsy Vanner, 13.3hh. GVHS GV04025.' } },
+  { id:'olivia',      sex:'m', ext:true,  em:'SD Olivia',                  sub:'SD',
+    robe:'Alezan',
+    tip:{ info:'Parents inconnus.' } },
+  { id:'samson',      sex:'s', ext:true,  em:'Samson of Wales',            sub:'GBR',
+    naissance:'~2000', robe:'Noir Tobiano',
     tip:{ parents:'The Old Horse of Wales × The Sweeper Mare',
-          info:"Grand-père paternel de SD Suzie. Gypsy Vanner." } },
-  { id:'sovereign', sex:'m', ext:true, em:'Sovereign',         sub:'1998 · Noir Tobiano · GBR',
-    tip:{ parents:'Bob the Blagdon × Price\'s Red & White Mare',
-          info:"Grand-mère paternelle de SD Suzie. Aka SD Sovereign. GVHS GV00053F." } },
-  { id:'sdjim',      sex:'s', ext:true, em:'SD Jim',             sub:'2003 · Noir · 15hh · GBR',
+          info:'Gypsy Vanner.' } },
+  { id:'sovereign',   sex:'m', ext:true,  em:'Sovereign',                  sub:'GBR',
+    naissance:'1998',  robe:'Noir Tobiano',
+    tip:{ parents:"Bob the Blagdon × Price's Red & White Mare",
+          info:'Aka SD Sovereign. GVHS GV00053F.' } },
+  { id:'sdjim',       sex:'s', ext:true,  em:'SD Jim',                     sub:'SD',
+    naissance:'2003',  robe:'Noir',
     tip:{ parents:'Bob the Blagdon × The Sweeper Mare',
-          info:"Père de SD Flash Harry. Aka Nero. TGCA HSR06SL." } },
-  { id:'pinkpal',    sex:'m', ext:true, em:'SD Pink Palomino',   sub:'Alezan · Gypsy Vanner',
-    tip:{ info:"Mère de SD Flash Harry. Parents inconnus." } },
-  { id:'milkybar',    sex:'s', ext:true, em:'The Milky Bar Kid',     sub:'2005 · Palomino Pearl · IRL',
-    tip:{ info:"Grand-père paternel d'Avantgarde. Gypsy Vanner Palomino Pearl. PSSM1 N/N." } },
-  { id:'orangepop',   sex:'m', ext:true, em:'San Cler Orange Pop',   sub:'2014 · Alezan · San Cler',
-    tip:{ info:"Grand-mère paternelle d'Avantgarde. Mère de San Cler Talk Of The Town." } },
-  { id:'razzamataz',  sex:'s', ext:true, em:'San Cler Razzamataz',   sub:'2015 · Buckskin · San Cler',
-    tip:{ parents:'San Cler Creme Cracker × San Cler Creme Dream', info:"Grand-père maternel d'Avantgarde. Père de San Cler Uptown Girl." } },
-  { id:'coffeecreme', sex:'m', ext:true, em:'San Cler Coffee Creme', sub:'2010 · Noir · San Cler',
-    tip:{ parents:'Cimla Jimboy × Black Shirley', info:"Grand-mère maternelle d'Avantgarde. Mère de San Cler Uptown Girl." } },
+          info:'Aka Nero. 15hh. TGCA HSR06SL.' } },
+  { id:'pinkpal',     sex:'m', ext:true,  em:'SD Pink Palomino',           sub:'SD',
+    robe:'Palomino',
+    tip:{ info:'Parents inconnus.' } },
+  { id:'milkybar',    sex:'s', ext:true,  em:'The Milky Bar Kid',          sub:'San Cler · IRL',
+    naissance:'2005',  robe:'Palomino Pearl',
+    tip:{ info:'Gypsy Vanner Palomino Pearl. PSSM1 N/N.' } },
+  { id:'orangepop',   sex:'m', ext:true,  em:'San Cler Orange Pop',        sub:'San Cler',
+    naissance:'2014',  robe:'Alezan',
+    tip:{} },
+  { id:'razzamataz',  sex:'s', ext:true,  em:'San Cler Razzamataz',        sub:'San Cler',
+    naissance:'2015',  robe:'Buckskin',
+    tip:{ parents:'San Cler Creme Cracker × San Cler Creme Dream' } },
+  { id:'coffeecreme', sex:'m', ext:true,  em:'San Cler Coffee Creme',      sub:'San Cler',
+    naissance:'2010',  robe:'Noir',
+    tip:{ parents:'Cimla Jimboy × Black Shirley' } },
 
   // Reproducteurs
-  { id:'archy',     sex:'s', elite:true, em:'Cairnview Archy',   sub:'Champion de France',
+  { id:'archy',     sex:'s', elite:true, em:'Cairnview Archy',             sub:'Élite grade 1',
     page:'reproducteurs/archy.html',
-    extLink: 'https://beta.allbreedpedigree.com/cairnview-archy-YNYc0meY/pedigree',
-    tip:{ statut:'Élite grade 1', titre:'Champion de France loisir junior',
-          parents:'Cairnview Llewelyn × Cairnview Kessia',
-          info:"Père de Nashi HC, Fleur Du Vallat, Festival De Lohé, Gribouille et Inuk De L'Oume. Lignée Cairnview." } },
-  { id:'avangarde', sex:'s',             em:'San Cler Avantgarde',sub:'Vice-Champion 2025',
-    page:'reproducteurs/avangarde.html',
-    extLink:'https://beta.allbreedpedigree.com/san-cler-avantgarde-puIDOJXD',
-    tip:{ titre:'Vice-Champion France 2025 — 4 ans',
-          parents:'San Cler Talk Of The Town × San Cler Uptown Girl',
-          info:'Bay Pearl Gypsy Vanner · né 24/05/2022 · GBR. Père de Quercus Kaeru HC, Qinaï et Qoulitch.' } },
-  { id:'suzie',     sex:'m',             em:'SD Suzie',           sub:'débourrée montée',
+    tip:{ parents:'Cairnview Llewelyn × Cairnview Kessia',
+          info:'Étalon irlandais, lignée Cairnview. Champion de France loisir junior.' } },
+  { id:'avangarde', sex:'s',             em:'San Cler Avantgarde',         sub:'Vice-Champion France 2025',
+    page:'reproducteurs/avantgarde.html',
+    naissance:'24/05/2022', robe:'Bay Pearl',
+    tip:{ parents:'San Cler Talk Of The Town × San Cler Uptown Girl',
+          info:'Gypsy Vanner Bay Pearl, né en GBR.' } },
+  { id:'suzie',     sex:'m',             em:'SD Suzie',                    sub:'Facteur Irish Cob',
     page:'reproducteurs/suzie.html',
-    extLink:'https://beta.allbreedpedigree.com/sd-suzie-DDyIIowt/pedigree',
     tip:{ parents:'SD Woolly Mammoth × SD Olivia',
-          info:'Mère de Cherry Oh Baby, One Stop The Top, Sakura, Ruby Jane, Jinba Ittaï HC, Nuran DC, Omamori HC et Quercus Kaeru HC.' } },
-  { id:'sakura',    sex:'m', elite:true, em:'SD Sakura',          sub:'débourrée montée',
+          info:'Débourrée montée. Mère de la lignée Humming Cob.' } },
+  { id:'sakura',    sex:'m', elite:true, em:'SD Sakura',                   sub:'Élite grade 1',
     page:'reproducteurs/sakura.html',
-    extLink:'https://beta.allbreedpedigree.com/sd-sakura-6qgyVP5l/pedigree',
-    tip:{ statut:'Élite grade 1', parents:'SD Flash Harry × SD Suzie',
-          info:"Mère de Nashi. Sœur complète de Ruby Jane. Née 26/04/2017, Bai Sabino." } },
-  { id:'ruby',      sex:'m', elite:true, em:'SD Ruby Jane',       sub:'par SD Flash Harry',
+    naissance:'26/04/2017', robe:'Bai Sabino',
+    tip:{ parents:'SD Flash Harry × SD Suzie',
+          info:'Sœur complète de Ruby Jane.' } },
+  { id:'ruby',      sex:'m', elite:true, em:'SD Ruby Jane',                sub:'Élite grade 1',
     page:'reproducteurs/ruby-jane.html',
-    extLink:'https://beta.allbreedpedigree.com/sd-ruby-jane-1rzkJWsD/pedigree',
-    tip:{ statut:'Élite grade 1', parents:'SD Flash Harry × SD Suzie',
-          info:'Mère de Neelu DC, Orion et Qoulitch. Sœur complète de Sakura.' } },
+    robe:'Bai Sabino',
+    tip:{ parents:'SD Flash Harry × SD Suzie',
+          info:'Sœur complète de Sakura. Débourrée montée.' } },
 
-  // Poulains vivants
-  { id:'fleur',     sex:'g', foal:true, hidden:true, em:'Fleur Du Vallat',
-    tip:{ parents:'Cairnview Archy', info:"Poulain d'Archy, hors élevage Humming Cob." } },
-  { id:'festival',  sex:'g', foal:true, hidden:true, em:'Festival De Lohé',
-    tip:{ parents:'Cairnview Archy', info:"Poulain d'Archy, hors élevage." } },
-  { id:'gribaulle', sex:'g', foal:true, hidden:true, em:'Gribouille',
-    tip:{ parents:'Cairnview Archy', info:"Poulain d'Archy, hors élevage." } },
-  { id:'inur',      sex:'g', foal:true, hidden:true, em:"Inuk De L'Oume",
-    tip:{ parents:'Cairnview Archy', info:"Poulain d'Archy, hors élevage." } },
-  { id:'nashi',     sex:'g', foal:true, em:'Nashi HC',               sub:'2 ans · bai · 4 000 €',
-    page:'poulains/nashi.html',
+  // Poulains
+  { id:'fleur',     sex:'g', foal:true, hidden:true, em:'Fleur Du Vallat',    sub:'',
+    tip:{ parents:'Cairnview Archy', info:'Hors élevage Humming Cob.' } },
+  { id:'festival',  sex:'g', foal:true, hidden:true, em:'Festival De Lohé',   sub:'',
+    tip:{ parents:'Cairnview Archy', info:'Hors élevage.' } },
+  { id:'gribaulle', sex:'g', foal:true, hidden:true, em:'Gribouille',          sub:'',
+    tip:{ parents:'Cairnview Archy', info:'Hors élevage.' } },
+  { id:'inur',      sex:'g', foal:true, hidden:true, em:"Inuk",     sub:"Le Cros de l'Oume",
+    tip:{ parents:'Cairnview Archy', info:'Hors élevage.' } },
+  { id:'nashi',     sex:'g', foal:true, em:'Nashi HC',                         sub:'',
+    page:'poulains/nashi.html', naissance:'13/01/2024', robe:'Bai',
     tip:{ parents:'Cairnview Archy × SD Sakura',
           info:"Espiègle, pétillant, proche de l'homme. TAP, TREC, rando." } },
-  { id:'cherry',    sex:'m', foal:true, hidden:true, em:'SD Cherry Oh Baby', sub:'2016 · hors élevage',
-    tip:{ parents:'SD Flash Harry × SD Suzie', info:"Née en 2016. Bai. Première fille de Suzie." } },
-  { id:'onestop',   sex:'m', foal:true, hidden:true, em:'SD One Stop The Top', sub:'Alezan Sabino · hors élevage',
-    tip:{ parents:'SD Flash Harry × SD Suzie', info:"Alezan Sabino. Fille de Flash Harry et Suzie. Hors élevage." } },
-  { id:'kaeru',     sex:'s', foal:true, em:'Quercus Kaeru HC',       sub:'né prématurément · 2026',
+  { id:'cherry',    sex:'m', foal:true, hidden:true, em:'SD Cherry Oh Baby',   sub:'SD',
+    naissance:'2016', robe:'Bai',
+    tip:{ parents:'SD Flash Harry × SD Suzie', info:'Première fille de Suzie. Hors élevage.' } },
+  { id:'onestop',   sex:'m', foal:true, hidden:true, em:'SD One Stop The Top', sub:'SD',
+    robe:'Alezan Sabino',
+    tip:{ parents:'SD Flash Harry × SD Suzie', info:'Hors élevage.' } },
+  { id:'kaeru',     sex:'s', foal:true, em:'Quercus Kaeru HC',                 sub:'',
+    page:'poulains/kaeru.html', naissance:'13/05/2026', robe:'Noir Pearl',
     tip:{ parents:'San Cler Avantgarde × SD Suzie',
-          info:'Né prématurément le 13 mai 2026. Noir pearl.' } },
-  { id:'qinai',     sex:'s', foal:true, hidden:true, em:"Qinaï",  sub:"né 13 mai · Le Cros de l'Oume",
-    tip:{ parents:"San Cler Avantgarde × Mystic de L'Oume",
-          info:"Né le 13 mai 2026. Bai pearl. Élevage Le Cros de l'Oume." } },
-  { id:'nuran',     sex:'s', foal:true, hidden:true, em:'Nuran DC',          sub:'2023 · Smoky Grulla',
-    tip:{ parents:'Kuarahy OMD × SD Suzie', info:'Né en 2023. Smoky Grulla. Hors élevage.' } },
-  { id:'omamori',   sex:'s', foal:true, em:'Omamori HC',             sub:'2 ans · Grullo Silver · 4 500 €',
-    page:'poulains/omamori.html',
+          info:'Né prématurément.' } },
+  { id:'qinai',     sex:'s', foal:true, hidden:true, em:"Qinaï",               sub:"Le Cros de l'Oume",
+    naissance:'13/05/2026', robe:'Bai Pearl',
+    tip:{ parents:"San Cler Avantgarde × Mystic de L'Oume" } },
+  { id:'nuran',     sex:'s', foal:true, hidden:true, em:'Nuran DC',             sub:'',
+    naissance:'2023', robe:'Smoky Grulla',
+    tip:{ parents:'Kuarahy OMD × SD Suzie', info:'Hors élevage.' } },
+  { id:'omamori',   sex:'s', foal:true, em:'Omamori HC',                        sub:'',
+    page:'poulains/omamori.html', naissance:'05/04/2024', robe:'Grullo Silver',
     tip:{ parents:'Kuarahy OMD × SD Suzie',
           info:'Robe Grullo Silver rarissime. Intelligent, polyvalent.' } },
-  { id:'neelu',     sex:'m', foal:true, hidden:true, em:'Neelu DC',          sub:'2023 · Jument',
-    tip:{ parents:'SD Ruby Jane (père non documenté)', info:'Née en 2023. Fille de Ruby Jane.' } },
-  { id:'qoulitch',  sex:'s', foal:true, hidden:true, em:'Qoulitch',          sub:'né 23 mai · Élevage Yasuke',
-    tip:{ parents:'San Cler Avantgarde × SD Ruby Jane',
-          info:'Né le 23 mai 2026. Bai pearl. Élevage Yasuke.' } },
-  { id:'orion',     sex:'s', foal:true, em:'Orion HC',               sub:'2 ans · Grullo Silver · 3 500 €',
-    page:'poulains/orion.html',
+  { id:'neelu',     sex:'m', foal:true, hidden:true, em:'Neelu DC',             sub:'',
+    naissance:'2023',
+    tip:{ parents:'SD Ruby Jane (père non documenté)' } },
+  { id:'qoulitch',  sex:'s', foal:true, hidden:true, em:'Qoulitch',             sub:'Élevage Yasuke',
+    naissance:'23/05/2026', robe:'Bai Pearl',
+    tip:{ parents:'San Cler Avantgarde × SD Ruby Jane' } },
+  { id:'orion',     sex:'s', foal:true, em:'Orion HC',                          sub:'',
+    page:'poulains/orion.html', naissance:'11/04/2024', robe:'Grullo Silver',
     tip:{ parents:'Kuarahy OMD × SD Ruby Jane',
           info:"Fin, élégant, sensible. Grand amoureux de l'humain." } },
 
   // Vendue
-  { id:'jinba',  sex:'m', foal:true, hidden:true, em:'Jinba Ittaï HC', sub:'2019 · vendue',
-    tip:{ parents:'SD Flash Harry × SD Suzie',
-          info:'Black Roan. Née le 4 avril 2019. Vendue.' } },
-  { id:'velvet', sex:'m', memorial:true, em:'SD Red Velvet',  sub:'— †2020',
+  { id:'jinba',  sex:'m', foal:true, hidden:true, em:'Jinba Ittaï HC',         sub:'vendue',
+    page:'poulains/Jinba-Ittaï.html', naissance:'04/04/2019', robe:'Black Roan',
+    tip:{ parents:'SD Flash Harry × SD Suzie' } },
+  { id:'velvet', sex:'m', memorial:true,           em:'SD Red Velvet',          sub:'† 2020',
     page:'memoire.html',
     tip:{ parents:'SD Flash Harry × SD Lizzy',
           info:'Gypsy Vanner. Décédée en 2020.' } },
@@ -676,19 +732,34 @@ const EMPTY_HTML = '<div class="info-panel-empty">Survoler un cheval pour voir s
 function showPanel(h) {
   const t = h.tip || {};
   let fields = '';
-  if(t.statut)  fields += `<span class="field"><strong>Statut :</strong> ${t.statut}</span>`;
-  if(t.titre)   fields += `<span class="field"><strong>Titre :</strong> ${t.titre}</span>`;
-  if(t.parents) fields += `<span class="field"><strong>Parents :</strong> ${t.parents}</span>`;
-  if(t.lignee)  fields += `<span class="field"><strong>Lignée :</strong> ${t.lignee}</span>`;
-  if(t.info)    fields += `<span class="info-panel-info">${t.info}</span>`;
 
-  // Nom — mise en italique du dernier mot si reproducteur (style site)
+  // Robe — pastille pill (option A)
+  if(h.robe) fields += `<span class="robe-pill">${h.robe}</span>`;
+
+  // Date de naissance
+  const naissLabel = (h.sex === 'm') ? 'Née' : 'Né';
+  if(h.naissance) fields += `<span class="field"><strong>${naissLabel} :</strong> ${h.naissance}</span>`;
+
+  // Parents
+  if(t.parents) fields += `<span class="field"><strong>Parents :</strong> ${t.parents}</span>`;
+
+  // Descendants (calculés depuis RELS)
+  const children = RELS
+    .filter(r => r.p1 === h.id || r.p2 === h.id)
+    .map(r => DATA.find(d => d.id === r.c))
+    .filter(Boolean);
+  if(children.length) {
+    fields += `<span class="field"><strong>Descendants :</strong> ${children.map(c => c.em).join(', ')}</span>`;
+  }
+
+
+  // Nom — dernier mot en italique
   const words = h.em.split(' ');
   const nameHtml = words.length > 1
     ? words.slice(0, -1).join(' ') + ' <em>' + words[words.length - 1] + '</em>'
     : `<em>${h.em}</em>`;
 
-  const subLabel = h.sub || (h.ext ? 'Ancêtre externe' : '');
+  const subLabel = h.sub || '';
 
   infoPanel.innerHTML = `
     <div class="info-panel-name">
@@ -696,7 +767,7 @@ function showPanel(h) {
       ${subLabel ? `<div class="sub">${subLabel}</div>` : ''}
     </div>
     <div class="info-panel-fields">${fields}</div>
-    ${(h.page || h.extLink) ? `<div class="info-panel-cta">${h.page ? `<a href="${h.page}">Voir la fiche →</a>` : ''}${h.extLink ? `<a href="${h.extLink}" target="_blank" rel="noopener" style="margin-left:.6rem">Pédigrée ↗</a>` : ''}</div>` : ''}
+    ${h.page ? `<div class="info-panel-cta"><a href="${h.page}">Voir la fiche →</a></div>` : ''}
   `;
   infoPanel.classList.add('active');
 }
@@ -741,8 +812,9 @@ function applyState() {
     }
 
     // Taille du cercle
+    const isSelected = activeNode && d.id === activeNode.id;
     if(circleEls[d.id]) {
-      circleEls[d.id].setAttribute('r', revealed ? R_ACTIVE : R);
+      circleEls[d.id].setAttribute('r', isSelected ? R_SELECTED : (revealed ? R_ACTIVE : R));
     }
 
     // Photo
@@ -753,10 +825,35 @@ function applyState() {
     // Étoile élite — suit le cercle
     if(starEls[d.id]) {
       const p = POS[d.id];
-      starEls[d.id].setAttribute('y', revealed ? p.y - R_ACTIVE - 6 : p.y - R - 8);
+      const rNow = isSelected ? R_SELECTED : (revealed ? R_ACTIVE : R);
+      starEls[d.id].setAttribute('y', revealed ? p.y - rNow - 6 : p.y - R - 8);
     }
   });
 }
+
+// ── LIGHTBOX photo (nœuds sans page dédiée)
+const lbOv = document.createElement('div');
+lbOv.id = 'lb-photo-ov';
+const lbPhotoClose = document.createElement('button');
+lbPhotoClose.id = 'lb-photo-close'; lbPhotoClose.textContent = '✕';
+const lbPhotoImg = document.createElement('img');
+const lbPhotoName = document.createElement('div');
+lbPhotoName.className = 'lb-name';
+lbOv.append(lbPhotoClose, lbPhotoImg, lbPhotoName);
+document.body.appendChild(lbOv);
+
+function openPhotoLb(h) {
+  lbPhotoImg.src = PHOTOS[h.id];
+  lbPhotoName.textContent = h.em;
+  lbOv.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closePhotoLb() { lbOv.style.display = 'none'; document.body.style.overflow = ''; }
+
+lbPhotoClose.addEventListener('click', e => { e.stopPropagation(); closePhotoLb(); });
+lbOv.addEventListener('click', closePhotoLb);
+lbPhotoImg.addEventListener('click', e => e.stopPropagation());
+document.addEventListener('keydown', e => { if(lbOv.style.display !== 'none' && e.key === 'Escape') closePhotoLb(); });
 
 // ── DRAW NODES
 DATA.forEach(h => {
@@ -876,6 +973,10 @@ DATA.forEach(h => {
   if(h.page) {
     g.addEventListener('click', () => {
       if(!dragMoved) window.location.href = h.page;
+    });
+  } else if(PHOTOS[h.id]) {
+    g.addEventListener('click', () => {
+      if(!dragMoved) openPhotoLb(h);
     });
   }
 

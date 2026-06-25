@@ -32,7 +32,16 @@
   <ul class="nav-links">
     <li><a href="index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="elevage.html">L'élevage</a></li>
-    <li><a href="reproducteurs.html">Reproducteurs</a></li>
+    <li class="has-dropdown">
+      <a href="reproducteurs.html">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="reproducteurs/archy.html" class="nav-etalon">Archy</a></li>
+        <li><a href="reproducteurs/avantgarde.html" class="nav-etalon">Avantgarde</a></li>
+        <li><a href="reproducteurs/suzie.html">Suzie</a></li>
+        <li><a href="reproducteurs/sakura.html">Sakura</a></li>
+        <li><a href="reproducteurs/ruby-jane.html">Ruby Jane</a></li>
+      </ul>
+    </li>
     <li><a href="poulains.html" class="nav-active">Poulains</a></li>
     <li><a href="arbre-genealogique.html">Généalogie</a></li>
     <li><a href="index.html#contact">Contact</a></li>
@@ -69,7 +78,6 @@
           <p class="horse-card-desc">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l'homme. 
             Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. 
             Taille estimée ~1m45.</p>
-          <p class="horse-card-desc"><strong style="color:var(--rose-deep)">4 000 €</strong></p>
           <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
@@ -85,7 +93,6 @@
           <p class="horse-card-desc">Intelligent, réfléchi, polyvalent. De robe Grullo Silver, rare dans la race. 
             Taille estimée ~1m50 (toisé à 1m46 déjà). Super caractère avec l'humain. Il pourra aisément évoluer en TREC, 
             en randonnée ou devenir étalon.</p>
-          <p class="horse-card-desc"><strong style="color:var(--rose-deep)">4 500 €</strong></p>
           <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
@@ -100,7 +107,6 @@
           <h3 class="horse-card-name">Orion HC</h3>
           <p class="horse-card-desc">Fin, élégant, sensible — grand amoureux de l'humain. Robe Grullo Silver. Taille estimée ~1m45/1m50
              (toisé à 1m42). Plus léger et atlhétique, parfait pour du dressage, du poney game...</p>
-          <p class="horse-card-desc"><strong style="color:var(--rose-deep)">3 500 €</strong></p>
           <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
@@ -119,7 +125,6 @@
           <h3 class="horse-card-name">Quercus Kaeru HC</h3>
           <p class="horse-card-desc">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. 
             Un petit chêne qui a su montrer qu'il était un véritable battant.</p>
-          <p class="horse-card-desc"><strong style="color:var(--rose-deep)">En réflexion €</strong></p>
           <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
@@ -135,25 +140,33 @@
       <p style="font-size:.82rem;color:var(--gris);margin-top:.5rem;">Ces poulains ont rejoint leur nouvelle famille.</p>
     </div>
     <div class="horses-grid" style="margin-top:1.5rem;">
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="HC Jinba Ittaï"
-           data-desc="Née le 4 avril 2019. Noir sabino, du bleu dans les yeux. Première pouliche née en France, du mariage inégalable de Suzie et Flash Harry, à porter notre affixe (HC). J'ai la chance de la voir grandir non loin de chez nous."
-           data-images='["img/jinba/ji-index.jpg","img/jinba/ji-01.jpg","img/jinba/ji-02.jpg","img/jinba/ji-03.jpg","img/jinba/ji-04.jpg","img/jinba/ji-05.jpg"]'>
+      <a href="poulains/Jinba-Ittaï.html" class="horse-card reveal">
         <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
           <img src="img/jinba/ji-index.jpg" alt="HC Jinba Ittaï" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
         </div>
-<span style="position:absolute;top:1rem;left:1rem;
+        <span style="position:absolute;top:1rem;left:1rem;
           background:rgba(60,160,160,0.85);color:#fff;
           font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;
           padding:.3rem .75rem;border-radius:50px;"><strong>⭐ Vendue</strong></span>
-          <div class="horse-card-body">
+        <div class="horse-card-body">
           <span class="horse-card-tag">Jument · 2019 · PP Irish Cob</span>
           <h3 class="horse-card-name">Jinba Ittaï HC</h3>
-          <p class="horse-card-desc">Née le 4 avril 2019. Noir sabino, du bleu dans les yeux. Première pouliche, née en France du mariage inégalable de Suzie et Flash Harry, à porter notre affixe (HC). J'ai la chance de la voir grandir non loin de chez nous.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour voir les photos</span>
+          <p class="horse-card-desc">Née le 4 avril 2019. Noir sabino, du bleu dans les yeux. Première pouliche née en France du mariage inégalable de Suzie et Flash Harry, à porter notre affixe (HC). Elle réside désormais à deux pas de l'élevage.</p>
+          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
+      </a>
     </div>
+  </div>
+</section>
+
+<!-- ====== COMMENT ACHETER ====== -->
+<section class="reveal" style="padding:3.5rem 0;background:var(--bg-light);text-align:center;border-top:1px solid rgba(0,0,0,0.07);">
+  <div class="section-inner" style="max-width:600px;">
+    <span class="section-badge">Processus d'adoption</span>
+    <h2 class="section-title" style="font-size:clamp(1.4rem,3vw,2rem);margin-top:.75rem;">
+      <a href="poulains/acheter.html" class="link-arrow" style="color:inherit;text-decoration:none;">Comment ça se passe ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </h2>
+    <p class="section-text" style="margin:.75rem auto 0;">Visite, essai, engagement — on vous explique notre façon de procéder pour que l'adoption se passe dans les meilleures conditions.</p>
   </div>
 </section>
 
@@ -177,100 +190,6 @@
   </div>
 </footer>
 
-<!-- Modal poulain -->
-<style>
-  #foal-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85);
-    z-index:1000; align-items:center; justify-content:center; padding:1rem; }
-  #foal-modal.open { display:flex; }
-  #foal-panel { background:#fff; border-radius:12px; overflow:hidden;
-    display:flex; flex-direction:column; max-width:560px; width:100%;
-    max-height:90vh; box-shadow:0 20px 60px rgba(0,0,0,.5); }
-  #foal-panel-img-wrap { position:relative; background:#111; }
-  #foal-panel-img { width:100%; max-height:60vh; object-fit:contain; display:block; }
-  #foal-panel-body { padding:1.2rem 1.5rem; }
-  #foal-panel-name { font-size:1.3rem; font-weight:700; margin:0 0 .5rem; color:#1a1a1a; }
-  #foal-panel-desc { font-size:.88rem; color:#555; margin:0; line-height:1.6; }
-  #foal-panel-counter { font-size:.72rem; color:#aaa; margin-top:.6rem; letter-spacing:.06em; }
-  #foal-modal-close { position:absolute; top:10px; right:14px;
-    background:rgba(0,0,0,.5); border:none; color:#fff; font-size:1.2rem;
-    width:32px; height:32px; border-radius:50%; cursor:pointer; z-index:2;
-    display:flex; align-items:center; justify-content:center; }
-  #foal-modal-close:hover { background:rgba(0,0,0,.8); }
-  .foal-nav { position:absolute; top:50%; transform:translateY(-50%);
-    background:rgba(0,0,0,.4); backdrop-filter:blur(4px);
-    border:none; color:#fff; font-size:2rem; width:44px; height:44px;
-    border-radius:50%; cursor:pointer; display:flex; align-items:center;
-    justify-content:center; transition:background .15s; }
-  .foal-nav:hover { background:rgba(0,0,0,.7); }
-  .foal-nav.left { left:10px; }
-  .foal-nav.right { right:10px; }
-  .foal-nav.hidden { display:none; }
-</style>
-<div id="foal-modal">
-  <div id="foal-panel">
-    <div id="foal-panel-img-wrap">
-      <button id="foal-modal-close" aria-label="Fermer">✕</button>
-      <button class="foal-nav left" id="foal-prev">&#8249;</button>
-      <img id="foal-panel-img" src="" alt="">
-      <button class="foal-nav right" id="foal-next">&#8250;</button>
-    </div>
-    <div id="foal-panel-body">
-      <h3 id="foal-panel-name"></h3>
-      <p id="foal-panel-desc"></p>
-      <p id="foal-panel-counter"></p>
-    </div>
-  </div>
-</div>
-<script>
-(function() {
-  var modal  = document.getElementById('foal-modal');
-  var mImg   = document.getElementById('foal-panel-img');
-  var mName  = document.getElementById('foal-panel-name');
-  var mDesc  = document.getElementById('foal-panel-desc');
-  var mCount = document.getElementById('foal-panel-counter');
-  var mPrev  = document.getElementById('foal-prev');
-  var mNext  = document.getElementById('foal-next');
-  var mImgs  = [], mIdx = 0;
-
-  function openModal(name, desc, imgs) {
-    mImgs = imgs; mIdx = 0;
-    mName.textContent = name;
-    mDesc.textContent = desc;
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    update();
-  }
-  function closeModal() {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  function update() {
-    mImg.src = mImgs[mIdx];
-    mCount.textContent = mImgs.length > 1 ? (mIdx + 1) + ' / ' + mImgs.length : '';
-    mPrev.classList.toggle('hidden', mImgs.length <= 1);
-    mNext.classList.toggle('hidden', mImgs.length <= 1);
-  }
-  function go(n) { mIdx = (n + mImgs.length) % mImgs.length; update(); }
-
-  document.getElementById('foal-modal-close').addEventListener('click', closeModal);
-  mPrev.addEventListener('click', function(e) { e.stopPropagation(); go(mIdx - 1); });
-  mNext.addEventListener('click', function(e) { e.stopPropagation(); go(mIdx + 1); });
-  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', function(e) {
-    if (!modal.classList.contains('open')) return;
-    if (e.key === 'Escape') closeModal();
-    if (e.key === 'ArrowLeft') go(mIdx - 1);
-    if (e.key === 'ArrowRight') go(mIdx + 1);
-  });
-
-  document.querySelectorAll('.foal-card').forEach(function(card) {
-    card.addEventListener('click', function() {
-      var imgs = JSON.parse(card.dataset.images);
-      openModal(card.dataset.name, card.dataset.desc, imgs);
-    });
-  });
-})();
-</script>
 
 <script src="js/main.js"></script>
 </body>
