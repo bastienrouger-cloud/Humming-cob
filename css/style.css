@@ -1516,9 +1516,12 @@ footer {
     padding: .2rem 0 .2rem 1rem;
     margin-top: .3rem;
     min-width: auto;
+    display: none;
   }
+  .has-dropdown.open .nav-dropdown { display: block; }
+  .has-dropdown.open .nav-caret { transform: rotate(180deg); }
   .nav-dropdown::before { display: none; }
-  .nav-caret { display: none; }
+  .nav-caret { display: inline-flex; padding: .5rem; margin: -.5rem; }
   .nav-dropdown a { padding: .35rem .5rem; }
   .nav-links.open {
     display: flex;

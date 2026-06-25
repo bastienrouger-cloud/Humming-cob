@@ -21,10 +21,28 @@ if (navToggle && navLinks) {
     spans[0].style.transform = isOpen ? 'rotate(45deg) translate(4.5px, 4.5px)' : '';
     spans[1].style.opacity  = isOpen ? '0' : '1';
     spans[2].style.transform = isOpen ? 'rotate(-45deg) translate(4.5px, -4.5px)' : '';
+    // Fermer les sous-menus au close
+    if (!isOpen) navLinks.querySelectorAll('.has-dropdown.open').forEach(el => el.classList.remove('open'));
   });
   // Fermer au clic sur un lien
   navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => navLinks.classList.remove('open'));
+    a.addEventListener('click', e => {
+      const parentDropdown = a.parentElement.classList.contains('has-dropdown') ? a.parentElement : null;
+      if (parentDropdown && navLinks.classList.contains('open')) {
+        const caret = a.querySelector('.nav-caret');
+        if (caret && caret.contains(e.target)) {
+          // Clic sur le caret uniquement → toggle sous-menu, pas de navigation
+          e.preventDefault();
+          parentDropdown.classList.toggle('open');
+        } else {
+          // Clic sur le texte → naviguer + fermer le menu
+          navLinks.classList.remove('open');
+          navLinks.querySelectorAll('.has-dropdown.open').forEach(el => el.classList.remove('open'));
+        }
+      } else {
+        navLinks.classList.remove('open');
+      }
+    });
   });
 }
 
