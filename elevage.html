@@ -45,6 +45,7 @@
     </li>
     <li><a href="poulains.html">Poulains</a></li>
     <li><a href="arbre-genealogique.html">Généalogie</a></li>
+    <li><a href="accouplement.html">Testez un accouplement</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -152,8 +153,8 @@
           </div>
           <p class="partner-name">Vanessa</p>
           <div class="partner-popup">
-            <span class="partner-fullname">Vanessa Le Charlès - Zagulajew</span><strong>Podologue équin</strong>
-            <p>Vanessa a assuré le suivi podologique de notre cheptel, de 2013 à 2020. J’ai également suivi ma première formation avec elle en 2014.</p>
+            <span class="partner-fullname">Vanessa Le Charlès - Zagulajew</span><strong>Podologie équine</strong>
+            <p>Vanessa a assuré le suivi de notre cheptel, de 2013 à 2020. J’ai également suivi ma première formation avec elle en 2014.</p>
           </div>
         </div>
 
@@ -200,8 +201,8 @@
           </div>
           <p class="partner-name">Pauline</p>
           <div class="partner-popup">
-            <span class="partner-fullname">Pauline Rives</span><strong>Éthologue & Podologue</strong>
-            <p>Spécialiste du comportement équin, elle intervient pour nous aider au mieux dans l’accompagnement des poulains et des adultes et ce depuis 2020. Elle est également podologue et m’a permis de suivre une formation PEL.</p>
+            <span class="partner-fullname">Pauline Rives</span><strong>Éthologue</strong>
+            <p>Spécialiste du comportement équin, elle intervient pour nous aider au mieux dans l’accompagnement des poulains et des adultes et ce depuis 2020. Elle m’a également permis de découvrir et de suivre une formation PEL.</p>
           </div>
         </div>
 
@@ -441,6 +442,7 @@
       <li><a href="elevage.html">L'élevage</a></li>
       <li><a href="reproducteurs.html">Reproducteurs</a></li>
       <li><a href="poulains.html">Nos poulains</a></li>
+      <li><a href="accouplement.html">Testez un accouplement</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
     <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
@@ -572,7 +574,11 @@
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   padding: 0 2rem 2.5rem;
-  align-items: start;
+  align-items: stretch;
+}
+#elev-images {
+  display: flex;
+  flex-direction: column;
 }
 #elev-images:empty { display: none; }
 /* Texte vide (modal photos seules) → images pleine largeur */
@@ -586,21 +592,16 @@
   margin: .6rem 0 1.2rem;
 }
 
-/* ---- Images — sans conteneur, proportions naturelles ---- */
-.elev-img-main {
-  border-radius: 10px;
-  overflow: hidden;
-  /* pas de background, pas d'aspect-ratio fixé */
-}
+/* ---- Images ---- */
 .elev-img-main img {
   width: 100%;
-  height: auto;
-  max-height: 65vh;
+  height: 100%;
   object-fit: contain;
   display: block;
 }
 /* Carrousel (si 4+ images) */
-.elev-carousel-wrap { position: relative; }
+.elev-carousel-wrap { position: relative; flex: 1; display: flex; flex-direction: column; }
+.elev-img-main { flex: 1; background: var(--bg-light); border-radius: 10px; overflow: hidden; display: flex; align-items: center; min-height: 0; }
 .elev-carousel-wrap .elev-img-main img { display: none; }
 .elev-carousel-wrap .elev-img-main img.on { display: block; }
 .elev-carousel-nav {
@@ -631,19 +632,23 @@
 }
 /* Grille simple (1-3 images) — empilées verticalement */
 .elev-img-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   gap: .8rem;
 }
 .elev-img-grid .elev-img-item {
+  flex: 1;
   border-radius: 8px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
 }
 .elev-img-grid .elev-img-item img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
-  max-height: 55vh;
-  object-fit: contain;
   display: block;
 }
 .elev-img-caption {
@@ -923,12 +928,28 @@
     document.body.style.overflow = 'hidden';
     panel.scrollTop = 0;
     closeBtn.focus();
+
+    // Contraint l'image gauche à la hauteur de la colonne texte
+    // (re-mesure après chargement des images inline du texte)
+    if (!data.leftNote && imgs.length > 0) {
+      function syncHeight() {
+        var h = textEl.offsetHeight;
+        var leftImg = imagesEl.querySelector('img');
+        if (leftImg && h > 0) leftImg.style.maxHeight = h + 'px';
+      }
+      requestAnimationFrame(syncHeight);
+      textEl.querySelectorAll('img').forEach(function (ti) {
+        ti.addEventListener('load', syncHeight);
+      });
+    }
   }
 
   function closeModal() {
     modal.classList.remove('open');
     document.body.style.overflow = '';
     body.style.alignItems = '';
+    var img = imagesEl.querySelector('img');
+    if (img) img.style.maxHeight = '';
   }
 
   // Listeners cartes
