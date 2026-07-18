@@ -30,12 +30,15 @@ if (navToggle && navLinks) {
       const parentDropdown = a.parentElement.classList.contains('has-dropdown') ? a.parentElement : null;
       if (parentDropdown && navLinks.classList.contains('open')) {
         const caret = a.querySelector('.nav-caret');
-        if (caret && caret.contains(e.target)) {
-          // Clic sur le caret uniquement → toggle sous-menu, pas de navigation
+        // Lien "Nos chevaux" / "Outils" : pas de destination propre (href="#"),
+        // tout le lien sert à ouvrir/fermer le sous-menu, pas seulement le caret.
+        const isPureToggle = a.getAttribute('href') === '#';
+        if (isPureToggle || (caret && caret.contains(e.target))) {
           e.preventDefault();
-          parentDropdown.classList.toggle('open');
+          const isOpen = parentDropdown.classList.toggle('open');
+          a.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         } else {
-          // Clic sur le texte → naviguer + fermer le menu
+          // Clic sur le texte d'un lien avec vraie destination → naviguer + fermer le menu
           navLinks.classList.remove('open');
           navLinks.querySelectorAll('.has-dropdown.open').forEach(el => el.classList.remove('open'));
         }
@@ -45,6 +48,49 @@ if (navToggle && navLinks) {
     });
   });
 }
+
+// Mise en évidence de la page active dans la nav
+(function () {
+  const links = document.querySelectorAll('.nav-links a');
+  if (!links.length) return;
+  const path = location.pathname.toLowerCase();
+
+  // Correspondance exacte (pages avec un vrai lien dans la nav, y compris
+  // dans les sous-menus déroulants "Nos chevaux" / "Outils").
+  links.forEach(a => {
+    const href = a.getAttribute('href');
+    if (!href || href === '#' || href.indexOf('#') !== -1) return;
+    const resolved = new URL(href, location.href).pathname.toLowerCase();
+    if (resolved === path) a.classList.add('nav-active');
+  });
+
+  // Fiches individuelles (reproducteurs/*, poulains/*) : pas de lien direct
+  // dans la nav → on active le lien de catégorie correspondant.
+  function activateCategory(matchHref) {
+    links.forEach(a => {
+      const href = (a.getAttribute('href') || '').replace(/^\.\.\//, '').toLowerCase();
+      if (href === matchHref) a.classList.add('nav-active');
+    });
+  }
+  if (path.indexOf('/reproducteurs/') !== -1) activateCategory('reproducteurs.html');
+  if (path.indexOf('/poulains/') !== -1) activateCategory('poulains.html');
+
+  // Propage l'état actif d'un sous-lien vers son menu déroulant parent
+  // ("Nos chevaux" / "Outils"), quel que soit le nombre de dropdowns.
+  document.querySelectorAll('.nav-links .has-dropdown').forEach(dropdown => {
+    if (dropdown.querySelector('.nav-dropdown a.nav-active')) {
+      const parentLink = dropdown.querySelector(':scope > a');
+      if (parentLink) parentLink.classList.add('nav-active');
+    }
+  });
+
+  // Accueil : aucun lien du menu ne pointe vers index.html lui-même
+  // (À propos et Contact sont des ancres internes) → on met le logo en avant.
+  if (path === '/' || path.endsWith('/index.html')) {
+    const logo = document.querySelector('.nav-logo');
+    if (logo) logo.classList.add('nav-active');
+  }
+})();
 
 // Révélation au scroll (Intersection Observer)
 const revealEls = document.querySelectorAll('.reveal');

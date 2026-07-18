@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap interactive — Suivi de projet site vitrine</title>
+<style>
+  :root {
+    --bg: #f5f5f3;
+    --surface: #ffffff;
+    --border: #e2e2de;
+    --text: #22252a;
+    --muted: #6b7178;
+    --accent: #0f766e;
+    --accent-light: #e6f2f0;
+    --done-bg: #f0f7f4;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 2.5rem 1.25rem 5rem;
+  }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  header.top {
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin: 0 0 0.35rem;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0 0 1.25rem;
+  }
+
+  .project-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-name-row label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .project-name-row input {
+    flex: 1;
+    font: inherit;
+    font-weight: 600;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .progress-overall {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+
+  .progress-overall-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .progress-overall-top strong {
+    font-size: 1rem;
+  }
+
+  .bar-track {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width 0.25s ease;
+    width: 0%;
+  }
+
+  section.roadmap-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-head h2 {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .section-count {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .section-bar {
+    height: 4px;
+    background: var(--border);
+  }
+
+  .section-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.25s ease;
+  }
+
+  ul.items {
+    list-style: none;
+    margin: 0;
+    padding: 0.3rem 0;
+  }
+
+  li.item {
+    padding: 0.15rem 1.1rem;
+  }
+
+  .item-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.55rem 0;
+  }
+
+  .item-row input[type="checkbox"] {
+    margin-top: 0.2rem;
+    width: 17px;
+    height: 17px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .item-row label {
+    cursor: pointer;
+    flex: 1;
+    font-size: 0.94rem;
+  }
+
+  li.item.done {
+    background: var(--done-bg);
+    margin: 0 -1.1rem;
+    padding: 0.15rem 1.1rem;
+    border-radius: 6px;
+  }
+
+  li.item.done .item-row label {
+    color: var(--muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--border);
+  }
+
+  details {
+    margin: -0.3rem 0 0.5rem 1.75rem;
+  }
+
+  details summary {
+    cursor: pointer;
+    font-size: 0.78rem;
+    color: var(--accent);
+    list-style: none;
+    display: inline-block;
+  }
+
+  details summary::-webkit-details-marker { display: none; }
+
+  details summary::before {
+    content: "Pourquoi ▸";
+  }
+
+  details[open] summary::before {
+    content: "Pourquoi ▾";
+  }
+
+  details p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    background: var(--accent-light);
+    border-radius: 6px;
+    padding: 0.55rem 0.7rem;
+    margin: 0.4rem 0 0.6rem;
+  }
+
+  footer.bottom {
+    max-width: 780px;
+    margin: 1.5rem auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  footer.bottom p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: 0;
+    max-width: 480px;
+  }
+
+  button#reset-btn {
+    font: inherit;
+    font-size: 0.82rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  button#reset-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+
+    <header class="top">
+      <h1>Roadmap interactive — Suivi de site vitrine</h1>
+      <p class="subtitle">Fichier autonome, réutilisable pour n'importe quel projet : duplique-le simplement dans le dossier du prochain site. La progression est sauvegardée automatiquement dans ce navigateur.</p>
+
+      <div class="project-name-row">
+        <label for="project-name">Projet :</label>
+        <input type="text" id="project-name" placeholder="Nom du projet">
+      </div>
+
+      <div class="progress-overall">
+        <div class="progress-overall-top">
+          <span>Progression globale</span>
+          <strong id="overall-count">0 / 0</strong>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="overall-bar"></div></div>
+      </div>
+    </header>
+
+    <main id="sections"></main>
+
+    <footer class="bottom">
+      <p>Coche au fur et à mesure. Le détail « Pourquoi » explique l'intérêt de chaque étape sans encombrer la liste. Rien n'est envoyé nulle part : tout reste dans ce fichier + ton navigateur.</p>
+      <button id="reset-btn" type="button">Réinitialiser la progression</button>
+    </footer>
+
+  </div>
+
+<script>
+  const DATA = [
+    {
+      id: "s1",
+      title: "1. Cadrage avant tout code",
+      items: [
+        { id: "cadrage-public", label: "Public cible et objectif du site clairement définis", why: "Qui va utiliser le site, et pour quoi faire (vendre, informer, présenter) ? Ça oriente toutes les décisions de contenu et de structure ensuite." },
+        { id: "cadrage-pages", label: "Liste des pages nécessaires établie", why: "Éviter de découvrir en cours de route qu'il manque une page — lister toutes les pages avant de coder la première." },
+        { id: "cadrage-contenu", label: "Contenu texte/visuel : disponible, à créer, ou volontairement en placeholder", why: "Pour un exercice ou un prototype, des placeholders assumés (texte reformulé, images génériques) sont tout à fait valables — pas besoin d'attendre le vrai contenu pour avancer la structure." }
+      ]
+    },
+    {
+      id: "s2",
+      title: "2. Structure / arborescence",
+      items: [
+        { id: "structure-sitemap", label: "Sitemap (arborescence des pages) posé", why: "Un schéma simple de qui pointe vers quoi, même à la main sur papier ou en markdown." },
+        { id: "structure-pattern", label: "Pattern de page cohérent identifié et réutilisé", why: "Plutôt qu'un wireframe formel par page, un pattern réutilisé consciemment page après page (hero + contenu + CTA, par exemple) évite de réinventer la structure à chaque fois." }
+      ]
+    },
+    {
+      id: "s3",
+      title: "3. Setup technique",
+      items: [
+        { id: "setup-dossiers", label: "Dossiers de travail créés (css/js/assets/pages/partials...)", why: "" },
+        { id: "setup-css", label: "Feuille de style de départ en place", why: "Un seul fichier CSS au départ, à splitter plus tard seulement si besoin réel — pas d'optimisation prématurée." },
+        { id: "setup-git", label: "Git initialisé (repo, branches, authentification)", why: "Une branche stable (main) et une branche de travail (test/dev) séparent le site en ligne du travail en cours." }
+      ]
+    },
+    {
+      id: "s4",
+      title: "4. HTML d'abord, sans style",
+      items: [
+        { id: "html-semantique", label: "Structure sémantique complète (header, nav, main, sections, footer)", why: "" },
+        { id: "html-partials", label: "Header/footer factorisés (partials ou composant réutilisable)", why: "Évite de dupliquer le même header/footer dans chaque page HTML — un seul fichier source, injecté partout." },
+        { id: "html-contenu", label: "Contenu réel dans le HTML, même en placeholder", why: "Pas de lorem ipsum générique — un placeholder qui ressemble au vrai contenu final donne une bien meilleure idée du rendu." },
+        { id: "html-active-nav", label: "Mise en évidence de la page active dans la navigation", why: "Petit détail UX facile à oublier — l'utilisateur doit voir immédiatement où il se trouve dans le menu." }
+      ]
+    },
+    {
+      id: "s5",
+      title: "5. CSS ensuite",
+      items: [
+        { id: "css-mobile-first", label: "Approche mobile-first", why: "" },
+        { id: "css-variables", label: "Variables CSS pour couleurs/fonts centralisées", why: "Un seul endroit à changer pour ajuster toute la charte graphique." },
+        { id: "css-layout", label: "Layout d'abord (grid/flexbox), détails visuels ensuite", why: "" }
+      ]
+    },
+    {
+      id: "s6",
+      title: "6. Interactivité (JS) si besoin",
+      items: [
+        { id: "js-menu-mobile", label: "Menu mobile fonctionnel", why: "" },
+        { id: "js-contact", label: "Formulaire de contact (même en façade, sans envoi réel)", why: "Utile pour tester le flux même avant d'avoir un vrai backend de réception." },
+        { id: "js-composants", label: "Composants interactifs testés (carrousel, accordéon, modales...)", why: "" }
+      ]
+    },
+    {
+      id: "s7",
+      title: "7. Responsive + tests",
+      items: [
+        { id: "test-mobile-reel", label: "Testé sur un vrai téléphone, pas seulement en redimensionnant le navigateur", why: "Le rebond de scroll (overscroll), les zones tactiles, et certains bugs Safari mobile ne se voient QUE sur un vrai appareil." },
+        { id: "test-navigateurs", label: "Vérifié sur plusieurs navigateurs (pas seulement celui de dev)", why: "" }
+      ]
+    },
+    {
+      id: "s8",
+      title: "8. Perf + SEO de base",
+      items: [
+        { id: "seo-images", label: "Images compressées, attribut alt renseigné partout", why: "" },
+        { id: "seo-meta", label: "Meta description par page", why: "" },
+        { id: "seo-lighthouse", label: "Audit Lighthouse passé", why: "" },
+        { id: "seo-analytics", label: "Balises de suivi statistique (Analytics ou équivalent)", why: "Si un vrai tracking est ajouté, ça implique en toute rigueur un bandeau de consentement cookies (RGPD), même sur un site d'entraînement." },
+        { id: "seo-og", label: "Open Graph personnalisé par page (og:title, og:description, og:image)", why: "Sans ça, partager le lien sur les réseaux ou en message n'affiche ni image ni description propre." },
+        { id: "seo-favicon", label: "Favicon en place", why: "" },
+        { id: "seo-robots", label: "robots.txt + sitemap.xml", why: "Pas bloquant pour un site non indexé, mais fait partie du SEO de base d'un vrai déploiement." },
+        { id: "seo-404", label: "Page 404 personnalisée", why: "" }
+      ]
+    },
+    {
+      id: "s9",
+      title: "9. Déploiement",
+      items: [
+        { id: "deploy-hebergement", label: "Hébergement choisi et fonctionnel", why: "" },
+        { id: "deploy-dns", label: "DNS / SSL configurés si domaine personnalisé", why: "" },
+        { id: "deploy-legal", label: "Mentions légales / politique de confidentialité si collecte de données", why: "Obligatoire dès qu'un site français collecte des données (formulaire, analytics) — même un site d'entraînement gagne à s'y habituer." }
+      ]
+    }
+  ];
+
+  const STORAGE_KEY = "roadmapChecklistState";
+  const NAME_KEY = "roadmapChecklistProjectName";
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveState(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  let state = loadState();
+
+  const sectionsEl = document.getElementById("sections");
+  const overallBar = document.getElementById("overall-bar");
+  const overallCount = document.getElementById("overall-count");
+  const nameInput = document.getElementById("project-name");
+
+  nameInput.value = localStorage.getItem(NAME_KEY) || "";
+  nameInput.addEventListener("input", () => {
+    localStorage.setItem(NAME_KEY, nameInput.value);
+  });
+
+  function build() {
+    sectionsEl.innerHTML = "";
+
+    DATA.forEach((section) => {
+      const sectionEl = document.createElement("section");
+      sectionEl.className = "roadmap-section";
+
+      const head = document.createElement("div");
+      head.className = "section-head";
+      head.innerHTML = `<h2>${section.title}</h2><span class="section-count" id="count-${section.id}"></span>`;
+      sectionEl.appendChild(head);
+
+      const sbar = document.createElement("div");
+      sbar.className = "section-bar";
+      const sbarFill = document.createElement("div");
+      sbarFill.className = "section-bar-fill";
+      sbarFill.id = `bar-${section.id}`;
+      sbar.appendChild(sbarFill);
+      sectionEl.appendChild(sbar);
+
+      const ul = document.createElement("ul");
+      ul.className = "items";
+
+      section.items.forEach((item) => {
+        const li = document.createElement("li");
+        li.className = "item";
+        li.id = `li-${item.id}`;
+
+        const row = document.createElement("div");
+        row.className = "item-row";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `chk-${item.id}`;
+        checkbox.checked = !!state[item.id];
+        checkbox.addEventListener("change", () => {
+          state[item.id] = checkbox.checked;
+          saveState(state);
+          updateItemStyle(item.id);
+          updateProgress();
+        });
+
+        const label = document.createElement("label");
+        label.setAttribute("for", `chk-${item.id}`);
+        label.textContent = item.label;
+
+        row.appendChild(checkbox);
+        row.appendChild(label);
+        li.appendChild(row);
+
+        if (item.why) {
+          const details = document.createElement("details");
+          const summary = document.createElement("summary");
+          const p = document.createElement("p");
+          p.textContent = item.why;
+          details.appendChild(summary);
+          details.appendChild(p);
+          li.appendChild(details);
+        }
+
+        ul.appendChild(li);
+      });
+
+      sectionEl.appendChild(ul);
+      sectionsEl.appendChild(sectionEl);
+    });
+
+    DATA.forEach((section) => {
+      section.items.forEach((item) => updateItemStyle(item.id));
+    });
+
+    updateProgress();
+  }
+
+  function updateItemStyle(itemId) {
+    const li = document.getElementById(`li-${itemId}`);
+    if (!li) return;
+    li.classList.toggle("done", !!state[itemId]);
+  }
+
+  function updateProgress() {
+    let totalDone = 0;
+    let totalItems = 0;
+
+    DATA.forEach((section) => {
+      const done = section.items.filter((it) => state[it.id]).length;
+      const total = section.items.length;
+      totalDone += done;
+      totalItems += total;
+
+      const countEl = document.getElementById(`count-${section.id}`);
+      const barEl = document.getElementById(`bar-${section.id}`);
+      if (countEl) countEl.textContent = `${done} / ${total}`;
+      if (barEl) barEl.style.width = total ? `${(done / total) * 100}%` : "0%";
+    });
+
+    overallCount.textContent = `${totalDone} / ${totalItems}`;
+    overallBar.style.width = totalItems ? `${(totalDone / totalItems) * 100}%` : "0%";
+  }
+
+  document.getElementById("reset-btn").addEventListener("click", () => {
+    if (!confirm("Réinitialiser toute la progression de cette checklist ?")) return;
+    state = {};
+    saveState(state);
+    build();
+  });
+
+  build();
+</script>
+
+</body>
+</html>
