@@ -502,6 +502,24 @@ section { padding: 6rem 1.5rem; }
   flex-direction: column;
   gap: 1rem;
 }
+
+/* Ligne "points clés" + carte "Notre histoire" à côté, dans Qui sommes-nous */
+.qsn-values-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.qsn-values-row .values-list {
+  flex: 1 1 260px;
+  margin-top: 0;
+}
+.qsn-history-card {
+  flex: 0 0 230px;
+}
+@media (max-width: 700px) {
+  .qsn-history-card { flex-basis: 100%; }
+}
 .values-list li {
   display: flex;
   align-items: flex-start;
