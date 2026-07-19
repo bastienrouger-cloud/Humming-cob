@@ -28,13 +28,17 @@ if (navToggle && navLinks) {
   navLinks.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', e => {
       const parentDropdown = a.parentElement.classList.contains('has-dropdown') ? a.parentElement : null;
+      // Lien "Nos chevaux" / "Outils" : pas de destination propre (href="#") —
+      // on empêche TOUJOURS le saut vers "#" (qui remonte sinon la page en
+      // haut), pas seulement quand le menu mobile est ouvert. Sur desktop le
+      // survol suffit à afficher le sous-menu, ce clic ne doit rien faire
+      // d'autre que (éventuellement) toggle l'état pour le mobile.
+      const isPureToggle = a.getAttribute('href') === '#';
+      if (isPureToggle) e.preventDefault();
+
       if (parentDropdown && navLinks.classList.contains('open')) {
         const caret = a.querySelector('.nav-caret');
-        // Lien "Nos chevaux" / "Outils" : pas de destination propre (href="#"),
-        // tout le lien sert à ouvrir/fermer le sous-menu, pas seulement le caret.
-        const isPureToggle = a.getAttribute('href') === '#';
         if (isPureToggle || (caret && caret.contains(e.target))) {
-          e.preventDefault();
           const isOpen = parentDropdown.classList.toggle('open');
           a.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         } else {
