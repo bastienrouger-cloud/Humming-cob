@@ -38,6 +38,7 @@
       <ul class="nav-dropdown">
         <li><a href="reproducteurs.html">Reproducteurs</a></li>
         <li><a href="poulains.html">Poulains</a></li>
+        <li><a href="memoire.html">Ils ont marqué notre histoire</a></li>
       </ul>
     </li>
     <li class="has-dropdown">
@@ -180,32 +181,39 @@
 <!-- ====== ALLER PLUS LOIN ====== -->
 <section id="aller-plus-loin">
   <div class="section-inner">
-    <div class="reveal" style="text-align:center;max-width:580px;margin:0 auto;">
-      <span class="section-badge">Aller plus loin</span>
-      <h2 class="section-title">Explorez notre <em>univers</em></h2>
-      <div class="section-divider" style="margin:1.5rem auto;"></div>
-    </div>
+    <div class="explore-panel reveal">
 
-    <div class="showcase-grid showcase-grid--compact" style="margin-top:2.5rem;">
+      <!-- Panneau visuel : vide pour l'instant (voir .explore-visual dans le CSS
+           pour ajouter facilement une image de fond plus tard) -->
+      <div class="explore-visual" aria-hidden="true"></div>
 
-      <!-- Card Arbre généalogique -->
-      <a href="arbre-genealogique.html" class="showcase-card reveal reveal-delay-1">
-        <img src="img/tree/avantgarde.jpg" alt="Arbre généalogique" class="showcase-card-img">
-        <div class="showcase-card-content">
-          <span class="showcase-card-tag">Lignées &amp; pédigrées</span>
-          <h3 class="showcase-card-title">Arbre généalogique</h3>
+      <div class="explore-content">
+        <span class="section-badge">Aller plus loin</span>
+        <h2 class="section-title">Explorez notre <em>univers</em></h2>
+        <p class="section-text" style="margin-top:1rem;">Trois portes d'entrée pour mieux connaître Humming Cob, ses origines et ses outils.</p>
+
+        <div class="explore-cards">
+
+          <a href="elevage.html" class="explore-card">
+            <h3 class="explore-card-title">Notre élevage</h3>
+            <p class="explore-card-desc">Notre philosophie, nos valeurs et le quotidien auprès des chevaux.</p>
+            <span class="explore-card-link link-arrow">Découvrir <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </a>
+
+          <a href="arbre-genealogique.html" class="explore-card">
+            <h3 class="explore-card-title">Arbre généalogique</h3>
+            <p class="explore-card-desc">Les lignées irlandaises et britanniques qui ont façonné nos chevaux.</p>
+            <span class="explore-card-link link-arrow">Explorer <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </a>
+
+          <a href="accouplement.html" class="explore-card">
+            <h3 class="explore-card-title">Testez un accouplement</h3>
+            <p class="explore-card-desc">Calculez le coefficient de consanguinité d'un couple envisagé.</p>
+            <span class="explore-card-link link-arrow">Tester <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </a>
+
         </div>
-      </a>
-
-      <!-- Card Mémoire -->
-      <a href="memoire.html" class="showcase-card reveal reveal-delay-2">
-        <img src="img/jballar/jb-01.jpg" alt="Ils ont marqué notre histoire" class="showcase-card-img">
-        <div class="showcase-card-content">
-          <span class="showcase-card-tag">Hommage</span>
-          <h3 class="showcase-card-title">Ils ont marqué notre histoire</h3>
-        </div>
-      </a>
-
+      </div>
     </div>
   </div>
 </section>

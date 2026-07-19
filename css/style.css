@@ -1711,3 +1711,104 @@ footer {
 #nos-chevaux .section-inner { max-width: 1850px; }
 #nos-chevaux .showcase-card { aspect-ratio: 4 / 3; }
 #nos-chevaux .showcase-grid { gap: 1.5rem; }
+
+/* ============================================
+   ALLER PLUS LOIN — panneau visuel + 3 cartes-liens
+   (inspiré du bloc "New to the 'verse" de RSI,
+   adapté à l'identité Humming Cob)
+   ============================================ */
+#aller-plus-loin .section-inner { max-width: 1850px; }
+
+.explore-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 38%) 1fr;
+  align-items: stretch;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.explore-visual {
+  position: relative;
+  min-height: 420px;
+  background: linear-gradient(160deg, var(--rose-pale) 0%, var(--or-pale) 100%);
+  overflow: hidden;
+}
+/* Pas d'image pour l'instant — remplacer par :
+   .explore-visual { background: url('../img/xxx.jpg') center / cover; }
+   (et supprimer le ::before ci-dessous si l'image se suffit à elle-même) */
+.explore-visual::before {
+  content: 'HC';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-serif);
+  font-size: 11rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.4);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.explore-content {
+  padding: 3.2rem 3.2rem 3.2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.explore-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-top: 2.2rem;
+}
+
+.explore-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.5rem;
+  text-decoration: none;
+  transition: var(--transition), transform var(--transition), border-color var(--transition);
+}
+.explore-card:hover,
+.explore-card:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(176, 96, 112, 0.4);
+}
+
+.explore-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--noir);
+  margin-bottom: 0.6rem;
+}
+.explore-card-desc {
+  font-size: 0.82rem;
+  color: var(--gris);
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 1.2rem;
+}
+.explore-card-link {
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rose-deep);
+}
+
+@media (max-width: 900px) {
+  .explore-panel { grid-template-columns: 1fr; }
+  .explore-visual { min-height: 220px; }
+  .explore-content { padding: 2.4rem 1.8rem; }
+  .explore-cards { grid-template-columns: 1fr; }
+}
