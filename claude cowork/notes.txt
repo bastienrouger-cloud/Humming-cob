@@ -6,3 +6,8 @@ Hero wallpaper
 
 Section avec carte modales x3 ou 4 vers outils, autres forma
 Quel forma image pour cartes chevaux ?
+
+Page chevaux : sous leader avec menu de la page, ancré en haut, suis le défilement vers le bas.
+Prix et bouton contact ancré texte Hero, suis défilement vers le bas
+
+Hero = carrousel XL + 

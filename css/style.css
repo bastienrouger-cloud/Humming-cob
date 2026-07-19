@@ -1520,6 +1520,10 @@ footer {
   }
   .has-dropdown.open .nav-dropdown { display: block; }
   .has-dropdown.open .nav-caret { transform: rotate(180deg); }
+  /* Un tap déclenche souvent :hover sur mobile — cette règle desktop (plus
+     spécifique que le simple ".nav-dropdown" ci-dessus) repousserait sinon
+     le sous-menu de -50% de sa largeur, hors écran. On la neutralise ici. */
+  .has-dropdown:hover .nav-dropdown { transform: none; }
   .nav-dropdown::before { display: none; }
   .nav-caret { display: inline-flex; padding: .5rem; margin: -.5rem; }
   .nav-dropdown a { padding: .35rem .5rem; }
