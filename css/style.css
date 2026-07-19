@@ -39,6 +39,11 @@ body {
   color: var(--noir);
   line-height: 1.7;
   overflow-x: hidden;
+  /* flex column : permet de réordonner des sections par breakpoint via
+     la propriété "order", sans dupliquer le HTML. Le nav (position: fixed)
+     est hors flux et n'est pas concerné. */
+  display: flex;
+  flex-direction: column;
 }
 
 img { max-width: 100%; display: block; }
@@ -218,7 +223,9 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(160deg, #FFF8F0 0%, #FEF3F5 50%, #FEFBF6 100%);
+  background:
+    linear-gradient(160deg, rgba(255,248,240,0.82) 0%, rgba(254,243,245,0.8) 50%, rgba(254,251,246,0.88) 100%),
+    url('../img/heroHCwp.jpg') center 60% / cover no-repeat;
 }
 
 /* Canvas sakura */
@@ -1560,6 +1567,15 @@ footer {
   .horse-specs { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
   .scroll-hint { display: none; }
+
+  /* Hero mobile : pas de CTA, on laisse le hero respirer */
+  .hero-cta { display: none; }
+
+  /* Ordre des sections spécifique à l'index : "Nos chevaux" remonte
+     juste après le hero. Seuls hero et nos-chevaux ont besoin d'un
+     order explicite, le reste garde sa position relative (order: 0). */
+  #hero { order: -2; }
+  #nos-chevaux { order: -1; }
 }
 
 /* ============================================
@@ -1581,11 +1597,16 @@ footer {
   overflow: hidden;
   isolation: isolate;
   text-decoration: none;
+  border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  transition: box-shadow var(--transition);
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
 }
 .showcase-card:hover,
-.showcase-card:focus-visible { box-shadow: var(--shadow-hover); }
+.showcase-card:focus-visible {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-6px);
+  border-color: rgba(176, 96, 112, 0.35);
+}
 
 .showcase-card-img {
   position: absolute;
@@ -1593,11 +1614,14 @@ footer {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1);
+  /* Léger zoom permanent : certaines photos sources (collages) ont une
+     bordure claire baked-in qui, sinon, dépasserait pile au bord arrondi
+     de la carte au repos. Le zoom la fait sortir du cadre en continu. */
+  transform: scale(1.035);
   transition: transform 1.1s cubic-bezier(.2,.8,.2,1);
 }
 .showcase-card:hover .showcase-card-img,
-.showcase-card:focus-visible .showcase-card-img { transform: scale(1.07); }
+.showcase-card:focus-visible .showcase-card-img { transform: scale(1.09); }
 
 .showcase-card::after {
   content: '';
@@ -1682,3 +1706,8 @@ footer {
 
 /* Logo actif — surbrillance quand on est sur l'accueil (aucun lien de nav ne pointe vers index.html) */
 .nav-logo.nav-active .nav-logo-text { color: var(--rose-deep); }
+
+/* Réglages spécifiques section "Nos chevaux" — cartes en 4/3, conteneur élargi à l'essai */
+#nos-chevaux .section-inner { max-width: 1850px; }
+#nos-chevaux .showcase-card { aspect-ratio: 4 / 3; }
+#nos-chevaux .showcase-grid { gap: 1.5rem; }
