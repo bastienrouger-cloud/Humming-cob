@@ -8,24 +8,24 @@
 
 Étape ajoutée spécifiquement pour Humming Cob (site déjà en prod, pas un nouveau projet) : le site compte aujourd'hui **19 fichiers HTML** (8 pages racine + 5 fiches `reproducteurs/` + 6 fiches `poulains/`), chacun avec son propre `<nav>` et `<footer>` copiés-collés. Toute modif du menu ou du pied de page doit être répétée 19 fois.
 
-- [ ] Auditer l'arborescence actuelle du repo (racine, `css/`, `js/`, `img/`, `reproducteurs/`, `poulains/`)
-- [ ] Nettoyer les fichiers orphelins repérés à la racine
+- [x] Auditer l'arborescence actuelle du repo (racine, `css/`, `js/`, `img/`, `reproducteurs/`, `poulains/`)
+- [x] Nettoyer les fichiers orphelins repérés à la racine — `style.css` racine et fichier `git` supprimés le 20/07
   <details><summary>Détail</summary>
 
   - `style.css` à la racine (611 lignes) — non lié par aucune page, `css/style.css` (1677 lignes) est la vraie feuille utilisée. Probablement une version abandonnée à supprimer après vérification.
   - `git` — fichier vide (0 octet) sans extension à la racine, ressemble à une erreur de manip (`git ...` tapé dans le mauvais terminal ?). À vérifier puis supprimer.
   </details>
-- [ ] Définir l'arborescence cible (dossier `partials/`, séparation claire pages racine / fiches individuelles)
-- [ ] Créer `partials/header.html` et `partials/footer.html`
+- [x] Définir l'arborescence cible (dossier `partials/`, séparation claire pages racine / fiches individuelles)
+- [x] Créer `partials/header.html` et `partials/footer.html`
   <details><summary>Pourquoi</summary>Un seul fichier source pour le menu et le footer, injecté partout, au lieu de 19 copies à maintenir en parallèle.</details>
-- [ ] Choisir la méthode d'inclusion (pas de build tool actuellement)
+- [x] Choisir la méthode d'inclusion — **Option B retenue** : `build.py` en Python (pas de npm, cohérent avec `compress_images.py`), site statique préservé, double-clic conservé. GitHub Action volontairement reportée tant que le besoin ne se manifeste pas.
   <details><summary>Options à trancher</summary>
 
   - **Option A — include JS au chargement** (`fetch('partials/header.html')`) : zéro outillage à ajouter, mais flash de contenu (FOUC) le temps du fetch, et le menu dépend du JS pour s'afficher.
   - **Option B — petit script de build** (Node ou Python) qui injecte les partials et régénère les fichiers HTML statiques à chaque modif : reste 100 % statique en prod (SEO, perf, accessibilité intacts), mais introduit le premier outil de build de l'historique du site — à documenter dans `HUMMING_COB_REFERENCE.md` si retenu.
   </details>
-- [ ] Migrer les 19 pages HTML vers le nouveau système de partials
-- [ ] Revérifier la cohérence des chemins relatifs (racine vs `/reproducteurs/` vs `/poulains/`) après migration — dette technique déjà identifiée dans le doc de référence
+- [x] Migrer les 19 pages HTML vers le nouveau système de partials — 17 migrées, `frise.html` et `arbre-genealogique.html` hors système (ni nav ni footer d'origine)
+- [x] Revérifier la cohérence des chemins relatifs (racine vs `/reproducteurs/` vs `/poulains/`) après migration — dette technique déjà identifiée dans le doc de référence
 - [ ] Tester chaque page après migration (nav qui fonctionne, page active mise en évidence, responsive)
 
 ---
@@ -87,9 +87,9 @@
 ## 8. Perf + SEO de base
 
 - [ ] Images compressées, attribut alt renseigné partout
-- [ ] Meta description par page
+- [x] Meta description par page — sauf `frise.html`
 - [ ] Audit Lighthouse passé
-- [ ] Balises de suivi statistique (Analytics ou équivalent)
+- [x] Balises de suivi statistique — **gtag retiré des 19 pages le 20/07** (stats non consultées) → plus de bandeau cookies nécessaire
   <details><summary>Pourquoi</summary>Si un vrai tracking est ajouté, ça implique en toute rigueur un bandeau de consentement cookies (RGPD), même sur un site d'entraînement.</details>
 - [ ] Open Graph personnalisé par page (og:title, og:description, og:image)
   <details><summary>Pourquoi</summary>Sans ça, partager le lien sur les réseaux ou en message n'affiche ni image ni description propre.</details>
@@ -102,7 +102,7 @@
 
 - [ ] Hébergement choisi et fonctionnel
 - [ ] DNS / SSL configurés si domaine personnalisé
-- [ ] Mentions légales / politique de confidentialité si collecte de données
+- [x] Mentions légales / politique de confidentialité — pages créées le 20/07, **coordonnées de l'éditeur à compléter** (placeholders `[...]` dans les deux fichiers)
   <details><summary>Pourquoi</summary>Obligatoire dès qu'un site français collecte des données (formulaire, analytics) — même un site d'entraînement gagne à s'y habituer.</details>
 
 ---
@@ -128,11 +128,22 @@ Points relevés en inspectant les fichiers du repo — pas des cases cochées, j
 - **Favicon cassé** : toutes les pages référencent `img/favicon.png`, ce fichier n'existe pas dans `img/`.
 - **`robots.txt` et `sitemap.xml`** absents à la racine.
 - **Pas de page 404** personnalisée.
-- **Aucune page mentions légales / politique de confidentialité**, alors que Google Analytics (gtag) tourne déjà sur toutes les pages et que le formulaire de contact collecte des données → point RGPD à ne pas laisser traîner.
-- **Pas de bandeau de consentement cookies**, cohérent avec le point précédent.
+- ~~Aucune page mentions légales / politique de confidentialité~~ → créées le 20/07. Google Analytics retiré ; reste le formulaire de contact (Web3Forms), couvert par la politique de confidentialité. **Coordonnées légales à compléter.**
+- ~~Pas de bandeau de consentement cookies~~ → sans objet depuis le retrait de gtag (20/07).
 - ~~Pas de mise en évidence de la page active dans la nav~~ → corrigé le 18/07 (détection dynamique dans `js/main.js`, testée sur les 6 cas de figure + logo mis en avant sur l'accueil, seul cas sans lien de nav correspondant).
 - **Pas de balises `<header>`/`<main>` sémantiques** — `<nav>` et les `<section>` sont directement sous `<body>`.
 - `frise.html` est la seule page sans meta description.
 - Côté positif : variables CSS centralisées ✅, menu mobile fonctionnel ✅, formulaire de contact opérationnel ✅, `alt` renseigné sur les images vérifiées ✅, Git avec branches `main`/`Dev` séparées ✅.
 
 Ces constats viennent de l'inspection du code, pas d'un test utilisateur réel (Lighthouse, vrai téléphone, autres navigateurs) — ces cases-là restent à valider par toi.
+
+
+---
+
+## 📌 Reste à faire, repéré le 20/07/2026
+
+- [ ] **Compléter les coordonnées légales** dans `mentions-legales.html` et `confidentialite.html` (nom/raison sociale, statut, adresse, SIRET, directeur de publication) — cherche les `[crochets]`
+- [ ] **Favicon** : toujours référencé par les 21 pages, toujours absent de `img/`
+- [ ] Décider du sort de `frise.html` et `arbre-genealogique.html` — aujourd'hui sans nav ni footer, donc sans lien de retour vers le site
+- [ ] `.gitattributes` (`* text=auto eol=lf`) — hygiène multi-machines Windows/Mac, non urgent
+- [ ] Mettre à jour la palette dans `HUMMING_COB_REFERENCE_2.md` : les variables documentées (`--cream`, `--ink`, `--rose: #C4788A`…) ne correspondent plus au CSS réel (`--bg-cream`, `--noir`, `--rose: #D4899A`…)

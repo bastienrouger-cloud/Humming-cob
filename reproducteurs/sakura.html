@@ -13,41 +13,92 @@
   <meta property="og:site_name" content="Humming Cob">
   <link rel="icon" href="../img/favicon.png" type="image/png">
   <link rel="stylesheet" href="../css/style.css">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7Y0BZPH4Q"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-M7Y0BZPH4Q');</script>
 </head>
 <body class="horse-page">
 
+<!-- @partial:header -->
 <nav class="navbar" id="navbar">
   <a href="../index.html" class="nav-logo">
     <img src="../img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
-    <div class="nav-logo-text">Humming Cob<span>Élevage Irish Cob · Gard</span></div>
+    <div class="nav-logo-text">
+      Humming Cob
+      <span>Élevage Irish Cob · Gard</span>
+    </div>
   </a>
   <ul class="nav-links">
     <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
     <li class="has-dropdown">
-      <a href="../reproducteurs.html" class="nav-active">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
       <ul class="nav-dropdown">
-        <li><a href="archy.html" class="nav-etalon">Archy</a></li>
-        <li><a href="avantgarde.html" class="nav-etalon">Avantgarde</a></li>
-        <li><a href="suzie.html">Suzie</a></li>
-        <li><a href="sakura.html">Sakura</a></li>
-        <li><a href="ruby-jane.html">Ruby Jane</a></li>
+        <li><a href="../reproducteurs.html">Reproducteurs</a></li>
+        <li><a href="../poulains.html">Poulains</a></li>
+        <li><a href="../memoire.html">Ils ont marqué notre histoire</a></li>
       </ul>
     </li>
-    <li><a href="../poulains.html">Poulains</a></li>
-    <li><a href="../arbre-genealogique.html">Généalogie</a></li>
-    <li><a href="../accouplement.html">Testez un accouplement</a></li>
+    <li class="has-dropdown">
+      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="../arbre-genealogique.html">Arbre généalogique</a></li>
+        <li><a href="../accouplement.html">Testez un accouplement</a></li>
+      </ul>
+    </li>
     <li><a href="../index.html#contact">Contact</a></li>
   </ul>
-  <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+  <div class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
+<!-- @end:header -->
+<!-- ====== NAV SECONDAIRE (spécifique à la fiche) ====== -->
+<nav class="nav2" id="nav2" aria-label="Sections de la fiche">
+  <div class="nav2-inner">
+    <ul class="nav2-links">
+      <li><a href="#palmares">Palmarès</a></li>
+      <li><a href="#descendance">Poulains</a></li>
+      <li><a href="#pedigree">Pedigree</a></li>
+    </ul>
+    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Nous contacter</a>
+  </div>
+</nav>
+
 
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
-    <img src="../img/sakura/Sakura Portrait 02.jpg" alt="SD Sakura" class="sa-hero-img" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <!-- Carrousel du hero. Lightbox branchée dans js/main.js (tableau "carousels"). -->
+    <div class="hero-carousel">
+      <div class="hero-slides" id="heroSlides">
+        <div class="hero-slide active"><img src="../img/sakura/sa- 01 J8.jpg" alt="SD Sakura 2026" data-cap="2017, au Pays de Galles — J+8"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 02 J15.jpg" alt="SD Sakura 2022" loading="lazy" data-cap="2017, au Pays de Galles — J+15"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 03 J19.jpg" alt="SD Sakura 2021 — Titre Élite" loading="lazy" data-cap="2017, au Pays de Galles — J+19"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 05 J27.jpg" alt="SD Sakura 2018" loading="lazy" data-cap="2017, au Pays de Galles — J+27"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 06 J75.jpg" alt="SD Sakura 2018" loading="lazy" data-cap="2017, au Pays de Galles — J+75"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 07 2018.jpg" alt="SD Sakura — 2 mois (2017)" loading="lazy" data-cap="2018, arrivée à L'Isle-sur-la-Sorgue (84)"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 08 2019.jpg" alt="SD Sakura" loading="lazy" data-cap="2019, passage en ITI, à Orange (30)"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 10 2020.jpg" alt="SD Sakura" loading="lazy" data-cap="2020, travail à pied"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 09 2020.jpg" alt="SD Sakura" loading="lazy" data-cap="2021, M&A obtention de la mention Élite, à Saint-Bauzille-de-Montmel (34)"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 2021.jpg" alt="SD Sakura" loading="lazy" data-cap="2021, première sortie montée à cru et en licol"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa-2021 01.jpg" alt="SD Sakura" loading="lazy" data-cap="2021, sa magnifique tête"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 11 2022.jpg" alt="SD Sakura" loading="lazy" data-cap="2022, finition du débourrage par Pauline Rives, à Saint-Martin-de-Londres (34)"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 12 2023.jpg" alt="SD Sakura" loading="lazy" data-cap="2023, le bidon s'arrondit pour son premier poulain, à Carnas (30)"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 13 2024.jpg" alt="SD Sakura" loading="lazy" data-cap="2024, suitée de son premier poulain HC Nashi"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 14 2025.jpg" alt="SD Sakura" loading="lazy" data-cap="2025, petite remise en selle avant de partir pour la Drôme"></div>
+        <div class="hero-slide"><img src="../img/sakura/sa- 15 2026.jpg" alt="SD Sakura" loading="lazy" data-cap="2026, en confiage pour faire de la randonnée, en Drôme (26)"></div>
+
+        <button class="hero-nav hero-prev" aria-label="Photo précédente">‹</button>
+        <button class="hero-nav hero-next" aria-label="Photo suivante">›</button>
+
+        <span class="hero-expand" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+        </span>
+      </div>
+
+      <p class="hero-cap" id="heroCap" aria-live="polite"></p>
+      <div class="hero-timer" id="heroTimer" aria-hidden="true"></div>
+    </div>
   </div>
 
   <div class="horse-hero-info">
@@ -84,12 +135,15 @@
       de la vie en extérieur.
     </p>
 
-    <a href="../index.html#contact" class="btn btn-primary" style="margin-top:.5rem;">Nous contacter</a>
+    <!-- Point d'ancrage du bouton : repère du script pour le dupliquer dans nav2 -->
+    <div id="ctaAnchor" class="cta-anchor">
+      <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
+    </div>
   </div>
 </div>
 
 <!-- Palmarès -->
-<section class="horse-pedigree">
+<section class="horse-pedigree" id="palmares">
   <div class="section-inner">
     <span class="section-badge">Résultats</span>
     <h2 class="section-title">Palmarès <em>de Sakura</em></h2>
@@ -107,8 +161,35 @@
   </div>
 </section>
 
+<!-- Descendance -->
+<section class="horse-pedigree" id="descendance">
+  <div class="section-inner">
+    <span class="section-badge">Descendance</span>
+    <h2 class="section-title">Poulains <em>de Sakura</em></h2>
+    <div class="section-divider"></div>
+
+    <p class="section-text" style="margin-top:2rem;">Élevage Humming Cob</p>
+    <div class="horses-grid" style="margin-top:1rem;">
+      <a href="../poulains/nashi.html" class="horse-card">
+        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
+          <img src="../img/nashi/na-index.jpg" alt="Nashi" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <span class="badge-available"><strong>⭐ Disponible</strong></span>
+        <div class="horse-card-body">
+          <span class="horse-card-tag">Hongre · Irish Cob · Bai · 2024</span>
+          <h3 class="horse-card-name">Nashi HC</h3>
+          <p class="horse-card-desc">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l'homme. 
+            Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. 
+            Taille estimée ~1m45.</p>
+          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- Pedigree -->
-<section class="horse-pedigree" style="background:var(--bg-light);">
+<section class="horse-pedigree" id="pedigree" style="background:var(--bg-light);">
   <div class="section-inner">
     <span class="section-badge">Origines</span>
     <h2 class="section-title">Pedigree <em>& lignées</em></h2>
@@ -156,10 +237,15 @@
     <div class="ped-tree">
 
       <!-- PÈRE -->
-      <div class="ped-parent ped-parent--pere">
+      <div class="ped-parent ped-parent--pere is-collapsed">
         <div class="ped-label ped-label--pere">Père</div>
         <div class="ped-name">SD Flash Harry</div>
         <div class="ped-robe">Bay Sabino · Gypsy Vanner · 2005 · 14hh · GVHS GV13705P</div>
+
+        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
 
         <div class="ped-gp">
           <div class="ped-gp-card ped-gp-card--pere">
@@ -191,10 +277,15 @@
       </div>
 
       <!-- MÈRE -->
-      <div class="ped-parent ped-parent--mere">
+      <div class="ped-parent ped-parent--mere is-collapsed">
         <div class="ped-label ped-label--mere">Mère</div>
         <div class="ped-name">SD Suzie</div>
         <div class="ped-robe">Gypsy Vanner · 2010</div>
+
+        <button type="button" class="ped-toggle ped-toggle--mere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
 
         <div class="ped-gp">
           <div class="ped-gp-card ped-gp-card--pere">
@@ -232,67 +323,8 @@
   </div>
 </section>
 
-<!-- Descendance -->
-<section class="horse-pedigree" style="background:var(--bg-light);">
-  <div class="section-inner">
-    <span class="section-badge">Descendance</span>
-    <h2 class="section-title">Poulains <em>de Sakura</em></h2>
-    <div class="section-divider"></div>
 
-    <p class="section-text" style="margin-top:2rem;">Élevage Humming Cob</p>
-    <div class="horses-grid" style="margin-top:1rem;">
-      <a href="../poulains/nashi.html" class="horse-card">
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/nashi/na-index.jpg" alt="Nashi" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <span class="badge-available"><strong>⭐ Disponible</strong></span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Hongre · Irish Cob · Bai · 2024</span>
-          <h3 class="horse-card-name">Nashi HC</h3>
-          <p class="horse-card-desc">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l'homme. 
-            Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. 
-            Taille estimée ~1m45.</p>
-          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Galerie -->
-<section style="background:#111;padding:5rem 0;">
-  <div class="section-inner">
-    <span class="section-badge" style="color:#B06070;border-color:#B06070;">Photos</span>
-    <h2 class="section-title" style="color:#fff;">Galerie <em>photos</em></h2>
-    <div class="section-divider"></div>
-
-    <div class="ar-carousel" style="margin-top:2.5rem;">
-      <div class="ar-slides" id="horseSlides">
-        <div class="ar-slide active"><img src="../img/sakura/sa- 01 J8.jpg" alt="SD Sakura 2026" data-cap="2017, au Pays de Galles — J+8"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 02 J15.jpg" alt="SD Sakura 2022" data-cap="2017, au Pays de Galles — J+15"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 03 J19.jpg" alt="SD Sakura 2021 — Titre Élite" data-cap="2017, au Pays de Galles — J+19"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 05 J27.jpg" alt="SD Sakura 2018" data-cap="2017, au Pays de Galles — J+27"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 06 J75.jpg" alt="SD Sakura 2018" data-cap="2017, au Pays de Galles — J+75"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 07 2018.jpg" alt="SD Sakura — 2 mois (2017)" data-cap="2018, arrivée à L'Isle-sur-la-Sorgue (84)"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 08 2019.jpg" alt="SD Sakura" data-cap="2019, passage en ITI, à Orange (30)"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 10 2020.jpg" alt="SD Sakura" data-cap="2020, travail à pied"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 09 2020.jpg" alt="SD Sakura" data-cap="2021, M&A obtention de la mention Élite, à Saint-Bauzille-de-Montmel (34)"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 2021.jpg" alt="SD Sakura" data-cap="2021, première sortie montée à cru et en licol"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa-2021 01.jpg" alt="SD Sakura" data-cap="2021, sa magnifique tête"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 11 2022.jpg" alt="SD Sakura" data-cap="2022, finition du débourrage par Pauline Rives, à Saint-Martin-de-Londres (34)"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 12 2023.jpg" alt="SD Sakura" data-cap="2023, le bidon s'arrondit pour son premier poulain, à Carnas (30)"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 13 2024.jpg" alt="SD Sakura" data-cap="2024, suitée de son premier poulain HC Nashi"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 14 2025.jpg" alt="SD Sakura" data-cap="2025, petite remise en selle avant de partir pour la Drôme"></div>
-        <div class="ar-slide"><img src="../img/sakura/sa- 15 2026.jpg" alt="SD Sakura" data-cap="2026, en confiage pour faire de la randonnée, en Drôme (26)"></div>
-        <button class="ar-btn ar-prev" id="horsePrev">&#8249;</button>
-        <button class="ar-btn ar-next" id="horseNext">&#8250;</button>
-      </div>
-      <div class="ar-cap-ext" id="horseCap">2017, au Pays de Galles — J+8</div>
-      <div class="ar-thumbs" id="horseThumbs"></div>
-    </div>
-  </div>
-</section>
-
+<!-- @partial:footer -->
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">Humming <span>Cob</span></div>
@@ -301,15 +333,14 @@
       <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
-    <ul class="footer-links">
-      <li><a href="../reproducteurs.html">Reproducteurs</a></li>
-      <li><a href="../poulains.html">Poulains disponibles</a></li>
-      <li><a href="accouplement.html">Testez un accouplement</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
+    <ul class="footer-legal">
+      <li><a href="../mentions-legales.html">Mentions légales</a></li>
+      <li><a href="../confidentialite.html">Politique de confidentialité</a></li>
     </ul>
     <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
   </div>
 </footer>
+<!-- @end:footer -->
 <script src="../js/main.js"></script>
 </body>
 </html>

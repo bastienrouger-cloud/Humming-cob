@@ -9,7 +9,42 @@ git pull
 
 ## Pendant que tu codes
 
-Rien de spécial, tu modifies tes fichiers normalement.
+Tu modifies tes fichiers normalement — **sauf le header et le footer**.
+
+### ⚠️ Header et footer : ne jamais les éditer dans les pages
+
+Depuis la mise en place des partials, la nav et le footer sont générés. Dans chaque page HTML tu verras :
+
+```html
+<!-- @partial:header -->
+   ... contenu généré — toute modif ici sera écrasée ...
+<!-- @end:header -->
+```
+
+Pour changer le menu ou le pied de page :
+
+1. éditer `partials/header.html` ou `partials/footer.html`
+2. lancer `python3 build.py` à la racine
+3. commiter les partials **et** les pages régénérées
+
+Les partials utilisent deux jetons, remplacés automatiquement selon l'emplacement de la page :
+
+- `{{base}}` → `` à la racine, `../` dans `reproducteurs/` et `poulains/`
+- `{{home}}` → `` sur l'accueil (donc `#contact`), `index.html` ou `../index.html` ailleurs
+
+Donc on écrit `{{base}}elevage.html` et `{{home}}#contact`, jamais de chemin en dur.
+
+### Vérifier avant de commiter
+
+```
+python3 build.py --check
+```
+
+Ne modifie rien, signale juste les pages qui ne sont plus à jour (code de sortie 1). Le réflexe à prendre avant un push.
+
+### Deux pages hors système
+
+`frise.html` et `arbre-genealogique.html` n'ont ni nav ni footer (choix d'origine, header custom pour la frise). Le build les ignore et le signale à chaque exécution — c'est normal, pas une erreur.
 
 ## Pour sauvegarder ton avancée (sur `Dev`)
 
@@ -53,15 +88,13 @@ https://github.com/bastienrouger-cloud/Humming-cob
 
 ## Tester le site en local
 
-Pour l'instant, pas de contrainte particulière : le site est encore 100 % statique (pas de header/footer chargés en JS via `fetch`), donc ouvrir `index.html` en double-clic fonctionne normalement.
+Pas de contrainte : le site reste 100 % statique. L'option "script de build" a été retenue plutôt que le `fetch` JS, donc **ouvrir `index.html` en double-clic fonctionne toujours**, sans serveur.
 
-⚠️ Ça changera le jour où les partials header/footer seront en place (voir `ROADMAP.md`, section 0) — **si on part sur l'option "fetch JS"** (celle utilisée dans le projet dont vient ce doc), il faudra repasser par un serveur local à chaque test :
+Un serveur local reste possible si tu préfères tester avec de vraies URL :
 
 ```
 python3 -m http.server 8000
 ```
-
-puis ouvrir http://localhost:8000 — à cause du blocage CORS sur `file://` et des chemins racine-relatifs. Si on part sur l'option "script de build" à la place, cette contrainte ne s'applique pas : le site reste double-cliquable.
 
 ## Règle d'or
 

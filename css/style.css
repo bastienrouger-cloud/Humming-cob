@@ -62,7 +62,10 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 3rem;
+  /* Hauteur figée : nav2 s'y accroche via --nav-h. Sans valeur explicite,
+     la hauteur dépend du chargement du logo et le calage devient aléatoire. */
+  height: 80px;
+  padding: 0 3rem;
   background: rgba(254, 251, 246, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -1020,7 +1023,9 @@ footer {
   overflow: hidden;
 }
 .horse-hero-img-wrap {
-  background: linear-gradient(160deg, var(--rose-pale), var(--or-pale));
+  /* Aplat identique à .horse-hero-info : le hero se lit comme une seule
+     surface continue, comme la section "Qui sommes-nous" de l'accueil. */
+  background: var(--bg-light);
   position: relative;
   min-height: 500px;
   display: flex;
@@ -1535,7 +1540,7 @@ footer {
    RESPONSIVE
    ============================================ */
 @media (max-width: 900px) {
-  .navbar { padding: 1rem 1.5rem; }
+  .navbar { padding: 0 1.5rem; }
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
   .nav-dropdown {
@@ -1846,4 +1851,443 @@ footer {
   .explore-visual { min-height: 220px; }
   .explore-content { padding: 2.4rem 1.8rem; }
   .explore-cards { grid-template-columns: 1fr; }
+}
+
+/* ============================================
+   FOOTER — liens légaux
+   ============================================ */
+.footer-legal {
+  display: flex;
+  gap: 1.4rem;
+  list-style: none;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.footer-legal a {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.28);
+  transition: color var(--transition);
+}
+.footer-legal a:hover { color: rgba(255,255,255,0.55); }
+
+/* ============================================
+   PAGES LÉGALES (mentions-legales, confidentialite)
+   ============================================ */
+.legal-section {
+  padding: 8rem 1.5rem 5rem;
+  /* Même wallpaper que le hero, voilé pour rester lisible sous le contenu.
+     background-attachment: fixed → la photo reste immobile au défilement. */
+  background:
+    linear-gradient(160deg, rgba(255,248,240,0.72) 0%, rgba(254,243,245,0.70) 50%, rgba(254,251,246,0.78) 100%),
+    url('../img/heroHCwp.jpg') center / cover no-repeat;
+  background-attachment: fixed, fixed;
+}
+.legal-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  background: rgba(255, 253, 250, 0.93);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius);
+  box-shadow:
+    0 2px 8px rgba(92, 62, 52, 0.06),
+    0 12px 40px rgba(92, 62, 52, 0.12);
+  padding: 3.5rem 3.5rem 3rem;
+}
+.legal-inner .section-title { text-align: center; }
+.legal-inner .section-divider { margin: 1.5rem auto 3rem; }
+
+.legal-lead {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--noir);
+  background: var(--bg-light);
+  border-left: 2px solid var(--rose);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.6rem 1.8rem;
+  margin-bottom: 3rem;
+}
+.legal-inner h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--rose-deep);
+  margin: 3rem 0 1rem;
+}
+.legal-inner h2:first-of-type { margin-top: 0; }
+.legal-inner p,
+.legal-inner li {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: var(--gris);
+}
+.legal-inner p { margin-bottom: 1.1rem; }
+.legal-inner ul {
+  margin: 0 0 1.1rem 1.2rem;
+  padding-left: 0.6rem;
+}
+.legal-inner li { margin-bottom: 0.4rem; }
+.legal-inner strong { color: var(--noir); font-weight: 500; }
+.legal-inner a {
+  color: var(--rose-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--transition);
+}
+.legal-inner a:hover { color: var(--rose-dark); }
+
+.legal-note {
+  font-style: italic;
+  font-size: 0.86rem !important;
+}
+.legal-updated {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem !important;
+  letter-spacing: 0.06em;
+  color: var(--gris-clair) !important;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .legal-section {
+    padding: 6rem 1rem 3.5rem;
+    /* iOS Safari gère mal background-attachment: fixed (saccades, zoom
+       intempestif de l'image) → on repasse en défilement normal sur mobile. */
+    background-attachment: scroll, scroll;
+  }
+  .legal-inner {
+    padding: 2.2rem 1.5rem 2rem;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 253, 250, 0.96);
+  }
+  .legal-inner h2 { font-size: 1.3rem; margin: 2.4rem 0 0.8rem; }
+  .footer-legal { gap: 1rem; }
+}
+
+/* ============================================
+   NAV2 — navigation secondaire de fiche cheval
+   Sticky sous la navbar principale. --nav-h et --nav2-top sont
+   mesurés/pilotés par js/main.js (bloc nav2).
+   ============================================ */
+:root {
+  --nav-h: 80px;   /* = .navbar height ET .horse-page padding-top */
+  --nav2-h: 48px;
+  --nav2-top: var(--nav-h);
+}
+.nav2 {
+  position: sticky;
+  top: var(--nav2-top);
+  z-index: 900;
+  /* Pas de margin-top ici : .horse-page (et .memorial-page) portent déjà un
+     padding-top de 80px qui dégage la navbar fixe. En ajouter un second
+     empilerait deux fois la même hauteur. */
+  background: rgba(254, 251, 246, 0.92);
+  border-bottom: 1px solid var(--border);
+  transition: top 0.35s ease, box-shadow var(--transition);
+  /* Pas de transform ici : il créerait un bloc conteneur et casserait
+     le position:fixed du CTA flottant sur mobile. */
+}
+.nav2.is-stuck { box-shadow: 0 2px 16px rgba(176, 96, 112, 0.10); }
+.nav2-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 46px;
+}
+.nav2-links {
+  display: flex;
+  gap: 2.2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav2-links a {
+  position: relative;
+  display: block;
+  padding: 0.85rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gris);
+  transition: color var(--transition);
+}
+.nav2-links a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--rose);
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
+.nav2-links a:hover { color: var(--rose-deep); }
+.nav2-links a.is-active { color: var(--noir); }
+.nav2-links a.is-active::after { transform: scaleX(1); }
+
+/* Cible d'ancrage : compense navbar + nav2 quand on saute à une section */
+#palmares, #descendance, #pedigree {
+  scroll-margin-top: calc(var(--nav-h) + var(--nav2-h));
+}
+
+/* ---- CTA « Nous contacter » ---- */
+.cta-anchor { margin-top: 0.5rem; }
+
+/* Version dupliquée dans nav2 : masquée tant que l'ancre est visible */
+.nav2-cta {
+  flex-shrink: 0;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.72rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+}
+.nav2-cta.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .nav2-inner {
+    padding: 0 1rem;
+    gap: 0;
+  }
+  .nav2-links {
+    gap: 1.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav2-links::-webkit-scrollbar { display: none; }
+  .nav2-links a { white-space: nowrap; font-size: 0.68rem; letter-spacing: 0.1em; }
+
+  /* Sur mobile le CTA quitte la nav2 et devient une barre flottante
+     centrée en bas de l'écran. */
+  .nav2-cta {
+    position: fixed;
+    left: 50%;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 950;
+    transform: translate(-50%, 120%);
+    padding: 0.85rem 2.2rem;
+    font-size: 0.76rem;
+    box-shadow: 0 6px 24px rgba(92, 62, 52, 0.28);
+  }
+  .nav2-cta.is-visible { transform: translate(-50%, 0); }
+}
+
+/* ============================================
+   CARROUSEL DU HERO (fiches chevaux)
+   ============================================ */
+.horse-hero-img-wrap { padding: 2.4rem; }
+
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+/* Liseré fin décalé, repris tel quel de .qsn-image-wrap sur l'accueil */
+.hero-carousel::before {
+  content: '';
+  position: absolute;
+  top: -16px; left: -16px;
+  right: 16px;
+  /* S'arrête au bas de la photo : la légende et les pastilles restent hors cadre */
+  height: calc(100% - 2.6rem);
+  border: 1px solid var(--rose-pale);
+  border-radius: var(--radius);
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-slides {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--rose-pale);
+  cursor: zoom-in;
+  box-shadow: 0 4px 20px rgba(92, 62, 52, 0.10);
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.hero-slide.active { opacity: 1; }
+.hero-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --- Flèches --- */
+.hero-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 34px; height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(28, 28, 28, 0.34);
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition), background var(--transition);
+}
+.hero-slides:hover .hero-nav,
+.hero-nav:focus-visible { opacity: 1; }
+.hero-nav:hover { background: rgba(176, 96, 112, 0.85); }
+.hero-prev { left: 0.7rem; }
+.hero-next { right: 0.7rem; }
+
+/* --- Pastille "agrandir" : signale la lightbox --- */
+.hero-expand {
+  position: absolute;
+  right: 0.7rem; bottom: 0.7rem;
+  z-index: 3;
+  width: 30px; height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: rgba(28, 28, 28, 0.42);
+  color: #fff;
+  pointer-events: none;
+  transition: background var(--transition);
+}
+.hero-slides:hover .hero-expand { background: rgba(176, 96, 112, 0.85); }
+
+/* --- Légende de la photo courante --- */
+.hero-cap {
+  position: relative;
+  z-index: 1;
+  min-height: 1.3em;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  color: var(--gris);
+  transition: opacity 0.3s ease;
+}
+.hero-cap:empty { visibility: hidden; }
+
+/* --- Minuterie : une pastille par photo, l'active s'allonge et se remplit --- */
+.hero-timer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.hero-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 4px;
+  background: var(--rose-pale);
+  overflow: hidden;
+  transition: width var(--transition), background var(--transition);
+}
+.hero-dot.done { background: var(--rose); }
+/* Pastille active : s'allonge en gélule et se colorise au rythme du minuteur */
+.hero-dot.running { width: 34px; }
+.hero-dot i {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 4px;
+  background: var(--rose-deep);
+}
+.hero-dot.running i { animation: heroTimerFill var(--hero-delay, 5s) linear forwards; }
+/* Défilement en pause (survol) : la gélule se fige où elle en est */
+.hero-carousel.is-paused .hero-dot.running i { animation-play-state: paused; }
+
+@keyframes heroTimerFill { from { width: 0; } to { width: 100%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-dot.running i { animation: none; width: 100%; }
+}
+
+@media (max-width: 900px) {
+  .horse-hero-img-wrap { padding: 1.8rem; min-height: 0; }
+  .hero-carousel::before { top: -10px; left: -10px; right: 10px; }
+  .hero-nav { opacity: 1; }
+}
+
+/* ============================================
+   PÉDIGRÉE REPLIABLE (fiches chevaux)
+   ============================================ */
+/* Un repli par parent : le père et la mère se déplient indépendamment.
+   L'état replié est posé en HTML (.is-collapsed) et non en JS, pour éviter
+   que le bloc complet clignote avant de se refermer au premier rendu. */
+.ped-parent.is-collapsed .ped-gp { display: none; }
+
+.ped-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1.2rem;
+  padding: 0.4rem 0.9rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+/* Chaque bouton reprend la couleur de son parent (bleu père, rose mère),
+   cohérent avec le code couleur déjà utilisé par les cartes du pédigrée. */
+.ped-toggle--pere { color: var(--bleu-deep); border-color: rgba(106, 143, 160, 0.32); }
+.ped-toggle--pere:hover { background: rgba(106, 143, 160, 0.08); border-color: var(--bleu); }
+.ped-toggle--mere { color: var(--rose-deep); border-color: rgba(212, 137, 154, 0.32); }
+.ped-toggle--mere:hover { background: rgba(212, 137, 154, 0.08); border-color: var(--rose); }
+
+.ped-toggle svg { transition: transform var(--transition); }
+.ped-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+/* Note de contexte sous le palmarès : explique l'arrêt des concours plutôt
+   que de laisser le lecteur interpréter un palmarès qui s'arrête net. */
+.palmares-note {
+  max-width: 620px;
+  margin: 2.5rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--gris);
+  text-align: center;
 }

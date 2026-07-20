@@ -13,42 +13,100 @@
   <meta property="og:site_name" content="Humming Cob">
   <link rel="icon" href="../img/favicon.png" type="image/png">
   <link rel="stylesheet" href="../css/style.css">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7Y0BZPH4Q"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-M7Y0BZPH4Q');</script>
 </head>
 <body class="horse-page">
 
+<!-- @partial:header -->
 <nav class="navbar" id="navbar">
   <a href="../index.html" class="nav-logo">
     <img src="../img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
-    <div class="nav-logo-text">Humming Cob<span>Élevage Irish Cob · Gard</span></div>
+    <div class="nav-logo-text">
+      Humming Cob
+      <span>Élevage Irish Cob · Gard</span>
+    </div>
   </a>
   <ul class="nav-links">
     <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
     <li class="has-dropdown">
-      <a href="../reproducteurs.html" class="nav-active">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
       <ul class="nav-dropdown">
-        <li><a href="archy.html" class="nav-etalon">Archy</a></li>
-        <li><a href="avantgarde.html" class="nav-etalon">Avantgarde</a></li>
-        <li><a href="suzie.html">Suzie</a></li>
-        <li><a href="sakura.html">Sakura</a></li>
-        <li><a href="ruby-jane.html">Ruby Jane</a></li>
+        <li><a href="../reproducteurs.html">Reproducteurs</a></li>
+        <li><a href="../poulains.html">Poulains</a></li>
+        <li><a href="../memoire.html">Ils ont marqué notre histoire</a></li>
       </ul>
     </li>
-    <li><a href="../poulains.html">Poulains</a></li>
-    <li><a href="../arbre-genealogique.html">Généalogie</a></li>
-    <li><a href="../accouplement.html">Testez un accouplement</a></li>
+    <li class="has-dropdown">
+      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="../arbre-genealogique.html">Arbre généalogique</a></li>
+        <li><a href="../accouplement.html">Testez un accouplement</a></li>
+      </ul>
+    </li>
     <li><a href="../index.html#contact">Contact</a></li>
   </ul>
-  <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+  <div class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<!-- @end:header -->
+<!-- ====== NAV SECONDAIRE (spécifique à la fiche) ====== -->
+<nav class="nav2" id="nav2" aria-label="Sections de la fiche">
+  <div class="nav2-inner">
+    <ul class="nav2-links">
+      <li><a href="#palmares">Palmarès</a></li>
+      <li><a href="#descendance">Poulains</a></li>
+      <li><a href="#pedigree">Pedigree</a></li>
+    </ul>
+    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Conditions de saillie</a>
+  </div>
 </nav>
 
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
-    <img src="../img/archy/Avignon 2019.jpg" alt="Cairnview Archy"
-         style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
+    <!-- Carrousel du hero. La lightbox est branchée dans js/main.js
+         (tableau "carousels") via #heroSlides / .hero-slide. -->
+    <div class="hero-carousel">
+      <div class="hero-slides" id="heroSlides">
+        <div class="hero-slide active"><img src="../img/archy/ar-2010 02.jpg" alt="Cairnview Archy" data-cap="2010, en Irlande"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-2011 01.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2011, à Nord-sur-Erdre (44)"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-equita-01.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2012, Equita Lyon"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-equita-02.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2012, Equita Lyon, Champion Junior en Qualification Loisir"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-equita-03.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2012, Petit article dans cheval magazine, janvier 2013 P42"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-2014.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2014, à Chateaurenard (13)"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-hero.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2015, Aniane (34), Concours M&A et Qualification Loisir Monté"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-aniane-01.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2015, Aniane (34), Concours M&A"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-aniane-03.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2015, Aniane (34), Qualification Loisir Monté"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-aniane-06.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2015, Aniane (34), QLM Présentation en main"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-aniane-08.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2015, Aniane (34), QLM Passage de pneus"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-aniane-07.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2015, Aniane (34), QLM Saut"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-2016.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2016, à L'Isle-sur-la-Sorgue (84)"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-2017 (2).jpg" alt="Cairnview Archy" loading="lazy" data-cap="2017, à L'Isle-sur-la-Sorgue (84)"></div>
+        <div class="hero-slide"><img src="../img/archy/Avignon 2019.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2019, à Avignon (84), Salon du Cheval"></div>
+        <div class="hero-slide"><img src="../img/archy/Avignon 2019 01.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2019, à Avignon (84), Salon du Cheval, avec les mascottes"></div>
+        <div class="hero-slide"><img src="../img/archy/Journal Archy Salon du cheval.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2019, à Avignon (84), Salon du Cheval, article dans le journal"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-2023.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2023, à Carnas (30), prêt pour fêter le Noël des enfants"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-2024.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2024, à Carnas (30)"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-2025.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2025, à Carnas (30)"></div>
+        <div class="hero-slide"><img src="../img/archy/ar-2025 02.jpg" alt="Cairnview Archy" loading="lazy" data-cap="2025, à Carnas (30)"></div>
+
+        <button class="hero-nav hero-prev" aria-label="Photo précédente">‹</button>
+        <button class="hero-nav hero-next" aria-label="Photo suivante">›</button>
+
+        <span class="hero-expand" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+        </span>
+      </div>
+
+      <!-- Légende de la photo courante, alimentée par les data-cap des diapos -->
+      <p class="hero-cap" id="heroCap" aria-live="polite"></p>
+
+      <!-- Minuterie : une pastille par photo, l'active se remplit -->
+      <div class="hero-timer" id="heroTimer" aria-hidden="true"></div>
+    </div>
   </div>
 
   <div class="horse-hero-info">
@@ -85,15 +143,20 @@
       la démonstration : des chevaux équilibrés, tant physiquement que sous la selle.
     </p>
 
-    <a href="../index.html#contact" class="btn btn-primary" style="margin-top:.5rem;">Nous contacter</a>
+    <!-- Point d'ancrage du bouton : le sentinel sert de repère au script pour
+         savoir quand le dupliquer dans nav2 (voir js/main.js, bloc nav2). -->
+    <div id="ctaAnchor" class="cta-anchor">
+      <a href="../index.html#contact" class="btn btn-primary">Demander les conditions de saillie</a>
+    </div>
   </div>
 </div>
 
+
 <!-- Palmarès -->
-<section class="horse-pedigree">
+<section class="horse-pedigree" id="palmares">
   <div class="section-inner">
     <span class="section-badge">Résultats</span>
-    <h2 class="section-title">Palmarès <em>de Archy</em></h2>
+    <h2 class="section-title">Palmarès <em>d'Archy</em></h2>
     <div class="section-divider"></div>
     <div class="palmares-list" style="margin-top:2.5rem;">
       <div class="palmares-item">
@@ -118,164 +181,20 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- Pedigree -->
-<section class="horse-pedigree" style="background:var(--bg-light);">
-  <div class="section-inner">
-    <span class="section-badge">Origines</span>
-    <h2 class="section-title">Pedigree <em>&amp; lignées</em></h2>
-    <div class="section-divider"></div>
-    <p class="section-text" style="margin-bottom:2.5rem;">
-      Cairnview Archy est issu de l'élevage irlandais Cairnview, reconnu pour la qualité morphologique et le tempérament exemplaire de ses Irish Cobs.
-      Leurs chevaux sont travaillés sous la selle et prouvent leur talent dans divers domaines. 
-      Son père, Llewelyn, est enregistré à l'ICS (Irish Cob Society), descendant de Mr. Morris, étalon élite de la race.
+    <p class="palmares-note">
+      Archy n'est plus présenté en concours depuis 2015. L'élevage reste une activité passion
+      menée en parallèle de nos métiers&nbsp;: nous préférons consacrer ce temps à nos chevaux
+      plutôt qu'aux concours.
     </p>
-
-    <style>
-      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
-      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
-      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
-      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
-      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
-      .ped-label--pere { color:var(--bleu); }
-      .ped-label--mere { color:var(--rose); }
-      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
-      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
-      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
-      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
-      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
-      .ped-gp-card--unknown { background:rgba(0,0,0,0.02); border-left-color:rgba(0,0,0,0.1); }
-      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
-      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
-      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
-      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
-      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
-      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
-      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
-      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
-      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
-      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
-      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
-      .ped-ancestors { margin-top:.4rem; font-size:.6rem; color:var(--gris); font-style:italic; line-height:1.5; border-top:1px dashed rgba(0,0,0,0.08); padding-top:.35rem; }
-      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
-      .ped-note strong { color:var(--bleu); }
-      @media(max-width:700px) {
-        .ped-tree { grid-template-columns:1fr; }
-        .ped-gp { grid-template-columns:1fr; }
-        .ped-ggp { grid-template-columns:1fr; }
-      }
-    </style>
-
-    <div class="ped-tree">
-
-      <!-- PÈRE -->
-      <div class="ped-parent ped-parent--pere">
-        <div class="ped-label ped-label--pere">Père</div>
-        <div class="ped-name">Cairnview Llewelyn</div>
-        <div class="ped-robe">Noir Tobiano · Irish Tinker · 2004 · 158cm · ICS</div>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--pere">
-            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
-            <div class="ped-gp-name">Mr. Morris</div>
-            <div class="ped-gp-robe">Noir Pinto · Gypsy Vanner · 1996 · IRL</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ped-gp-card ped-gp-card--mere">
-            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère paternelle</div>
-            <div class="ped-gp-name">Carrigburns Lady</div>
-            <div class="ped-gp-robe">Noir Tobiano · Gypsy Vanner · 1998 · 1.6m · IRL</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MÈRE -->
-      <div class="ped-parent ped-parent--mere">
-        <div class="ped-label ped-label--mere">Mère</div>
-        <div class="ped-name">Cairnview Kessia</div>
-        <div class="ped-robe">Irish Tinker · ~2004 · Élevage Cairnview</div>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--unknown">
-            <div class="ped-gp-label" style="color:var(--gris);">♂ Grand-père maternel</div>
-            <div class="ped-gp-name">—</div>
-            <div class="ped-gp-robe">Non documenté</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ped-gp-card ped-gp-card--unknown">
-            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère maternelle</div>
-            <div class="ped-gp-name">—</div>
-            <div class="ped-gp-robe">Non documentée</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="ped-note">
-      <strong>Note sur les origines</strong><br>
-      Les origines d'Archy sont partiellement documentées. Son père, Cairnview Llewelyn, est enregistré à l'Irish Cob Society (ICS). 
-      Du côté maternel, les informations sont limitées et ses ascendants ne sont pas enregistrés.
-    </div>
   </div>
 </section>
 
 <!-- Descendance -->
-<section class="horse-pedigree" style="background:var(--bg-light);">
+<section class="horse-pedigree" id="descendance">
   <div class="section-inner">
     <span class="section-badge">Descendance</span>
-    <h2 class="section-title">Poulains <em>de Archy</em></h2>
+    <h2 class="section-title">Poulains <em>d'Archy</em></h2>
     <div class="section-divider"></div>
 
     <p class="section-text" style="margin-top:2rem;">Élevage Humming Cob</p>
@@ -363,45 +282,169 @@
   </div>
 </section>
 
-<!-- Galerie -->
-<section style="background:#111;padding:5rem 0;">
+<!-- Pedigree -->
+<section class="horse-pedigree" id="pedigree" style="background:var(--bg-light);">
   <div class="section-inner">
-    <span class="section-badge" style="color:#B06070;border-color:#B06070;">Photos</span>
-    <h2 class="section-title" style="color:#fff;">Galerie <em>photos</em></h2>
+    <span class="section-badge">Origines</span>
+    <h2 class="section-title">Pedigree <em>&amp; lignées</em></h2>
     <div class="section-divider"></div>
+    <p class="section-text" style="margin-bottom:2.5rem;">
+      Cairnview Archy est issu de l'élevage irlandais Cairnview, reconnu pour la qualité morphologique et le tempérament exemplaire de ses Irish Cobs.
+      Leurs chevaux sont travaillés sous la selle et prouvent leur talent dans divers domaines. 
+      Son père, Llewelyn, est enregistré à l'ICS (Irish Cob Society), descendant de Mr. Morris, étalon élite de la race.
+    </p>
 
-    <div class="ar-carousel" style="margin-top:2.5rem;">
-      <div class="ar-slides" id="horseSlides">
-        <div class="ar-slide active"><img src="../img/archy/ar-2010 02.jpg" alt="2010" data-cap="2010, en Irlande"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-2011 01.jpg" alt="2011" data-cap="2011, à Nord-sur-Erdre (44)"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-equita-01.jpg" alt="2012" data-cap="2012, Equita Lyon"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-equita-02.jpg" alt="2012" data-cap="2012, Equita Lyon, Champion Junior en Qualification Loisir"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-equita-03.jpg" alt="2012" data-cap="2012, Petit article dans cheval magazine, janvier 2013 P42"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-2014.jpg" alt="2014" data-cap="2014, à Chateaurenard (13)"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-hero.jpg" alt="2015" data-cap="2015, Aniane (34), Concours M&A et Qualification Loisir Monté"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-aniane-01.jpg" alt="2015" data-cap="2015, Aniane (34), Concours M&A"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-aniane-03.jpg" alt="2015" data-cap="2015, Aniane (34), Qualification Loisir Monté"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-aniane-06.jpg" alt="2015" data-cap="2015, Aniane (34), QLM Présentation en main"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-aniane-08.jpg" alt="2015" data-cap="2015, Aniane (34), QLM Passage de pneus"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-aniane-07.jpg" alt="2015" data-cap="2015, Aniane (34), QLM Saut"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-2016.jpg" alt="2016" data-cap="2016, à L'Isle-sur-la-Sorgue (84)"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-2017 (2).jpg" alt="2017" data-cap="2017, à L'Isle-sur-la-Sorgue (84)"></div>
-        <div class="ar-slide"><img src="../img/archy/Avignon 2019.jpg" alt="2019" data-cap="2019, à Avignon (84), Salon du Cheval"></div>
-        <div class="ar-slide"><img src="../img/archy/Avignon 2019 01.jpg" alt="2019" data-cap="2019, à Avignon (84), Salon du Cheval, avec les mascottes"></div>
-        <div class="ar-slide"><img src="../img/archy/Journal Archy Salon du cheval.jpg" alt="2019" data-cap="2019, à Avignon (84), Salon du Cheval, article dans le journal"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-2023.jpg" alt="2023" data-cap="2023, à Carnas (30), prêt pour fêter le Noël des enfants"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-2024.jpg" alt="2024" data-cap="2024, à Carnas (30)"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-2025.jpg" alt="2025" data-cap="2025, à Carnas (30)"></div>
-        <div class="ar-slide"><img src="../img/archy/ar-2025 02.jpg" alt="2025" data-cap="2025, à Carnas (30)"></div>
+    <style>
+      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
+      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
+      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
+      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
+      .ped-label--pere { color:var(--bleu); }
+      .ped-label--mere { color:var(--rose); }
+      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
+      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
+      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
+      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
+      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
+      .ped-gp-card--unknown { background:rgba(0,0,0,0.02); border-left-color:rgba(0,0,0,0.1); }
+      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
+      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
+      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
+      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
+      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
+      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
+      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
+      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
+      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
+      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
+      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
+      .ped-ancestors { margin-top:.4rem; font-size:.6rem; color:var(--gris); font-style:italic; line-height:1.5; border-top:1px dashed rgba(0,0,0,0.08); padding-top:.35rem; }
+      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
+      .ped-note strong { color:var(--bleu); }
+      @media(max-width:700px) {
+        .ped-tree { grid-template-columns:1fr; }
+        .ped-gp { grid-template-columns:1fr; }
+        .ped-ggp { grid-template-columns:1fr; }
+      }
+    </style>
+
+    <div class="ped-tree">
+
+      <!-- PÈRE -->
+      <div class="ped-parent ped-parent--pere is-collapsed">
+        <div class="ped-label ped-label--pere">Père</div>
+        <div class="ped-name">Cairnview Llewelyn</div>
+        <div class="ped-robe">Noir Tobiano · Irish Tinker · 2004 · 158cm · ICS</div>
+
+        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--pere">
+            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
+            <div class="ped-gp-name">Mr. Morris</div>
+            <div class="ped-gp-robe">Noir Pinto · Gypsy Vanner · 1996 · IRL</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseigné</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ped-gp-card ped-gp-card--mere">
+            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère paternelle</div>
+            <div class="ped-gp-name">Carrigburns Lady</div>
+            <div class="ped-gp-robe">Noir Tobiano · Gypsy Vanner · 1998 · 1.6m · IRL</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseigné</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <button class="ar-btn ar-prev" id="horsePrev">&#8249;</button>
-      <button class="ar-btn ar-next" id="horseNext">&#8250;</button>
-      <div class="ar-cap-ext" id="horseCap">2010, en Irlande</div>
-      <div class="ar-thumbs" id="horseThumbs"></div>
+
+      <!-- MÈRE -->
+      <div class="ped-parent ped-parent--mere is-collapsed">
+        <div class="ped-label ped-label--mere">Mère</div>
+        <div class="ped-name">Cairnview Kessia</div>
+        <div class="ped-robe">Irish Tinker · ~2004 · Élevage Cairnview</div>
+
+        <button type="button" class="ped-toggle ped-toggle--mere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--unknown">
+            <div class="ped-gp-label" style="color:var(--gris);">♂ Grand-père maternel</div>
+            <div class="ped-gp-name">—</div>
+            <div class="ped-gp-robe">Non documenté</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseigné</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ped-gp-card ped-gp-card--unknown">
+            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère maternelle</div>
+            <div class="ped-gp-name">—</div>
+            <div class="ped-gp-robe">Non documentée</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseigné</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+    <div class="ped-note">
+      <strong>Note sur les origines</strong><br>
+      Les origines d'Archy sont partiellement documentées. Son père, Cairnview Llewelyn, est enregistré à l'Irish Cob Society (ICS). 
+      Du côté maternel, les informations sont limitées et ses ascendants ne sont pas enregistrés.
+    </div>
+
   </div>
 </section>
 
+
+<!-- @partial:footer -->
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">Humming <span>Cob</span></div>
@@ -410,15 +453,14 @@
       <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
-    <ul class="footer-links">
-      <li><a href="../reproducteurs.html">Reproducteurs</a></li>
-      <li><a href="../poulains.html">Poulains disponibles</a></li>
-      <li><a href="accouplement.html">Testez un accouplement</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
+    <ul class="footer-legal">
+      <li><a href="../mentions-legales.html">Mentions légales</a></li>
+      <li><a href="../confidentialite.html">Politique de confidentialité</a></li>
     </ul>
     <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
   </div>
 </footer>
+<!-- @end:footer -->
 
 <script src="../js/main.js"></script>
 
