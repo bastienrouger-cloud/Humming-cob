@@ -50,21 +50,64 @@
   </div>
 </nav>
 <!-- @end:header -->
+<!-- ====== NAV SECONDAIRE (spécifique à la fiche) ====== -->
+<nav class="nav2" id="nav2" aria-label="Sections de la fiche">
+  <div class="nav2-inner">
+    <ul class="nav2-links">
+      <li><a href="#genetique">Génétique</a></li>
+      <li><a href="#premieres-semaines">Premières semaines</a></li>
+      <li><a href="#pedigree">Pedigree</a></li>
+    </ul>
+    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Suivre son évolution</a>
+  </div>
+</nav>
+
+<div class="horse-hero-top">
+  <span style="position:static;display:inline-block;background:rgba(60,160,160,0.85);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;"><strong>Croissance en cours</strong></span>
+  <p class="horse-hero-race">Entier · Irish Cob · Noir Pearl</p>
+</div>
 
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
-    <img src="../img/kaeru/ka-28.jpg" alt="Quercus Kaeru"
-         style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
+    <!-- Carrousel du hero. La lightbox est branchée dans js/main.js
+         (tableau "carousels") via #heroSlides / .hero-slide. -->
+    <div class="hero-carousel">
+      <div class="hero-frame">
+  <div class="hero-slides" id="heroSlides">
+          <div class="hero-slide active"><img src="../img/kaeru/ka-portrait.jpg" alt="Quercus Kaeru — Irish Cob" data-cap="Quercus Kaeru, été 2026"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-28.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, été 2026"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-26.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, été 2026"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-22.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, été 2026"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-19.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, premières semaines"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-15.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, premières semaines"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-13.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, premières semaines"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-12.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, premières semaines"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-bache.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, découverte du monde"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-05.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, premiers jours"></div>
+          <div class="hero-slide"><img src="../img/kaeru/ka-01.jpg" alt="Quercus Kaeru — Irish Cob" loading="lazy" data-cap="Quercus Kaeru, premiers jours"></div>
+
+          <button class="hero-nav hero-prev" aria-label="Photo précédente">‹</button>
+          <button class="hero-nav hero-next" aria-label="Photo suivante">›</button>
+
+          <span class="hero-expand" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+              <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+            </svg>
+          </span>
+        </div>
+
+        <!-- Légende de la photo courante, alimentée par les data-cap des diapos -->
+      </div>
+
+      <p class="hero-cap" id="heroCap" aria-live="polite"></p>
+
+      <!-- Minuterie : une pastille par photo, l'active se remplit -->
+      <div class="hero-timer" id="heroTimer" aria-hidden="true"></div>
+    </div>
   </div>
 
   <div class="horse-hero-info">
-    <nav class="breadcrumb">
-      <a href="../index.html">Accueil</a><span>›</span>
-      <a href="../poulains.html">Poulains</a><span>›</span>
-      <span style="color:var(--noir)">Quercus Kaeru</span>
-    </nav>
-    <span style="position:static;display:inline-block;margin-bottom:1rem;background:rgba(60,160,160,0.85);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;"><strong>Croissance en cours</strong></span>
-    <p class="horse-hero-race">Entier · Irish Cob · Noir Pearl</p>
     <h1 class="horse-hero-name">Quercus <em>Kaeru</em></h1>
 
     <div class="horse-specs">
@@ -79,134 +122,253 @@
     </div>
 
     <p class="horse-description">
-     Quercus Kaeru est arrivé bien avant l'heure, le 13 mai 2026. Ses premiers jours nous ont rappelé à quel point la vie peut être fragile, mais lui semblait avoir déjà choisi son chemin. Pendant une semaine, il s'est battu avec une détermination qui force le respect.    </p>
+      Quercus Kaeru est arrivé bien avant l'heure, le 13 mai 2026. Ses premiers jours nous ont
+      rappelé à quel point la vie peut être fragile, mais lui semblait avoir déjà choisi son chemin.
+      Pendant une semaine, il s'est battu avec une détermination qui force le respect.
+    </p>
     <p class="horse-description">
-     Son nom n'a pas été choisi au hasard : Quercus signifie « chêne ». Un symbole qui lui ressemble déjà. Encore jeune pousse aujourd'hui, il a pourtant montré très tôt une remarquable force de vivre. Fils de San Cler Avantgarde et de SD Suzie, il porte en lui une nouvelle branche de l'histoire Humming Cob.    </p>
-    <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 1.2rem;">
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Combatif</span>
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Audacieux</span>
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Éveillé</span>
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Résilient</span>
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Câlin</span>
+      Son nom n'a pas été choisi au hasard : Quercus signifie « chêne ». Un symbole qui lui ressemble
+      déjà. Encore jeune pousse aujourd'hui, il a pourtant montré très tôt une remarquable force de
+      vivre. Fils de San Cler Avantgarde et de SD Suzie, il porte en lui une nouvelle branche de
+      l'histoire Humming Cob.
+    </p>
+
+    <div class="horse-tags">
+      <span class="horse-tag">Combatif</span>
+      <span class="horse-tag">Audacieux</span>
+      <span class="horse-tag">Éveillé</span>
+      <span class="horse-tag">Résilient</span>
+      <span class="horse-tag">Câlin</span>
     </div>
 
-    <div style="margin: 1.2rem 0 0.4rem; display:flex; align-items:baseline; gap:0.6rem;">
-      <span style="font-family:var(--font-serif);font-size:2rem;font-weight:500;color:var(--rose-dark);">En réflexion</span>
-      <span style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gris);">Prix indicatif</span>
+    <!-- Point d'ancrage du bouton : le sentinel sert de repère au script pour
+         savoir quand le dupliquer dans nav2 (voir js/main.js, bloc nav2). -->
+    <div id="ctaAnchor" class="cta-anchor">
+      <a href="../index.html#contact" class="btn btn-primary">Suivre son évolution</a>
     </div>
-
-    <a href="../index.html#contact" class="btn btn-primary" style="margin-top:.5rem;">Demander des informations</a>
   </div>
 </div>
 
+
+<!-- Génétique -->
+<section class="horse-pedigree" id="genetique" style="background:var(--bg-light);">
+  <div class="section-inner">
+    <span class="section-badge">Génétique</span>
+    <h2 class="section-title">Ce qu'il <em>transmet</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-text">
+      Avec un père homozygote pearl, Quercus Kaeru hérite obligatoirement d'un allèle pearl.
+      Sa robe noir pearl ne permet pas l'expression du gène ; en revanche, s'il devient étalon
+      et qu'il est marié à une jument Crème/Pearl, il aura 50 % de chances de transmettre son
+      gène Pearl.
+    </p>
+    <p class="section-text" style="margin-top:.8rem;">
+      Il a un éclat de bleu dans l'œil gauche, associé à un pattern de blanc non identifié.
+    </p>
+  </div>
+</section>
+
+
+<!-- Premières semaines -->
+<section class="horse-pedigree" id="premieres-semaines">
+  <div class="section-inner">
+    <span class="section-badge">Premières semaines</span>
+    <h2 class="section-title">Une jeune pousse <em>prometteuse</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-text">
+      Malgré une naissance prématurée et des débuts mouvementés, Quercus Kaeru se montre chaque
+      jour un peu plus vif, curieux et assuré. Aux côtés de sa mère Suzie, il grandit au pré et
+      découvre le monde à son rythme.
+    </p>
+    <p class="section-text" style="margin-top:.8rem;">
+      Encore trop jeune pour être proposé à la vente, il poursuit simplement son chemin de jeune
+      poulain. Si son profil vous intéresse, n'hésitez pas à nous contacter : nous partagerons
+      avec plaisir son évolution au fil des mois.
+    </p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:2.2rem;flex-wrap:wrap;max-width:620px;">
+      <a href="../index.html#contact" class="btn btn-primary">Suivre son évolution</a>
+    </div>
+  </div>
+</section>
+
+
 <!-- Pedigree -->
-<section class="horse-pedigree">
+<section class="horse-pedigree" id="pedigree" style="background:var(--bg-light);">
   <div class="section-inner">
     <span class="section-badge">Origines</span>
-    <h2 class="section-title">Généalogie &amp; <em>origines</em></h2>
+    <h2 class="section-title">Pedigree <em>&amp; lignées</em></h2>
     <div class="section-divider"></div>
+    <p class="section-text" style="margin-bottom:2.5rem;">
+      Quercus Kaeru réunit la lignée galloise San Cler, portée par son père Avantgarde,
+      Vice-Champion de France 2025, et la lignée Gypsy Vanner SD portée par sa mère Suzie.
+      Ses deux parents vivent à l'élevage — leurs fiches complètes sont accessibles depuis
+      les cartes ci-dessous.
+    </p>
 
-    <div class="pedigree-tree">
-      <div class="pedigree-node">
-        <img src="../img/tree/avantgarde.jpg" alt="San Cler Avantgarde" class="pedigree-node-photo">
-        <div class="pedigree-node-label">Père</div>
-        <div class="pedigree-node-name">San Cler Avantgarde</div>
-        <div class="pedigree-node-sub">par San Cler Talk Of The Town<br>
-          ×<br>
-          San Cler Uptown Girl</div>
-        <div style="font-size:.75rem;color:var(--gris);line-height:1.3;">
-          <span style="display:block;margin-top:.5rem;opacity:.7;">Vice-Champion de France 2025</span>
+    <style>
+      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
+      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
+      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
+      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
+      .ped-label--pere { color:var(--bleu); }
+      .ped-label--mere { color:var(--rose); }
+      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
+      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
+      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
+      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
+      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
+      .ped-gp-card--unknown { background:rgba(0,0,0,0.02); border-left-color:rgba(0,0,0,0.1); }
+      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
+      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
+      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
+      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
+      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
+      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
+      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
+      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
+      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
+      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
+      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
+      .ped-parent-link { display:inline-block; margin-top:1rem; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; }
+      .ped-parent-link--pere { color:var(--bleu); }
+      .ped-parent-link--mere { color:var(--rose-deep); }
+      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
+      .ped-note strong { color:var(--bleu); }
+      @media(max-width:700px) {
+        .ped-tree { grid-template-columns:1fr; }
+        .ped-gp { grid-template-columns:1fr; }
+        .ped-ggp { grid-template-columns:1fr; }
+      }
+    </style>
+
+    <div class="ped-tree">
+
+      <!-- PÈRE -->
+      <div class="ped-parent ped-parent--pere is-collapsed">
+        <div class="ped-label ped-label--pere">Père</div>
+        <div class="ped-name">San Cler Avantgarde</div>
+        <div class="ped-robe">Bai Double Pearl · 2022 · 1m45 · Vice-Champion de France 2025</div>
+
+        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--pere">
+            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
+            <div class="ped-gp-name">San Cler Talk Of The Town</div>
+            <div class="ped-gp-robe">Chestnut Homozygous Pearl · Gypsy Vanner · 2018 · 14hh</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">The Milky Bar Kid</div>
+                <div class="ped-ggp-robe">Gypsy Vanner · 2016</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">San Cler Orange Pop</div>
+                <div class="ped-ggp-robe">Chestnut · Gypsy Vanner · 2014</div>
+              </div>
+            </div>
+          </div>
+          <div class="ped-gp-card ped-gp-card--mere">
+            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère paternelle</div>
+            <div class="ped-gp-name">San Cler Uptown Girl</div>
+            <div class="ped-gp-robe">Black HZ Pearl Tobiano · Gypsy Vanner · 2018</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">San Cler Razzamataz</div>
+                <div class="ped-ggp-robe">Buckskin Pearl · 2015</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">San Cler Coffee Creme</div>
+                <div class="ped-ggp-robe">Black Pearl Tobiano · 2010</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="../reproducteurs/avantgarde.html" class="pedigree-node-link">Voir la fiche →</a>
+
+        <a href="../reproducteurs/avantgarde.html" class="ped-parent-link ped-parent-link--pere link-arrow">Voir la fiche d'Avantgarde →</a>
       </div>
-      <div class="pedigree-connector">
-        <span style="font-family:var(--font-serif);font-size:2.5rem;color:var(--rose-pale);">×</span>
-      </div>
-      <div class="pedigree-node">
-        <img src="../img/tree/suzie.jpg" alt="SD Suzie" class="pedigree-node-photo">
-        <div class="pedigree-node-label">Mère</div>
-        <div class="pedigree-node-name">SD Suzie</div>
-        <div class="pedigree-node-sub">par SD Woolly Mammoth<br>
-          ×<br>
-          SD Olivia</div>
-        <div style="font-size:.75rem;color:var(--gris);line-height:1.3;">
-          <span style="display:block;margin-top:.5rem;opacity:.7;">Facteur Irish Cob</span>
+
+      <!-- MÈRE -->
+      <div class="ped-parent ped-parent--mere is-collapsed">
+        <div class="ped-label ped-label--mere">Mère</div>
+        <div class="ped-name">SD Suzie</div>
+        <div class="ped-robe">Noire · Gypsy Vanner · 2010 · Facteur Irish Cob · SD Farm (UK)</div>
+
+        <button type="button" class="ped-toggle ped-toggle--mere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--pere">
+            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père maternel</div>
+            <div class="ped-gp-name">SD Woolly Mammoth</div>
+            <div class="ped-gp-robe">Black · Gypsy Vanner · 2002 · 13.3hh · GVHS GV04025</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">Samson of Wales</div>
+                <div class="ped-ggp-robe">Black Tobiano · ~2000</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">Sovereign</div>
+                <div class="ped-ggp-robe">Black Tobiano · 1998 · GVHS GV00053F</div>
+              </div>
+            </div>
+          </div>
+          <div class="ped-gp-card ped-gp-card--unknown">
+            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère maternelle</div>
+            <div class="ped-gp-name">SD Olivia</div>
+            <div class="ped-gp-robe">Chestnut · Gypsy Vanner · origines non documentées</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseigné</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="../reproducteurs/suzie.html" class="pedigree-node-link">Voir la fiche →</a>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Ses premières semaines -->
-<section style="padding:4rem 1.5rem;background:var(--bg-light);">
-  <div class="section-inner">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;">
-      <div>
-        <span class="section-badge">Génétique</span>
-        <h2 class="section-title" style="font-size:1.8rem;">Ce qu'il <em>transmet</em></h2>
-        <div class="section-divider"></div>
-        <p class="section-text">Avec un père homozygote pearl, Quercus Kaeru hérite obligatoirement d'un allèle pearl. Sa robe noir pearl ne permet pas l'expression du gène, cependant si il devient étalon et marié à une jument Creme/Pearl, il aura 50% de chance de passer son gène Pearl.</p>
-        <p class="section-text" style="margin-top:.8rem;">Il a un éclat de bleu dans l'oeil gauche, qui est associé à un pattern de blanc non identifié.</p>
+        <a href="../reproducteurs/suzie.html" class="ped-parent-link ped-parent-link--mere link-arrow">Voir la fiche de Suzie →</a>
       </div>
-      <div>
-        <span class="section-badge">Premières semaines</span>
-        <h2 class="section-title" style="font-size:1.8rem;">Une jeune pousse <em>prometteuse</em></h2>
-        <div class="section-divider"></div>
-        <p class="section-text">Malgré une naissance prématurée et des débuts mouvementés, Quercus Kaeru se montre chaque jour un peu plus vif, curieux et assuré. Aux côtés de sa mère Suzie, il grandit au pré et découvre le monde à son rythme.</p>
-        <p class="section-text" style="margin-top:.8rem;">Encore trop jeune pour être proposé à la vente, il poursuit simplement son chemin de jeune poulain. Si son profil vous intéresse, n'hésitez pas à nous contacter : nous partagerons avec plaisir son évolution au fil des mois.</p>
-        <a href="../index.html#contact" class="btn btn-primary" style="margin-top:1.5rem;display:inline-block;">Suivre son évolution</a>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Galerie -->
-<section style="background:#111;padding:5rem 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:2rem;">
-      <span class="section-badge" style="color:rgba(255,255,255,0.45);">Galerie</span>
-      <h2 class="section-title" style="color:white;">En <em style="color:var(--rose);">images</em></h2>
-      <div class="section-divider" style="background:var(--rose);margin:1.2rem auto;"></div>
     </div>
 
-    <div class="ar-carousel">
-      <div class="ar-slides" id="horseSlides">
-        <div class="ar-slide active"><img src="../img/kaeru/ka-portrait.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-body-01.jpg"  data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-run.jpg"      data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-nombre.jpg"   data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-oeil-01.jpg"  data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-oeil-02.jpg"  data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-01.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-05.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-12.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-13.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-15.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-19.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-22.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-26.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-28.jpg" data-cap="Quercus Kaeru"></div>
-        <div class="ar-slide"><img src="../img/kaeru/ka-bache.jpg" data-cap="Quercus Kaeru"></div>
-        <button class="ar-btn ar-prev" id="horsePrev">‹</button>
-        <button class="ar-btn ar-next" id="horseNext">›</button>
-      </div>
-      <div class="ar-cap-ext" id="horseCap">Quercus Kaeru</div>
-      <div class="ar-thumbs" id="horseThumbs"></div>
+    <div class="ped-note">
+      <strong>Note sur les origines</strong><br>
+      Quercus Kaeru est Plein Papier, ses deux parents étant inscrits et testés. Les lignées
+      San Cler sont documentées sur trois générations ; côté maternel, la branche SD Olivia
+      n'est pas documentée au-delà de sa génération.
     </div>
+
   </div>
 </section>
 
 
 <!-- Autres poulains -->
-<section style="padding:4rem 1.5rem;background:#111;">
+<section style="padding:4rem 1.5rem;background:var(--noir);">
   <div class="section-inner" style="text-align:center;">
     <span class="section-badge" style="color:var(--rose);border-color:var(--rose);">Aussi disponibles</span>
     <h2 class="section-title" style="color:#fff;margin-bottom:2.5rem;">Les autres <em>poulains</em></h2>
     <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
-      <a href="nashi.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Nashi</a>
-      <a href="omamori.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Omamori</a>
-      <a href="orion.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Orion</a>
+      <a href="nashi.html" class="btn btn-outline btn-on-dark">Nashi</a>
+      <a href="omamori.html" class="btn btn-outline btn-on-dark">Omamori</a>
+      <a href="orion.html" class="btn btn-outline btn-on-dark">Orion</a>
     </div>
   </div>
 </section>

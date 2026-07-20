@@ -50,23 +50,71 @@
   </div>
 </nav>
 <!-- @end:header -->
+<!-- ====== NAV SECONDAIRE (spécifique à la fiche) ====== -->
+<nav class="nav2" id="nav2" aria-label="Sections de la fiche">
+  <div class="nav2-inner">
+    <ul class="nav2-links">
+      <li><a href="#bases">Ses bases</a></li>
+      <li><a href="#adoption">Adoption</a></li>
+      <li><a href="#pedigree">Pedigree</a></li>
+    </ul>
+    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Nous contacter</a>
+  </div>
+</nav>
 
-<!-- Hero cheval -->
+<div class="horse-hero-top">
+  <span class="badge-available" style="position:static;display:inline-block;"><strong>Disponible</strong></span>
+  <p class="horse-hero-race">Hongre · Irish Cob PP · Bai</p>
+</div>
+
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
-    <img src="../img/nashi/na- 2026.jpg" alt="Nashi — Hongre Irish Cob" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+    <!-- Carrousel du hero. La lightbox est branchée dans js/main.js
+         (tableau "carousels") via #heroSlides / .hero-slide. -->
+    <div class="hero-carousel">
+      <div class="hero-frame">
+  <div class="hero-slides" id="heroSlides">
+          <div class="hero-slide active"><img src="../img/nashi/na- 2026.jpg" alt="Nashi — Hongre Irish Cob" data-cap="Juin 2026, à Carnas (30)"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-2026 12.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Juin 2026, à Carnas (30)"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-2026 13.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Juin 2026, à Carnas (30)"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-2026 14.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Juin 2026, à Carnas (30)"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-2026 15.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Juin 2026, à Carnas (30)"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-2026 16.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Juin 2026, à Carnas (30)"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-2025.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Mai 2025, un an passé"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-08.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Novembre 2024, premier automne"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-09.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Novembre 2024, premier automne"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-10.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Novembre 2024, premier automne"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-04.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Mai 2024, au pré"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-05.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Mai 2024, au pré"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-06.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Mai 2024, au pré"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-07.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Mai 2024, au pré"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-03.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Avril 2024, rencontre avec Orion"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-11.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Janvier 2024, premiers jours"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-02.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Janvier 2024, premiers jours"></div>
+          <div class="hero-slide"><img src="../img/nashi/na-01.jpg" alt="Nashi — Hongre Irish Cob" loading="lazy" data-cap="Janvier 2024, nouveau-né"></div>
+
+          <button class="hero-nav hero-prev" aria-label="Photo précédente">‹</button>
+          <button class="hero-nav hero-next" aria-label="Photo suivante">›</button>
+
+          <span class="hero-expand" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+              <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+            </svg>
+          </span>
+        </div>
+
+        <!-- Légende de la photo courante, alimentée par les data-cap des diapos -->
+      </div>
+
+      <p class="hero-cap" id="heroCap" aria-live="polite"></p>
+
+      <!-- Minuterie : une pastille par photo, l'active se remplit -->
+      <div class="hero-timer" id="heroTimer" aria-hidden="true"></div>
+    </div>
   </div>
 
   <div class="horse-hero-info">
-    <nav class="breadcrumb">
-      <a href="../index.html">Accueil</a>
-      <span>›</span>
-      <a href="../poulains.html">Poulains</a>
-      <span>›</span>
-      <span style="color:var(--noir)">Nashi</span>
-    </nav>
-    <span class="badge-available" style="position:static;display:inline-block;margin-bottom:1rem;"><strong>Disponible</strong></span>
-    <p class="horse-hero-race">Hongre · Irish Cob PP · Bai</p>
     <h1 class="horse-hero-name"><em>Nashi</em></h1>
 
     <div class="horse-specs">
@@ -81,152 +129,262 @@
     </div>
 
     <p class="horse-description">
-      Premier poulain né à Humming Cob, Nashi est aussi le premier mariage pensé et choisi par l'élevage. 
-      Après de longues nuits de surveillance hivernale, il attend l'unique soirée où je m'accorde un peu de repos pour arriver, 
+      Premier poulain né à Humming Cob, Nashi est aussi le premier mariage pensé et choisi par l'élevage.
+      Après de longues nuits de surveillance hivernale, il attend l'unique soirée où je m'accorde un peu de repos pour arriver,
       me laissant juste le temps d'assister à sa naissance.
-    </p> 
+    </p>
     <p class="horse-description">
-      Fils de Sakura et d'Archy, il réunit le meilleur de ses parents dans un modèle dont je suis particulièrement fière. 
+      Fils de Sakura et d'Archy, il réunit le meilleur de ses parents dans un modèle dont je suis particulièrement fière.
       Quant à son caractère... il me rappelle chaque jour qu'il a été conçu pour avoir des idées bien à lui.
       Nashi est né pour être le centre de l'attention.
     </p>
-    <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0 1.2rem;">
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Pétillant</span>
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Crâneur</span>
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Curieux</span>
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Malin</span>
-      <span style="background:var(--rose-pale);color:var(--rose-dark);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:50px;">Intense</span>
+
+    <div class="horse-tags">
+      <span class="horse-tag">Pétillant</span>
+      <span class="horse-tag">Crâneur</span>
+      <span class="horse-tag">Curieux</span>
+      <span class="horse-tag">Malin</span>
+      <span class="horse-tag">Intense</span>
     </div>
 
-    <div style="margin: 1.2rem 0 0.4rem; display:flex; align-items:baseline; gap:0.6rem;">
-      <span style="font-family:var(--font-serif);font-size:2rem;font-weight:500;color:var(--rose-dark);">4 000 €</span>
-      <span style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gris);">Prix indicatif</span>
-    </div>
+    <!-- Prix et CTA sur une même ligne. #ctaAnchor reste le repère du script
+         nav2 (voir js/main.js) : il doit continuer d'envelopper le bouton. -->
+    <div class="horse-price-row">
+      <div class="horse-price">
+        <span class="horse-price-value">4 000 €</span>
+        <span class="horse-price-note">Prix indicatif</span>
+      </div>
 
-    <a href="../index.html#contact" class="btn btn-primary" style="margin-top:.5rem;">Demander des informations</a>
+      <div id="ctaAnchor" class="cta-anchor">
+        <a href="../index.html#contact" class="btn btn-primary">Demander des informations</a>
+      </div>
+    </div>
   </div>
 </div>
 
+
+<!-- Ses bases -->
+<section class="horse-pedigree" id="bases" style="background:var(--bg-light);">
+  <div class="section-inner">
+    <span class="section-badge">Bases acquises</span>
+    <h2 class="section-title">Ce que Nashi sait <em>déjà faire</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-text" style="margin-bottom:2rem;">
+      Nashi n'est pas débourré : à deux ans, il a encore toute sa croissance devant lui.
+      Ce qu'il a acquis, ce sont les bases du quotidien — celles qui font un cheval facile à vivre,
+      pour son futur propriétaire comme pour le vétérinaire et le maréchal.
+    </p>
+    <ul class="values-list">
+      <li>Manipulé et licolé depuis son plus jeune âge</li>
+      <li>Donne les pieds — parage régulier à jour</li>
+      <li>Vermifugé régulièrement</li>
+      <li>Sevré tardivement dans le respect de son développement</li>
+      <li>Complémenté foin à volonté et luzerne en grain</li>
+      <li>En ordre pour rejoindre sa nouvelle famille</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- Adoption -->
+<section class="horse-pedigree" id="adoption">
+  <div class="section-inner">
+    <span class="section-badge">Adoption</span>
+    <h2 class="section-title">Notre façon de <em>vendre</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-text">
+      Nous vendons sur coup de cœur, après une visite. Nous vous demanderons de nous décrire
+      votre projet de vie avec lui.
+    </p>
+    <p class="section-text" style="margin-top:.8rem;">
+      Nous pouvons vous accueillir un week-end pour le découvrir, dans notre belle région du Gard (30).
+    </p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:2.2rem;flex-wrap:wrap;max-width:620px;">
+      <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
+      <a href="acheter.html" class="link-arrow" style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);">Comment ça se passe ? →</a>
+    </div>
+  </div>
+</section>
+
+
 <!-- Pedigree -->
-<section class="horse-pedigree">
+<section class="horse-pedigree" id="pedigree" style="background:var(--bg-light);">
   <div class="section-inner">
     <span class="section-badge">Origines</span>
-    <h2 class="section-title">Généalogie &amp; <em>origines</em></h2>
+    <h2 class="section-title">Pedigree <em>&amp; lignées</em></h2>
     <div class="section-divider"></div>
+    <p class="section-text" style="margin-bottom:2.5rem;">
+      Nashi est le premier mariage pensé par Humming Cob : la lignée irlandaise Cairnview côté paternel,
+      la lignée Gypsy Vanner américaine SD côté maternel. Ses deux parents vivent à l'élevage —
+      leurs fiches complètes sont accessibles depuis les cartes ci-dessous.
+    </p>
 
-    <div class="pedigree-tree">
-      <div class="pedigree-node">
-        <img src="../img/tree/archy.jpg" alt="Cairnview Archy" class="pedigree-node-photo">
-        <div class="pedigree-node-label">Père</div>
-        <div class="pedigree-node-name">Cairnview Archy</div>
-        <div class="pedigree-node-sub"></div>
-        <div style="margin-top:.6rem;font-size:.75rem;color:var(--gris);line-height:1.3;">
-          par Llewelyn<br>
-          ×<br>
-          Kessia<br>
-          <span style="display:block;margin-top:.5rem;opacity:.7;">Élite · Débourré monté</span>
+    <style>
+      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
+      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
+      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
+      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
+      .ped-label--pere { color:var(--bleu); }
+      .ped-label--mere { color:var(--rose); }
+      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
+      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
+      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
+      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
+      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
+      .ped-gp-card--unknown { background:rgba(0,0,0,0.02); border-left-color:rgba(0,0,0,0.1); }
+      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
+      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
+      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
+      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
+      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
+      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
+      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
+      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
+      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
+      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
+      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
+      .ped-parent-link { display:inline-block; margin-top:1rem; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; }
+      .ped-parent-link--pere { color:var(--bleu); }
+      .ped-parent-link--mere { color:var(--rose-deep); }
+      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
+      .ped-note strong { color:var(--bleu); }
+      @media(max-width:700px) {
+        .ped-tree { grid-template-columns:1fr; }
+        .ped-gp { grid-template-columns:1fr; }
+        .ped-ggp { grid-template-columns:1fr; }
+      }
+    </style>
+
+    <div class="ped-tree">
+
+      <!-- PÈRE -->
+      <div class="ped-parent ped-parent--pere is-collapsed">
+        <div class="ped-label ped-label--pere">Père</div>
+        <div class="ped-name">Cairnview Archy</div>
+        <div class="ped-robe">Noir Tobiano · Yeux bleus · 2010 · 1m41 · Cairnview Stud (IRL)</div>
+
+        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--pere">
+            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
+            <div class="ped-gp-name">Cairnview Llewelyn</div>
+            <div class="ped-gp-robe">Noir Tobiano · Irish Tinker · 2004 · 158cm · ICS</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">Mr. Morris</div>
+                <div class="ped-ggp-robe">Noir Pinto · 1996 · IRL</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">Carrigburns Lady</div>
+                <div class="ped-ggp-robe">Noir Tobiano · 1998 · IRL</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ped-gp-card ped-gp-card--unknown">
+            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère paternelle</div>
+            <div class="ped-gp-name">Cairnview Kessia</div>
+            <div class="ped-gp-robe">Irish Tinker · ~2004 · Cairnview Stud</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseigné</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="../reproducteurs/archy.html" class="pedigree-node-link">Voir la fiche →</a>
+
+        <a href="../reproducteurs/archy.html" class="ped-parent-link ped-parent-link--pere link-arrow">Voir la fiche d'Archy →</a>
       </div>
-      <div class="pedigree-connector">
-        <span style="font-family:var(--font-serif);font-size:2.5rem;color:var(--rose-pale);">×</span>
-      </div>
-      <div class="pedigree-node">
-        <img src="../img/tree/sakura.jpg" alt="SD Sakura" class="pedigree-node-photo">
-        <div class="pedigree-node-label">Mère</div>
-        <div class="pedigree-node-name">SD Sakura</div>
-        <div class="pedigree-node-sub"></div>
-        <div style="margin-top:.6rem;font-size:.75rem;color:var(--gris);line-height:1.3;">
-          par SD Flash Harry<br>
-          ×<br>
-          SD Suzie (by Woolly Mammoth)<br>
-          <span style="display:block;margin-top:.5rem;opacity:.7;">Élite · Débourrée montée</span>
+
+      <!-- MÈRE -->
+      <div class="ped-parent ped-parent--mere is-collapsed">
+        <div class="ped-label ped-label--mere">Mère</div>
+        <div class="ped-name">SD Sakura</div>
+        <div class="ped-robe">Gypsy Vanner · 2017 · Élite · Débourrée montée</div>
+
+        <button type="button" class="ped-toggle ped-toggle--mere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--pere">
+            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père maternel</div>
+            <div class="ped-gp-name">SD Flash Harry</div>
+            <div class="ped-gp-robe">Bay Sabino · Gypsy Vanner · 2005 · 14hh · GVHS GV13705P</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">SD Jim (aka Nero)</div>
+                <div class="ped-ggp-robe">Black · 2003 · 15hh</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">SD Pink Palomino</div>
+                <div class="ped-ggp-robe">Chestnut · origines non documentées</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ped-gp-card ped-gp-card--mere">
+            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère maternelle</div>
+            <div class="ped-gp-name">SD Suzie</div>
+            <div class="ped-gp-robe">Gypsy Vanner · 2010</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">SD Woolly Mammoth</div>
+                <div class="ped-ggp-robe">Black · 2002 · 13.3hh · GVHS GV04025</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">SD Olivia</div>
+                <div class="ped-ggp-robe">Chestnut · origines non documentées</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="../reproducteurs/sakura.html" class="pedigree-node-link">Voir la fiche →</a>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Ce qu'il sait faire + façon de vendre -->
-<section style="padding:4rem 1.5rem;background:var(--bg-light);">
-  <div class="section-inner">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;">
-      <div>
-        <span class="section-badge">Bases acquises</span>
-        <h2 class="section-title" style="font-size:1.8rem;">Ce qu'il sait <em>déjà faire</em></h2>
-        <div class="section-divider"></div>
-        <ul class="values-list">
-          <li>Manipulé et licolé depuis son plus jeune âge</li>
-          <li>Donne les pieds — parage régulier à jour</li>
-          <li>Vermifugé régulièrement</li>
-          <li>Sevré tardivement dans le respect de son développement</li>
-          <li>Complémenté foin à volonté et luzerne en grain</li>
-          <li>En ordre pour rejoindre sa nouvelle famille</li>
-        </ul>
+        <a href="../reproducteurs/sakura.html" class="ped-parent-link ped-parent-link--mere link-arrow">Voir la fiche de Sakura →</a>
       </div>
-      <div>
-        <span class="section-badge">Adoption</span>
-        <h2 class="section-title" style="font-size:1.8rem;">Notre façon de <em>vendre</em></h2>
-        <div class="section-divider"></div>
-        <p class="section-text">Nous vendons sur coup de cœur, après une visite. Nous vous demanderons de nous décrire votre projet de vie avec lui.</p>
-        <p class="section-text" style="margin-top:.8rem;">Nous pouvons vous accueillir un week-end pour le découvrir, dans notre belle région du Gard (30).</p>
-        <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap;">
-          <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
-          <a href="acheter.html" style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);">Comment ça se passe ? →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Galerie -->
-<section style="background:#111;padding:4rem 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:2rem;">
-      <span class="section-badge" style="color:rgba(255,255,255,0.45);">Galerie</span>
-      <h2 class="section-title" style="color:white;">En <em style="color:var(--rose);">images</em></h2>
-      <div class="section-divider" style="background:var(--rose);margin:1.2rem auto;"></div>
     </div>
 
-    <div class="ar-carousel">
-      <div class="ar-slides" id="horseSlides">
-        <div class="ar-slide active"><img src="../img/nashi/na-01.jpg" data-cap="Nashi nouveau-né · Janvier 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-02.jpg" data-cap="Premiers jours · Janvier 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-11.jpg" data-cap="Janvier 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-03.jpg" data-cap="Rencontre avec Orion · Avril 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-04.jpg" data-cap="Mai 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-05.jpg" data-cap="Mai 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-06.jpg" data-cap="Mai 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-07.jpg" data-cap="Mai 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-08.jpg" data-cap="Novembre 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-09.jpg" data-cap="Novembre 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-10.jpg" data-cap="Novembre 2024"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-2025.jpg" data-cap="Mai 2025"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-2026 12.jpg" data-cap="Juin 2026"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-2026 13.jpg" data-cap="Juin 2026"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-2026 14.jpg" data-cap="Juin 2026"></div>
-        <div class="ar-slide"><img src="../img/nashi/na- 2026.jpg" data-cap="Juin 2026"></div>
-        <div class="ar-slide"><img src="../img/nashi/na-2026 16.jpg" data-cap="Juin 2026"></div>
-        <button class="ar-btn ar-prev" id="horsePrev">‹</button>
-        <button class="ar-btn ar-next" id="horseNext">›</button>
-      </div>
-      <div class="ar-cap-ext" id="horseCap">Nashi nouveau-né · Janvier 2024</div>
-      <div class="ar-thumbs" id="horseThumbs"></div>
+    <div class="ped-note">
+      <strong>Note sur les origines</strong><br>
+      Nashi est Plein Papier et PSSM1 Free par filiation, ses deux parents étant testés.
+      Les lignées sont documentées sur trois générations côté paternel comme maternel,
+      à l'exception de la branche Cairnview Kessia, dont les ascendants ne sont pas enregistrés.
     </div>
+
   </div>
 </section>
 
 
 <!-- Autres poulains -->
-<section style="padding:4rem 1.5rem;background:#111;">
+<section style="padding:4rem 1.5rem;background:var(--noir);">
   <div class="section-inner" style="text-align:center;">
     <span class="section-badge" style="color:var(--rose);border-color:var(--rose);">Aussi disponibles</span>
     <h2 class="section-title" style="color:#fff;margin-bottom:2.5rem;">Les autres <em>poulains</em></h2>
-    <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">      
-      <a href="omamori.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Omamori</a>
-      <a href="orion.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Orion</a>
-      <a href="kaeru.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Quercus Kaeru</a>
+    <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
+      <a href="omamori.html" class="btn btn-outline btn-on-dark">Omamori</a>
+      <a href="orion.html" class="btn btn-outline btn-on-dark">Orion</a>
+      <a href="kaeru.html" class="btn btn-outline btn-on-dark">Quercus Kaeru</a>
     </div>
   </div>
 </section>
