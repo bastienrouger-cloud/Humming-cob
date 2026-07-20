@@ -8,11 +8,12 @@
 ## Ordre des sections
 
 ```
-nav2  (sticky, sous la navbar)
-hero  (carrousel à gauche · identité + CTA à droite)
+nav2           (sticky, sous la navbar)
+bandeau        (badge de statut + ligne de race, pleine largeur)
+hero           (carrousel à gauche · identité + CTA à droite)
 palmarès
 poulains / descendance
-pédigrée  (replié par défaut)
+pédigrée       (replié par défaut)
 footer
 ```
 
@@ -69,6 +70,32 @@ Ne lister que les sections réellement présentes sur la page.
 
 ---
 
+## Bandeau au-dessus du hero
+
+Le badge de statut et la ligne de race sont sortis de la colonne texte et placés
+dans un bandeau pleine largeur, **juste avant `<div class="horse-hero">`** :
+
+```html
+<div class="horse-hero-top">
+  <span class="badge-reproducteur" style="position:static;…">Étalon · Élite grade 1</span>
+  <p class="horse-hero-race">Ouvert aux saillies</p>
+</div>
+```
+
+**Pourquoi.** Tant que ces deux lignes vivaient dans la colonne de droite, le `<h1>`
+démarrait trois crans plus bas que le haut du carrousel : les deux colonnes ne
+s'alignaient jamais. Sorties du flux, le carrousel et le `<h1>` partent du même
+niveau (écart mesuré : 0 px).
+
+L'alignement tient à une seule chose : `.horse-hero-img-wrap` et `.horse-hero-info`
+doivent avoir le **même `padding-top`** (4rem au-dessus de 900px). Si l'un des deux
+bouge, l'alignement casse.
+
+**Le fil d'Ariane a été supprimé** de toutes les fiches : la nav principale marque
+déjà la page active, et la nav2 situe la section. Il faisait triple emploi.
+
+---
+
 ## Carrousel du hero
 
 Remplace l'ancienne image fixe dans `.horse-hero-img-wrap`.
@@ -97,6 +124,21 @@ Règles :
   une seule source, pas de duplication.
 - La lightbox est déjà branchée dans `js/main.js`, tableau `carousels`, entrée
   `#heroSlides`. Rien à ajouter par page.
+
+### Hauteur variable (desktop)
+
+Au-dessus de 900px le carrousel s'étire sur la hauteur de la colonne texte, comme
+le slider de "Qui sommes-nous" sur l'accueil — l'`aspect-ratio: 4/3` ne s'applique
+plus qu'en dessous. Les deux bornes ne sont pas décoratives :
+
+- `min-height: 360px` — protège les fiches au texte court (Kaeru) d'un aplatissement.
+- `max-height: 760px` — sans plafond, une colonne texte très haute (Archy : 8 cartes
+  de specs + 2 paragraphes = ~1385px) étire la photo en bandeau vertical où
+  `object-fit: cover` ne montre plus qu'une tranche du cheval.
+
+⚠️ Ce cadre est plus portrait que l'ancien 4/3. Sur une bibliothèque majoritairement
+paysage (Nashi : 12 paysage / 7 portrait), il recadre donc davantage. C'est un
+arbitrage assumé, pas un oubli.
 
 ### La minuterie
 
@@ -187,6 +229,38 @@ Et si les partials header/footer ont bougé, `python3 build.py` avant de commite
 
 ## État au 20/07/2026
 
-Converties : `archy`, `avantgarde`, `suzie`, `sakura`, `ruby-jane`.
-Non converties : les 6 fiches de `poulains/` — même patron applicable, mais elles
-n'ont ni palmarès ni descendance, donc une nav2 à deux entrées au mieux. À évaluer.
+Converties : `archy`, `avantgarde`, `suzie`, `sakura`, `ruby-jane`,
+`nashi`, `omamori`, `orion`, `kaeru`.
+
+Le bandeau et la suppression du fil d'Ariane sont appliqués aux **10 fiches**,
+`Jinba-Ittaï` incluse.
+
+**Poulains — ce qui change par rapport aux reproducteurs.** Pas de palmarès ni de
+descendance : la nav2 devient *Ses bases · Adoption · Pedigree*, ce qui fait bien
+trois entrées (la note précédente tablait sur deux). Le pédigrée gagne un lien
+"Voir la fiche" vers chaque parent présent à l'élevage.
+
+**Cas particulier `kaeru`** : né en mai 2026, pas à vendre. Ni prix ni section
+Adoption — nav2 *Génétique · Premières semaines · Pedigree*, et le CTA reste
+"Suivre son évolution" partout, y compris en nav2.
+
+**Cas particulier `Jinba-Ittaï`** : vendue. Le patron s'applique, mais tout ce
+qui relève de la vente disparaît — ni prix, ni section Adoption, ni "demander
+des informations". À la place :
+
+| | Fiche à vendre | Fiche vendue |
+| --- | --- | --- |
+| nav2 | Ses bases · Adoption · Pedigree | Ses bases · **Son histoire** · Pedigree |
+| CTA hero | Demander des informations | **Voir les poulains disponibles** → `poulains.html` |
+| CTA nav2 | Nous contacter | **Poulains disponibles** |
+| Bloc prix | oui | non |
+
+Le CTA est le point à ne pas rater : sur une fiche vendue il ne doit rien
+proposer d'indisponible, mais il aurait été dommage de le supprimer — il sert
+à réorienter le visiteur vers les poulains encore là. La section finale
+"Les autres poulains" garde son badge *Nos poulains disponibles* et liste les
+quatre autres.
+
+Le paragraphe "a trouvé sa famille" utilise `.horse-sold-note` (ex-style inline).
+
+**Toutes les fiches sont converties.**

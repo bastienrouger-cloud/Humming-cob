@@ -52,21 +52,64 @@
 <!-- @end:header -->
 
 <!-- Hero cheval -->
+<div class="horse-hero-top">
+  <span style="position:static;display:inline-block;background:rgba(60,160,160,0.85);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;"><strong>Vendue</strong></span>
+  <p class="horse-hero-race">Jument · Irish Cob PP · Noire Sabino</p>
+</div>
+
+<!-- ====== NAV SECONDAIRE (spécifique à la fiche) ====== -->
+<nav class="nav2" id="nav2" aria-label="Sections de la fiche">
+  <div class="nav2-inner">
+    <ul class="nav2-links">
+      <li><a href="#bases">Ses bases</a></li>
+      <li><a href="#histoire">Son histoire</a></li>
+      <li><a href="#pedigree">Pedigree</a></li>
+    </ul>
+    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Poulains disponibles</a>
+  </div>
+</nav>
+
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
-    <img src="../img/jinba/ji2020.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+    <!-- Carrousel du hero. La lightbox est branchée dans js/main.js
+         (tableau "carousels") via #heroSlides / .hero-slide. -->
+    <div class="hero-carousel">
+      <div class="hero-slides" id="heroSlides">
+        <div class="hero-slide active"><img src="../img/jinba/ji-2026.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" data-cap="2026 — je lui ai rendu visite et j'ai fait son parage"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-2026-02.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2026 — chez elle, à quelques kilomètres de l'élevage"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-sand02.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2023 — avec Sandrine, moment tendresse"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-sandrine.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2023 — avec Sandrine, elles se sont bien trouvées"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-2023-montée.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2023 — après son débourrage par Pauline, en randonnée"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-2023.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2023 — une élégante jeune fille avec une tête à tomber"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-2022.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2022 — sortie au Puech des Mourgues"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-2021.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2021 — petite balade en main autour du Puech des Mourgues"></div>
+        <div class="hero-slide"><img src="../img/jinba/Ji-2020.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2020 — dans l'Hérault"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-04-6mois.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2019 — 6 mois, changement de pré"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-03-J+30.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2019 — un mois"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-02-J+30.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2019 — un mois"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-portrait.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2019 — trois jours"></div>
+        <div class="hero-slide"><img src="../img/jinba/ji-01.jpg" alt="HC Jinba Ittaï — Jument Irish Cob" loading="lazy" data-cap="2019 — un jour, à L'Isle-sur-la-Sorgue"></div>
+
+        <button class="hero-nav hero-prev" aria-label="Photo précédente">‹</button>
+        <button class="hero-nav hero-next" aria-label="Photo suivante">›</button>
+
+        <span class="hero-expand" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+        </span>
+      </div>
+
+      <!-- Légende de la photo courante, alimentée par les data-cap des diapos -->
+      <p class="hero-cap" id="heroCap" aria-live="polite"></p>
+
+      <!-- Minuterie : une pastille par photo, l'active se remplit -->
+      <div class="hero-timer" id="heroTimer" aria-hidden="true"></div>
+    </div>
   </div>
 
   <div class="horse-hero-info">
-    <nav class="breadcrumb">
-      <a href="../index.html">Accueil</a>
-      <span>›</span>
-      <a href="../poulains.html">Poulains</a>
-      <span>›</span>
-      <span style="color:var(--noir)">Jinba Ittaï</span>
-    </nav>
-    <span style="position:static;display:inline-block;margin-bottom:1rem;background:rgba(60,160,160,0.85);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;"><strong>Vendue</strong></span>
-    <p class="horse-hero-race">Jument · Irish Cob PP · Noire Sabino</p>
     <h1 class="horse-hero-name"><em>Jinba Ittaï</em></h1>
 
     <div class="horse-specs">
@@ -81,133 +124,245 @@
     </div>
 
     <p class="horse-description">
-      Jinba est la première pouliche à porter l'affixe Humming Cob. 
-      Derrière ses yeux bleus se cache une véritable aventurière, toujours prête à tester ses limites — et parfois notre sang-froid. 
-      Elle a grandi longtemps auprès de nous, bien au-delà du sevrage, partageant les premières années de cette aventure naissante.
+      Jinba est la première pouliche à porter l'affixe Humming Cob. Derrière ses yeux bleus se cache
+      une véritable aventurière, toujours prête à tester ses limites — et parfois notre sang-froid.
+      Elle a grandi longtemps auprès de nous, bien au-delà du sevrage, partageant les premières
+      années de cette aventure naissante.
     </p>
-     <p class="horse-description"> 
-      Sa propriétaire l'a rencontrée alors que nous vivions encore à L'Isle-sur-la-Sorgue. 
-      Malgré la distance, elle venait la voir grandir. Puis la vie a dessiné un chemin inattendu : notre déménagement dans le Gard 
-      les a finalement rapprochées. Aujourd'hui, Jinba poursuit son histoire à quelques kilomètres seulement de l'élevage. 
-      Une belle façon de garder un lien avec celle qui fut la première à porter le nom Humming Cob.
+    <p class="horse-description">
+      Sa propriétaire l'a rencontrée alors que nous vivions encore à L'Isle-sur-la-Sorgue. Malgré la
+      distance, elle venait la voir grandir. Puis la vie a dessiné un chemin inattendu : notre
+      déménagement dans le Gard les a finalement rapprochées. Aujourd'hui, Jinba poursuit son
+      histoire à quelques kilomètres seulement de l'élevage.
     </p>
 
-    <p style="margin-top:1.2rem;font-family:'Jost',sans-serif;font-size:.85rem;color:var(--gris);font-style:italic;">
-      <em style="color:var(--rose-deep);font-weight:600;">HC Jinba Ittaï a trouvé sa famille.</em> ❤️🌸 
-    </p>
+    <p class="horse-sold-note"><em>HC Jinba Ittaï a trouvé sa famille.</em> ❤️🌸</p>
+
+    <!-- Point d'ancrage du bouton : repère du script nav2 (voir js/main.js).
+         Jinba étant vendue, le CTA n'invite pas à l'acheter mais oriente vers
+         les poulains encore disponibles. -->
+    <div id="ctaAnchor" class="cta-anchor cta-anchor--center">
+      <a href="../poulains.html" class="btn btn-primary">Voir les poulains disponibles</a>
+    </div>
   </div>
 </div>
 
+
+<!-- Ses bases -->
+<section class="horse-pedigree" id="bases" style="background:var(--bg-light);">
+  <div class="section-inner">
+    <span class="section-badge">Bases acquises</span>
+    <h2 class="section-title">Ce que Jinba savait <em>déjà faire</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-text" style="margin-bottom:2rem;">
+      Ce qu'elle avait acquis avant de rejoindre sa famille — les bases du quotidien que nous
+      transmettons à chacun de nos poulains. Depuis, elle a été débourrée montée par Pauline
+      et sort en randonnée.
+    </p>
+    <ul class="values-list">
+      <li>Manipulée et licolée depuis son plus jeune âge</li>
+      <li>Donne les pieds — parage régulier à jour</li>
+      <li>Vermifugée régulièrement</li>
+      <li>Sevrée tardivement dans le respect de son développement</li>
+      <li>En ordre pour rejoindre sa nouvelle famille</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- Son histoire -->
+<section class="horse-pedigree" id="histoire">
+  <div class="section-inner">
+    <span class="section-badge">Placement</span>
+    <h2 class="section-title">Elle a trouvé <em>sa famille</em></h2>
+    <div class="section-divider"></div>
+    <p class="section-text">
+      Jinba Ittaï a trouvé sa place dans le cœur de Sandrine, après une visite à l'élevage.
+    </p>
+    <p class="section-text" style="margin-top:.8rem;">
+      Elle réside désormais à deux pas de nous — une belle façon de garder le lien avec la première
+      pouliche à porter notre affixe. Nous la voyons régulièrement, et c'est encore nous qui
+      assurons son parage.
+    </p>
+  </div>
+</section>
+
+
 <!-- Pedigree -->
-<section class="horse-pedigree">
+<section class="horse-pedigree" id="pedigree" style="background:var(--bg-light);">
   <div class="section-inner">
     <span class="section-badge">Origines</span>
-    <h2 class="section-title">Généalogie &amp; <em>origines</em></h2>
+    <h2 class="section-title">Pedigree <em>&amp; lignées</em></h2>
     <div class="section-divider"></div>
+    <p class="section-text" style="margin-bottom:2.5rem;">
+      Jinba réunit deux lignées Gypsy Vanner britanniques issues du SD Farm. Sa mère Suzie vit
+      à l'élevage — sa fiche complète est accessible depuis la carte ci-dessous. Son père,
+      SD Flash Harry, est un étalon extérieur enregistré au TGCA.
+    </p>
 
-    <div class="pedigree-tree">
-      <div class="pedigree-node">
-        <img src="../img/tree/flash.jpg" alt="SD Flash Harry" class="pedigree-node-photo">
-        <div class="pedigree-node-label">Père</div>
-        <div class="pedigree-node-name">SD Flash Harry</div>
-        <div class="pedigree-node-sub">par SD Jim<br>
-          ×<br>
-          SD Pink Palomino</div>
-        <div style="font-size:.75rem;color:var(--gris);line-height:1.3;">
-          <span style="display:block;margin-top:.5rem;opacity:.7;">Enregistré au TGCA</span>
+    <style>
+      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
+      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
+      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
+      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
+      .ped-label--pere { color:var(--bleu); }
+      .ped-label--mere { color:var(--rose); }
+      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
+      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
+      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
+      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
+      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
+      .ped-gp-card--unknown { background:rgba(0,0,0,0.02); border-left-color:rgba(0,0,0,0.1); }
+      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
+      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
+      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
+      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
+      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
+      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
+      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
+      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
+      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
+      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
+      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
+      .ped-parent-link { display:inline-block; margin-top:1rem; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; }
+      .ped-parent-link--pere { color:var(--bleu); }
+      .ped-parent-link--mere { color:var(--rose-deep); }
+      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
+      .ped-note strong { color:var(--bleu); }
+      @media(max-width:700px) {
+        .ped-tree { grid-template-columns:1fr; }
+        .ped-gp { grid-template-columns:1fr; }
+        .ped-ggp { grid-template-columns:1fr; }
+      }
+    </style>
+
+    <div class="ped-tree">
+
+      <!-- PÈRE -->
+      <div class="ped-parent ped-parent--pere is-collapsed">
+        <div class="ped-label ped-label--pere">Père</div>
+        <div class="ped-name">SD Flash Harry</div>
+        <div class="ped-robe">Bay Sabino · Gypsy Vanner · 2005 · 14hh · TGCA · GVHS GV13705P</div>
+
+        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--pere">
+            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
+            <div class="ped-gp-name">SD Jim (aka Nero)</div>
+            <div class="ped-gp-robe">Black · Gypsy Vanner · 2003 · 15hh</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">Bob The Blagdon</div>
+                <div class="ped-ggp-robe">Black · 145.5cm · ~1994 · IRL</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">The Sweeper Mare</div>
+                <div class="ped-ggp-robe">Black Tobiano · ~1990</div>
+              </div>
+            </div>
+          </div>
+          <div class="ped-gp-card ped-gp-card--unknown">
+            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère paternelle</div>
+            <div class="ped-gp-name">SD Pink Palomino</div>
+            <div class="ped-gp-robe">Chestnut · Gypsy Vanner · origines non documentées</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseigné</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
           </div>
         </div>
-      <div class="pedigree-connector">
-        <span style="font-family:var(--font-serif);font-size:2.5rem;color:var(--rose-pale);">×</span>
       </div>
-      <div class="pedigree-node">
-        <img src="../img/tree/suzie.jpg" alt="SD Suzie" class="pedigree-node-photo">
-        <div class="pedigree-node-label">Mère</div>
-        <div class="pedigree-node-name">SD Suzie</div>
-        <div class="pedigree-node-sub">par SD Woolly Mammoth<br>
-          ×<br>
-          SD Olivia</div>
-        <div style="font-size:.75rem;color:var(--gris);line-height:1.3;">
-          <span style="display:block;margin-top:.5rem;opacity:.7;">Facteur Irish Cob</span>
+
+      <!-- MÈRE -->
+      <div class="ped-parent ped-parent--mere is-collapsed">
+        <div class="ped-label ped-label--mere">Mère</div>
+        <div class="ped-name">SD Suzie</div>
+        <div class="ped-robe">Noire · Gypsy Vanner · 2010 · Facteur Irish Cob · SD Farm (UK)</div>
+
+        <button type="button" class="ped-toggle ped-toggle--mere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--pere">
+            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père maternel</div>
+            <div class="ped-gp-name">SD Woolly Mammoth</div>
+            <div class="ped-gp-robe">Black · Gypsy Vanner · 2002 · 13.3hh · GVHS GV04025</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">Samson of Wales</div>
+                <div class="ped-ggp-robe">Black Tobiano · ~2000</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">Sovereign</div>
+                <div class="ped-ggp-robe">Black Tobiano · 1998 · GVHS GV00053F</div>
+              </div>
+            </div>
+          </div>
+          <div class="ped-gp-card ped-gp-card--unknown">
+            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère maternelle</div>
+            <div class="ped-gp-name">SD Olivia</div>
+            <div class="ped-gp-robe">Chestnut · Gypsy Vanner · origines non documentées</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseigné</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="../reproducteurs/suzie.html" class="pedigree-node-link">Voir la fiche →</a>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Ce qu'elle savait faire -->
-<section style="padding:4rem 1.5rem;background:var(--bg-light);">
-  <div class="section-inner">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;">
-      <div>
-        <span class="section-badge">Bases acquises</span>
-        <h2 class="section-title" style="font-size:1.8rem;">Ce qu'elle savait <em>déjà faire</em></h2>
-        <div class="section-divider"></div>
-        <ul class="values-list">
-          <li>Manipulée et licolée depuis son plus jeune âge</li>
-          <li>Donne les pieds — parage régulier à jour</li>
-          <li>Vermifugée régulièrement</li>
-          <li>Sevrée tardivement dans le respect de son développement</li>
-          <li>En ordre pour rejoindre sa nouvelle famille</li>
-        </ul>
+        <a href="../reproducteurs/suzie.html" class="ped-parent-link ped-parent-link--mere link-arrow">Voir la fiche de Suzie →</a>
       </div>
-      <div>
-        <span class="section-badge">Placement</span>
-        <h2 class="section-title" style="font-size:1.8rem;">Elle a trouvé <em>sa famille</em></h2>
-        <div class="section-divider"></div>
-        <p class="section-text">Jinba Ittaï a trouvé sa place dans le cœur de Sandrine, après une visite à l'élevage.</p>
-        <p class="section-text" style="margin-top:.8rem;">Elle réside désormais à deux pas de nous — une belle façon de garder le lien avec la première pouliche à porter notre affixe.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Galerie -->
-<section style="background:#111;padding:4rem 0;">
-  <div class="section-inner">
-    <div style="text-align:center;margin-bottom:2rem;">
-      <span class="section-badge" style="color:rgba(255,255,255,0.45);">Galerie</span>
-      <h2 class="section-title" style="color:white;">En <em style="color:var(--rose);">images</em></h2>
-      <div class="section-divider" style="background:var(--rose);margin:1.2rem auto;"></div>
     </div>
 
-    <div class="ar-carousel">
-      <div class="ar-slides" id="horseSlides">
-        <div class="ar-slide active"><img src="../img/jinba/ji-01.jpg" data-cap="2019 - 1 jour, à L'Isle-sur-la-Sorgue"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-portrait.jpg" data-cap="2019 - 3 jour"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-02-J+30.jpg" data-cap="2019 - 1 mois"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-03-J+30.jpg" data-cap="2019 - 1 mois"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-04-6mois.jpg" data-cap="2019 - 6 mois, changement de pré"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-2020.jpg" data-cap="2020 - dans l'Hérault"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-2021.jpg" data-cap="2021 - petite balade en main, autour du Puech des Mourgues"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-2022.jpg" data-cap="2022 - sortie au Puech des Mourgues"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-2023.jpg" data-cap="2023 - une élégante jeune fille avec une tête à tomber"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-2023-montée.jpg" data-cap="2023 - après son débourrage par Pauline, en rando"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-sandrine.jpg" data-cap="2023 - Avec Sandrine, elles se sont bien trouvées"></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-sand02.jpg" data-cap="2023 - Avec Sandrine, moment tendresse."></div>
-        <div class="ar-slide"><img src="../img/jinba/ji-2026.jpg" data-cap="2026 - Je lui ai rendu visite et j'ai fait son parage."></div>
-
-        <button class="ar-btn ar-prev" id="horsePrev">‹</button>
-        <button class="ar-btn ar-next" id="horseNext">›</button>
-      </div>
-      <div class="ar-cap-ext" id="horseCap"></div>
-      <div class="ar-thumbs" id="horseThumbs"></div>
+    <div class="ped-note">
+      <strong>Note sur les origines</strong><br>
+      Jinba est Plein Papier et PSSM1 Free par filiation. Les deux branches remontent sur trois
+      générations — côté paternel via SD Jim, côté maternel via SD Woolly Mammoth. Les lignées
+      SD Pink Palomino et SD Olivia ne sont pas documentées au-delà de leur génération.
     </div>
+
   </div>
 </section>
 
 
 <!-- Autres poulains -->
-<section style="padding:4rem 1.5rem;background:#111;">
+<section style="padding:4rem 1.5rem;background:var(--noir);">
   <div class="section-inner" style="text-align:center;">
     <span class="section-badge" style="color:var(--rose);border-color:var(--rose);">Nos poulains disponibles</span>
     <h2 class="section-title" style="color:#fff;margin-bottom:2.5rem;">Les autres <em>poulains</em></h2>
     <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
-      <a href="nashi.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Nashi</a>
-      <a href="omamori.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Omamori</a>
-      <a href="orion.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Orion</a>
-      <a href="kaeru.html" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35);">Quercus Kaeru</a>
+      <a href="nashi.html" class="btn btn-outline btn-on-dark">Nashi</a>
+      <a href="omamori.html" class="btn btn-outline btn-on-dark">Omamori</a>
+      <a href="orion.html" class="btn btn-outline btn-on-dark">Orion</a>
+      <a href="kaeru.html" class="btn btn-outline btn-on-dark">Quercus Kaeru</a>
     </div>
   </div>
 </section>

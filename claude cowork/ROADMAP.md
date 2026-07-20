@@ -109,6 +109,30 @@
 
 ## 💡 Idées à reprendre plus tard
 
+- [ ] **PNG détourés de Nashi** pour décorer les zones vides des fiches poulains (desktop)
+  <details><summary>Détail technique — vérifié le 20/07</summary>
+
+  Bastien prépare des PNG de Nashi sans arrière-plan. Objectif : combler les blancs
+  du desktop (le mobile, lui, défile bien).
+
+  **Faisable, et pas limité à une seule section** — aucune section n'a d'`overflow:hidden`,
+  donc rien ne clippe. Deux approches :
+
+  - *PNG dans une section, en `position:absolute`* : déborde sans problème, mais les
+    sections suivantes sont peintes après dans l'ordre du DOM et passeront **par-dessus**
+    en cas de débordement vers le bas. Se règle au `z-index`, au prix de passer aussi
+    au-dessus du texte voisin.
+  - *Conteneur `position:relative` enveloppant plusieurs sections* : plus propre pour un
+    render vraiment à cheval sur une frontière — le PNG vit dans son propre plan,
+    au-dessus des fonds, sous le texte si besoin.
+
+  Seule contrainte réelle : `body` a `overflow-x: hidden`, donc pas de débordement
+  latéral hors viewport (ce qui évite tout scroll horizontal parasite).
+
+  Zones creuses repérées sur la fiche Nashi : marge droite de "Ses bases" (la liste
+  n'occupe que la moitié de la largeur) et frontière bases/adoption. Silhouette plutôt
+  verticale pour la marge, plutôt horizontale pour un chevauchement de frontière.
+  </details>
 - [ ] "Aller plus loin" — image du panneau gauche (`.explore-visual`) dynamique
   <details><summary>Détail</summary>
 
@@ -147,3 +171,55 @@ Ces constats viennent de l'inspection du code, pas d'un test utilisateur réel (
 - [ ] Décider du sort de `frise.html` et `arbre-genealogique.html` — aujourd'hui sans nav ni footer, donc sans lien de retour vers le site
 - [ ] `.gitattributes` (`* text=auto eol=lf`) — hygiène multi-machines Windows/Mac, non urgent
 - [ ] Mettre à jour la palette dans `HUMMING_COB_REFERENCE_2.md` : les variables documentées (`--cream`, `--ink`, `--rose: #C4788A`…) ne correspondent plus au CSS réel (`--bg-cream`, `--noir`, `--rose: #D4899A`…)
+
+---
+
+## ✅ Séance du 20/07/2026 (soir) — fiches chevaux + transitions
+
+**Les 10 fiches chevaux sont converties au patron.** Le détail du patron est dans
+`FICHE-CHEVAL.md`, qui fait foi ; ci-dessous seulement ce qui a changé ce soir.
+
+- [x] Fiches poulains converties : `nashi`, `omamori`, `orion`, `kaeru`, `Jinba-Ittaï`
+  <details><summary>Ce qui diffère des reproducteurs</summary>
+
+  Ni palmarès ni descendance → nav2 *Ses bases · Adoption · Pedigree*. Galerie sombre
+  fusionnée dans le carrousel du hero. Pédigrée reconstruit sur 3 générations avec lien
+  vers la fiche des parents présents à l'élevage.
+
+  Deux cas particuliers : `kaeru` (né en mai 2026, pas à vendre → *Génétique · Premières
+  semaines · Pedigree*, CTA "Suivre son évolution") et `Jinba-Ittaï` (vendue → *Ses bases ·
+  Son histoire · Pedigree*, CTA "Voir les poulains disponibles" qui réoriente vers les
+  poulains encore là).
+  </details>
+- [x] Bandeau d'identité (badge + race) sorti au-dessus du hero sur les 10 fiches, pour
+      aligner le haut du carrousel sur le `<h1>` — **le fil d'Ariane a été supprimé**
+      (la nav principale et la nav2 faisaient déjà le travail)
+- [x] Carrousel du hero à hauteur variable sur desktop, borné entre 360px et 760px
+- [x] Système de transitions entre sections : `.fade-to-cream` / `.fade-to-light` pour les
+      deux crèmes, `.fade-bottom` pour les en-têtes à dégradé diagonal
+      <details><summary>Décision à ne pas re-litiger</summary>
+
+      Les raccords vers une section **sombre** (footer, "Aussi disponibles" des fiches
+      poulains, citation de `memoire.html`) restent **volontairement francs**. Un fondu a
+      été essayé sur les trois, puis retiré. C'est écrit aussi dans le CSS.
+      </details>
+- [x] `poulains/acheter.html` : HTML cassé réparé (un `<p>` non fermé, un `</div>` orphelin,
+      un `<button>` de FAQ non fermé qui avalait sa réponse). **Les 22 pages passent
+      désormais le contrôle de balises.**
+- [x] Nouvelles classes CSS, en remplacement de styles inline dupliqués : `.horse-tags`,
+      `.horse-price` / `.horse-price-row`, `.btn-on-dark`, `.horse-sold-note`,
+      `.cta-anchor--center`, `.hero-frame`
+
+### Points ouverts pour la prochaine fois
+
+- [ ] **Badge de statut** : "Vendue" (Jinba) et "Croissance en cours" (Kaeru) utilisent
+      exactement le même turquoise, alors que les deux statuts n'ont rien à voir. Mérite
+      deux teintes distinctes — pas fait, c'est un choix de design à valider.
+- [ ] **Légendes de photos à affiner** : les `data-cap` de `kaeru` étaient tous identiques
+      dans l'original, je les ai regroupés par période sans dates précises. Ceux de `nashi`
+      sur la série 2026 sont approximatifs.
+- [ ] **Kuarahy OMD** (père d'Omamori et Orion) n'est documenté que sur une génération, donc
+      son bloc pédigrée affiche des arrière-grands-parents "non renseigné" là où le côté
+      maternel remonte bien. À compléter si les données existent.
+- [ ] `reproducteurs/` : les 3 juments ont un CTA centré comme les 2 étalons — cohérent,
+      mais c'est une harmonisation faite en cours de route, à revalider à l'œil.

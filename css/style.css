@@ -377,6 +377,20 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-2px);
 }
 
+/* Variante sur fond sombre (sections "Aussi disponibles", galeries).
+   Le :hover par défaut passe en --rose-pale : sur fond noir le libellé est
+   blanc, et blanc sur rose pâle devient illisible. Ici on remplit en
+   --rose-deep, qui garde le blanc lisible. */
+.btn-on-dark {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.btn-on-dark:hover {
+  background: var(--rose-deep);
+  border-color: var(--rose-deep);
+  color: #fff;
+}
+
 .scroll-hint {
   position: absolute;
   bottom: 2.5rem;
@@ -1016,6 +1030,24 @@ footer {
    ============================================ */
 .horse-page { padding-top: 80px; }
 
+/* Bandeau d'identité au-dessus du hero : badge de statut + ligne de race.
+   Sorti de la colonne texte pour courir sur toute la largeur, afin que le
+   haut du carrousel s'aligne sur le <h1> plutôt que de démarrer trois crans
+   plus haut. Le fil d'Ariane a été supprimé : la nav principale et la nav2
+   remplissent déjà ce rôle. */
+.horse-hero-top {
+  background: var(--bg-light);
+  padding: 2rem 2.4rem 0;
+  /* Badge et ligne de race côte à côte : sur deux lignes ils mangeaient
+     une hauteur inutile au-dessus du hero. Le wrap les repasse l'un sous
+     l'autre quand la place manque. */
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem 1.1rem;
+}
+.horse-hero-top .horse-hero-race { margin: 0; }
+
 .horse-hero {
   min-height: 70vh;
   display: grid;
@@ -1068,21 +1100,21 @@ footer {
   font-weight: 400;
   line-height: 1.05;
   color: var(--noir);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.1rem;
 }
 .horse-hero-name em { font-style: italic; color: var(--rose-deep); }
 
 .horse-specs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin: 1.5rem 0;
+  gap: .55rem;
+  margin: 1.2rem 0;
 }
 .horse-spec {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 1rem 1.2rem;
+  padding: .6rem .9rem;
 }
 .horse-spec-label {
   font-size: 0.65rem;
@@ -1101,9 +1133,12 @@ footer {
 .horse-description {
   font-size: 0.95rem;
   color: var(--gris);
-  line-height: 1.9;
-  margin: 1.5rem 0;
+  line-height: 1.65;
+  margin: .9rem 0 0;
 }
+/* Le premier paragraphe garde un peu d'air après les cartes de specs ;
+   les suivants sont simplement séparés entre eux. */
+.horse-description:first-of-type { margin-top: 1.2rem; }
 
 .horse-pedigree {
   background: var(--bg-light);
@@ -1585,6 +1620,7 @@ footer {
   .elevage-grid { grid-template-columns: 1fr 1fr; }
   .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
   .horse-hero { grid-template-columns: 1fr; }
+  .horse-hero-top { padding: 2rem 2rem 0; }
   .horse-hero-info { padding: 3rem 2rem; }
   .form-row { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
@@ -1604,6 +1640,54 @@ footer {
   .scroll-hint { display: none; }
 
 }
+
+/* ============================================
+   TRANSITIONS DOUCES ENTRE SECTIONS
+   ============================================
+   Deux mécanismes, selon l'écart de couleur.
+
+   1. .fade-to-* — pour deux teintes crème voisines (--bg-light ↔ --bg-cream).
+      Un simple dégradé sur toute la hauteur de la section suffit : il part de
+      sa propre couleur et arrive sur celle de la suivante, donc le raccord se
+      fait sans arête. Même principe que #aller-plus-loin sur l'accueil.
+
+   2. .fade-bottom — pour une section dont le fond est un dégradé DIAGONAL
+      (les 160deg du site), suivie d'une section de couleur unie. Voir le
+      détail sur la règle elle-même.
+
+   Note : les raccords vers une section SOMBRE (footer, "Aussi disponibles"
+   des fiches poulains, citation de memoire.html) sont volontairement francs.
+   Un fondu y avait été essayé puis retiré — l'arête nette est assumée.
+   ============================================ */
+/* .fade-bottom — pour une section dont le fond est un dégradé DIAGONAL
+      (les 160deg du site). Sur un bloc large et peu haut, un 160deg est
+      quasiment horizontal : son bord inférieur n'a donc pas une couleur
+      uniforme, il va d'une teinte à gauche à une autre à droite. Le raccord
+      avec la section suivante, elle uniforme, se voit alors comme une
+      diagonale — d'où l'impression que "ça part de gauche à droite".
+      Ce voile vertical au bas de la section rétablit une couleur unique sur
+      la ligne de jonction, sans toucher au dégradé diagonal au-dessus.
+      Couleur d'arrivée réglable par --fade-to (défaut : --bg-cream). */
+/* Le voile est posé en z-index négatif dans un contexte d'empilement isolé
+   (isolation: isolate) : il se peint au-dessus du fond de la section mais sous
+   tout son contenu, sans qu'on ait à toucher au positionnement des enfants.
+   Une première version forçait "position: relative" sur les enfants directs et
+   écrasait le "position: absolute" des SVG .hero-branch de memoire.html, dont
+   le hero passait de 483px à 4881px de haut. Ne pas réintroduire de règle
+   ciblant les enfants. */
+.fade-bottom { position: relative; isolation: isolate; }
+.fade-bottom::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 160px;
+  background: linear-gradient(to bottom, transparent 0%, var(--fade-to, var(--bg-cream)) 100%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.fade-to-cream { background: linear-gradient(to bottom, var(--bg-light) 0%, var(--bg-cream) 100%) !important; }
+.fade-to-light { background: linear-gradient(to bottom, var(--bg-cream) 0%, var(--bg-light) 100%) !important; }
 
 /* ============================================
    SHOWCASE CARDS — cartes cinématiques plein cadre
@@ -2047,6 +2131,77 @@ footer {
 
 /* ---- CTA « Nous contacter » ---- */
 .cta-anchor { margin-top: 0.5rem; }
+/* Bouton centré sous la colonne texte du hero (et non sous le hero entier) :
+   .horse-hero-info est déjà la largeur du texte, il suffit donc de centrer
+   dedans. Utilisé sur les fiches étalons, dont le libellé long ("Demander les
+   conditions de saillie") supporte mal l'alignement à gauche. */
+.cta-anchor--center {
+  display: flex;
+  justify-content: center;
+}
+
+/* --- Fiches poulains : tempérament + prix ---------------------------------
+   Remplacent les styles inline qui étaient dupliqués sur chaque fiche. */
+.horse-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .5rem;
+  margin: .8rem 0 1.2rem;
+}
+.horse-tag {
+  background: var(--rose-pale);
+  color: var(--rose-dark);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: .3rem .8rem;
+  border-radius: 50px;
+}
+
+.horse-price {
+  display: flex;
+  align-items: baseline;
+  gap: .6rem;
+  margin: 1.2rem 0 .4rem;
+}
+
+/* Prix et bouton sur une même ligne. Le bouton reste enveloppé dans
+   #ctaAnchor : c'est le repère que le script nav2 observe pour savoir quand
+   dupliquer le CTA dans la barre. Déplacer l'ancre casserait la bascule. */
+/* Mention de placement sur une fiche vendue (Jinba). Remplace le style inline
+   qui traînait dans la page. */
+.horse-sold-note {
+  margin-top: 1.2rem;
+  font-family: var(--font-sans);
+  font-size: .85rem;
+  color: var(--gris);
+  font-style: italic;
+}
+.horse-sold-note em { color: var(--rose-deep); font-weight: 600; font-style: italic; }
+
+.horse-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 1.4rem 0 .4rem;
+}
+.horse-price-row .horse-price { margin: 0; }
+.horse-price-row .cta-anchor { margin-top: 0; }
+.horse-price-value {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--rose-dark);
+}
+.horse-price-note {
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
 
 /* Version dupliquée dans nav2 : masquée tant que l'ancre est visible */
 .nav2-cta {
@@ -2105,14 +2260,23 @@ footer {
   flex-direction: column;
   gap: 1rem;
 }
+/* Cadre de la photo. Il existe pour porter le liseré : tant que celui-ci était
+   accroché à .hero-carousel, sa hauteur était un calc(100% - 2.6rem) calibré à la
+   main sur une légende d'une ligne. Dès que la légende passait à deux lignes, elle
+   volait de la hauteur à la photo sans que le liseré ne bouge — et le trait venait
+   barrer le texte. Accroché ici, le liseré épouse la photo, quelle que soit la
+   longueur de la légende. */
+.hero-frame {
+  position: relative;
+  display: flex;
+  min-height: 0;
+}
 /* Liseré fin décalé, repris tel quel de .qsn-image-wrap sur l'accueil */
-.hero-carousel::before {
+.hero-frame::before {
   content: '';
   position: absolute;
   top: -16px; left: -16px;
-  right: 16px;
-  /* S'arrête au bas de la photo : la légende et les pastilles restent hors cadre */
-  height: calc(100% - 2.6rem);
+  right: 16px; bottom: 16px;
   border: 1px solid var(--rose-pale);
   border-radius: var(--radius);
   z-index: 0;
@@ -2123,6 +2287,7 @@ footer {
   z-index: 1;
   width: 100%;
   aspect-ratio: 4/3;
+  flex: 1;
   overflow: hidden;
   border-radius: var(--radius);
   background: var(--rose-pale);
@@ -2137,6 +2302,35 @@ footer {
 }
 .hero-slide.active { opacity: 1; }
 .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Zone de légende de hauteur fixe (2 lignes). Sans elle, passer d'une photo à
+   légende courte à une photo à légende longue redimensionnait la photo à chaque
+   diapo, puisque le carrousel a désormais une hauteur imposée par la colonne texte. */
+.hero-cap { min-height: 3.4em; }
+
+/* Desktop : le carrousel s'étire sur la hauteur de la colonne texte voisine,
+   comme le slider de "Qui sommes-nous" sur l'accueil. L'aspect-ratio 4/3 ne
+   vaut donc plus qu'en dessous de 900px, où le hero passe sur une colonne.
+
+   Les deux bornes ne sont pas décoratives :
+   - min-height protège les fiches au texte court (Kaeru) d'un aplatissement ;
+   - max-height évite qu'une colonne texte très haute (Archy : 8 cartes de specs
+     + 2 paragraphes = ~1385px) n'étire la photo en bandeau vertical extrême,
+     où object-fit: cover finit par ne plus montrer que le poitrail du cheval.
+   justify-content: flex-start aligne le haut de la photo sur le fil d'Ariane
+   quand le plafond est atteint, plutôt que de la centrer entre deux vides. */
+@media (min-width: 901px) {
+  /* padding-top aligné sur celui de .horse-hero-info (4rem) : c'est ce qui
+     met le haut du carrousel au niveau du <h1> de la colonne de droite. */
+  .horse-hero-img-wrap { align-items: stretch; padding-top: 4rem; }
+  .hero-carousel { height: 100%; justify-content: flex-start; }
+  .hero-frame {
+    flex: 1;
+    min-height: 360px;
+    max-height: 760px;
+  }
+  .hero-slides { aspect-ratio: auto; }
+}
 
 /* --- Flèches --- */
 .hero-nav {
@@ -2279,8 +2473,12 @@ footer {
 /* Note de contexte sous le palmarès : explique l'arrêt des concours plutôt
    que de laisser le lecteur interpréter un palmarès qui s'arrête net. */
 .palmares-note {
-  max-width: 620px;
-  margin: 2.5rem auto 0;
+  /* Largeur calée sur .palmares-list (640px) et bloc aligné à gauche comme elle :
+     le "auto" précédent centrait la note dans .section-inner (1400px), donc très
+     à droite des pastilles. Le text-align: center ci-dessous la centre sous la
+     liste, ce qui était l'intention. */
+  max-width: 640px;
+  margin: 2.5rem 0 0;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);
   font-family: var(--font-sans);
