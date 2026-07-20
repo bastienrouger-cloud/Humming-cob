@@ -67,9 +67,10 @@ a { color: inherit; text-decoration: none; }
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  transition: box-shadow var(--transition);
+  transition: box-shadow var(--transition), transform 0.35s ease;
 }
 .navbar.scrolled { box-shadow: 0 2px 20px rgba(176, 96, 112, 0.12); }
+.navbar.nav-hidden { transform: translateY(-100%); }
 
 .nav-logo {
   display: flex;
@@ -324,7 +325,7 @@ a { color: inherit; text-decoration: none; }
 
 .hero-cta {
   margin-top: 2.5rem;
-  display: inline-flex;
+  display: none;
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
@@ -1586,14 +1587,6 @@ footer {
   .gallery-grid { grid-template-columns: 1fr 1fr; }
   .scroll-hint { display: none; }
 
-  /* Hero mobile : pas de CTA, on laisse le hero respirer */
-  .hero-cta { display: none; }
-
-  /* Ordre des sections spécifique à l'index : "Nos chevaux" remonte
-     juste après le hero. Seuls hero et nos-chevaux ont besoin d'un
-     order explicite, le reste garde sa position relative (order: 0). */
-  #hero { order: -2; }
-  #nos-chevaux { order: -1; }
 }
 
 /* ============================================

@@ -2,11 +2,33 @@
    HUMMING COB — Scripts principaux
    ============================================ */
 
-// Navbar scroll effect
+// Navbar scroll effect : ombre au scroll + masquage auto (scroll bas = cache, scroll haut = revient)
 const navbar = document.querySelector('.navbar');
 if (navbar) {
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+  const HIDE_THRESHOLD = 120; // pas de masquage tant qu'on n'a pas assez scrollé
+
   window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(() => {
+      const currentScrollY = window.scrollY;
+      navbar.classList.toggle('scrolled', currentScrollY > 40);
+
+      const mobileMenuOpen = document.querySelector('.nav-links')?.classList.contains('open');
+      if (!mobileMenuOpen) {
+        const scrollingDown = currentScrollY > lastScrollY;
+        if (scrollingDown && currentScrollY > HIDE_THRESHOLD) {
+          navbar.classList.add('nav-hidden');
+        } else {
+          navbar.classList.remove('nav-hidden');
+        }
+      }
+
+      lastScrollY = currentScrollY;
+      ticking = false;
+    });
   });
 }
 

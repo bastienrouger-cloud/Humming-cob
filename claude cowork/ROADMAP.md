@@ -107,6 +107,20 @@
 
 ---
 
+## 💡 Idées à reprendre plus tard
+
+- [ ] "Aller plus loin" — image du panneau gauche (`.explore-visual`) dynamique
+  <details><summary>Détail</summary>
+
+  Desktop : au survol de chaque carte du panneau droit (Notre élevage / Arbre généalogique / Testez un accouplement), l'image affichée dans `.explore-visual` à gauche change pour correspondre à la carte survolée.
+
+  Mobile : le panneau gauche disparaît déjà en `@media(max-width:900px)` — au lieu de le perdre, intégrer l'image directement dans chaque carte (carte plus grande sur mobile, pas de souci vu que la page défile).
+
+  Bloqué pour l'instant : pas encore d'images dédiées aux 3 destinations.
+  </details>
+
+---
+
 ## 🔍 Audit rapide (constats du code, à date du 18/07/2026)
 
 Points relevés en inspectant les fichiers du repo — pas des cases cochées, juste de quoi t'orienter avant de remplir les sections ci-dessus :
