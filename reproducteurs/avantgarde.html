@@ -13,41 +13,93 @@
   <meta property="og:site_name" content="Humming Cob">
   <link rel="icon" href="../img/favicon.png" type="image/png">
   <link rel="stylesheet" href="../css/style.css">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7Y0BZPH4Q"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-M7Y0BZPH4Q');</script>
 </head>
 <body class="horse-page">
 
+<!-- @partial:header -->
 <nav class="navbar" id="navbar">
   <a href="../index.html" class="nav-logo">
     <img src="../img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
-    <div class="nav-logo-text">Humming Cob<span>Élevage Irish Cob · Gard</span></div>
+    <div class="nav-logo-text">
+      Humming Cob
+      <span>Élevage Irish Cob · Gard</span>
+    </div>
   </a>
   <ul class="nav-links">
     <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
     <li class="has-dropdown">
-      <a href="../reproducteurs.html" class="nav-active">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
       <ul class="nav-dropdown">
-        <li><a href="archy.html" class="nav-etalon">Archy</a></li>
-        <li><a href="avantgarde.html" class="nav-etalon">Avantgarde</a></li>
-        <li><a href="suzie.html">Suzie</a></li>
-        <li><a href="sakura.html">Sakura</a></li>
-        <li><a href="ruby-jane.html">Ruby Jane</a></li>
+        <li><a href="../reproducteurs.html">Reproducteurs</a></li>
+        <li><a href="../poulains.html">Poulains</a></li>
+        <li><a href="../memoire.html">Ils ont marqué notre histoire</a></li>
       </ul>
     </li>
-    <li><a href="../poulains.html">Poulains</a></li>
-    <li><a href="../arbre-genealogique.html">Généalogie</a></li>
-    <li><a href="../accouplement.html">Testez un accouplement</a></li>
+    <li class="has-dropdown">
+      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="../arbre-genealogique.html">Arbre généalogique</a></li>
+        <li><a href="../accouplement.html">Testez un accouplement</a></li>
+      </ul>
+    </li>
     <li><a href="../index.html#contact">Contact</a></li>
   </ul>
-  <div class="nav-toggle" id="navToggle"><span></span><span></span><span></span></div>
+  <div class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
+<!-- @end:header -->
+<!-- ====== NAV SECONDAIRE (spécifique à la fiche) ====== -->
+<nav class="nav2" id="nav2" aria-label="Sections de la fiche">
+  <div class="nav2-inner">
+    <ul class="nav2-links">
+      <li><a href="#palmares">Palmarès</a></li>
+      <li><a href="#descendance">Poulains</a></li>
+      <li><a href="#pedigree">Pedigree</a></li>
+    </ul>
+    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Conditions de saillie</a>
+  </div>
+</nav>
+
 
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
-    <img src="../img/avantgarde/avantgarde-hero.jpg" alt="San Cler Avantgarde" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+    <!-- Carrousel du hero. Lightbox branchée dans js/main.js (tableau "carousels"). -->
+    <div class="hero-carousel">
+      <div class="hero-slides" id="heroSlides">
+        <div class="hero-slide active"><img src="../img/avantgarde/av-2022.jpg" alt="Avantgarde De San Cler" data-cap="2022, avec sa mère, au Pays de Galles (Élevage San Cler)"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-2022 01.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2022, avec sa mère, au Pays de Galles (Élevage San Cler)"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-2023 01.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2023, en troupeau de yearling, au Pays de Galles (Élevage San Cler)"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-2023.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="Octobre 2023, lors de ma visite au Pays de Galles (Élevage San Cler)"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/21.11.2023.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="Novembre 2023, arrivée en France"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/avril 2024 - ITI.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="Avril 2024, passage en ITI, à Carnas (30)"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-2024.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2024, à Carnas (30)"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-portrait.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2025, Portrait par Charlotte LAROCHE"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-profil.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2025, Portrait par Charlotte LAROCHE"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-face.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2025, Portrait par Charlotte LAROCHE"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-concours.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2025, M&A 3-6 ans au Nationale, Lamotte-Beuvron"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-cocarde.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2025, Premier des étalons de 3-6 ans au Nationale, Lamotte-Beuvron"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-palmares-1.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2025, Premier des étalons de 3-6 ans au Nationale, Lamotte-Beuvron"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-palmares-2.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2025, Vice-Champion des étalons au Nationale, Lamotte-Beuvron"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-contact.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2025 - À l'écurie, moment tendre avec Bastien"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-2025.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2025, à Carnas (30)"></div>
+        <div class="hero-slide"><img src="../img/avantgarde/av-2026.jpg" alt="Avantgarde De San Cler" loading="lazy" data-cap="2026, à Carnas (30)"></div>
+
+        <button class="hero-nav hero-prev" aria-label="Photo précédente">‹</button>
+        <button class="hero-nav hero-next" aria-label="Photo suivante">›</button>
+
+        <span class="hero-expand" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+        </span>
+      </div>
+
+      <p class="hero-cap" id="heroCap" aria-live="polite"></p>
+      <div class="hero-timer" id="heroTimer" aria-hidden="true"></div>
+    </div>
   </div>
 
   <div class="horse-hero-info">
@@ -82,12 +134,15 @@
       possibilités de robes pour les générations à venir.
     </p>
 
-    <a href="../index.html#contact" class="btn btn-primary" style="margin-top:.5rem;">Nous contacter</a>
+    <!-- Point d'ancrage du bouton : repère du script pour le dupliquer dans nav2 -->
+    <div id="ctaAnchor" class="cta-anchor">
+      <a href="../index.html#contact" class="btn btn-primary">Demander les conditions de saillie</a>
+    </div>
   </div>
 </div>
 
 <!-- Palmarès -->
-<section class="horse-pedigree">
+<section class="horse-pedigree" id="palmares">
   <div class="section-inner">
     <span class="section-badge">Résultats</span>
     <h2 class="section-title">Palmarès <em>d'Avantgarde</em></h2>
@@ -104,168 +159,8 @@
   </div>
 </section>
 
-<!-- Pedigree -->
-<section class="horse-pedigree">
-  <div class="section-inner">
-    <span class="section-badge">Origines</span>
-    <h2 class="section-title">Pedigree <em>& lignées</em></h2>
-    <div class="section-divider"></div>
-    <p class="section-text" style="margin-bottom:2.5rem;">
-      San Cler Avantgarde est issu de parents double pearl, lignée San Cler. 
-      Reconnue pour sa rigueur de sélection et la qualité des chevaux, cette lignée a largement contribué à façonner
-       le Gypsy Cob Pearl. 
-       À l'origine de ce travail, Clive Hussell, un « petit-grand homme » dont la connaissance des lignées et du gène pearl
-        m'a profondément marquée lors de notre rencontre. 
-        Les données ci-dessous sont extraites de son registre personnel.
-    </p>
-
-    <style>
-      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
-      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
-      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
-      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
-      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
-      .ped-label--pere { color:var(--bleu); }
-      .ped-label--mere { color:var(--rose); }
-      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
-      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
-      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
-      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
-      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
-      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
-      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
-      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
-      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
-      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
-      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
-      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
-      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
-      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
-      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
-      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
-      .ped-ancestors { margin-top:.4rem; font-size:.6rem; color:var(--gris); font-style:italic; line-height:1.5; border-top:1px dashed rgba(0,0,0,0.08); padding-top:.35rem; }
-      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
-      .ped-note strong { color:var(--bleu); }
-      @media(max-width:700px) {
-        .ped-tree { grid-template-columns:1fr; }
-        .ped-gp { grid-template-columns:1fr; }
-        .ped-ggp { grid-template-columns:1fr; }
-      }
-    </style>
-
-    <div class="ped-tree">
-
-      <!-- PÈRE -->
-      <div class="ped-parent ped-parent--pere">
-        <div class="ped-label ped-label--pere">Père</div>
-        <div class="ped-name">San Cler Talk Of The Town</div>
-        <div class="ped-robe">Chestnut Homozygous Pearl · Gypsy Vanner · 2018 · 14hh</div>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--pere">
-            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
-            <div class="ped-gp-name">The Milky Bar Kid</div>
-            <div class="ped-gp-robe">Gypsy Vanner · 2016</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">San Cler Creme Dream</div>
-                <div class="ped-ggp-robe">Tobie · 2009</div>
-                <div class="ped-ancestors">par San Cler Toby* (buck tob, 2005)<br>× Foundation Mare UK (blk tob)</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ped-gp-card ped-gp-card--mere">
-            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère paternelle</div>
-            <div class="ped-gp-name">San Cler Orange Pop</div>
-            <div class="ped-gp-robe">Chestnut · Gypsy Vanner · 2014</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">San Cler Cream Cracker</div>
-                <div class="ped-ggp-robe">Pal Pearl Tobiano · 14.1hh · 2010</div>
-                <div class="ped-ancestors">par Cimla Jimboy (blk tob pearl, 2007)<br>× The Old Palomino Mare (Molly UK, 1990)</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MÈRE -->
-      <div class="ped-parent ped-parent--mere">
-        <div class="ped-label ped-label--mere">Mère</div>
-        <div class="ped-name">San Cler Uptown Girl</div>
-        <div class="ped-robe">Black HZ Pearl Tobiano · Gypsy Vanner · 2018</div>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--pere">
-            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père maternel</div>
-            <div class="ped-gp-name">San Cler Razzamataz</div>
-            <div class="ped-gp-robe">Buckskin Pearl · Gypsy Vanner · 2015</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">San Cler Cream Cracker</div>
-                <div class="ped-ggp-robe">Pal Pearl Tobiano · 14.1hh · 2010</div>
-                <div class="ped-ancestors">par Cimla Jimboy (blk tob pearl, 2007)<br>× The Old Palomino Mare (Molly UK, 1990)</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--mere">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">San Cler Butterscotch</div>
-                <div class="ped-ggp-robe">Buckskin Pearl · 2010</div>
-                <div class="ped-ancestors">par San Cler Toby* (buck tob, 2005)<br>× San Cler Nutmeg (buck pearl, 2007)</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ped-gp-card ped-gp-card--mere">
-            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère maternelle</div>
-            <div class="ped-gp-name">San Cler Coffee Creme</div>
-            <div class="ped-gp-robe">Black Pearl Tobiano · Gypsy Vanner · 2010</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">Cimla Jimboy</div>
-                <div class="ped-ggp-robe">Black Tobiano Pearl · 2007</div>
-                <div class="ped-ancestors">par Old Jim (blk tob, 1990)<br>× Old Pat of San Cler* (buck, 2002)</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--mere">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">Black Shirley</div>
-                <div class="ped-ggp-robe">Black · San Cler Stud · 2000</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="ped-note">
-      <strong>Transparence sur les origines communes</strong><br>
-      Étant tous deux issus du San Cler Stud, Talk Of The Town et Uptown Girl partagent naturellement certains ancêtres 
-      fondateurs de l'élevage. <em>San Cler Cream Cracker</em> (2010) et <em>San Cler Toby*</em> (2005) apparaissent 
-      des deux côtés du pedigree, mais à la 4ème génération — un degré sans impact sur la vigueur de la descendance, 
-      courant et accepté en sélection équine au sein d'un même stud. Les tests ADN d'Avantgarde confirment son 
-      homozygotie pearl (Aa Ee PrlPrl), garantissant une transmission à 100 % de la dilution à chaque poulain.
-    </div>
-  </div>
-</section>
-
 <!-- Descendance -->
-<section class="horse-pedigree" style="background:var(--bg-light);">
+<section class="horse-pedigree" id="descendance">
   <div class="section-inner">
     <span class="section-badge">Descendance</span>
     <h2 class="section-title">Poulains <em>issus d'Avantgarde</em></h2>
@@ -334,41 +229,178 @@
   </div>
 </section>
 
-<!-- Galerie -->
-<section style="background:#111;padding:5rem 0;">
+<!-- Pedigree -->
+<section class="horse-pedigree" id="pedigree" style="background:var(--bg-light);">
   <div class="section-inner">
-    <span class="section-badge" style="color:#B06070;border-color:#B06070;">Photos</span>
-    <h2 class="section-title" style="color:#fff;">Galerie <em>photos</em></h2>
+    <span class="section-badge">Origines</span>
+    <h2 class="section-title">Pedigree <em>& lignées</em></h2>
     <div class="section-divider"></div>
+    <p class="section-text" style="margin-bottom:2.5rem;">
+      San Cler Avantgarde est issu de parents double pearl, lignée San Cler. 
+      Reconnue pour sa rigueur de sélection et la qualité des chevaux, cette lignée a largement contribué à façonner
+       le Gypsy Cob Pearl. 
+       À l'origine de ce travail, Clive Hussell, un « petit-grand homme » dont la connaissance des lignées et du gène pearl
+        m'a profondément marquée lors de notre rencontre. 
+        Les données ci-dessous sont extraites de son registre personnel.
+    </p>
 
-    <div class="ar-carousel">
-      <div class="ar-slides" id="horseSlides">
-        <div class="ar-slide active"><img src="../img/avantgarde/av-2022.jpg" data-cap="2022, avec sa mère, au Pays de Galles (Élevage San Cler)"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-2022 01.jpg" data-cap="2022, avec sa mère, au Pays de Galles (Élevage San Cler)"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-2023 01.jpg" data-cap="2023, en troupeau de yearling, au Pays de Galles (Élevage San Cler)"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-2023.jpg" data-cap="Octobre 2023, lors de ma visite au Pays de Galles (Élevage San Cler)"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/21.11.2023.jpg" data-cap="Novembre 2023, arrivée en France"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/avril 2024 - ITI.jpg" data-cap="Avril 2024, passage en ITI, à Carnas (30)"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-2024.jpg" data-cap="2024, à Carnas (30)"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-portrait.jpg" data-cap="2025, Portrait par Charlotte LAROCHE"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-profil.jpg" data-cap="2025, Portrait par Charlotte LAROCHE"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-face.jpg" data-cap="2025, Portrait par Charlotte LAROCHE"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-concours.jpg" data-cap="2025, M&A 3-6 ans au Nationale, Lamotte-Beuvron"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-cocarde.jpg" data-cap="2025, Premier des étalons de 3-6 ans au Nationale, Lamotte-Beuvron"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-palmares-1.jpg" data-cap="2025, Premier des étalons de 3-6 ans au Nationale, Lamotte-Beuvron"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-palmares-2.jpg" data-cap="2025, Vice-Champion des étalons au Nationale, Lamotte-Beuvron"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-contact.jpg" data-cap="2025 - À l'écurie, moment tendre avec Bastien"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-2025.jpg" data-cap="2025, à Carnas (30)"></div>
-        <div class="ar-slide"><img src="../img/avantgarde/av-2026.jpg" data-cap="2026, à Carnas (30)"></div>
-        <button class="ar-btn ar-prev" id="horsePrev">‹</button>
-        <button class="ar-btn ar-next" id="horseNext">›</button>
+    <style>
+      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
+      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
+      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
+      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
+      .ped-label--pere { color:var(--bleu); }
+      .ped-label--mere { color:var(--rose); }
+      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
+      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
+      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
+      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
+      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
+      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
+      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
+      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
+      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
+      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
+      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
+      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
+      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
+      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
+      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
+      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
+      .ped-ancestors { margin-top:.4rem; font-size:.6rem; color:var(--gris); font-style:italic; line-height:1.5; border-top:1px dashed rgba(0,0,0,0.08); padding-top:.35rem; }
+      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
+      .ped-note strong { color:var(--bleu); }
+      @media(max-width:700px) {
+        .ped-tree { grid-template-columns:1fr; }
+        .ped-gp { grid-template-columns:1fr; }
+        .ped-ggp { grid-template-columns:1fr; }
+      }
+    </style>
+
+    <div class="ped-tree">
+
+      <!-- PÈRE -->
+      <div class="ped-parent ped-parent--pere is-collapsed">
+        <div class="ped-label ped-label--pere">Père</div>
+        <div class="ped-name">San Cler Talk Of The Town</div>
+        <div class="ped-robe">Chestnut Homozygous Pearl · Gypsy Vanner · 2018 · 14hh</div>
+
+        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--pere">
+            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
+            <div class="ped-gp-name">The Milky Bar Kid</div>
+            <div class="ped-gp-robe">Gypsy Vanner · 2016</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">San Cler Creme Dream</div>
+                <div class="ped-ggp-robe">Tobie · 2009</div>
+                <div class="ped-ancestors">par San Cler Toby* (buck tob, 2005)<br>× Foundation Mare UK (blk tob)</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ped-gp-card ped-gp-card--mere">
+            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère paternelle</div>
+            <div class="ped-gp-name">San Cler Orange Pop</div>
+            <div class="ped-gp-robe">Chestnut · Gypsy Vanner · 2014</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">San Cler Cream Cracker</div>
+                <div class="ped-ggp-robe">Pal Pearl Tobiano · 14.1hh · 2010</div>
+                <div class="ped-ancestors">par Cimla Jimboy (blk tob pearl, 2007)<br>× The Old Palomino Mare (Molly UK, 1990)</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--unknown">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">—</div>
+                <div class="ped-ggp-robe">Non renseignée</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="ar-cap-ext" id="horseCap">2022, avec sa mère, au Pays de Galles (Élevage San Cler)</div>
-      <div class="ar-thumbs" id="horseThumbs"></div>
+
+      <!-- MÈRE -->
+      <div class="ped-parent ped-parent--mere is-collapsed">
+        <div class="ped-label ped-label--mere">Mère</div>
+        <div class="ped-name">San Cler Uptown Girl</div>
+        <div class="ped-robe">Black HZ Pearl Tobiano · Gypsy Vanner · 2018</div>
+
+        <button type="button" class="ped-toggle ped-toggle--mere" aria-expanded="false">
+          <span class="ped-toggle-label">Voir les ascendants</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="ped-gp">
+          <div class="ped-gp-card ped-gp-card--pere">
+            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père maternel</div>
+            <div class="ped-gp-name">San Cler Razzamataz</div>
+            <div class="ped-gp-robe">Buckskin Pearl · Gypsy Vanner · 2015</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">San Cler Cream Cracker</div>
+                <div class="ped-ggp-robe">Pal Pearl Tobiano · 14.1hh · 2010</div>
+                <div class="ped-ancestors">par Cimla Jimboy (blk tob pearl, 2007)<br>× The Old Palomino Mare (Molly UK, 1990)</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">San Cler Butterscotch</div>
+                <div class="ped-ggp-robe">Buckskin Pearl · 2010</div>
+                <div class="ped-ancestors">par San Cler Toby* (buck tob, 2005)<br>× San Cler Nutmeg (buck pearl, 2007)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ped-gp-card ped-gp-card--mere">
+            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère maternelle</div>
+            <div class="ped-gp-name">San Cler Coffee Creme</div>
+            <div class="ped-gp-robe">Black Pearl Tobiano · Gypsy Vanner · 2010</div>
+            <div class="ped-ggp">
+              <div class="ped-ggp-card ped-ggp-card--pere">
+                <div class="ped-ggp-label">♂ Père</div>
+                <div class="ped-ggp-name">Cimla Jimboy</div>
+                <div class="ped-ggp-robe">Black Tobiano Pearl · 2007</div>
+                <div class="ped-ancestors">par Old Jim (blk tob, 1990)<br>× Old Pat of San Cler* (buck, 2002)</div>
+              </div>
+              <div class="ped-ggp-card ped-ggp-card--mere">
+                <div class="ped-ggp-label">♀ Mère</div>
+                <div class="ped-ggp-name">Black Shirley</div>
+                <div class="ped-ggp-robe">Black · San Cler Stud · 2000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ped-note">
+      <strong>Transparence sur les origines communes</strong><br>
+      Étant tous deux issus du San Cler Stud, Talk Of The Town et Uptown Girl partagent naturellement certains ancêtres 
+      fondateurs de l'élevage. <em>San Cler Cream Cracker</em> (2010) et <em>San Cler Toby*</em> (2005) apparaissent 
+      des deux côtés du pedigree, mais à la 4ème génération — un degré sans impact sur la vigueur de la descendance, 
+      courant et accepté en sélection équine au sein d'un même stud. Les tests ADN d'Avantgarde confirment son 
+      homozygotie pearl (Aa Ee PrlPrl), garantissant une transmission à 100 % de la dilution à chaque poulain.
     </div>
   </div>
 </section>
 
+
+<!-- @partial:footer -->
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">Humming <span>Cob</span></div>
@@ -377,15 +409,14 @@
       <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
-    <ul class="footer-links">
-      <li><a href="../reproducteurs.html">Reproducteurs</a></li>
-      <li><a href="../poulains.html">Poulains disponibles</a></li>
-      <li><a href="accouplement.html">Testez un accouplement</a></li>
-      <li><a href="../index.html#contact">Contact</a></li>
+    <ul class="footer-legal">
+      <li><a href="../mentions-legales.html">Mentions légales</a></li>
+      <li><a href="../confidentialite.html">Politique de confidentialité</a></li>
     </ul>
     <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
   </div>
 </footer>
+<!-- @end:footer -->
 <script src="../js/main.js"></script>
 </body>
 </html>

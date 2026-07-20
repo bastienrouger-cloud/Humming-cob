@@ -17,9 +17,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7Y0BZPH4Q"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-M7Y0BZPH4Q');</script>
 <style>
   :root{
     --cream:#FEFBF6;
@@ -458,6 +455,7 @@
 <body>
 
 <!-- ====== NAVIGATION ====== -->
+<!-- @partial:header -->
 <nav class="navbar" id="navbar">
   <a href="index.html" class="nav-logo">
     <img src="img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
@@ -470,24 +468,27 @@
     <li><a href="index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="elevage.html">L'élevage</a></li>
     <li class="has-dropdown">
-      <a href="reproducteurs.html">Reproducteurs <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
       <ul class="nav-dropdown">
-        <li><a href="reproducteurs/archy.html" class="nav-etalon">Archy</a></li>
-        <li><a href="reproducteurs/avantgarde.html" class="nav-etalon">Avantgarde</a></li>
-        <li><a href="reproducteurs/suzie.html">Suzie</a></li>
-        <li><a href="reproducteurs/sakura.html">Sakura</a></li>
-        <li><a href="reproducteurs/ruby-jane.html">Ruby Jane</a></li>
+        <li><a href="reproducteurs.html">Reproducteurs</a></li>
+        <li><a href="poulains.html">Poulains</a></li>
+        <li><a href="memoire.html">Ils ont marqué notre histoire</a></li>
       </ul>
     </li>
-    <li><a href="poulains.html">Poulains</a></li>
-    <li><a href="arbre-genealogique.html">Généalogie</a></li>
-    <li><a href="accouplement.html" class="nav-active">Testez un accouplement</a></li>
+    <li class="has-dropdown">
+      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="arbre-genealogique.html">Arbre généalogique</a></li>
+        <li><a href="accouplement.html">Testez un accouplement</a></li>
+      </ul>
+    </li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
   </div>
 </nav>
+<!-- @end:header -->
 
 <!-- ====== EN-TÊTE ====== -->
 <section id="page-header" style="padding:4rem 0 4rem;background:var(--bg-light);text-align:center;">
@@ -585,6 +586,7 @@
 </div>
 
 <!-- ====== FOOTER ====== -->
+<!-- @partial:footer -->
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">Humming <span>Cob</span></div>
@@ -593,17 +595,14 @@
       <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
-    <ul class="footer-links">
-      <li><a href="#qui-sommes-nous">À propos</a></li>
-      <li><a href="elevage.html">L'élevage</a></li>
-      <li><a href="reproducteurs.html">Reproducteurs</a></li>
-      <li><a href="poulains.html">Nos poulains</a></li>
-      <li><a href="accouplement.html">Testez un accouplement</a></li>
-      <li><a href="#contact">Contact</a></li>
+    <ul class="footer-legal">
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Politique de confidentialité</a></li>
     </ul>
     <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
   </div>
 </footer>
+<!-- @end:footer -->
 
 <script src="js/main.js"></script>
 <script src="js/donnees-chevaux.js"></script>

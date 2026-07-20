@@ -233,6 +233,7 @@ if (revealEls.length) {
   const carousels = [
     { containerSel: '#qsnSlides', imgsSel: '#qsnSlides .qsn-slide img', activeSel: '#qsnSlides .qsn-slide.active img'},
     { containerSel: '#horseSlides', imgsSel: '#horseSlides .ar-slide img', activeSel: '#horseSlides .ar-slide.active img' },
+    { containerSel: '#heroSlides', imgsSel: '#heroSlides .hero-slide img', activeSel: '#heroSlides .hero-slide.active img' },
     { containerSel: '#kaSlides', imgsSel: '#kaSlides .ka-slide img', activeSel: '#kaSlides .ka-slide.active img'},
     { containerSel: '#rvSlides', imgsSel: '#rvSlides .rv-slide img', activeSel: '#rvSlides .rv-slide.active img'},
     { containerSel: '#jbSlides', imgsSel: '#jbSlides .jb-slide img', activeSel: '#jbSlides .jb-slide.active img'},
@@ -448,3 +449,211 @@ if (form) {
     }, 3500);
   });
 }
+
+/* ============================================
+   NAV2 — navigation secondaire des fiches chevaux
+   ============================================
+   Trois comportements :
+   1. nav2 collée sous la navbar, et remontée en haut quand la navbar se cache
+   2. lien actif mis en évidence selon la section visible
+   3. CTA « Nous contacter » dupliqué dans nav2 (desktop) ou en barre flottante
+      (mobile) dès qu'on descend sous son point d'ancrage dans le hero
+*/
+const nav2 = document.getElementById('nav2');
+if (nav2) {
+  const navbarEl = document.querySelector('.navbar');
+  const ctaAnchor = document.getElementById('ctaAnchor');
+  const nav2Cta = document.getElementById('nav2Cta');
+  const root = document.documentElement;
+
+  // --- 1. Mesures : hauteur réelle de la navbar et de nav2 ---
+  // Attention : --nav2-h ne doit JAMAIS servir à dimensionner nav2 elle-même
+  // (min-height, padding...), sinon mesure et style s'auto-alimentent et la
+  // barre gonfle à chaque passage. Il sert uniquement au calcul des offsets.
+  // --nav-h n'est PAS mesuré ici : il est figé dans le CSS (.navbar a une
+  // hauteur explicite). Une mesure JS dépendrait du chargement du logo et
+  // décalerait nav2 de façon imprévisible.
+  const measure = () => {
+    root.style.setProperty('--nav2-h', nav2.offsetHeight + 'px');
+  };
+  measure();
+  window.addEventListener('resize', measure);
+
+  // --- 2. Lien actif : IntersectionObserver sur les sections cibles ---
+  const links = [...nav2.querySelectorAll('.nav2-links a')];
+  const sections = links
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+
+  if (sections.length) {
+    const setActive = id => links.forEach(a =>
+      a.classList.toggle('is-active', a.getAttribute('href') === '#' + id)
+    );
+
+    const observer = new IntersectionObserver(entries => {
+      // La section active est la plus haute de celles actuellement visibles
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible.length) setActive(visible[0].target.id);
+    }, {
+      // Bande de détection sous les deux navs
+      rootMargin: '-30% 0px -60% 0px',
+      threshold: 0
+    });
+    sections.forEach(s => observer.observe(s));
+  }
+
+  // --- 3. Position de nav2 + bascule du CTA ---
+  let nav2Ticking = false;
+  const updateNav2 = () => {
+    const navHidden = navbarEl && navbarEl.classList.contains('nav-hidden');
+    const navH = navbarEl ? navbarEl.offsetHeight : 0;
+    // Quand la navbar se cache, nav2 prend sa place en haut de l'écran
+    root.style.setProperty('--nav2-top', navHidden ? '0px' : navH + 'px');
+
+    // nav2 est "collée" dès que son haut atteint sa position d'accroche
+    const stuck = nav2.getBoundingClientRect().top <= (navHidden ? 1 : navH + 1);
+    nav2.classList.toggle('is-stuck', stuck);
+
+    // CTA : visible dès que l'ancre du hero est passée sous la nav2.
+    // Tant qu'on est au-dessus de l'ancre, le bouton reste à sa place d'origine.
+    if (ctaAnchor && nav2Cta) {
+      const anchorBottom = ctaAnchor.getBoundingClientRect().bottom;
+      const seuil = (navHidden ? 0 : navH) + nav2.offsetHeight;
+      nav2Cta.classList.toggle('is-visible', anchorBottom < seuil);
+      // Le clone reste hors du parcours clavier tant qu'il est masqué
+      const shown = nav2Cta.classList.contains('is-visible');
+      nav2Cta.setAttribute('aria-hidden', shown ? 'false' : 'true');
+      nav2Cta.tabIndex = shown ? 0 : -1;
+    }
+
+    nav2Ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (nav2Ticking) return;
+    nav2Ticking = true;
+    window.requestAnimationFrame(updateNav2);
+  }, { passive: true });
+
+  updateNav2();
+}
+
+
+/* ============================================
+   CARROUSEL DU HERO (fiches chevaux)
+   ============================================
+   Une seule horloge : l'animation CSS de la minuterie. C'est sa fin
+   (animationend) qui déclenche le changement de photo.
+
+   Pourquoi pas un setInterval en parallèle : la barre et le minuteur
+   dériveraient l'un de l'autre dès qu'on met en pause. Au survol l'animation
+   se fige et reprend où elle en était, alors qu'un setInterval relancé
+   repartirait pour un tour complet — d'où un décalage entre la barre pleine
+   et le changement d'image.
+
+   La lightbox est gérée plus haut, par le bloc "Lightbox carrousel".
+*/
+(function () {
+  const wrap = document.getElementById('heroSlides');
+  if (!wrap) return;
+
+  const slides = Array.from(wrap.querySelectorAll('.hero-slide'));
+  if (slides.length < 2) return;
+
+  const timerEl = document.getElementById('heroTimer');
+  const capEl = document.getElementById('heroCap');
+  const carousel = wrap.closest('.hero-carousel');
+  const DELAY = 5000;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let cur = 0, fallback = null;
+
+  const segs = slides.map(() => {
+    const seg = document.createElement('span');
+    seg.className = 'hero-dot';
+    seg.appendChild(document.createElement('i'));
+    timerEl && timerEl.appendChild(seg);
+    return seg;
+  });
+  if (timerEl) timerEl.style.setProperty('--hero-delay', DELAY + 'ms');
+
+  const paintTimer = () => segs.forEach((seg, i) => {
+    seg.classList.remove('done', 'running');
+    if (i < cur) seg.classList.add('done');
+    if (i === cur) {
+      // Reflow forcé : sans lui, réappliquer la même classe ne relance pas
+      // le keyframe et l'animation reste figée à sa fin.
+      void seg.offsetWidth;
+      seg.classList.add('running');
+    }
+  });
+
+  const goTo = n => {
+    slides[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    // Les légendes vivent sur les <img> (data-cap), déjà utilisées par la lightbox
+    if (capEl) capEl.textContent = slides[cur].querySelector('img')?.dataset.cap || '';
+    paintTimer();
+    if (reduced) restartFallback();
+  };
+
+  // Sans animation (préférence système), il faut bien une horloge de secours
+  function restartFallback() {
+    clearTimeout(fallback);
+    fallback = setTimeout(() => goTo(cur + 1), DELAY);
+  }
+
+  // L'animation de la barre en cours arrive à son terme → photo suivante
+  timerEl && timerEl.addEventListener('animationend', e => {
+    if (e.target.parentElement.classList.contains('running')) goTo(cur + 1);
+  });
+
+  const pause = () => {
+    carousel && carousel.classList.add('is-paused');
+    clearTimeout(fallback);
+  };
+  const resume = () => {
+    carousel && carousel.classList.remove('is-paused');
+    if (reduced) restartFallback();
+  };
+
+  goTo(0);
+
+  wrap.querySelector('.hero-prev')?.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation(); goTo(cur - 1);
+  });
+  wrap.querySelector('.hero-next')?.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation(); goTo(cur + 1);
+  });
+
+  wrap.addEventListener('mouseenter', pause);
+  wrap.addEventListener('mouseleave', resume);
+  document.addEventListener('visibilitychange', () => document.hidden ? pause() : resume());
+
+  let tx = 0;
+  wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  wrap.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+})();
+
+/* ============================================
+   PÉDIGRÉE REPLIABLE (fiches chevaux)
+   ============================================
+   Un bouton par parent : chacun ne déplie que sa propre branche.
+   L'état replié vient du HTML, ce script ne fait que le basculer.
+*/
+document.querySelectorAll('.ped-toggle').forEach(btn => {
+  const parent = btn.closest('.ped-parent');
+  if (!parent) return;
+  const label = btn.querySelector('.ped-toggle-label');
+
+  btn.addEventListener('click', () => {
+    const open = parent.classList.toggle('is-collapsed') === false;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (label) label.textContent = open ? 'Masquer les ascendants' : 'Voir les ascendants';
+  });
+});
