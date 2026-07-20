@@ -228,6 +228,17 @@ a { color: inherit; text-decoration: none; }
     linear-gradient(160deg, rgba(255,248,240,0.82) 0%, rgba(254,243,245,0.8) 50%, rgba(254,251,246,0.88) 100%),
     url('../img/heroHCwp.jpg') center 60% / cover no-repeat;
 }
+/* Fondu en bas du hero pour adoucir la transition vers la section suivante
+   (fond crème --bg-light, cohérent avec #nos-chevaux juste en dessous) */
+#hero::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 220px;
+  background: linear-gradient(to bottom, rgba(255,248,242,0) 0%, rgba(255,248,242,1) 100%);
+  pointer-events: none;
+  z-index: 4;
+}
 
 /* Canvas sakura */
 #sakura-canvas {
@@ -396,7 +407,7 @@ a { color: inherit; text-decoration: none; }
 /* ============================================
    SECTIONS communes
    ============================================ */
-section { padding: 6rem 1.5rem; }
+section { padding: 4.5rem 1.5rem; }
 
 .section-inner {
   max-width: 1400px;
@@ -1581,7 +1592,7 @@ footer {
 }
 
 @media (max-width: 600px) {
-  section { padding: 4rem 1rem; }
+  section { padding: 3.5rem 1rem; }
   .horses-grid { grid-template-columns: 1fr; }
   .horse-specs { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
@@ -1728,6 +1739,11 @@ footer {
    (inspiré du bloc "New to the 'verse" de RSI,
    adapté à l'identité Humming Cob)
    ============================================ */
+/* Fondu vers #contact : le dégradé colore tout le fond de la section,
+   mais reste invisible derrière le panneau (.explore-panel) qui le recouvre —
+   il n'apparaît que dans les marges haut/bas, exactement là où la transition
+   avec les sections voisines doit se faire. */
+#aller-plus-loin { background: linear-gradient(to bottom, var(--bg-light) 0%, #FDF5F7 100%); }
 #aller-plus-loin .section-inner { max-width: 1850px; }
 
 .explore-panel {
@@ -1744,12 +1760,20 @@ footer {
 .explore-visual {
   position: relative;
   min-height: 420px;
-  background: linear-gradient(160deg, var(--rose-pale) 0%, var(--or-pale) 100%);
+  background: linear-gradient(160deg, var(--bg-light) 0%, var(--rose-pale) 100%);
   overflow: hidden;
 }
-/* Pas d'image pour l'instant — remplacer par :
-   .explore-visual { background: url('../img/xxx.jpg') center / cover; }
-   (et supprimer le ::before ci-dessous si l'image se suffit à elle-même) */
+/* Image affichée au survol/focus d'une carte .explore-card[data-visual-bg]
+   (voir js/main.js) — en fondu par-dessus le dégradé par défaut ci-dessus. */
+.explore-visual-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.explore-visual-img.active { opacity: 1; }
 .explore-visual::before {
   content: 'HC';
   position: absolute;
@@ -1758,7 +1782,7 @@ footer {
   font-family: var(--font-serif);
   font-size: 11rem;
   font-weight: 300;
-  color: rgba(255,255,255,0.4);
+  color: rgba(176, 96, 112, 0.16);
   pointer-events: none;
   user-select: none;
   white-space: nowrap;

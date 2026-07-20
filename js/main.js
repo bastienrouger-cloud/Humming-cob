@@ -32,6 +32,24 @@ if (navbar) {
   });
 }
 
+// "Aller plus loin" : au survol/focus d'une carte, l'image dédiée remplace
+// le dégradé par défaut dans le panneau de gauche (.explore-visual-img)
+const exploreVisualImg = document.getElementById('exploreVisualImg');
+if (exploreVisualImg) {
+  document.querySelectorAll('.explore-card[data-visual-bg]').forEach(card => {
+    const bgUrl = card.getAttribute('data-visual-bg');
+    const show = () => {
+      exploreVisualImg.style.backgroundImage = `url('${bgUrl}')`;
+      exploreVisualImg.classList.add('active');
+    };
+    const hide = () => exploreVisualImg.classList.remove('active');
+    card.addEventListener('mouseenter', show);
+    card.addEventListener('mouseleave', hide);
+    card.addEventListener('focus', show);
+    card.addEventListener('blur', hide);
+  });
+}
+
 // Menu mobile
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');

@@ -42,7 +42,7 @@
       </ul>
     </li>
     <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Outils <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
       <ul class="nav-dropdown">
         <li><a href="arbre-genealogique.html">Arbre généalogique</a></li>
         <li><a href="accouplement.html">Testez un accouplement</a></li>
@@ -77,7 +77,7 @@
 <section id="nos-chevaux" style="background:var(--bg-light);">
   <div class="section-inner">
     <div class="reveal" style="text-align:center;max-width:580px;margin:0 auto;">
-      <span class="section-badge">Nos chevaux</span>
+      <span class="section-badge">Notre cheptel</span>
       <h2 class="section-title">Nos <em>chevaux</em></h2>
       <div class="section-divider" style="margin:1.5rem auto;"></div>
     </div>
@@ -182,9 +182,11 @@
   <div class="section-inner">
     <div class="explore-panel reveal">
 
-      <!-- Panneau visuel : vide pour l'instant (voir .explore-visual dans le CSS
-           pour ajouter facilement une image de fond plus tard) -->
-      <div class="explore-visual" aria-hidden="true"></div>
+      <!-- Panneau visuel : dégradé par défaut, remplacé par l'image de la carte
+           survolée/focus (data-visual-bg) — voir .explore-visual-img et js/main.js -->
+      <div class="explore-visual" aria-hidden="true">
+        <div class="explore-visual-img" id="exploreVisualImg"></div>
+      </div>
 
       <div class="explore-content">
         <span class="section-badge">Aller plus loin</span>
@@ -193,19 +195,19 @@
 
         <div class="explore-cards">
 
-          <a href="elevage.html" class="explore-card">
+          <a href="elevage.html" class="explore-card" data-visual-bg="img/explore-elevage.jpg">
             <h3 class="explore-card-title">Notre élevage</h3>
             <p class="explore-card-desc">Notre philosophie, nos valeurs et le quotidien auprès des chevaux.</p>
             <span class="explore-card-link link-arrow">Découvrir <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </a>
 
-          <a href="arbre-genealogique.html" class="explore-card">
+          <a href="arbre-genealogique.html" class="explore-card" data-visual-bg="img/explore-arbre-genealogique.jpg">
             <h3 class="explore-card-title">Arbre généalogique</h3>
             <p class="explore-card-desc">Les lignées irlandaises et britanniques qui ont façonné nos chevaux.</p>
             <span class="explore-card-link link-arrow">Explorer <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           </a>
 
-          <a href="accouplement.html" class="explore-card">
+          <a href="accouplement.html" class="explore-card" data-visual-bg="img/explore-accouplement.jpg">
             <h3 class="explore-card-title">Testez un accouplement</h3>
             <p class="explore-card-desc">Calculez le coefficient de consanguinité d'un couple envisagé.</p>
             <span class="explore-card-link link-arrow">Tester <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
