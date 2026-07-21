@@ -167,7 +167,11 @@ Ces constats viennent de l'inspection du code, pas d'un test utilisateur réel (
 ## 📌 Reste à faire, repéré le 20/07/2026
 
 - [ ] **Compléter les coordonnées légales** dans `mentions-legales.html` et `confidentialite.html` (nom/raison sociale, statut, adresse, SIRET, directeur de publication) — cherche les `[crochets]`
-- [ ] **Favicon** : toujours référencé par les 21 pages, toujours absent de `img/`
+- [x] **Favicon** : corrigé le 21/07 — jeu complet `img/favicon_io/` (ico, 16, 32, apple-touch 180, android 192/512, manifest) câblé sur les 21 pages en chemins **relatifs** (le site doit rester ouvrable en double-clic). `favicon.ico` aussi copié à la racine pour la requête par défaut des navigateurs. Manifest complété (nom, couleurs) et ses chemins d'icônes passés en relatif — ils étaient absolus et renvoyaient un 404.
+  <details><summary>Limite connue</summary>
+
+  Les icônes sont générées depuis le logo complet : très belles en 180px,   illisibles en 16px (onglet de navigateur). C'est inhérent au logo — cheval,   arbre et médaillon dans 16 pixels de côté. Un monogramme "HC" seul y gagnerait,   si un fichier source propre existe un jour.
+  </details>
 - [ ] Décider du sort de `frise.html` et `arbre-genealogique.html` — aujourd'hui sans nav ni footer, donc sans lien de retour vers le site
 - [ ] `.gitattributes` (`* text=auto eol=lf`) — hygiène multi-machines Windows/Mac, non urgent
 - [ ] Mettre à jour la palette dans `HUMMING_COB_REFERENCE_2.md` : les variables documentées (`--cream`, `--ink`, `--rose: #C4788A`…) ne correspondent plus au CSS réel (`--bg-cream`, `--noir`, `--rose: #D4899A`…)
