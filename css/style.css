@@ -1990,6 +1990,14 @@ footer {
   flex-grow: 1;
   margin-bottom: 1.2rem;
 }
+/* Carte "Processus d'adoption" (poulains.html). Elle reprend .explore-card mais
+   court sur toute la largeur : elle est seule de sa rangée, une largeur de
+   colonne l'aurait fait paraître orpheline. */
+.adoption-card-wrap { max-width: 720px; margin: 0 auto; }
+.adoption-card .section-badge { align-self: flex-start; margin-bottom: 0.7rem; }
+.adoption-card .explore-card-title { font-size: 1.45rem; }
+.adoption-card .explore-card-desc { margin-bottom: 1rem; }
+
 .explore-card-link {
   font-size: 0.72rem;
   font-weight: 400;

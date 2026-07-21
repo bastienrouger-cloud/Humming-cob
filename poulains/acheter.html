@@ -129,9 +129,12 @@
     }
 
     /* ---- Dossier inclus ---- */
+    /* Cinq colonnes fixes, comme les cinq étapes plus haut : auto-fit laissait
+       le navigateur choisir 4, 3 puis 2 colonnes selon la place, ce qui donnait
+       des rangées incomplètes sans logique de lecture. */
     .dossier-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(5, 1fr);
       gap: 1.5rem;
       margin-top: 2rem;
     }
@@ -225,6 +228,17 @@
     /* Une étape par ligne dès 900px. Le palier intermédiaire à deux colonnes
        cassait la lecture : cinq étapes numérotées se lisent en séquence, et
        une grille 2x3 avec un trou en fin de ligne suggère un ordre faux. */
+    /* Seuil propre à la grille du dossier, plus haut que celui des étapes.
+       Mesure : la description la plus longue ("Contrat de vente détaillé")
+       demande 162px de largeur de texte pour tenir en deux lignes ; avec la
+       pastille (36px + 16px de gouttière) cela fait une colonne de 214px, donc
+       un viewport de 1214px pour cinq colonnes. En dessous, la description
+       passait à trois lignes et la grille devenait chargée. 1240px laisse une
+       petite marge pour les variations de rendu des polices. */
+    @media (max-width: 1240px) {
+      .dossier-grid { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 900px) {
       .steps { grid-template-columns: 1fr; }
       /* Le trait de séparation est vertical, entre deux étapes côte à côte :
