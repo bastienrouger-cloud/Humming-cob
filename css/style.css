@@ -2198,7 +2198,8 @@ footer {
 .nav2-links a.is-active::after { transform: scaleX(1); }
 
 /* Cible d'ancrage : compense navbar + nav2 quand on saute à une section */
-#palmares, #descendance, #pedigree {
+#palmares, #descendance, #pedigree,
+#etapes, #pratique, #inclus, #questions {
   scroll-margin-top: calc(var(--nav-h) + var(--nav2-h));
 }
 
