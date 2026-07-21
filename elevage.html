@@ -673,6 +673,36 @@
   height: auto;
   display: block;
 }
+/* Cas d'une image unique (modale "Élevage du Gard").
+   Avec 2 ou 3 images, le `flex: 1` de .elev-img-item se partage la hauteur de
+   la rangée et chacune remplit la largeur. Avec une seule, elle héritait de
+   toute la hauteur imposée par la colonne de texte — soit 341px ici. Sur un
+   visuel en portrait (la carte fait 774x1024), la largeur suivait alors le
+   ratio et tombait à 258px dans une colonne de 610 : illisible, et la moitié
+   droite de la colonne vide.
+   L'image prend donc toute la largeur de sa colonne et impose sa hauteur à la
+   rangée. C'est elle qui commande, pas le texte : sur un visuel en portrait la
+   modale grandit, et le texte — centré par `alignItems: 'center'` dans les
+   données de la modale — flotte au milieu de sa colonne. Choix assumé, la
+   lisibilité de la carte prime sur l'équilibre des deux colonnes.
+   Le panneau est en `max-height: 95vh; overflow-y: auto`, il défile au besoin. */
+/* ---- Cas d'une image unique (modale "Élevage du Gard") ----
+   La carte (774x1024, en portrait) s'affichait en 610x341, donc aplatie : avec
+   une seule image, le bloc hérite de la hauteur de la colonne de texte, et la
+   largeur suit. Avec 2 ou 3 images le défaut ne se voit pas, elles se partagent
+   la hauteur de la rangée.
+
+   Plusieurs pistes ont été essayées sans succès — flex, display:block,
+   align-self, conteneur à ratio, chargement eager : dans tous les cas une règle
+   de feuille de style se faisait écraser par le calcul de la mise en page.
+   Ce qui fonctionne, c'est le `aspect-ratio` en style EN LIGNE, posé dans les
+   données de la modale via `imgData.style` (voir l'entrée 'gard' du JS).
+   Les règles ci-dessous ne font qu'éviter que la chaîne flex ne comprime le
+   bloc ; l'essentiel se joue dans le style en ligne. */
+.elev-img-grid .elev-img-item:only-child {
+  display: block;
+  flex: none;
+}
 .elev-img-caption {
   font-size: .74rem;
   color: var(--gris);
@@ -820,7 +850,13 @@
     'gard': {
       alignItems: 'center',
       title: '📍 Élevage du Gard',
-      images: ['img/elevage/Cartes-France.jpg'],
+      // Style en ligne, via le mécanisme `imgData.style` déjà prévu par le code.
+      // C'est le seul niveau que la mise en page ne peut pas écraser : sans lui
+      // cette carte s'affichait en 610x341 au lieu de 610x807, donc aplatie.
+      // aspect-ratio = dimensions réelles du fichier (774x1024).
+      images: [{ src: 'img/elevage/Cartes-France.jpg',
+                 w: 774, h: 1024,
+                 style: 'display:block;width:100%;height:auto;aspect-ratio:774/1024;' }],
       html: `
         <p>Nous sommes installés dans le <em style="color:var(--rose-deep);font-weight:600;">Gard (30)</em>, au cœur de la garrigue cévenole — un territoire de collines, de chênes verts et de lumière, qui façonne le quotidien de nos chevaux autant que le nôtre.</p>
         <p>Nos chevaux vivent dehors toute l'année, dans un environnement qui nous apprend chaque jour l'adaptation. Ici, les étés sont longs, la terre souvent sèche et le foin reste indispensable une grande partie de l'année.</p>
@@ -870,6 +906,13 @@
           var item = document.createElement('div');
           item.className = 'elev-img-item';
           var img = document.createElement('img');
+          // Attributs width/height : ils donnent au navigateur le rapport
+          // intrinsèque du fichier AVANT son chargement. Combinés au
+          // `height: auto` du CSS, la hauteur se déduit toujours de la largeur.
+          // C'est la parade standard à l'écrasement et au saut de mise en page.
+          // À renseigner via `w` et `h` dans les données quand une image doit
+          // impérativement garder ses proportions.
+          if (imgData.w && imgData.h) { img.width = imgData.w; img.height = imgData.h; }
           img.src = imgData.src;
           img.alt = data.title;
           img.loading = 'lazy';
