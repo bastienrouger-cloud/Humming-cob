@@ -2,18 +2,7 @@ NOTES — Humming Cob
 (vrac perso, pas touché par Claude)
 
 Index :
-Hero wallpaper
 
-Section avec carte modales x3 ou 4 vers outils, autres forma
-Quel forma image pour cartes chevaux ?
-
-Page chevaux : sous header avec menu de la page, ancré en haut, suis le défilement vers le bas.
-Prix et bouton contact ancré texte Hero, suis défilement vers le bas
-
-Hero = carrousel XL + 
-
-
-On va réfléchir le favicon, puisque c'est rapide.
 Frise et arbre généalogiquenealogique sont en JS, elle ont un boutons retour au site, pas besoin de les retravailler, sauf si t'as une suggestion ?
 
 D'une manière générale, il y a sur plusieurs pages des sections avec des arrières plans de différentes couleurs mais des transition brutes, on va mettre des transition dégradée douces, comme on a fait sur l'index.

@@ -31,7 +31,16 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+/* Le fond de <html> devient celui du canvas du navigateur, donc celui des
+   zones de rebond au-delà du document (overscroll iOS/Android). Sans lui,
+   c'est le fond de <body> — crème — qui se propageait, et on voyait une bande
+   crème sous le footer noir. On le cale sur le footer : c'est le bas de page
+   qu'on atteint constamment, alors que le rebond en haut est rare. */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--noir);
+}
 
 body {
   font-family: var(--font-sans);
@@ -957,7 +966,9 @@ section { padding: 4.5rem 1.5rem; }
 footer {
   background: var(--noir);
   color: rgba(255,255,255,0.6);
-  padding: 3rem 1.5rem;
+  /* safe-area-inset-bottom : évite que le contenu passe sous la barre
+     d'accueil iOS en mode plein écran. Vaut 0 partout ailleurs. */
+  padding: 3rem 1.5rem calc(3rem + env(safe-area-inset-bottom, 0px));
   text-align: center;
 }
 .footer-inner {
