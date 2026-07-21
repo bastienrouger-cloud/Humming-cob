@@ -9,10 +9,6 @@ D'une manière générale, il y a sur plusieurs pages des sections avec des arri
 
 Sur notre élevage en mode mobile : 1 carte par ligne, pas 2, et une incitation à cliquer. (Visible quand on passe la souris sur pc mais pas sur mobile)
 
-Il faut qu'on rework la page de jinba, qui à déjà été vendu. On adapte le rework des pages poulain non vendu à sa situation.
-
-Sur la page acheter, rework avec navigateur2 et bouton CTA qui suis ?
-
 Faire une passe DA sur tout les Hero des pages autres que chevaux et JS.
 
 Sur les pages poulains, la transition vers aussi disponible doit être brut, comme si c'était un rooter

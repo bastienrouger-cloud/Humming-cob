@@ -28,12 +28,10 @@
 
   <style>
     /* ---- Page header ---- */
-    .buy-header {
-      padding: 9rem 1.5rem 5rem;
-      background: linear-gradient(160deg, #FFF8F0 0%, #FEF3F5 60%, #FEFBF6 100%);
-      text-align: center;
-    }
-    .buy-header .breadcrumb {
+    /* Fond et padding viennent désormais de .page-header (css/style.css),
+       commun aux cinq pages de contenu. Le dégradé diagonal propre à cette
+       page a été retiré : c'est lui qui faisait tache dans la série. */
+    .page-header .breadcrumb {
       justify-content: center;
       margin-bottom: 1.5rem;
     }
@@ -302,7 +300,7 @@
 </nav>
 
 <!-- En-tête de page -->
-<header class="buy-header fade-bottom" style="--fade-to: var(--bg-cream);">
+<header class="page-header fade-to-cream">
   <span class="section-badge">Processus d'achat</span>
   <h1 class="section-title" style="margin-top:.5rem;">Comment ça <em>se passe</em>&nbsp;?</h1>
   <div class="section-divider" style="margin:1.5rem auto;"></div>

@@ -26,82 +26,90 @@
   </details>
 - [x] Migrer les 19 pages HTML vers le nouveau système de partials — 17 migrées, `frise.html` et `arbre-genealogique.html` hors système (ni nav ni footer d'origine)
 - [x] Revérifier la cohérence des chemins relatifs (racine vs `/reproducteurs/` vs `/poulains/`) après migration — dette technique déjà identifiée dans le doc de référence
-- [ ] Tester chaque page après migration (nav qui fonctionne, page active mise en évidence, responsive)
+- [x] Tester chaque page après migration — les 22 pages ont été parcourues depuis, nav et page active vérifiées
 
 ---
 
 ## 1. Cadrage avant tout code
 
-- [ ] Public cible et objectif du site clairement définis
+- [x] Public cible et objectif du site clairement définis — vitrine d'élevage, vente de poulains
   <details><summary>Pourquoi</summary>Qui va utiliser le site, et pour quoi faire (vendre, informer, présenter) ? Ça oriente toutes les décisions de contenu et de structure ensuite.</details>
-- [ ] Liste des pages nécessaires établie
+- [x] Liste des pages nécessaires établie — 22 pages, arborescence stabilisée
   <details><summary>Pourquoi</summary>Éviter de découvrir en cours de route qu'il manque une page — lister toutes les pages avant de coder la première.</details>
-- [ ] Contenu texte/visuel : disponible, à créer, ou volontairement en placeholder
+- [x] Contenu texte/visuel — contenu réel partout, aucun placeholder
   <details><summary>Pourquoi</summary>Pour un exercice ou un prototype, des placeholders assumés (texte reformulé, images génériques) sont tout à fait valables — pas besoin d'attendre le vrai contenu pour avancer la structure.</details>
 
 ## 2. Structure / arborescence
 
-- [ ] Sitemap (arborescence des pages) posé
+- [x] Sitemap (arborescence des pages) posé — à ne pas confondre avec le `sitemap.xml` du SEO, lui toujours absent (section 8)
   <details><summary>Pourquoi</summary>Un schéma simple de qui pointe vers quoi, même à la main sur papier ou en markdown.</details>
-- [ ] Pattern de page cohérent identifié et réutilisé
+- [x] Pattern de page cohérent identifié et réutilisé — `FICHE-CHEVAL.md` pour les fiches, `.page-header` pour les pages de contenu
   <details><summary>Pourquoi</summary>Plutôt qu'un wireframe formel par page, un pattern réutilisé consciemment page après page (hero + contenu + CTA, par exemple) évite de réinventer la structure à chaque fois.</details>
 
 ## 3. Setup technique
 
-- [ ] Dossiers de travail créés (css/js/assets/pages/partials...)
-- [ ] Feuille de style de départ en place
+- [x] Dossiers de travail créés (`css/`, `js/`, `img/`, `partials/`, `reproducteurs/`, `poulains/`)
+- [x] Feuille de style de départ en place — `css/style.css`, feuille unique
   <details><summary>Pourquoi</summary>Un seul fichier CSS au départ, à splitter plus tard seulement si besoin réel — pas d'optimisation prématurée.</details>
-- [ ] Git initialisé (repo, branches, authentification)
+- [x] Git initialisé — `main` protégée, `Dev` de travail, PR obligatoire
   <details><summary>Pourquoi</summary>Une branche stable (main) et une branche de travail (dev) séparent le site en ligne du travail en cours.</details>
 
 ## 4. HTML d'abord, sans style
 
-- [ ] Structure sémantique complète (header, nav, main, sections, footer)
-- [ ] Header/footer factorisés (partials ou composant réutilisable)
+- [ ] Structure sémantique complète — il manque toujours `<header>` et `<main>` : `<nav>` et les `<section>` sont directement sous `<body>`
+- [x] Header/footer factorisés — `partials/` + `build.py` (voir section 0)
   <details><summary>Pourquoi</summary>Évite de dupliquer le même header/footer dans chaque page HTML — un seul fichier source, injecté partout. Voir section 0 pour le plan d'action détaillé sur Humming Cob.</details>
-- [ ] Contenu réel dans le HTML, même en placeholder
+- [x] Contenu réel dans le HTML
   <details><summary>Pourquoi</summary>Pas de lorem ipsum générique — un placeholder qui ressemble au vrai contenu final donne une bien meilleure idée du rendu.</details>
 - [x] Mise en évidence de la page active dans la navigation
   <details><summary>Pourquoi</summary>Petit détail UX facile à oublier — l'utilisateur doit voir immédiatement où il se trouve dans le menu.</details>
 
 ## 5. CSS ensuite
 
-- [ ] Approche mobile-first
-- [ ] Variables CSS pour couleurs/fonts centralisées
+- [ ] Approche mobile-first — non : le CSS est écrit desktop-first, avec des `@media (max-width)`. Ça fonctionne, mais c'est l'inverse de la recommandation. Refonte lourde, pas prioritaire.
+- [x] Variables CSS pour couleurs/fonts centralisées — bloc `:root`
   <details><summary>Pourquoi</summary>Un seul endroit à changer pour ajuster toute la charte graphique.</details>
-- [ ] Layout d'abord (grid/flexbox), détails visuels ensuite
+- [x] Layout d'abord (grid/flexbox), détails visuels ensuite
 
 ## 6. Interactivité (JS) si besoin
 
-- [ ] Menu mobile fonctionnel
-- [ ] Formulaire de contact (même en façade, sans envoi réel)
+- [x] Menu mobile fonctionnel — hamburger + sous-menus dépliables
+- [x] Formulaire de contact — opérationnel via Web3Forms
   <details><summary>Pourquoi</summary>Utile pour tester le flux même avant d'avoir un vrai backend de réception.</details>
-- [ ] Composants interactifs testés (carrousel, accordéon, modales...)
+- [x] Composants interactifs testés — carrousels, lightbox, modales élevage, accordéon FAQ, nav2
 
 ## 7. Responsive + tests
 
-- [ ] Testé sur un vrai téléphone, pas seulement en redimensionnant le navigateur
+- [x] Testé sur un vrai téléphone — iPhone, 21/07 (c'est ce qui a fait ressortir la bande crème sous le footer)
   <details><summary>Pourquoi</summary>Le rebond de scroll (overscroll), les zones tactiles, et certains bugs Safari mobile ne se voient QUE sur un vrai appareil.</details>
-- [ ] Vérifié sur plusieurs navigateurs (pas seulement celui de dev)
+- [x] Vérifié sur plusieurs navigateurs — Chrome, Safari, Opera (⚠️ sur iOS tous sont des habillages de WebKit, ça ne vaut pas test multi-moteurs)
 
 ## 8. Perf + SEO de base
 
-- [ ] Images compressées, attribut alt renseigné partout
+- [ ] **Images compressées** ⚠️ — `img/` pèse **897 Mo**, dont **233 fichiers de plus
+      de 500 Ko**. C'est le plus gros levier de performance du site, et de loin.
+      Un `compress_images.py` existe déjà mais n'a manifestement pas été passé partout.
+      L'attribut `alt` est en revanche renseigné sur les images vérifiées.
 - [x] Meta description par page — sauf `frise.html`
 - [ ] Audit Lighthouse passé
 - [x] Balises de suivi statistique — **gtag retiré des 19 pages le 20/07** (stats non consultées) → plus de bandeau cookies nécessaire
   <details><summary>Pourquoi</summary>Si un vrai tracking est ajouté, ça implique en toute rigueur un bandeau de consentement cookies (RGPD), même sur un site d'entraînement.</details>
-- [ ] Open Graph personnalisé par page (og:title, og:description, og:image)
+- [ ] **Open Graph par page** — `og:title` et `og:description` sont propres à chaque
+      page, mais **10 pages partagent la même `og:image` générique** (`og-preview.jpg`) :
+      index, elevage, poulains, reproducteurs, memoire, acheter, frise,
+      arbre-genealogique et les deux pages légales. Partager le lien d'une de ces
+      pages affiche donc l'aperçu du site, pas son contenu. Les fiches chevaux, elles,
+      ont bien leur image propre.
   <details><summary>Pourquoi</summary>Sans ça, partager le lien sur les réseaux ou en message n'affiche ni image ni description propre.</details>
-- [ ] Favicon en place
+- [x] Favicon en place — jeu complet monogramme HC, 21/07
 - [ ] robots.txt + sitemap.xml
   <details><summary>Pourquoi</summary>Pas bloquant pour un site non indexé, mais fait partie du SEO de base d'un vrai déploiement.</details>
 - [ ] Page 404 personnalisée
 
 ## 9. Déploiement
 
-- [ ] Hébergement choisi et fonctionnel
-- [ ] DNS / SSL configurés si domaine personnalisé
+- [x] Hébergement choisi et fonctionnel — GitHub Pages (prod) + Netlify (preview `Dev`)
+- [x] DNS / SSL configurés — hummingcob.fr en HTTPS
 - [x] Mentions légales / politique de confidentialité — pages créées le 20/07, **coordonnées de l'éditeur à compléter** (placeholders `[...]` dans les deux fichiers)
   <details><summary>Pourquoi</summary>Obligatoire dès qu'un site français collecte des données (formulaire, analytics) — même un site d'entraînement gagne à s'y habituer.</details>
 
@@ -408,6 +416,13 @@ Le manifest et le mode application n'entraient donc jamais en jeu — les change
 
 ### Points ouverts
 
+- [ ] **`accouplement.html` à retravailler** : son en-tête passe en
+      `.page-header--compact` (bas resserré à 1.5rem) parce que l'outil suit
+      immédiatement. Le padding haut de 8rem, lui, n'est pas négociable — la
+      navbar fixe fait 80px et la page n'a pas de `padding-top` sur le body, donc
+      en dessous le contenu passe dessous. C'est ce qui se produisait avec les
+      4rem d'avant : le badge "Calculateur" était masqué. Reste à revoir la
+      cosmétique de cette page dans son ensemble.
 - [ ] **Bande crème sous le footer (iOS)** : toujours présente, abandonnée faute de
       solution acceptable. À rouvrir seulement si une nouvelle idée émerge — voir la liste
       des pistes déjà éliminées plus haut.

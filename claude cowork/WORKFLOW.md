@@ -73,6 +73,10 @@ git checkout Dev     # version de travail
 
 Différence importante avec d'autres projets : sur Humming Cob, `main` est **protégée**. Impossible de la merger ou d'y push directement, même en ligne de commande — tout passe par une Pull Request sur GitHub.
 
+> ⚠️ **Quota Netlify épuisé jusqu'au 16/08/2026.** La preview ne se reconstruit plus et
+> sert une version périmée du site — ne pas s'y fier pour juger un rendu d'ici là.
+> Utiliser le serveur local (voir plus bas).
+
 ```
 1. push sur Dev            → Netlify preview se met à jour automatiquement
 2. (si besoin) envoyer l'URL de preview à Alice pour validation :
@@ -88,13 +92,42 @@ https://github.com/bastienrouger-cloud/Humming-cob
 
 ## Tester le site en local
 
-Pas de contrainte : le site reste 100 % statique. L'option "script de build" a été retenue plutôt que le `fetch` JS, donc **ouvrir `index.html` en double-clic fonctionne toujours**, sans serveur.
+Deux façons de faire, et la seconde est nettement préférable.
 
-Un serveur local reste possible si tu préfères tester avec de vraies URL :
+### En double-clic (dépannage)
+
+Le site reste 100 % statique — l'option "script de build" a été retenue plutôt que le
+`fetch` JS — donc ouvrir `index.html` en double-clic fonctionne. Mais en `file://` :
+
+- les chemins absolus ne se résolvent pas ;
+- le navigateur cache le fichier de façon très collante, et on finit par juger un
+  rendu qui n'est plus celui du fichier (ça nous a coûté une soirée entière le 21/07) ;
+- Claude ne peut pas y accéder pour vérifier le rendu à ta place.
+
+### Avec un serveur local (recommandé)
+
+Depuis la racine du projet :
 
 ```
+cd ~/Développement/Humming-cob
 python3 -m http.server 8000
 ```
+
+Puis ouvrir **http://localhost:8000/**. Laisser le terminal ouvert pendant la session,
+`Ctrl+C` pour arrêter.
+
+Trois avantages :
+
+- les chemins se comportent comme en production ;
+- plus de cache capricieux du `file://` ;
+- **Claude peut voir le rendu** : le navigateur tourne sur ta machine, donc
+  `localhost:8000` lui est accessible et il peut prendre des captures, mesurer les
+  éléments et tester différentes largeurs — exactement ce qu'on faisait avec la
+  preview Netlify.
+
+Ce dernier point compte d'autant plus depuis que **le quota Netlify est épuisé
+jusqu'au 16 août** : la preview ne se met plus à jour, elle sert une version périmée.
+Le serveur local est donc le seul moyen fiable de faire valider un rendu.
 
 ## Règle d'or
 

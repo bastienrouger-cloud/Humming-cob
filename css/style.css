@@ -2036,6 +2036,31 @@ footer {
 .footer-legal a:hover { color: rgba(255,255,255,0.55); }
 
 /* ============================================
+   EN-TÊTE DES PAGES DE CONTENU
+   ============================================
+   Une seule source pour les en-têtes de elevage, poulains, reproducteurs,
+   accouplement et acheter. Ces cinq styles étaient recopiés en inline sur
+   chaque page, ce qui les faisait diverger au fil des retouches.
+
+   Le padding haut de 8rem n'est pas décoratif : la navbar est en
+   `position: fixed` sur 80px et ces pages n'ont pas de `padding-top` sur le
+   body. En dessous de 80px, le contenu passe sous la navbar — c'était le cas
+   d'accouplement, à 4rem, dont le badge se retrouvait derrière une barre
+   translucide.
+
+   Restent volontairement à part : l'accueil (photo pleine page), memoire
+   (mémorial, gris chaud désaturé) et les pages légales (administratives). */
+.page-header {
+  padding: 8rem 1.5rem 4rem;
+  background: var(--bg-light);
+  text-align: center;
+}
+/* Variante resserrée : pour les pages où le contenu suit immédiatement et où
+   l'espace sous le titre paraissait excessif (accouplement et son outil).
+   On réduit le bas, jamais le haut — voir la contrainte de navbar ci-dessus. */
+.page-header--compact { padding-bottom: 1.5rem; }
+
+/* ============================================
    PAGES LÉGALES (mentions-legales, confidentialite)
    ============================================ */
 .legal-section {
