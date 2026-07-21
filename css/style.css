@@ -1620,7 +1620,13 @@ footer {
   .elevage-grid { grid-template-columns: 1fr 1fr; }
   .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
   .horse-hero { grid-template-columns: 1fr; }
-  .horse-hero-top { padding: 2rem 2rem 0; }
+  /* Le bandeau passe au-dessus du carrousel : centré, il se lit mieux que
+     collé à gauche au-dessus d'une image pleine largeur. */
+  .horse-hero-top {
+    padding: 2rem 2rem 0;
+    justify-content: center;
+    text-align: center;
+  }
   .horse-hero-info { padding: 3rem 2rem; }
   .form-row { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
@@ -2219,6 +2225,12 @@ footer {
   transform: translateY(0);
 }
 
+/* Bouton de fin de page : réservé au mobile, où le CTA est flottant.
+   Déclaré AVANT la media query qui le passe en display:block — à spécificité
+   égale c'est l'ordre du fichier qui tranche. Placée après, cette règle
+   l'emportait partout et le bouton n'apparaissait jamais. */
+.cta-end { display: none; }
+
 @media (max-width: 768px) {
   .nav2-inner {
     padding: 0 1rem;
@@ -2235,17 +2247,39 @@ footer {
 
   /* Sur mobile le CTA quitte la nav2 et devient une barre flottante
      centrée en bas de l'écran. */
+  /* Ancré sur les deux bords plutôt que centré par translate : les libellés
+     longs ("Demander les conditions de saillie") passaient sur deux lignes
+     dans un bouton dimensionné par son contenu. Le translateX disparaît donc
+     de l'animation, qui ne joue plus que sur Y. */
   .nav2-cta {
     position: fixed;
-    left: 50%;
+    left: 1rem;
+    right: 1rem;
     bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
     z-index: 950;
-    transform: translate(-50%, 120%);
-    padding: 0.85rem 2.2rem;
+    transform: translateY(120%);
+    padding: 0.9rem 1.2rem;
+    text-align: center;
     font-size: 0.76rem;
     box-shadow: 0 6px 24px rgba(92, 62, 52, 0.28);
   }
-  .nav2-cta.is-visible { transform: translate(-50%, 0); }
+  .nav2-cta.is-visible { transform: translateY(0); }
+
+  /* Point d'arrivée du CTA flottant. Le même bouton, posé en fin de page :
+     quand il entre dans le champ, js/main.js masque la version flottante, qui
+     paraît ainsi se poser à cet endroit plutôt que de rester collée à l'écran.
+     Masqué au-dessus de 768px, où le CTA vit dans la nav2. */
+  .cta-end { display: block; }
+  .cta-end-inner {
+    padding: 0 1.5rem 3rem;
+    text-align: center;
+  }
+  .cta-end .btn {
+    display: block;
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    font-size: 0.76rem;
+  }
 }
 
 /* ============================================
@@ -2431,7 +2465,7 @@ footer {
 
 @media (max-width: 900px) {
   .horse-hero-img-wrap { padding: 1.8rem; min-height: 0; }
-  .hero-carousel::before { top: -10px; left: -10px; right: 10px; }
+  .hero-frame::before { top: -10px; left: -10px; right: 10px; bottom: 10px; }
   .hero-nav { opacity: 1; }
 }
 

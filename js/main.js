@@ -464,6 +464,9 @@ if (nav2) {
   const navbarEl = document.querySelector('.navbar');
   const ctaAnchor = document.getElementById('ctaAnchor');
   const nav2Cta = document.getElementById('nav2Cta');
+  // Bouton jumeau en fin de page (mobile) : le CTA flottant s'efface dès qu'il
+  // entre dans le champ, comme s'il venait s'y poser.
+  const ctaEnd = document.getElementById('ctaEnd');
   const root = document.documentElement;
 
   // --- 1. Mesures : hauteur réelle de la navbar et de nav2 ---
@@ -521,7 +524,16 @@ if (nav2) {
     if (ctaAnchor && nav2Cta) {
       const anchorBottom = ctaAnchor.getBoundingClientRect().bottom;
       const seuil = (navHidden ? 0 : navH) + nav2.offsetHeight;
-      nav2Cta.classList.toggle('is-visible', anchorBottom < seuil);
+      let montrer = anchorBottom < seuil;
+
+      // Arrivé sur le bouton de fin de page, le flottant s'efface. offsetParent
+      // vaut null quand .cta-end est en display:none (donc au-dessus de 768px) :
+      // le test est ainsi automatiquement neutre sur desktop.
+      if (montrer && ctaEnd && ctaEnd.offsetParent !== null) {
+        if (ctaEnd.getBoundingClientRect().top < window.innerHeight) montrer = false;
+      }
+
+      nav2Cta.classList.toggle('is-visible', montrer);
       // Le clone reste hors du parcours clavier tant qu'il est masqué
       const shown = nav2Cta.classList.contains('is-visible');
       nav2Cta.setAttribute('aria-hidden', shown ? 'false' : 'true');
