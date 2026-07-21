@@ -1938,29 +1938,50 @@ footer {
   margin-top: 2.2rem;
 }
 
+/* Habillage repris de .btn-outline : fond transparent, liseré rose-deep,
+   coins très arrondis, remplissage rose-pale au survol. Ces cartes ont
+   remplacé des boutons dont ce style était préféré — elles en gardent le
+   vocabulaire tout en portant un titre, une description et un lien. */
 .explore-card {
   display: flex;
   flex-direction: column;
-  background: var(--bg-cream);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.6rem 1.5rem;
+  background: transparent;
+  border: 1.5px solid var(--rose-deep);
+  border-radius: 26px;
+  padding: 1.7rem 1.5rem;
   text-decoration: none;
-  transition: var(--transition), transform var(--transition), border-color var(--transition);
+  transition: background var(--transition), transform var(--transition),
+              border-color var(--transition);
 }
 .explore-card:hover,
 .explore-card:focus-visible {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-hover);
-  border-color: rgba(176, 96, 112, 0.4);
+  background: var(--rose-pale);
+  transform: translateY(-2px);   /* le lift discret du bouton */
+  box-shadow: none;
+  border-color: var(--rose-deep);
 }
 
+/* Titre en deux colonnes : l'émoji d'un côté, le libellé de l'autre. En flex,
+   le libellé est un bloc à part entière — quand il passe sur deux lignes, la
+   seconde s'aligne sous la première et non sous l'émoji. align-items: center
+   cale l'émoji au milieu de la hauteur du libellé, une ou deux lignes. */
 .explore-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   font-family: var(--font-serif);
   font-size: 1.25rem;
   font-weight: 500;
-  color: var(--noir);
+  color: var(--rose-deep);
   margin-bottom: 0.6rem;
+}
+/* Émoji réduit et en police neutre : sinon il domine le serif, et le serif
+   tenterait de le composer. flex-shrink: 0 pour qu'il ne se comprime jamais. */
+.explore-card-title .card-emoji {
+  flex: 0 0 auto;
+  font-family: var(--font-sans);
+  font-size: 0.85em;
+  line-height: 1;
 }
 .explore-card-desc {
   font-size: 0.82rem;
@@ -1976,6 +1997,11 @@ footer {
   text-transform: uppercase;
   color: var(--rose-deep);
 }
+
+/* "Notre histoire" (Qui sommes-nous) n'a plus de style propre : l'habillage
+   bouton est porté par .explore-card ci-dessus, qu'elle partage avec les trois
+   cartes de "Aller plus loin". Seul son dimensionnement flex lui appartient,
+   il vit avec .qsn-values-row. */
 
 @media (max-width: 900px) {
   .explore-panel { grid-template-columns: 1fr; }
