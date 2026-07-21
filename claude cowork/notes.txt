@@ -16,3 +16,4 @@ Sur la page acheter, rework avec navigateur2 et bouton CTA qui suis ?
 Faire une passe DA sur tout les Hero des pages autres que chevaux et JS.
 
 Sur les pages poulains, la transition vers aussi disponible doit être brut, comme si c'était un rooter
+

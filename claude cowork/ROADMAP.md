@@ -227,3 +227,144 @@ Ces constats viennent de l'inspection du code, pas d'un test utilisateur réel (
       maternel remonte bien. À compléter si les données existent.
 - [ ] `reproducteurs/` : les 3 juments ont un CTA centré comme les 2 étalons — cohérent,
       mais c'est une harmonisation faite en cours de route, à revalider à l'œil.
+
+---
+
+## ✅ Séance du 21/07/2026 — mobile, favicon, acheter & poulains
+
+### Passe mobile sur les fiches chevaux
+
+- [x] Bandeau d'identité centré sous 900px (il était collé à gauche au-dessus du carrousel)
+- [x] CTA flottant élargi aux deux bords
+      <details><summary>Cause</summary>
+
+      Il était centré par `left: 50%` + `translateX(-50%)`, donc dimensionné par son
+      contenu : "Demander les conditions de saillie" passait sur deux lignes. Ancré sur
+      `left`/`right` à 1rem, l'animation ne joue plus que sur Y. Mesuré : 249px → 468px
+      sur un écran de 500.
+      </details>
+- [x] Bouton `#ctaEnd` en fin de page (mobile) : le CTA flottant s'efface en l'atteignant
+- [x] Prix et CTA du hero empilés et centrés sous 900px (le `space-between` desktop les
+      jetait aux deux bords)
+- [x] Corrigé : une règle mobile visait encore `.hero-carousel::before` alors que le liseré
+      avait migré vers `.hero-frame` la veille
+- [x] Corrigé : le CTA nav2 de Jinba affichait "Poulains disponibles" mais pointait vers
+      `#contact` (lien en dur dans le générateur)
+
+### Favicon
+
+- [x] Jeu complet régénéré depuis le monogramme HC fourni par Bastien
+      <details><summary>Retouches appliquées à la source</summary>
+
+      L'alpha du détourage GIMP plafonnait à 247 → encre translucide, normalisée à 255.
+      Ré-encré en `--noir` plutôt qu'en noir pur. Accentuation légère sur les tailles 16 et
+      32 seulement : les variantes épaissies bouchaient les contrepoinçons du C.
+      Fonds **opaques crème** et non transparents — iOS compose l'apple-touch-icon sur du
+      noir, et un favicon transparent à encre foncée disparaît en thème sombre.
+      Ancien jeu (issu du logo complet) conservé dans `img/favicon_io/_ancien-logo-complet/`,
+      à supprimer une fois le nouveau validé.
+      </details>
+- [x] Manifest réparé : ses chemins d'icônes étaient absolus (`/android-chrome-*.png`) alors
+      que les fichiers sont dans `img/favicon_io/` → 404. Passés en relatif, `name` et
+      couleurs complétés.
+- [x] `<meta name="theme-color">` ajouté sur les 21 pages (le manifest ne s'applique qu'en
+      mode application installée)
+
+### Bande crème sous le footer sur iPhone — ❌ abandonné
+
+**Le défaut est assumé pour l'instant.** Quatre pistes essayées, aucune retenue. Ne pas
+recommencer sans avoir lu ce qui suit (c'est aussi rappelé en commentaire dans le CSS,
+au-dessus de la règle `html`).
+
+<details><summary>Ce qui a été essayé et pourquoi ça a échoué</summary>
+
+1. **`html { background-color: var(--noir) }`** → sans effet sur iOS. **WebKit ignore le
+   fond de `<html>` pour les zones de rebond** et utilise celui de `<body>`, contrairement
+   à la spec et à Chrome. Vérifié en ligne : la règle était bien déployée, la bande est
+   restée. Retiré.
+
+2. **`overscroll-behavior-y: none`** → supprimait bien le rebond, donc la bande, mais
+   supprimait avec lui **le rafraîchissement en tirant vers le bas**. Trop cher pour un
+   défaut cosmétique. Retiré.
+
+3. **Inverser `html` / `body`** (crème en haut, noir en bas) → écarté sans être tenté :
+   `.horse-page` porte un `padding-top` de 80px peint avec le fond de `body`, la navbar
+   translucide se serait assombrie sur les 10 fiches chevaux.
+
+4. **`viewport-fit=cover`** → écarté : aurait obligé à répercuter `env(safe-area-inset-top)`
+   sur trois valeurs couplées (hauteur de la navbar, `padding-top` de `.horse-page`,
+   `--nav-h` lu par le JS), sans iPhone pour vérifier.
+
+**À savoir** : sur iOS tous les navigateurs sont des habillages de WebKit, Opera compris.
+Le manifest et le mode application n'entraient donc jamais en jeu — les changements de
+`theme_color` / `background_color` faits ce jour-là visaient une hypothèse fausse.
+</details>
+
+### Cartes
+
+- [x] Habillage "bouton" (`.btn-outline`) porté par `.explore-card` : fond transparent,
+      liseré `--rose-deep` 1.5px, coins 26px, remplissage `--rose-pale` au survol.
+      Partagé par les 4 cartes (les 3 de "Aller plus loin" + "Notre histoire" du QSN),
+      au lieu d'être dupliqué — ce qui supprime au passage un piège d'ordre dans le CSS.
+- [x] Émojis uniformisés : 🌸 Notre histoire · 🐴 Notre élevage · 🌳 Arbre généalogique ·
+      🧬 Testez un accouplement, dans un `<span class="card-emoji">`
+- [x] Titre en flex (émoji / libellé) : sur deux lignes, la seconde s'aligne sous le texte
+      et non sous l'émoji, et l'émoji se centre verticalement sur le bloc
+
+### `poulains/acheter.html`
+
+- [x] nav2 à 4 entrées (Étapes · Pratique · Inclus · Questions) + CTA qui suit
+      <details><summary>Pourquoi nav2 était obligatoire</summary>
+
+      Toute la logique du CTA flottant vit dans le bloc `if (nav2)` de `js/main.js`.
+      Pas de nav2, pas de CTA qui suit — les deux viennent en paire.
+      Le bloc "On est disponibles" existant sert de `#ctaEnd`, plutôt que d'empiler un
+      second bouton juste au-dessus.
+      </details>
+- [x] Bouton "Nous contacter" ajouté sous le texte de l'en-tête, il porte `#ctaAnchor`
+- [x] Les 5 étapes : une par ligne dès 900px, palier à 2 colonnes supprimé
+- [x] "Ce qui est inclus" : 5 colonnes fixes, empilées sous **1240px**
+      <details><summary>D'où sort ce seuil</summary>
+
+      Mesuré dans le navigateur, pas estimé : "Contrat de vente détaillé" demande 162px de
+      largeur de texte pour tenir en 2 lignes ; + 52px de pastille = colonne de 214px, soit
+      1214px de viewport pour 5 colonnes. Arrondi à 1240 pour absorber les variations de
+      rendu des polices.
+      **Les deux grilles ont volontairement des seuils différents** (900 pour les étapes,
+      1240 pour le dossier) : les étapes n'ont qu'un libellé court, le dossier a un titre
+      et une description. Ne pas "corriger" en croyant à un oubli.
+      </details>
+
+### `poulains.html`
+
+- [x] Badge "Poulains" → "Nos chevaux", aligné sur `reproducteurs.html`
+- [x] "Processus d'adoption" remonté **avant** "Déjà partis"
+      <details><summary>Pourquoi</summary>
+
+      Il arrivait après les poulains déjà vendus : un visiteur qui venait d'en repérer un
+      devait traverser une section qui ne le concerne pas avant de trouver la marche à
+      suivre. "Déjà partis" clôt maintenant la page sur une note plus douce.
+      </details>
+- [x] Ce bloc passe en carte (`.adoption-card`, 720px centrés, émoji 🤝) au lieu d'un
+      bandeau séparé par un trait
+- [x] Raccord adouci : le trait dur venait d'un `border-top` inline sur "Déjà partis", pas
+      d'un écart de couleur — les deux causes ont été traitées
+
+### `elevage.html`
+
+- [x] Cartes sur une colonne sous 700px
+- [x] "En savoir plus" visible en permanence via `@media (hover: none)`
+      <details><summary>Pourquoi cette requête plutôt qu'une largeur</summary>
+
+      L'invitation à cliquer était en `opacity: 0` et ne se révélait qu'au survol : donc
+      jamais sur tactile. `(hover: none)` vise l'absence de survol, pas la taille d'écran —
+      ça couvre les tablettes larges, et laisse l'animation aux petits écrans avec souris.
+      </details>
+
+### Points ouverts
+
+- [ ] **Bande crème sous le footer (iOS)** : toujours présente, abandonnée faute de
+      solution acceptable. À rouvrir seulement si une nouvelle idée émerge — voir la liste
+      des pistes déjà éliminées plus haut.
+- [ ] **Favicon 16px** : le monogramme est lisible mais reste fin ; à regarder en usage réel
+- [ ] Supprimer `img/favicon_io/_ancien-logo-complet/` une fois le nouveau jeu validé
