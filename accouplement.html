@@ -29,19 +29,20 @@
   <link rel="stylesheet" href="css/style.css">
 <style>
   :root{
-    --cream:#FEFBF6;
-    --bg-card:#FFFCF8;
-    --rose:#D4899A;
-    --rose-deep:#B06070;
-    --rose-dark:#8B4A5C;
-    --gold:#b8925a;
-    --ink:#1C1C1C;
-    --line:rgba(176, 96, 112, 0.15);
+    /* Cette page redéfinissait les couleurs du site sous d'autres noms, avec les
+       mêmes valeurs recopiées à la main : le jour où la charte bouge, la page ne
+       suit pas. Les noms locaux deviennent donc de simples alias vers les
+       variables globales de css/style.css, et les doublons exacts
+       (--bg-card, --rose, --rose-deep, --rose-dark, --radius) sont supprimés.
+       Le doré --gold, qui n'existait nulle part ailleurs sur le site, est
+       remplacé par --rose-deep. */
+    --cream: var(--bg-cream);
+    --ink:   var(--noir);
+    --line:  var(--border);
     --ok:#7a8f6f;
     --warn:#c9975a;
     --danger:#b45f5f;
     --page-w:1400px;
-    --radius:12px;
     --strain-sd:#B7333A;
     --strain-sancler:#C2A24E;
     --strain-cairnview:#3F8F8A;
@@ -146,7 +147,7 @@
   .tag.synth{background:#b9ab94;}
   .tag.estim{background:var(--warn);}
   .tag.hc{background:var(--rose-deep);margin-right:4px;}
-  .tag.imported{background:var(--gold);margin-right:4px;}
+  .tag.imported{background:var(--rose-deep);margin-right:4px;}
   label{display:block;font-size:0.78rem;color:#7a6f62;margin:10px 0 4px;}
   input,select{
     width:100%;
@@ -175,12 +176,14 @@
   }
   .btn-primary:hover{background:var(--rose-dark);transform:translateY(-1px);}
   .btn-secondary{
-    background:transparent;border:1.5px solid var(--gold);color:var(--gold);
-    border-radius:50px;padding:10px 20px;font-size:0.78rem;
-    letter-spacing:0.08em;text-transform:uppercase;
+    /* Aligné sur .btn-outline du site : même pilule, même graisse de trait,
+       mêmes capitales espacées. */
+    background:transparent;border:1.5px solid var(--rose-deep);color:var(--rose-deep);
+    border-radius:50px;padding:0.75rem 2rem;font-size:0.78rem;
+    letter-spacing:0.12em;text-transform:uppercase;text-transform:uppercase;
     transition:background .2s ease, color .2s ease, transform .2s ease;
   }
-  .btn-secondary:hover{background:var(--gold);color:#fff;transform:translateY(-1px);}
+  .btn-secondary:hover{background:var(--rose-deep);color:#fff;transform:translateY(-1px);}
   .row-actions{display:flex;gap:14px;margin-top:16px;justify-content:center;flex-wrap:wrap;}
   .result{
     margin-top:22px;
@@ -210,21 +213,6 @@
   #fileInput{display:none;}
   .small{font-size:0.72rem;color:#a99d8c;margin-top:16px;}
 
-  /* --- Bandeau "outil maison" --- */
-  .maison-note{
-    max-width:var(--page-w);
-    margin:0 auto 20px;
-    padding:14px 20px;
-    border-left:5px solid var(--rose-deep);
-    border-radius:var(--radius);
-    background:color-mix(in srgb, var(--rose) 10%, var(--bg-card));
-    font-size:0.88rem;
-    line-height:1.55;
-    color:var(--ink);
-  }
-  .maison-note strong{color:var(--rose-dark);}
-  .maison-note a{color:var(--rose-deep);text-decoration:underline;}
-
   /* --- Chevaux enregistrés : replié par défaut --- */
   .collapse-wrap{
     background:var(--bg-card);
@@ -241,7 +229,7 @@
     list-style:none;
   }
   .collapse-wrap summary::-webkit-details-marker{display:none;}
-  .collapse-wrap summary::before{content:'▸ ';color:var(--gold);}
+  .collapse-wrap summary::before{content:'▸ ';color:var(--rose-deep);}
   .collapse-wrap[open] summary::before{content:'▾ ';}
   .collapse-wrap[open] summary{border-bottom:1px solid var(--line);}
   .collapse-wrap table{margin:14px 0 10px;}
@@ -257,24 +245,25 @@
 
   /* --- Note explicative repliable (méthode de calcul) --- */
   .calc-info{margin-top:14px;}
-  .calc-info summary{cursor:pointer;font-size:0.8rem;color:var(--gold);list-style:none;}
+  .calc-info summary{cursor:pointer;font-size:0.8rem;color:var(--rose-deep);list-style:none;}
   .calc-info summary::-webkit-details-marker{display:none;}
   .calc-info summary::before{content:'▸ ';}
   .calc-info[open] summary::before{content:'▾ ';}
 
   /* --- Encart fiabilité --- */
   .reliability-note{
-    margin:14px 0 18px;padding:14px 20px;
-    border-left:5px solid var(--gold);border-radius:var(--radius);
-    background:color-mix(in srgb, var(--gold) 15%, var(--bg-card));
+    margin:14px 0 22px;padding:16px 20px;
+    border-left:5px solid var(--rose-deep);border-radius:var(--radius);
+    background:color-mix(in srgb, var(--rose-deep) 15%, var(--bg-card));
     font-size:0.88rem;line-height:1.55;color:var(--ink);
     text-align:left;
   }
   .reliability-note strong{color:var(--rose-dark);}
+  .reliability-note a{color:var(--rose-deep);text-decoration:underline;}
   .result-caveat{
     margin-top:10px;padding:8px 14px;
-    border-left:4px solid var(--gold);border-radius:var(--radius);
-    background:color-mix(in srgb, var(--gold) 12%, var(--bg-card));
+    border-left:4px solid var(--rose-deep);border-radius:var(--radius);
+    background:color-mix(in srgb, var(--rose-deep) 12%, var(--bg-card));
     text-align:left;
   }
 
@@ -326,7 +315,9 @@
   .slot-pill .pill-name{flex:1;}
   .slot-pill .pill-clear, .new-clear{cursor:pointer;color:#a99d8c;font-weight:600;padding:0 4px;}
   .slot-pill .pill-clear:hover, .new-clear:hover{color:var(--danger);}
-  .link-btn{background:transparent;border:none;color:var(--gold);font-size:0.72rem;padding:2px 0;cursor:pointer;text-decoration:underline;display:block;width:100%;white-space:normal;text-align:left;}
+  .link-btn{background:transparent;border:none;color:var(--rose-deep);font-size:0.72rem;
+    letter-spacing:0.1em;text-transform:uppercase;
+    padding:2px 0;cursor:pointer;text-decoration:none;display:block;width:100%;white-space:normal;text-align:left;}
   .new-caption{display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:#a99d8c;margin-bottom:2px;}
   .owned-toggle{display:flex;align-items:center;gap:6px;font-size:0.76rem;color:#7a6f62;margin:10px 0 4px;}
   .owned-toggle input{width:auto;margin:0;}
@@ -357,7 +348,7 @@
   }
   .node-card.root-card{
     background:#fbf6ee;
-    border-color:var(--gold);
+    border-color:var(--rose-deep);
     width:170px;
     padding:8px 10px;
   }
@@ -395,18 +386,26 @@
   .expand-btn{
     margin-top:4px;
     background:transparent;
-    border:1px dashed var(--gold);
-    color:var(--gold);
+    border:1px solid var(--border);
+    color:var(--rose-deep);
     font-size:0.7rem;
     padding:4px 8px;
     border-radius:5px;
     cursor:pointer;
   }
-  .expand-btn:hover{background:var(--gold);color:#fff;}
+  .expand-btn:hover{background:var(--rose-deep);color:#fff;}
 
   /* --- Cases Étalon × Jument --- */
-  .match-panel{text-align:center;}
-  .match-panel h2{border-bottom:none;text-align:left;}
+  .match-panel{
+    /* Ce panneau est la raison d'être de la page. Sans distinction, il pesait
+       autant que la légende des lignées ou le bloc de sauvegarde. Il reprend
+       donc le vocabulaire des cartes de l'accueil : liseré rose-deep, coins
+       très arrondis, ombre légère. */
+    border:1.5px solid var(--rose-deep);
+    border-radius:26px;
+    box-shadow:0 4px 32px rgba(176,96,112,0.10);
+    text-align:center;}
+  .match-panel h2{border-bottom:none;text-align:left;color:var(--rose-deep);}
   .match-row{
     display:flex;align-items:center;justify-content:center;
     gap:28px;flex-wrap:wrap;padding:14px 0 4px;
@@ -430,12 +429,12 @@
     cursor:pointer;justify-content:center;align-items:center;text-align:center;
     transition:border-color .15s, background .15s;
   }
-  .match-box-click:hover{border-color:var(--gold);background:#fbf6ee;}
+  .match-box-click:hover{border-color:var(--rose-deep);background:#fbf6ee;}
   .match-box-placeholder{color:#a99d8c;font-size:0.85rem;}
   .match-box-filled{display:flex;flex-direction:column;align-items:center;gap:8px;}
   .match-box-filled .name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;}
-  .match-box-change{font-size:0.72rem;color:var(--gold);text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;}
-  .match-x{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--gold);font-weight:700;}
+  .match-box-change{font-size:0.72rem;color:var(--rose-deep);text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;}
+  .match-x{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--rose-deep);font-weight:700;}
   .match-box select{margin-bottom:0;}
 
   @media (max-width:680px){
@@ -514,10 +513,6 @@
 
 <div class="page-content">
 
-<div class="maison-note">
-  <strong>Outil maison — élevage Humming Cob.</strong> Ce calculateur a été développé en interne pour simplifier l'analyse génétique en élevage Irish Cob / Gypsy Cob. Il est partagé gratuitement avec la communauté des éleveurs. Des erreurs restent possibles, notamment sur des pedigrees atypiques ou des données incomplètes. <strong>Si vous constatez un résultat anormal, merci de nous le signaler</strong> via notre <a href="index.html#contact">formulaire de contact</a> — votre retour nous aide à l'améliorer.
-</div>
-
 <div class="legend" id="legend"></div>
 
 <div class="page">
@@ -534,8 +529,18 @@
   <div class="panel match-panel">
     <h2>Tester une compatibilité</h2>
 
+    <!-- Avertissement unique. Il regroupe ce qui était réparti sur deux encadrés :
+         la nature du calcul (estimation minimale) et l'origine de l'outil (fait
+         maison, retours bienvenus). Placé ici plutôt qu'en tête de page, il se lit
+         au moment où il sert — juste avant de choisir les deux chevaux. -->
     <div class="reliability-note">
-      <strong>Avant d'interpréter un résultat :</strong> ce chiffre ne prend en compte que les ancêtres renseignés dans l'outil. Un pedigree incomplet peut masquer une consanguinité réelle plus élevée que celle affichée — considérez ce résultat comme une estimation minimale, pas une garantie.
+      <strong>À lire comme une estimation.</strong> Le pourcentage ne tient compte que
+      des ancêtres renseignés dans l'outil&nbsp;: un pedigree incomplet peut masquer une
+      consanguinité réelle plus élevée. Considérez-le comme un minimum, pas comme une
+      garantie.<br>
+      Ce calculateur est développé en interne pour l'élevage Irish&nbsp;Cob / Gypsy&nbsp;Cob
+      et partagé gratuitement. Si un résultat vous paraît anormal,
+      <a href="index.html#contact">signalez-le nous</a> — ça nous aide à l'améliorer.
     </div>
 
     <div class="match-row">
