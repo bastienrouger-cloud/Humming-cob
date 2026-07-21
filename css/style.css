@@ -1629,6 +1629,11 @@ footer {
 
   .qsn-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .elevage-grid { grid-template-columns: 1fr 1fr; }
+  /* En dessous, une seule colonne : deux cartes côte à côte sur un téléphone
+     laissent trop peu de place au texte, qui est assez dense ici. */
+  @media (max-width: 700px) {
+    .elevage-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
   .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
   .horse-hero { grid-template-columns: 1fr; }
   /* Le bandeau passe au-dessus du carrousel : centré, il se lit mieux que
