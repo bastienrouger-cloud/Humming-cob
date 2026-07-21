@@ -352,6 +352,51 @@ Le manifest et le mode application n'entraient donc jamais en jeu — les change
 
 ### `elevage.html`
 
+- [ ] ⚠️ **Modale "Élevage du Gard" : image écrasée — NON RÉSOLU**
+  <details><summary>Ce qui a été tenté, et ce qu'on sait</summary>
+
+  **Symptôme** : la carte (`Cartes-France.jpg`, 774x1024, donc en portrait) s'affiche
+  en 610x341 au lieu de 610x807. Elle est étirée, pas seulement réduite.
+
+  **Cause identifiée par Bastien** (et c'est la bonne piste) : `#elev-body` est en
+  `align-items: stretch`, et la chaîne `.elev-img-grid { flex: 1 }` →
+  `.elev-img-item { flex: 1 }` distribue de force la hauteur de la rangée aux
+  images. L'image reçoit donc la hauteur de la colonne de texte, et sa largeur
+  suit le ratio. Cette égalisation **comprime toutes les images**, pas seulement
+  celle du Gard — c'est invisible ailleurs parce que le texte est plus long.
+
+  **Trois modales sur six ont une image en portrait** : `irish-cob` (0.67),
+  `transparence` (0.77), `gard` (0.76). Les deux premières s'en sortent parce que
+  leur texte est assez long. C'est de la chance, pas de la conception.
+
+  **Tentatives infructueuses (21/07)** — ne pas refaire le tour :
+  - sortir la chaîne du contexte flex (`display: block` à tous les niveaux)
+  - `align-self: start` sur `#elev-images`
+  - conteneur à `aspect-ratio` (collapse à 0 avant chargement de l'image)
+  - `aspect-ratio` en style en ligne via `imgData.style`
+  - attributs `width`/`height` sur l'`img`
+  - chargement `eager` au lieu de `lazy`
+  - classe de dérogation `.colonnes-libres` posée par les données
+  - refonte du gabarit : `align-items: center` + suppression des `flex: 1`
+
+  Tout a été **remis dans l'état d'origine** : aucune de ces pistes n'a tenu, et
+  laisser un gabarit modifié qui ne corrige rien faisait courir un risque de
+  régression sur les cinq autres modales.
+
+  **Piste non explorée, probablement la plus simple** : recadrer le fichier
+  source. 774x1024 est un format inutilement haut pour cette carte ; un
+  recadrage proche du carré réglerait le problème par la géométrie plutôt que
+  par le CSS.
+
+  **Autre direction possible** : mise en page dédiée pour les modales à schéma ou
+  carte — image en pleine largeur au-dessus du texte plutôt qu'en colonne. C'est
+  aussi la meilleure lisibilité pour un visuel informatif.
+
+  ⚠️ Attention méthodologique : lors de cette session, `getComputedStyle` et
+  `getBoundingClientRect` ont renvoyé à plusieurs reprises des valeurs périmées
+  dans l'outil de test, en contradiction avec les captures d'écran. **Se fier aux
+  captures**, pas aux mesures, pour juger de ce rendu.
+  </details>
 - [x] Cartes sur une colonne sous 700px
 - [x] "En savoir plus" visible en permanence via `@media (hover: none)`
       <details><summary>Pourquoi cette requête plutôt qu'une largeur</summary>
