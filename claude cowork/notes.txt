@@ -7,7 +7,7 @@ Frise et arbre généalogiquenealogique sont en JS, elle ont un boutons retour a
 
 D'une manière générale, il y a sur plusieurs pages des sections avec des arrières plans de différentes couleurs mais des transition brutes, on va mettre des transition dégradée douces, comme on a fait sur l'index.
 
-Sur notre élevage en mode mobile : 1 carte par ligne, pas 2, et une incitation à cliquer. (Visite quand on passe la souris sur pc mais pas sur mobile)
+Sur notre élevage en mode mobile : 1 carte par ligne, pas 2, et une incitation à cliquer. (Visible quand on passe la souris sur pc mais pas sur mobile)
 
 Il faut qu'on rework la page de jinba, qui à déjà été vendu. On adapte le rework des pages poulain non vendu à sa situation.
 

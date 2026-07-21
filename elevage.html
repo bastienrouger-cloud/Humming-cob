@@ -502,6 +502,19 @@
   opacity: 1;
   transform: translateY(0);
 }
+/* Sur un écran tactile il n'y a pas de survol : l'invitation à cliquer resterait
+   invisible, et rien n'indiquerait que la carte s'ouvre. On l'affiche donc en
+   permanence. (hover: none) vise l'absence de survol, pas une largeur d'écran —
+   c'est bien la capacité du périphérique qui est en jeu, pas la taille. */
+@media (hover: none) {
+  .elevage-card-more {
+    opacity: 1;
+    transform: none;
+  }
+  .elevage-card-more::after {
+    content: ' →';
+  }
+}
 
 /* ---- Modal overlay ---- */
 #elev-modal {
