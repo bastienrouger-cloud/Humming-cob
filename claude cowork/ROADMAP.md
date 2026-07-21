@@ -174,13 +174,58 @@ Ces constats viennent de l'inspection du code, pas d'un test utilisateur réel (
 
 ## 📌 Reste à faire, repéré le 20/07/2026
 
-- [ ] **Compléter les coordonnées légales** dans `mentions-legales.html` et `confidentialite.html` (nom/raison sociale, statut, adresse, SIRET, directeur de publication) — cherche les `[crochets]`
+- [x] **Coordonnées légales complétées** (21/07) — régime de l'**éditeur non professionnel**
+      (LCEN art. 6 III 2°) : seuls le directeur de la publication et l'hébergeur sont
+      exigés pour un site personnel. Les mentions raison sociale / statut / SIRET ont été
+      **retirées** plutôt que remplies approximativement : elles ne concernent que les
+      éditeurs professionnels.
+  <details><summary>À revoir le jour où l'activité sera déclarée</summary>
+
+  L'élevage n'a pas de statut à ce jour (terres prêtées, MSA du Gard ayant refusé même
+  en cotisant solidaire). Ça se débloquera avec le projet d'achat de ferme en cours.
+  Bastien envisage par ailleurs de passer freelance plus tard.
+
+  Le jour où l'un ou l'autre est déclaré, il faudra repasser au régime **professionnel** :
+  raison sociale, statut juridique, adresse, SIRET, et le cas échéant le numéro de TVA.
+  Les deux fichiers portent un commentaire HTML à cet endroit précis.
+
+  **Point non tranché** : l'affichage de prix sur les fiches poulains. Le site ne réalise
+  aucune transaction en ligne — pas de paiement, pas de panier, vente de la main à la
+  main avec contrat — donc c'est de la vitrine et non du commerce électronique. Mais la
+  question du statut de l'activité de vente reste entière et dépasse le site.
+  La **Chambre d'agriculture du Gard** conseille gratuitement sur ces situations.
+  </details>
 - [x] **Favicon** : corrigé le 21/07 — jeu complet `img/favicon_io/` (ico, 16, 32, apple-touch 180, android 192/512, manifest) câblé sur les 21 pages en chemins **relatifs** (le site doit rester ouvrable en double-clic). `favicon.ico` aussi copié à la racine pour la requête par défaut des navigateurs. Manifest complété (nom, couleurs) et ses chemins d'icônes passés en relatif — ils étaient absolus et renvoyaient un 404.
   <details><summary>Limite connue</summary>
 
   Les icônes sont générées depuis le logo complet : très belles en 180px,   illisibles en 16px (onglet de navigateur). C'est inhérent au logo — cheval,   arbre et médaillon dans 16 pixels de côté. Un monogramme "HC" seul y gagnerait,   si un fichier source propre existe un jour.
   </details>
-- [ ] Décider du sort de `frise.html` et `arbre-genealogique.html` — aujourd'hui sans nav ni footer, donc sans lien de retour vers le site
+- [ ] **Aligner `arbre-genealogique.html` sur la charte** (page JS)
+  <details><summary>Diagnostic 21/07 — chantier léger</summary>
+
+  Bonnes bases : polices déjà correctes (Cormorant + Jost), et son `:root` reprend
+  `--rose`, `--rose-deep`, `--noir`, `--gris` avec les valeurs exactes de la charte.
+  À faire : rebrancher ces alias sur les variables globales (comme fait sur le
+  calculateur), aligner son bleu `#6A8FA0` sur `--bleu: #5B7FA6` (cohérence du code
+  de genre père/mère avec les fiches), ranger une dizaine de couleurs en dur.
+  Son doré `--or: #C0A050` est **à conserver** — Bastien : il structure la légende,
+  à regarder avant de trancher. Faire l'arbre EN PREMIER : rapide, résultat immédiat.
+  </details>
+- [ ] **Aligner `frise.html` sur la charte** (page JS) — plus lourd que l'arbre
+  <details><summary>Diagnostic 21/07 — reprise de fond</summary>
+
+  Écarts plus marqués : **aucune variable CSS** (tout en dur, ~15 teintes à relier
+  de zéro), **police hors charte** — `Playfair Display` sur les titres au lieu de
+  Cormorant Garamond, c'est la rupture la plus visible — et une palette plus rose
+  et plus saturée (`#E8A8BB`, `#F5C6D2`…) plus quelques bruns sépia (`#6b4422`,
+  `#7a5028`). Décision de goût à trancher AVANT de coder : garde-t-on le parti
+  sépia (défendable pour une frise mémorielle) ou l'aligne-t-on aussi ?
+  </details>
+- [ ] **Nav sur les pages JS** — arbre et frise n'ont pas la navbar/footer commune,
+      mais ont chacune un bouton « Retour au site ». À tester : ce bouton suffit-il,
+      ou faut-il vraiment intégrer les partials ? Bastien penche pour le bouton seul.
+- [ ] Décider du sort de `frise.html` et `arbre-genealogique.html` — voir les deux
+      points ci-dessus, qui remplacent l'ancienne formulation
 - [ ] `.gitattributes` (`* text=auto eol=lf`) — hygiène multi-machines Windows/Mac, non urgent
 - [ ] Mettre à jour la palette dans `HUMMING_COB_REFERENCE_2.md` : les variables documentées (`--cream`, `--ink`, `--rose: #C4788A`…) ne correspondent plus au CSS réel (`--bg-cream`, `--noir`, `--rose: #D4899A`…)
 
@@ -416,13 +461,17 @@ Le manifest et le mode application n'entraient donc jamais en jeu — les change
 
 ### Points ouverts
 
-- [ ] **`accouplement.html` à retravailler** : son en-tête passe en
-      `.page-header--compact` (bas resserré à 1.5rem) parce que l'outil suit
-      immédiatement. Le padding haut de 8rem, lui, n'est pas négociable — la
-      navbar fixe fait 80px et la page n'a pas de `padding-top` sur le body, donc
-      en dessous le contenu passe dessous. C'est ce qui se produisait avec les
-      4rem d'avant : le badge "Calculateur" était masqué. Reste à revoir la
-      cosmétique de cette page dans son ensemble.
+- [x] **`accouplement.html` — passe DA (21/07 soir)** : branché sur les variables
+      globales (alias au lieu de couleurs recopiées), **doré `--gold` supprimé**
+      (18 occurrences → `--rose-deep`, il n'existait nulle part ailleurs), boutons
+      alignés sur `.btn-outline`/`.link-arrow`, panneau "Tester une compatibilité"
+      mis en avant (liseré rose, coins 26px, ombre), et **les deux avertissements
+      fusionnés** dans la pastille au-dessus des cases. L'outil n'a pas été touché,
+      testé fonctionnel (48 chevaux, sélection OK). En-tête : `.page-header--compact`.
+      <details><summary>Reste à voir</summary>Le padding haut de 8rem n'est pas
+      négociable : navbar fixe de 80px, pas de padding-top sur le body → en dessous
+      le contenu passe sous la barre (c'était le bug des 4rem, badge masqué). Copie
+      de sauvegarde avant modif : /tmp/accouplement.backup.html (éphémère).</details>
 - [ ] **Bande crème sous le footer (iOS)** : toujours présente, abandonnée faute de
       solution acceptable. À rouvrir seulement si une nouvelle idée émerge — voir la liste
       des pistes déjà éliminées plus haut.
