@@ -1627,6 +1627,23 @@ footer {
     justify-content: center;
     text-align: center;
   }
+
+  /* Prix et CTA du hero : sur une seule colonne, le space-between du desktop
+     les jetterait aux deux bords de l'écran. Ils s'empilent et se centrent,
+     prix au-dessus, bouton en dessous. */
+  .horse-price-row {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .horse-price { justify-content: center; }
+  /* Vise aussi le CTA des fiches sans prix (Kaeru) — d'où le sélecteur sur
+     .horse-hero-info plutôt que sur .horse-price-row. */
+  .horse-hero-info .cta-anchor {
+    display: flex;
+    justify-content: center;
+  }
   .horse-hero-info { padding: 3rem 2rem; }
   .form-row { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
