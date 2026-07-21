@@ -39,7 +39,15 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  /* Fond du canvas. Sur Chrome/Android il colore les zones de rebond ; sur
+     WebKit (donc tous les navigateurs iOS, Opera compris) il est ignoré au
+     profit du fond de <body>, d'où la bande crème constatée sous le footer.
+     On le garde pour les moteurs qui le respectent. */
   background-color: var(--noir);
+  /* Et on coupe le rebond vertical, qui est la zone en question. Corrige le
+     symptôme là où la couleur ne suffit pas.
+     Effet de bord assumé : plus d'effet élastique en haut ni en bas de page. */
+  overscroll-behavior-y: none;
 }
 
 body {
