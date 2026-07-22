@@ -97,9 +97,26 @@
 - [ ] **Open Graph par page** — `og:title` et `og:description` sont propres à chaque
       page, mais **10 pages partagent la même `og:image` générique** (`og-preview.jpg`) :
       index, elevage, poulains, reproducteurs, memoire, acheter, frise,
-      arbre-genealogique et les deux pages légales. Partager le lien d'une de ces
-      pages affiche donc l'aperçu du site, pas son contenu. Les fiches chevaux, elles,
-      ont bien leur image propre.
+      arbre-genealogique et les deux pages légales. Les fiches chevaux ont déjà leur
+      image propre — mais **au format brut, non calibré OG**.
+  <details><summary>Plan retenu (Bastien) — carte de visite par cheval</summary>
+
+  **Usage réel** : poster sur les réseaux pour répondre à des annonces d'acheteurs
+  ou d'éleveurs, et faire la promo. L'aperçu partagé doit donc vendre le cheval.
+
+  **Format cible OG : 1200×630 px, paysage ~2:1.** C'est ce que recadrent Facebook,
+  WhatsApp, iMessage, etc. Or les photos de chevaux sont surtout portrait/carré :
+  les forcer en 1200×630 ne montre que le poitrail. Le recadrage est donc le vrai
+  travail, pas la duplication.
+
+  **Solution : un gabarit "carte de visite"** aux couleurs du site (DA Humming Cob),
+  avec un cadre pour la photo + infos personnalisées par cheval (nom, âge ?, robe ?…).
+  Conçu une fois, décliné par cheval. Bastien le fera sur une journée dédiée, sur son
+  poste fixe (grand écran). Pas pendant une coupure.
+
+  À voir ensemble le moment venu : incrustation auto du texte (script Python + Pillow
+  sur un template PNG/SVG) vs composition manuelle dans un outil graphique.
+  </details>
   <details><summary>Pourquoi</summary>Sans ça, partager le lien sur les réseaux ou en message n'affiche ni image ni description propre.</details>
 - [x] Favicon en place — jeu complet monogramme HC, 21/07
 - [ ] robots.txt + sitemap.xml

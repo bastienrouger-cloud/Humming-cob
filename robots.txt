@@ -1,0 +1,8 @@
+# robots.txt — Humming Cob
+# Site vitrine : tout est public, rien à masquer.
+
+User-agent: *
+Allow: /
+
+# Plan du site pour les moteurs de recherche
+Sitemap: https://hummingcob.fr/sitemap.xml

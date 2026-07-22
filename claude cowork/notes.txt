@@ -3,13 +3,4 @@ NOTES — Humming Cob
 
 Index :
 
-Frise et arbre généalogiquenealogique sont en JS, elle ont un boutons retour au site, pas besoin de les retravailler, sauf si t'as une suggestion ?
-
-D'une manière générale, il y a sur plusieurs pages des sections avec des arrières plans de différentes couleurs mais des transition brutes, on va mettre des transition dégradée douces, comme on a fait sur l'index.
-
-Sur notre élevage en mode mobile : 1 carte par ligne, pas 2, et une incitation à cliquer. (Visible quand on passe la souris sur pc mais pas sur mobile)
-
-Faire une passe DA sur tout les Hero des pages autres que chevaux et JS.
-
-Sur les pages poulains, la transition vers aussi disponible doit être brut, comme si c'était un rooter
-
+Éclairer étalon en bleu dans le calculateur.
