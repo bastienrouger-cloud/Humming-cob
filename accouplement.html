@@ -58,7 +58,10 @@
     background:var(--cream);
     color:var(--ink);
     font-family:'Jost',sans-serif;
-    padding:80px 0 0;
+    /* Pas de padding-top : le hero (.page-header, 8rem haut) passe sous la navbar
+       fixe et absorbe ses 80px, comme sur elevage.html. Un padding:80px ici
+       comptait la navbar deux fois → trop d'espace au-dessus du badge. */
+    padding:0;
   }
   .page-content{
     padding:28px 20px 80px;
