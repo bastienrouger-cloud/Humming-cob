@@ -592,6 +592,13 @@ Le manifest et le mode application n'entraient donc jamais en jeu — les change
         entre deux filets qui s'estompent + pastille de lignée. La `<div
         class="section-divider">` décorative (sous le h1) reste inchangée.
         Sauvegarde : /tmp/accouplement.backup.html.
+      - **Espace hero réduit (22/07)** : le badge « Calculateur » était bien plus bas
+        que sur les autres pages (gap navbar→badge 134px vs 54px sur elevage). Cause :
+        `body { padding:80px 0 0 }` **propre à accouplement**, qui comptait la navbar
+        fixe une 2ᵉ fois (déjà absorbée par les 8rem du `.page-header`). Retiré →
+        le hero passe sous la navbar comme partout, gap identique à elevage (54px),
+        badge non masqué. ⚠️ Corrige la note précédente « pas de padding-top sur le
+        body » : il y en avait un (80px), d'où le doublon.
 - [ ] **Bande crème sous le footer (iOS)** : toujours présente, abandonnée faute de
       solution acceptable. À rouvrir seulement si une nouvelle idée émerge — voir la liste
       des pistes déjà éliminées plus haut.
