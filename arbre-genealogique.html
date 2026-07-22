@@ -32,7 +32,7 @@
       --cream:     #FEFBF6;
       --rose:      #D4899A;
       --rose-deep: #B06070;
-      --bleu:      #6A8FA0;
+      --bleu:      #5B7FA6;
       --bleu-pale: #C8DCE6;
       --or:        #C0A050;
       --noir:      #1C1C1C;
@@ -64,16 +64,27 @@
       position: absolute;
       top: 50%; left: 1.5rem;
       transform: translateY(-50%);
-      font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
-      color: #3a2010; text-decoration: none;
-      border: 1px solid #b09080;
-      border-radius: 20px;
-      padding: .35rem .85rem;
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      /* DA alignée sur le CTA du site (.btn-primary) : pilule pleine rose-deep,
+         texte blanc, la flèche suit (currentColor). La page n'importe pas
+         style.css → valeurs locales + littéral #8B4A5C pour le survol
+         (= --rose-dark de la charte, absent du :root local).
+         Pas de lift en transform au survol : l'élément est déjà centré par
+         translateY(-50%) et repasse en position:static sur mobile — un second
+         transform casserait l'un ou l'autre. Le box-shadow suffit à l'effet. */
+      color: #fff; text-decoration: none;
+      background: var(--rose-deep);
+      border: 1.5px solid var(--rose-deep);
+      border-radius: 50px;
+      padding: .5rem 1.4rem;
       display: flex; align-items: center; gap: .4rem;
-      transition: border-color .18s, color .18s;
+      transition: background .18s, border-color .18s, box-shadow .18s;
       white-space: nowrap;
     }
-    .back-btn:hover { border-color: var(--rose-deep); color: var(--rose-deep); }
+    .back-btn:hover {
+      background: #8B4A5C; border-color: #8B4A5C;
+      box-shadow: 0 6px 24px rgba(176,96,112,0.28);
+    }
     @media (max-width: 600px) {
       .header { padding: 1.2rem 1.5rem 1rem; }
       .back-btn {
@@ -124,7 +135,10 @@
       .mobile-hint { display: block; }
       .header { padding: 1.2rem 1rem 0.8rem; }
       .back-btn { font-size: .62rem; }
-      .info-panel { flex-direction: column; gap: .5rem; min-height: auto; padding: .8rem 1.2rem; }
+      .info-panel { flex-direction: column; gap: 0; min-height: auto; }
+      .info-panel.active .info-panel-name { border-right: none; border-bottom: 1px solid var(--sel-color, rgba(176,96,112,0.18)); }
+      .info-panel-name, .info-panel-fields { padding: .8rem 1.2rem; }
+      .info-panel-cta { padding: 0 1.2rem .8rem; }
       .info-panel-name { min-width: unset; }
       .info-panel-cta { margin-left: 0; }
       .legend { gap: 1rem; }
@@ -151,8 +165,8 @@
       cursor: pointer;
       transition: r 0.18s ease;
     }
-    .node-circle:hover { r: 16; }
-    .node-group:hover .node-circle { r: 16; }
+    /* Ancien grossissement au survol retiré : PC uniquement, en conflit avec le
+       rayon géré en JS, remplacé par l'éclairage du nom (voir applyState). */
 
     .node-label {
       font-family: var(--serif);
@@ -176,24 +190,41 @@
     }
 
     /* Panneau d'info fixe */
+    /* Carte alignée sur la DA des cartes du site (ex. le panneau du calculateur) :
+       coins arrondis, léger relief, bordée de la COULEUR DU CHEVAL sélectionné
+       (--sel-color, posé par showPanel). Au repos (aucune sélection) : bordure
+       neutre discrète, pas de fond. */
     .info-panel {
       display: flex;
-      align-items: center;
-      gap: 2.5rem;
+      align-items: stretch;
+      gap: 0;
       margin: 1.5rem auto 0;
+      width: calc(100% - 4rem);
       max-width: 1680px;
       min-height: 90px;
-      padding: 1.1rem 2rem;
-      border-top: 1px solid rgba(176,96,112,0.15);
-      border-bottom: 1px solid rgba(176,96,112,0.15);
-      transition: background 0.22s ease;
+      padding: 0;
+      border: 1.5px solid rgba(176,96,112,0.15);
+      border-radius: 18px;
+      background: transparent;
+      transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
     }
     .info-panel.active {
-      background: rgba(255,255,255,0.7);
+      border-color: var(--sel-color, rgba(176,96,112,0.15));
+      background: #FFFCF8;
+      box-shadow: 0 4px 28px rgba(92,62,52,0.08);
+    }
+    /* Conteneur du nom : séparé des infos par un filet vertical de la couleur du
+       cheval. Sur mobile la carte passe en colonne → filet horizontal en bas. */
+    .info-panel.active .info-panel-name {
+      border-right: 1px solid var(--sel-color, rgba(176,96,112,0.18));
     }
     .info-panel-name {
       min-width: 200px;
       flex-shrink: 0;
+      padding: 1.1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     .info-panel-name h2 {
       font-family: var(--serif);
@@ -202,7 +233,7 @@
       line-height: 1.2;
       color: var(--noir);
     }
-    .info-panel-name h2 em { color: var(--rose-deep); font-style: italic; }
+    .info-panel-name h2 em { color: var(--sel-color, var(--rose-deep)); font-style: italic; }
     .info-panel-name .sub {
       font-size: 0.7rem;
       letter-spacing: 0.12em;
@@ -214,8 +245,10 @@
       flex: 1;
       display: flex;
       flex-wrap: wrap;
+      align-content: center;
       gap: 0.4rem 2rem;
       font-size: 0.78rem;
+      padding: 1.1rem 2rem;
     }
     .info-panel-fields .field { color: var(--gris); }
     .info-panel-fields .field strong { color: var(--noir); font-weight: 500; }
@@ -229,15 +262,17 @@
     .robe-pill {
       display: inline-flex;
       align-items: center;
-      background: rgba(212,137,154,0.10);
-      border: 1px solid rgba(176,96,112,0.22);
-      color: var(--rose-deep);
+      /* Fond neutre très clair : la robe donne la couleur du texte et du liseré
+         (inline, voir robeToColor), le fond reste lisible quelle que soit la robe. */
+      background: rgba(0,0,0,0.03);
+      border: 1px solid var(--rose);   /* écrasé en inline par la couleur de robe */
+      color: var(--rose-deep);          /* idem */
       border-radius: 20px;
       padding: .18rem .65rem;
       font-size: .67rem;
       letter-spacing: .06em;
       text-transform: uppercase;
-      align-self: flex-start;
+      align-self: center;
     }
     .info-panel-empty {
       width: 100%;
@@ -251,12 +286,13 @@
       flex-shrink: 0;
       margin-left: auto;
     }
+    .info-panel-cta { padding-right: 2rem; align-self: center; }
     .info-panel-cta a {
       display: inline-block;
       padding: 0.45rem 1.1rem;
-      border: 1px solid var(--rose);
+      border: 1px solid var(--sel-color, var(--rose));
       border-radius: 30px;
-      color: var(--rose-deep);
+      color: var(--sel-color, var(--rose-deep));
       font-size: 0.72rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -264,7 +300,7 @@
       transition: background 0.18s, color 0.18s;
     }
     .info-panel-cta a:hover {
-      background: var(--rose);
+      background: var(--sel-color, var(--rose));
       color: white;
     }
 
@@ -356,7 +392,7 @@
 
 <div class="legend">
   <div class="leg">
-    <div class="leg-dot" style="background:#EEF3F7;border-color:#6A8FA0;"></div>Étalon
+    <div class="leg-dot" style="background:#EEF3F7;border-color:#5B7FA6;"></div>Étalon
   </div>
   <div class="leg">
     <div class="leg-dot" style="background:#FFF0F4;border-color:#D4899A;"></div>Jument
@@ -371,7 +407,7 @@
     <div class="leg-cross">†</div>En mémoire
   </div>
   <div class="leg">
-    <div class="leg-line" style="background:#6A8FA0;"></div>Ligne paternelle
+    <div class="leg-line" style="background:#5B7FA6;"></div>Ligne paternelle
   </div>
   <div class="leg">
     <div class="leg-line" style="background:#D4899A;"></div>Ligne maternelle
@@ -383,7 +419,7 @@
 // ── RADII
 const R          = 12;
 const R_ACTIVE   = 52;
-const R_SELECTED = 64;
+const R_SELECTED = 64;  // n'est plus utilisé : le nœud sélectionné ne grossit plus, il est identifié par son nom éclairé (voir applyState). Conservé au cas où.
 
 // ── PHOTOS
 const PHOTOS = {
@@ -538,7 +574,7 @@ const DATA = [
     tip:{ parents:'Cairnview Archy', info:'Hors élevage.' } },
   { id:'inur',      sex:'g', foal:true, hidden:true, em:"Inuk",     sub:"Le Cros de l'Oume",
     tip:{ parents:'Cairnview Archy', info:'Hors élevage.' } },
-  { id:'nashi',     sex:'g', foal:true, em:'Nashi HC',                         sub:'',
+  { id:'nashi',     sex:'g', foal:true, em:'HC Nashi',                         sub:'',
     page:'poulains/nashi.html', naissance:'13/01/2024', robe:'Bai',
     tip:{ parents:'Cairnview Archy × SD Sakura',
           info:"Espiègle, pétillant, proche de l'homme. TAP, TREC, rando." } },
@@ -548,7 +584,7 @@ const DATA = [
   { id:'onestop',   sex:'m', foal:true, hidden:true, em:'SD One Stop The Top', sub:'SD',
     robe:'Alezan Sabino',
     tip:{ parents:'SD Flash Harry × SD Suzie', info:'Hors élevage.' } },
-  { id:'kaeru',     sex:'s', foal:true, em:'Quercus Kaeru HC',                 sub:'',
+  { id:'kaeru',     sex:'s', foal:true, em:'HC Quercus Kaeru',                 sub:'',
     page:'poulains/kaeru.html', naissance:'13/05/2026', robe:'Noir Pearl',
     tip:{ parents:'San Cler Avantgarde × SD Suzie',
           info:'Né prématurément.' } },
@@ -558,7 +594,7 @@ const DATA = [
   { id:'nuran',     sex:'s', foal:true, hidden:true, em:'Nuran DC',             sub:'',
     naissance:'2023', robe:'Smoky Grulla',
     tip:{ parents:'Kuarahy OMD × SD Suzie', info:'Hors élevage.' } },
-  { id:'omamori',   sex:'s', foal:true, em:'Omamori HC',                        sub:'',
+  { id:'omamori',   sex:'s', foal:true, em:'HC Omamori',                        sub:'',
     page:'poulains/omamori.html', naissance:'05/04/2024', robe:'Grullo Silver',
     tip:{ parents:'Kuarahy OMD × SD Suzie',
           info:'Robe Grullo Silver rarissime. Intelligent, polyvalent.' } },
@@ -568,13 +604,13 @@ const DATA = [
   { id:'qoulitch',  sex:'s', foal:true, hidden:true, em:'Qoulitch',             sub:'Élevage Yasuke',
     naissance:'23/05/2026', robe:'Bai Pearl',
     tip:{ parents:'San Cler Avantgarde × SD Ruby Jane' } },
-  { id:'orion',     sex:'s', foal:true, em:'Orion HC',                          sub:'',
+  { id:'orion',     sex:'s', foal:true, em:'HC Orion',                          sub:'',
     page:'poulains/orion.html', naissance:'11/04/2024', robe:'Grullo Silver',
     tip:{ parents:'Kuarahy OMD × SD Ruby Jane',
           info:"Fin, élégant, sensible. Grand amoureux de l'humain." } },
 
   // Vendue
-  { id:'jinba',  sex:'m', foal:true, hidden:true, em:'Jinba Ittaï HC',         sub:'vendue',
+  { id:'jinba',  sex:'m', foal:true, hidden:true, em:'HC Jinba Ittaï',         sub:'vendue',
     page:'poulains/Jinba-Ittaï.html', naissance:'04/04/2019', robe:'Black Roan',
     tip:{ parents:'SD Flash Harry × SD Suzie' } },
   { id:'velvet', sex:'m', memorial:true,           em:'SD Red Velvet',          sub:'† 2020',
@@ -673,6 +709,10 @@ const nodeGroups = {};   // groupe SVG par id
 const circleEls  = {};   // cercle principal par id
 const photoEls   = {};   // <image> SVG par id
 const starEls    = {};   // étoile élite par id
+const nameEls    = {};   // <text> du nom par id (pour l'éclairage à la sélection)
+const subEls     = {};   // <text> du sous-titre "Élite grade 1" par id (soulignement)
+const nodeStroke = {};   // couleur du cercle par id (= couleur d'éclairage du nom)
+const nameFill0  = {};   // couleur par défaut du nom par id
 let activeRevealIds    = new Set();
 let activeVisiblePairs = new Set();
 let activeNode         = null;  // nœud actuellement mis en avant
@@ -702,6 +742,15 @@ viewport.appendChild(lineLayer);
 viewport.appendChild(pathLayer);
 viewport.appendChild(nodeLayer);
 
+// Couche d'effets au-dessus de tout : porte le soulignement du cheval
+// sélectionné, tracé de gauche à droite (voir applyState).
+const fxLayer = el('g', { id: 'fx' });
+viewport.appendChild(fxLayer);
+const selUnderline = el('rect', { height: '2', rx: '1', fill: 'none', opacity: '0' });
+selUnderline.style.transformBox   = 'fill-box';   // origine = bords propres du rect
+selUnderline.style.transformOrigin = 'left center';
+fxLayer.appendChild(selUnderline);
+
 // ── Lignes de génération (pointillées horizontales)
 const GEN_Y = [-110, 255, 630];
 GEN_Y.forEach(y => {
@@ -729,7 +778,7 @@ RELS.forEach(r => {
     path.classList.add('rel-path');
     pathLayer.appendChild(path);
   }
-  drawPath(r.p1, r.c, '#6A8FA0'); // père → bleu
+  drawPath(r.p1, r.c, '#5B7FA6'); // père → bleu
   drawPath(r.p2, r.c, '#D4899A'); // mère → rose
 });
 
@@ -737,12 +786,28 @@ RELS.forEach(r => {
 const infoPanel = document.getElementById('infoPanel');
 const EMPTY_HTML = '<div class="info-panel-empty">Survoler un cheval pour voir ses informations</div>';
 
+// Couleur d'une robe d'après sa teinte de base (pour la pastille). L'ordre
+// compte : on teste les dilutions/bases dans l'ordre de priorité visuelle.
+function robeToColor(robe) {
+  const r = (robe || '').toLowerCase();
+  if(/palomino/.test(r))        return '#B8862B';  // doré
+  if(/buckskin/.test(r))        return '#A9803F';  // isabelle
+  if(/grull|grulla/.test(r))    return '#7C7468';  // gris-dun
+  if(/alezan|chestnut/.test(r)) return '#A85A32';  // alezan
+  if(/bai|bay/.test(r))         return '#8B5E34';  // bai
+  if(/noir|black|tobiano|pinto|roan/.test(r)) return '#423C36';  // noir
+  return '#8A8A8A';               // par défaut : gris neutre
+}
+
 function showPanel(h) {
   const t = h.tip || {};
   let fields = '';
 
   // Robe — pastille pill (option A)
-  if(h.robe) fields += `<span class="robe-pill">${h.robe}</span>`;
+  if(h.robe) {
+    const rc = robeToColor(h.robe);
+    fields += `<span class="robe-pill" style="color:${rc};border-color:${rc}">${h.robe}</span>`;
+  }
 
   // Date de naissance
   const naissLabel = (h.sex === 'm') ? 'Née' : 'Né';
@@ -777,12 +842,15 @@ function showPanel(h) {
     <div class="info-panel-fields">${fields}</div>
     ${h.page ? `<div class="info-panel-cta"><a href="${h.page}">Voir la fiche →</a></div>` : ''}
   `;
+  // Couleur du cheval → bordure de la carte, filet interne, nom et CTA
+  infoPanel.style.setProperty('--sel-color', nodeStroke[h.id] || 'var(--rose-deep)');
   infoPanel.classList.add('active');
 }
 
 function hidePanel() {
   infoPanel.innerHTML = EMPTY_HTML;
   infoPanel.classList.remove('active');
+  infoPanel.style.removeProperty('--sel-color');
 }
 
 // ── ÉTAT PARTAGÉ : calcul des nœuds à révéler pour un cheval donné
@@ -819,10 +887,20 @@ function applyState() {
       nodeGroups[d.id].style.opacity = revealed ? '1' : '0.5';
     }
 
-    // Taille du cercle
+    // Taille du cercle : le nœud sélectionné ne grossit plus (il débordait sur
+    // son nom et l'effet ne marchait pas au tap). Il est désormais identifié par
+    // son NOM éclairé de la couleur de son cercle — voir plus bas.
     const isSelected = activeNode && d.id === activeNode.id;
     if(circleEls[d.id]) {
-      circleEls[d.id].setAttribute('r', isSelected ? R_SELECTED : (revealed ? R_ACTIVE : R));
+      circleEls[d.id].setAttribute('r', revealed ? R_ACTIVE : R);
+    }
+
+    // Éclairage du nom : le cheval à l'origine de la lignée voit son nom passer
+    // à la couleur de son cercle (bleu étalon, rose jument, or poulain…). Branché
+    // sur l'état de sélection (activeNode), donc valable au survol PC ET au tap.
+    if(nameEls[d.id]) {
+      nameEls[d.id].setAttribute('fill', isSelected ? nodeStroke[d.id] : nameFill0[d.id]);
+      nameEls[d.id].setAttribute('font-weight', isSelected ? '700' : '500');
     }
 
     // Photo
@@ -833,10 +911,45 @@ function applyState() {
     // Étoile élite — suit le cercle
     if(starEls[d.id]) {
       const p = POS[d.id];
-      const rNow = isSelected ? R_SELECTED : (revealed ? R_ACTIVE : R);
+      const rNow = revealed ? R_ACTIVE : R;
       starEls[d.id].setAttribute('y', revealed ? p.y - rNow - 6 : p.y - R - 8);
     }
   });
+
+  // Soulignement du cheval sélectionné : un trait de la couleur de son cercle,
+  // sous son nom, tracé de gauche à droite (scaleX 0→1, origine à gauche).
+  // Se rejoue à chaque nouvelle sélection car applyState n'est appelé QUE là.
+  if(activeNode && nameEls[activeNode.id]) {
+    const nm = nameEls[activeNode.id];
+    const nb = nm.getBBox();               // bbox géométrique du nom (hors halo)
+    let bottomY = nb.y + nb.height;
+    let w  = nb.width;
+    const cx = nb.x + nb.width / 2;
+    // Cheval élite : passer SOUS le sous-titre "Élite grade 1" pour souligner
+    // le bloc nom + distinction d'un seul trait (sinon il chevauchait le sous-titre).
+    const sb = subEls[activeNode.id];
+    if(sb) {
+      const sbb = sb.getBBox();
+      bottomY = Math.max(bottomY, sbb.y + sbb.height);
+      w = Math.max(w, sbb.width);
+    }
+    selUnderline.setAttribute('x', cx - w / 2);
+    selUnderline.setAttribute('y', bottomY + 3);
+    selUnderline.setAttribute('width', w);
+    selUnderline.setAttribute('fill', nodeStroke[activeNode.id]);
+    // Réinitialiser sans transition, forcer un reflow, puis animer → le tracé
+    // repart de zéro à chaque sélection.
+    selUnderline.style.transition = 'none';
+    selUnderline.style.transform  = 'scaleX(0)';
+    selUnderline.style.opacity    = '1';
+    selUnderline.getBoundingClientRect();  // flush du style
+    selUnderline.style.transition = 'transform .5s cubic-bezier(.2,.8,.2,1)';
+    selUnderline.style.transform  = 'scaleX(1)';
+  } else {
+    selUnderline.style.transition = 'opacity .2s';
+    selUnderline.style.opacity    = '0';
+    selUnderline.style.transform  = 'scaleX(0)';
+  }
 }
 
 // ── LIGHTBOX photo (nœuds sans page dédiée)
@@ -873,11 +986,11 @@ DATA.forEach(h => {
   // Couleurs selon sexe / catégorie
   let fill, stroke;
   if(h.memorial)           { fill = '#EDE8E4'; stroke = '#9A8A84'; }
-  else if(h.ext && h.sex==='s') { fill = '#EEF3F7'; stroke = '#6A8FA0'; }
+  else if(h.ext && h.sex==='s') { fill = '#EEF3F7'; stroke = '#5B7FA6'; }
   else if(h.ext && h.sex==='m') { fill = '#FFF0F4'; stroke = '#D4899A'; }
   else if(h.ext)           { fill = '#F0EEE8'; stroke = '#C8C0BC'; }
   else if(h.foal)          { fill = '#F5EDE0'; stroke = '#C0A050'; }
-  else if(h.sex==='s'){ fill = '#EEF3F7'; stroke = '#6A8FA0'; }
+  else if(h.sex==='s'){ fill = '#EEF3F7'; stroke = '#5B7FA6'; }
   else                { fill = '#FFF0F4'; stroke = '#D4899A'; }
 
   // Anneau élite (toujours sous la photo)
@@ -943,10 +1056,21 @@ DATA.forEach(h => {
     fill: h.ext ? '#9A9290' : '#1C1C1C',
     'font-family': "'Cormorant Garamond', Georgia, serif",
     'font-size': '13', 'font-weight': '500',
-    'font-style': h.ext ? 'italic' : 'normal'
+    'font-style': h.ext ? 'italic' : 'normal',
+    // Halo crème (technique cartographique) : le liseré est peint SOUS le
+    // remplissage (paint-order:stroke) et creuse un coussin propre autour des
+    // lettres, pour que le nom se détache des traits bleu/rose qui passent
+    // derrière. #FEFBF6 = --cream (littéral : var() peu fiable en attribut SVG).
+    'paint-order': 'stroke',
+    stroke: '#FEFBF6', 'stroke-width': '3.5', 'stroke-linejoin': 'round'
   });
   name.textContent = h.memorial ? '† ' + h.em : h.em;
   g.appendChild(name);
+  // Références pour l'éclairage du nom quand le cheval devient l'origine
+  // sélectionnée (voir applyState). Remplace l'ancien grossissement du cercle.
+  nameEls[h.id]   = name;
+  nodeStroke[h.id] = stroke;
+  nameFill0[h.id]  = h.ext ? '#9A9290' : '#1C1C1C';
 
   if(h.elite) {
     const sub = el('text', {
@@ -954,10 +1078,13 @@ DATA.forEach(h => {
       'text-anchor': 'middle',
       fill: '#C0A050',
       'font-family': "'Jost', sans-serif",
-      'font-size': '9', 'letter-spacing': '0.06em'
+      'font-size': '9', 'letter-spacing': '0.06em',
+      'paint-order': 'stroke',
+      stroke: '#FEFBF6', 'stroke-width': '3', 'stroke-linejoin': 'round'
     });
     sub.textContent = 'Élite grade 1';
     g.appendChild(sub);
+    subEls[h.id] = sub;   // pour poser le soulignement SOUS la distinction
   }
 
   // Zone de clic élargie
@@ -1075,6 +1202,7 @@ window.addEventListener('mouseup', e => {
       activeRevealIds    = new Set();
       activeVisiblePairs = new Set();
       applyState();
+      hidePanel();   // plus de persistance : le bandeau revient à l'état neutre
     }
   }
 });

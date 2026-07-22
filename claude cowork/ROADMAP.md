@@ -217,26 +217,82 @@ Ces constats viennent de l'inspection du code, pas d'un test utilisateur réel (
 
   Les icônes sont générées depuis le logo complet : très belles en 180px,   illisibles en 16px (onglet de navigateur). C'est inhérent au logo — cheval,   arbre et médaillon dans 16 pixels de côté. Un monogramme "HC" seul y gagnerait,   si un fichier source propre existe un jour.
   </details>
-- [ ] **Aligner `arbre-genealogique.html` sur la charte** (page JS)
-  <details><summary>Diagnostic 21/07 — chantier léger</summary>
+- [x] **`arbre-genealogique.html` aligné** (22/07) — bouton retour (bruns hors charte
+      `#3a2010`/`#b09080` → `--gris` texte + `--rose` bordure) et **bleu étalon aligné**
+      sur le `--bleu` du site (`#6A8FA0` → `#5B7FA6`, 6 occurrences : légende, ligne
+      paternelle, tracés JS père + nœuds étalons). Le doré Poulain et le rose Jument sont
+      conservés — code visuel de la légende.
+  <details><summary>⚠️ Décision d'architecture : cette page reste un ÎLOT — ne pas la brancher à style.css</summary>
 
-  Bonnes bases : polices déjà correctes (Cormorant + Jost), et son `:root` reprend
-  `--rose`, `--rose-deep`, `--noir`, `--gris` avec les valeurs exactes de la charte.
-  À faire : rebrancher ces alias sur les variables globales (comme fait sur le
-  calculateur), aligner son bleu `#6A8FA0` sur `--bleu: #5B7FA6` (cohérence du code
-  de genre père/mère avec les fiches), ranger une dizaine de couleurs en dur.
-  Son doré `--or: #C0A050` est **à conserver** — Bastien : il structure la légende,
-  à regarder avant de trancher. Faire l'arbre EN PREMIER : rapide, résultat immédiat.
+  **La page n'importe PAS `css/style.css`** : elle est autonome, tout son style est
+  inline avec son propre `:root`. J'ai d'abord voulu aliaser son `:root` vers la charte
+  globale (`--serif: var(--font-serif)`, etc.) — **erreur** : ces variables globales
+  n'existent pas ici, la police est tombée en Times et les bordures ont disparu.
+  Restauré depuis sauvegarde, refait avec les variables LOCALES uniquement.
+
+  **Pourquoi ne PAS lier style.css** (vérifié) : 3 collisions de noms de classes entre
+  le style interne de l'arbre et la charte — `.active`, `.visible`, `.back-btn`. Les deux
+  premières sont des classes d'état génériques **pilotées par les 798 lignes de JS** de
+  l'arbre (survol des chevaux, apparition). Lier les feuilles ferait entrer les règles
+  globales `.visible`/`.active` dans la logique interactive de l'arbre — risque de bug
+  subtil, coûteux à valider, sur la page la plus fragile. Bénéfice (propagation auto d'un
+  changement de couleur, ~1×/an) trop faible face au risque.
+
+  **Règle du projet** : `arbre-genealogique.html` et `frise.html` sont des îlots
+  autonomes. On aligne leurs valeurs de couleur À LA MAIN dans leur `:root`, on ne les
+  branche pas au système. Savoir quand ne pas factoriser fait partie du métier.
+
+  Reste possible plus tard (confort, sans effet visuel) : ranger les couleurs en dur qui
+  dupliquent les variables locales (`#D4899A`=`--rose`, `#C0A050`=`--or`…). Non prioritaire.
   </details>
-- [ ] **Aligner `frise.html` sur la charte** (page JS) — plus lourd que l'arbre
+
+- [x] **`arbre-genealogique.html` — passe interaction & bandeau (22/07 aprèm)** :
+      refonte de l'effet de sélection et du panneau d'info, tout aligné sur la charte.
+      <details><summary>Détail des changements de l'après-midi</summary>
+
+      - **Effet de sélection** : l'ancien cercle qui grossissait (`R_SELECTED`) est
+        abandonné (mauvais sur mobile, chevauchait les noms). Remplacé par la mise en
+        évidence du nom dans la couleur du cheval (`nodeStroke`) + graisse 700, plus un
+        **soulignage animé qui se dessine de gauche à droite** (`scaleX 0→1`,
+        `transform-box: fill-box`). Pour les Élite, le trait passe **sous le sous-libellé**
+        de distinction, pas sous le nom.
+      - **Halo crème sous les noms** (`paint-order: stroke` + stroke crème `#FEFBF6`) :
+        technique cartographique pour que les tracés bleu/rose ne masquent plus les noms.
+      - **Bouton "Retour au site"** : DA alignée sur le CTA (pilule pleine rose,
+        texte blanc).
+      - **Panneau d'info transformé en CARTE** (DA des cartes du site, ex. calculateur) :
+        coins 18px, léger relief, **bordure de la couleur du cheval sélectionné**
+        (`--sel-color` posé en inline par `showPanel`), conteneur nom séparé des infos
+        par un filet vertical de la même couleur.
+      - **Fin de la persistance** : sans sélection, le panneau revient à l'état neutre
+        (`hidePanel()` retire `--sel-color` et la classe `active`).
+      - **Pastille de robe** : couleur = la robe qu'elle contient (`robeToColor()` :
+        palomino, buckskin, grullo, alezan, bai, noir…) au lieu du rose systématique.
+      - **Nom des poulains** : affixe passé en PRÉFIXE (`Nashi HC` → `HC Nashi`) sur les
+        5 poulains, pour que le mot mis en couleur (dernier mot, doré) soit le vrai nom
+        et non l'affixe. ⚠️ Le format des données était `em:'X HC'` **sans espace** après
+        le `:` — un motif de remplacement avec espace échoue en silence. Toujours mettre
+        une `assert count==1` avant `replace` sur ce fichier.
+      - **Gouttière du bandeau** : `width: calc(100% - 4rem)` ajouté (les bords
+        collaient à l'écran sous 1680px). 32px de marge de chaque côté, aligné sur le
+        padding 2rem du header.
+
+      Sauvegardes éphémères : /tmp/arbre.backup.html … backup6.html.
+      </details>
+
+- [ ] **Propager le préfixe HC au reste du site** : l'affixe en préfixe (`HC Nashi`)
+      n'est fait que dans l'arbre. À reporter sur les fiches poulains pour cohérence —
+      Bastien : « idéalement à propager au reste du site ».
+- [ ] **Aligner `frise.html`** (page JS, ÎLOT autonome comme l'arbre — ne PAS lier style.css)
   <details><summary>Diagnostic 21/07 — reprise de fond</summary>
 
-  Écarts plus marqués : **aucune variable CSS** (tout en dur, ~15 teintes à relier
-  de zéro), **police hors charte** — `Playfair Display` sur les titres au lieu de
-  Cormorant Garamond, c'est la rupture la plus visible — et une palette plus rose
-  et plus saturée (`#E8A8BB`, `#F5C6D2`…) plus quelques bruns sépia (`#6b4422`,
-  `#7a5028`). Décision de goût à trancher AVANT de coder : garde-t-on le parti
-  sépia (défendable pour une frise mémorielle) ou l'aligne-t-on aussi ?
+  Plus lourd que l'arbre. Écarts marqués : **aucune variable CSS** (tout en dur, ~15
+  teintes), **police hors charte** — `Playfair Display` sur les titres au lieu de
+  Cormorant Garamond, la rupture la plus visible — et une palette plus rose et saturée
+  (`#E8A8BB`, `#F5C6D2`…) plus des bruns sépia (`#6b4422`, `#7a5028`).
+  Décision de goût AVANT de coder : garde-t-on le parti sépia (défendable pour une frise
+  mémorielle) ou l'aligne-t-on ? Traiter comme un îlot : corriger les valeurs à la main,
+  ne pas brancher au système (mêmes raisons que l'arbre — collisions de classes / JS).
   </details>
 - [ ] **Nav sur les pages JS** — arbre et frise n'ont pas la navbar/footer commune,
       mais ont chacune un bouton « Retour au site ». À tester : ce bouton suffit-il,
