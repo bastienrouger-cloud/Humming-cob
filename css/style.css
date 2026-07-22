@@ -2086,6 +2086,51 @@ footer {
   padding: 3.5rem 3.5rem 3rem;
 }
 .legal-inner .section-title { text-align: center; }
+
+/* ============================================
+   PAGE 404
+   ============================================
+   Réutilise .legal-section (wallpaper voilé) et .legal-inner (bulle détachée).
+   La bulle est plus étroite et centrée : une page d'erreur n'a que peu de
+   contenu, autant le regrouper. */
+.error-section { display: flex; align-items: center; min-height: 78vh; }
+.error-inner {
+  max-width: 560px;
+  text-align: center;
+  padding: 3rem 3rem 3.2rem;
+}
+.error-code {
+  font-family: var(--font-serif);
+  font-size: clamp(4.5rem, 14vw, 7rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--rose-deep);
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+}
+.error-inner .section-title { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+.error-inner .section-divider { margin: 1.4rem auto 2rem; }
+.error-lead {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--gris);
+  margin-bottom: 2.2rem;
+}
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.6rem;
+}
+.error-links {
+  font-size: 0.82rem;
+  color: var(--gris);
+}
+.error-links a { color: var(--rose-deep); }
+.error-links a:hover { text-decoration: underline; }
 .legal-inner .section-divider { margin: 1.5rem auto 3rem; }
 
 .legal-lead {
@@ -2123,14 +2168,18 @@ footer {
 }
 .legal-inner li { margin-bottom: 0.4rem; }
 .legal-inner strong { color: var(--noir); font-weight: 500; }
-.legal-inner a {
+/* :not(.btn) : cette règle colore et souligne les liens de texte des bulles
+   (légales, 404). Sans l'exclusion, elle attrapait aussi les boutons .btn de
+   la 404 — texte rose sur fond rose, illisible. Un bouton gère sa propre
+   couleur. */
+.legal-inner a:not(.btn) {
   color: var(--rose-deep);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   transition: color var(--transition);
 }
-.legal-inner a:hover { color: var(--rose-dark); }
+.legal-inner a:not(.btn):hover { color: var(--rose-dark); }
 
 .legal-note {
   font-style: italic;

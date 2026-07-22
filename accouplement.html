@@ -429,7 +429,11 @@
     cursor:pointer;justify-content:center;align-items:center;text-align:center;
     transition:border-color .15s, background .15s;
   }
-  .match-box-click:hover{border-color:var(--rose-deep);background:#fbf6ee;}
+  /* Survol des cases : chacune s'éclaire dans SA couleur de genre, pas en rose
+     pour les deux. La case étalon (#leftBox) est bleue au repos (label + liseré),
+     elle doit le rester au survol ; seule la jument passe au rose. */
+  #leftBox.match-box-click:hover  { border-color:var(--sex-stallion); background:#f3f6f9; }
+  #rightBox.match-box-click:hover { border-color:var(--sex-mare);     background:#fbf6ee; }
   .match-box-placeholder{color:#a99d8c;font-size:0.85rem;}
   .match-box-filled{display:flex;flex-direction:column;align-items:center;gap:8px;}
   .match-box-filled .name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;}

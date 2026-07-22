@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page introuvable — Humming Cob</title>
+  <meta name="description" content="Cette page s'est échappée au galop. Retrouvez votre chemin sur Humming Cob, élevage Irish Cob dans le Gard.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#FEFBF6">
+  <!-- ⚠️ Chemins ABSOLUS (/…) et non relatifs : une 404 peut être servie pour
+       n'importe quelle URL, y compris profonde (/reproducteurs/xxx). En relatif,
+       le CSS et les images se chargeraient depuis le mauvais dossier. -->
+  <link rel="icon" href="/img/favicon_io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon_io/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon_io/apple-touch-icon.png">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- En-tête minimal : juste le logo qui ramène à l'accueil. Pas la nav complète
+     (elle passe par les partials en chemins relatifs, inadaptés ici). -->
+<nav class="navbar" id="navbar">
+  <a href="/index.html" class="nav-logo">
+    <img src="/img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
+    <div class="nav-logo-text">
+      Humming Cob
+      <span>Élevage Irish Cob · Gard</span>
+    </div>
+  </a>
+</nav>
+
+<main class="legal-page">
+  <section class="legal-section error-section">
+    <div class="legal-inner error-inner">
+      <p class="error-code">404</p>
+      <h1 class="section-title">Cette page est partie <em>au galop</em></h1>
+      <div class="section-divider"></div>
+      <p class="error-lead">
+        Vous galopez en terrain inconnu&nbsp;: la page que vous cherchez a filé au pré,
+        a changé de nom, ou n'a peut-être jamais existé. Rien de grave — reprenez les
+        rênes, on vous ramène à l'écurie.
+      </p>
+      <div class="error-actions">
+        <a href="/index.html" class="btn btn-primary">Retour à l'accueil</a>
+        <a href="/poulains.html" class="btn btn-outline">Voir les poulains</a>
+      </div>
+      <p class="error-links">
+        ou&nbsp;: <a href="/reproducteurs.html">nos reproducteurs</a> ·
+        <a href="/elevage.html">l'élevage</a> ·
+        <a href="/index.html#contact">nous contacter</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Humming <span>Cob</span></div>
+    <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
+  </div>
+</footer>
+
+</body>
+</html>
