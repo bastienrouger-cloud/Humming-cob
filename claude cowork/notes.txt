@@ -10,3 +10,7 @@ Pour la section a modales de notre élevage, on peut essayer de la rendre partie
 Toujours sur l'arbre : les traits bleu et rose qui relient les chevaux masquent parfois leur noms. Je tenterais bien d'ajouter un léger fondu aux extrémités. Ou carrément un genre de règles pour qu'il passe sous le nom d'en cheval.
 
 Changer la forme du bouton retour au site pour la DA du bouton CTA
+
+Toujours sur l'arbre généalogique :
+Ajouter même contour crème que pour nom cheval, sur le trait de soulignage du cheval séléctionné
+Ajouter un "cadre" large autour du JS, pour éviter le dézommage overkill.

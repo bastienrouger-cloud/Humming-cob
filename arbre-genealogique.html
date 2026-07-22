@@ -213,6 +213,8 @@
       background: #FFFCF8;
       box-shadow: 0 4px 28px rgba(92,62,52,0.08);
     }
+    /* Cheval externe / en mémoire : bordure en pointillés, comme son portrait. */
+    .info-panel.active.is-ext { border-style: dashed; }
     /* Conteneur du nom : séparé des infos par un filet vertical de la couleur du
        cheval. Sur mobile la carte passe en colonne → filet horizontal en bas. */
     .info-panel.active .info-panel-name {
@@ -708,6 +710,7 @@ const RELS = [
 const nodeGroups = {};   // groupe SVG par id
 const circleEls  = {};   // cercle principal par id
 const photoEls   = {};   // <image> SVG par id
+const haloEls    = {};   // halo crème par id (grandit avec le nœud ouvert)
 const starEls    = {};   // étoile élite par id
 const nameEls    = {};   // <text> du nom par id (pour l'éclairage à la sélection)
 const subEls     = {};   // <text> du sous-titre "Élite grade 1" par id (soulignement)
@@ -746,7 +749,8 @@ viewport.appendChild(nodeLayer);
 // sélectionné, tracé de gauche à droite (voir applyState).
 const fxLayer = el('g', { id: 'fx' });
 viewport.appendChild(fxLayer);
-const selUnderline = el('rect', { height: '2', rx: '1', fill: 'none', opacity: '0' });
+const selUnderline = el('rect', { height: '2', rx: '1', fill: 'none', opacity: '0',
+  stroke: '#FEFBF6', 'stroke-width': '2.6', 'paint-order': 'stroke', 'stroke-linejoin': 'round' });
 selUnderline.style.transformBox   = 'fill-box';   // origine = bords propres du rect
 selUnderline.style.transformOrigin = 'left center';
 fxLayer.appendChild(selUnderline);
@@ -844,12 +848,14 @@ function showPanel(h) {
   `;
   // Couleur du cheval → bordure de la carte, filet interne, nom et CTA
   infoPanel.style.setProperty('--sel-color', nodeStroke[h.id] || 'var(--rose-deep)');
+  infoPanel.classList.toggle('is-ext', !!(h.ext || h.hidden || h.memorial));
   infoPanel.classList.add('active');
 }
 
 function hidePanel() {
   infoPanel.innerHTML = EMPTY_HTML;
   infoPanel.classList.remove('active');
+  infoPanel.classList.remove('is-ext');
   infoPanel.style.removeProperty('--sel-color');
 }
 
@@ -893,6 +899,11 @@ function applyState() {
     const isSelected = activeNode && d.id === activeNode.id;
     if(circleEls[d.id]) {
       circleEls[d.id].setAttribute('r', revealed ? R_ACTIVE : R);
+    }
+    // Le halo crème suit le cercle : ouvert, il ceinture la photo (R_ACTIVE) et
+    // sépare le nœud des traits qui le traversent sans le concerner.
+    if(haloEls[d.id]) {
+      haloEls[d.id].setAttribute('r', revealed ? R_ACTIVE : R);
     }
 
     // Éclairage du nom : le cheval à l'origine de la lignée voit son nom passer
@@ -992,6 +1003,17 @@ DATA.forEach(h => {
   else if(h.foal)          { fill = '#F5EDE0'; stroke = '#C0A050'; }
   else if(h.sex==='s'){ fill = '#EEF3F7'; stroke = '#5B7FA6'; }
   else                { fill = '#FFF0F4'; stroke = '#D4899A'; }
+
+  // Halo crème sous le liseré : sépare le nœud replié des lignes de filiation
+  // qui le croisent ou le frôlent (même principe que le contour crème des noms).
+  // En état actif, la grande photo (R_ACTIVE) le recouvre → sans effet.
+  const halo = el('circle', {
+    cx: p.x, cy: p.y, r: R,
+    fill: 'none', stroke: '#FEFBF6', 'stroke-width': '6'
+  });
+  halo.style.transition = 'r 0.25s ease';
+  g.appendChild(halo);
+  haloEls[h.id] = halo;
 
   // Anneau élite (toujours sous la photo)
   if(h.elite) {
@@ -1132,7 +1154,12 @@ DATA.forEach(d => {
 // ── PAN / ZOOM ────────────────────────────────────────────────────────────
 const treeOuter = document.getElementById('treeOuter');
 const TREE_W = 1900, TREE_H = 1100; // inclut rang 0 (y=-110) → rang mémoire (y=820)
-const MIN_S = 0.12, MAX_S = 3;
+const MAX_S = 3;
+// Plancher de dézoom relatif à l'ajustement : laisse un cadre large autour de
+// l'arbre mais empêche le dézoom "dans le vide". base = min(cw/TREE_W, ch/TREE_H).
+function minScale() {
+  return Math.min(treeOuter.clientWidth / TREE_W, treeOuter.clientHeight / TREE_H) * 0.70;
+}
 
 function fitTransform() {
   const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
@@ -1159,7 +1186,35 @@ function updateGenLabels() {
   });
 }
 
+// Bornage du pan : empêche de faire dériver l'arbre à l'infini. On garde un
+// cadre PAD (px écran) : les bords de l'arbre ne peuvent pas rentrer plus loin
+// que PAD dans le viewport. Si l'arbre tient dans le viewport (dézoom), il est
+// verrouillé au centre. Extents monde alignés sur fitTransform (x:0..TREE_W,
+// y:-110..820).
+function clampVP() {
+  const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
+  const PAD = 120;
+  const CX0 = 0, CX1 = TREE_W, CY0 = -110, CY1 = 820;
+  const contentW = (CX1 - CX0) * vScale;
+  const contentH = (CY1 - CY0) * vScale;
+  if (contentW + 2 * PAD <= cw) {
+    vTx = (cw - contentW) / 2 - CX0 * vScale;
+  } else {
+    const maxTx = PAD - CX0 * vScale;
+    const minTx = cw - PAD - CX1 * vScale;
+    vTx = Math.min(maxTx, Math.max(minTx, vTx));
+  }
+  if (contentH + 2 * PAD <= ch) {
+    vTy = (ch - contentH) / 2 - CY0 * vScale;
+  } else {
+    const maxTy = PAD - CY0 * vScale;
+    const minTy = ch - PAD - CY1 * vScale;
+    vTy = Math.min(maxTy, Math.max(minTy, vTy));
+  }
+}
+
 function applyVP() {
+  clampVP();
   viewport.setAttribute('transform', `translate(${vTx},${vTy}) scale(${vScale})`);
   updateGenLabels();
 }
@@ -1213,7 +1268,7 @@ treeOuter.addEventListener('wheel', e => {
   const r = treeOuter.getBoundingClientRect();
   const mx = e.clientX - r.left, my = e.clientY - r.top;
   const factor = e.deltaY < 0 ? 1.15 : 0.87;
-  const ns = Math.min(MAX_S, Math.max(MIN_S, vScale * factor));
+  const ns = Math.min(MAX_S, Math.max(minScale(), vScale * factor));
   vTx = mx - (mx - vTx) * (ns / vScale);
   vTy = my - (my - vTy) * (ns / vScale);
   vScale = ns;
@@ -1258,7 +1313,7 @@ treeOuter.addEventListener('touchmove', e => {
     const my   = (t1.clientY + t2.clientY) / 2;
     const r    = treeOuter.getBoundingClientRect();
     const pmx  = mx - r.left, pmy = my - r.top;
-    const ns   = Math.min(MAX_S, Math.max(MIN_S, pinchBase.s * (dist / pinchBase.dist)));
+    const ns   = Math.min(MAX_S, Math.max(minScale(), pinchBase.s * (dist / pinchBase.dist)));
     vTx = pmx - (pmx - pinchBase.tx) * (ns / pinchBase.s);
     vTy = pmy - (pmy - pinchBase.ty) * (ns / pinchBase.s);
     vScale = ns;
@@ -1294,7 +1349,7 @@ treeOuter.addEventListener('touchend', e => {
 function zoomAround(factor) {
   const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
   const mx = cw / 2, my = ch / 2;
-  const ns = Math.min(MAX_S, Math.max(MIN_S, vScale * factor));
+  const ns = Math.min(MAX_S, Math.max(minScale(), vScale * factor));
   vTx = mx - (mx - vTx) * (ns / vScale);
   vTy = my - (my - vTy) * (ns / vScale);
   vScale = ns; applyVP();

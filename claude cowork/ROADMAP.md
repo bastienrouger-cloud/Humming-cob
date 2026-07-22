@@ -283,6 +283,39 @@ Ces constats viennent de l'inspection du code, pas d'un test utilisateur réel (
 - [ ] **Propager le préfixe HC au reste du site** : l'affixe en préfixe (`HC Nashi`)
       n'est fait que dans l'arbre. À reporter sur les fiches poulains pour cohérence —
       Bastien : « idéalement à propager au reste du site ».
+
+- [x] **`arbre-genealogique.html` — halo trait + cadre de dézoom (22/07 soir)** :
+      <details><summary>Deux petits ajustements</summary>
+
+      - **Halo crème sur le trait de soulignage** du cheval sélectionné : même technique
+        que les noms (`paint-order: stroke` + `stroke: #FEFBF6`, largeur 2.6). Le trait
+        reste lisible là où une ligne de filiation bleue/rose passe juste dessous.
+      - **Cadre de dézoom** : `MIN_S` constant (0.12, dézoom « dans le vide ») remplacé
+        par `minScale()` **relatif à l'ajustement** — `min(cw/TREE_W, ch/TREE_H) * 0.70`.
+        Le reset est à `*0.93`, donc on peut reculer d'un cran pour voir un cadre large
+        autour de l'arbre, mais pas au-delà. Appliqué aux 3 points de clamp (molette,
+        pinch, boutons). Sauvegarde : /tmp/arbre.backup7.html (éphémère).
+      - **Halo crème sur les nœuds repliés** : anneau crème (`stroke #FEFBF6`, 6px)
+        ajouté sous le liseré coloré de chaque nœud, dans le calque `nodes` (au-dessus
+        des lignes). Résultat : toute ligne de filiation qui traverse ou frôle un nœud
+        est « découpée » par un tampon crème → le liseré coloré ne se fait plus toucher
+        par les tracés bleu/rose (cas signalé sur HC Omamori). Sans effet en état actif
+        (la grande photo `R_ACTIVE` le recouvre). Sauvegarde : /tmp/arbre.backup8.html.
+      - **Halo étendu aux nœuds ouverts** : le même anneau crème grandit jusqu'à
+        `R_ACTIVE` avec le cercle (map `haloEls`, transition `r`, une ligne dans
+        `applyState`). Une photo ouverte ceinturée de crème sépare le nœud des traits
+        qui le frôlent ou le traversent sans le concerner (cas signalé sur HC Nashi).
+        Sauvegarde : /tmp/arbre.backup9.html.
+      - **Pan borné (22/07)** : `clampVP()` ajouté dans `applyVP()` — l'arbre ne
+        peut plus dériver à l'infini. Cadre `PAD = 120px` : les bords ne rentrent pas
+        plus loin que PAD dans le viewport ; si l'arbre tient dans la vue (dézoom), il
+        est verrouillé au centre. Extents monde alignés sur `fitTransform`
+        (x:0..TREE_W, y:-110..820). Sauvegarde : /tmp/arbre.backup10.html.
+      - **Carte externe en pointillés (validé)** : la carte d'info d'un
+        cheval externe / en mémoire / masqué prend une **bordure en tirets**
+        (`.info-panel.active.is-ext`), pour perpétuer la règle du portrait (les externes
+        sont en tirets sur l'arbre). Couleur conservée (bleu étalon / rose jument).
+        Bastien : « impeccable ».
 - [ ] **Aligner `frise.html`** (page JS, ÎLOT autonome comme l'arbre — ne PAS lier style.css)
   <details><summary>Diagnostic 21/07 — reprise de fond</summary>
 
