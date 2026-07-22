@@ -32,45 +32,52 @@
     body { overflow-x: hidden; }
 
     /* ── Header simple ── */
+    /* Header aligné sur celui de arbre-genealogique.html. Frise lie style.css,
+       donc on utilise directement les variables de charte (pas de littéraux). */
     .frise-header {
       text-align: center;
-      padding: 1.8rem 2rem 1.2rem;
+      padding: 1.5rem 2rem 1rem;
       position: relative;
-      border-bottom: 1px solid rgba(212,137,154,.18);
+      margin-bottom: 0;
     }
     .frise-header h1 {
-      font-family: var(--font-titre, 'Cormorant Garamond', Georgia, serif);
+      font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
       font-size: 2.2rem;
-      font-weight: 300;
-      color: #5c3a20;
+      font-weight: 400;
+      color: var(--noir);
     }
-    .frise-header h1 em { color: #B06070; font-style: italic; }
+    .frise-header h1 em { color: var(--rose-deep); font-style: italic; }
     .frise-header p {
-      font-size: .7rem;
+      font-family: var(--font-sans, 'Jost', sans-serif);
+      font-size: .72rem;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: #9a8a80;
+      color: var(--gris);
       margin-top: .4rem;
     }
+    /* Bouton retour : DA du CTA du site (pilule pleine rose-deep, texte blanc,
+       flèche SVG qui suit currentColor), comme sur l'arbre. */
     .back-btn-frise {
       position: absolute;
       top: 50%; left: 1.5rem;
       transform: translateY(-50%);
+      font-family: var(--font-sans, 'Jost', sans-serif);
       font-size: .72rem;
-      letter-spacing: .08em;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: #3a2010;
+      color: #fff;
       text-decoration: none;
-      border: 1px solid #b09080;
-      border-radius: 20px;
-      padding: .35rem .85rem;
+      background: var(--rose-deep);
+      border: 1.5px solid var(--rose-deep);
+      border-radius: 50px;
+      padding: .5rem 1.4rem;
       display: flex; align-items: center; gap: .4rem;
-      transition: border-color .18s, color .18s;
+      transition: background .18s, border-color .18s, box-shadow .18s;
       white-space: nowrap;
     }
     .back-btn-frise:hover {
-      border-color: #B06070;
-      color: #B06070;
+      background: var(--rose-dark); border-color: var(--rose-dark);
+      box-shadow: 0 6px 24px rgba(176,96,112,0.28);
     }
     @media (max-width: 600px) {
       .frise-header { padding: 1.2rem 1.5rem 1rem; }
@@ -152,7 +159,7 @@
 
     /* Texte label */
     .frise-year {
-      font-family: var(--font-titre, 'Playfair Display', serif);
+      font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
       font-size: 1.4rem;
       color: #B06070;
       line-height: 1;
@@ -228,7 +235,7 @@
     }
 
     .panel-title {
-      font-family: var(--font-titre, 'Playfair Display', serif);
+      font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
       font-size: 1.65rem;
       color: #f5ede8;
       line-height: 1.2;
@@ -331,7 +338,10 @@
 
 <!-- ═══ HEADER ═══ -->
 <header class="frise-header">
-  <a href="index.html" class="back-btn-frise">← Retour au site</a>
+  <a href="index.html" class="back-btn-frise">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Retour au site
+  </a>
   <h1>Notre <em>histoire</em></h1>
   <p>Cliquez sur les fleurs pour en savoir plus</p>
 </header>
