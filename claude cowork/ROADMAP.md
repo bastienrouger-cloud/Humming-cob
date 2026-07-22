@@ -316,6 +316,60 @@ Ces constats viennent de l'inspection du code, pas d'un test utilisateur réel (
         (`.info-panel.active.is-ext`), pour perpétuer la règle du portrait (les externes
         sont en tirets sur l'arbre). Couleur conservée (bleu étalon / rose jument).
         Bastien : « impeccable ».
+- [x] **`frise.html` — header aligné + police unifiée (22/07)** :
+      <details><summary>Header repris de l'arbre, police raccord au site</summary>
+
+      - **Header** : repris la DA du header de arbre-genealogique.html — h1 Cormorant
+        (« Notre <em>histoire</em> », em rose), sous-titre Jost petites capitales gris,
+        **bouton retour en pilule pleine rose-deep** (texte blanc + flèche SVG) avec
+        hover `--rose-dark` + ombre. Padding aligné (1.5rem 2rem 1rem), border-bottom
+        retiré.
+      - **Police unifiée** : la page utilisait une variable **fantôme** `--font-titre`
+        (jamais définie) → les titres retombaient sur `'Playfair Display'` (non chargé).
+        Remplacé les 2 occurrences par `var(--font-serif, Cormorant)`. Tout est en
+        Cormorant maintenant (années de la frise incluses).
+      - **Différence avec l'arbre** : `frise.html` **lie `style.css`** (l'arbre non),
+        donc on a pu utiliser directement les variables de charte (`--rose-deep`,
+        `--rose-dark`, `--gris`, `--noir`, `--font-serif/sans`) — plus propre que les
+        littéraux recopiés de l'arbre.
+      - Reste à traiter (à discuter avec Bastien) : le corps de la frise (mise en page,
+        couleurs, sépia du panneau détail, tige/fleurs). Sauvegarde : /tmp/frise.backup.html.
+      </details>
+
+- [x] **Graisse des titres des îlots (22/07)** : les headers de `arbre-genealogique`
+      et `frise` étaient en Cormorant **weight 300** alors que tous les titres du site
+      (`.section-title`) sont en **400** — même famille, graisse plus fine, d'où
+      l'impression de mauvaise police (repéré par Bastien). Passés en 400 sur les deux.
+      (Frise avait hérité du 300 lors de l'alignement du header.)
+
+- [x] **🔴 BUG SITE-WIDE : polices non chargées (Times partout) — corrigé (22/07)** :
+      <details><summary>Le @import de style.css était ignoré → tout le site en Times</summary>
+
+      En comparant frise et arbre, découvert que le titre de frise s'affichait en
+      **Times**, pas en Cormorant. Cause racine : dans `css/style.css`, le
+      `@import url(...Cormorant...Jost...)` était **ligne 69, après `:root`, `body`,
+      `a{}`**. Spec CSS : un `@import` doit précéder toute règle de style, sinon il est
+      **invalide et silencieusement ignoré**. Donc **toutes les pages qui lient
+      style.css** (index, elevage, poulains, accouplement, memoire, reproducteurs,
+      légales, frise) tournaient en **Times** (fallback serif), pas en Cormorant.
+      **Seul `arbre-genealogique.html` était correct**, car il ne lie pas style.css et
+      a son propre `<link>` Google Fonts — d'où l'impression que « l'arbre avait une
+      autre police » : c'était le seul juste.
+
+      **Les DEUX polices étaient touchées** (même @import) : titres en Times au lieu de
+      Cormorant, ET **corps de texte en Segoe UI/système au lieu de Jost**. Le corps est
+      en Jost (sans-serif), pas Garamond — le « Garamond » vient du nom du font de titre
+      « Cormorant Garamond ». Charte = Cormorant (titres) + Jost (corps).
+
+      **Fix** : `@import` remonté tout en haut de style.css (avant `:root`). Vérifié par
+      mesure de largeur sur elevage ET frise : Cormorant ≠ Times ET Jost ≠ sans système
+      → les deux polices chargent partout maintenant. ⚠️ Impact visible sur **toutes** les pages : les titres
+      passent de Times à Cormorant (police de la charte). Sauvegarde : /tmp/style.backup.css.
+
+      Détail lié : les headers d'îlots arbre + frise passés en Cormorant **400** (étaient
+      en 300) pour matcher `.section-title`. Cohérent maintenant que la police charge.
+      </details>
+
 - [ ] **Aligner `frise.html`** (page JS, ÎLOT autonome comme l'arbre — ne PAS lier style.css)
   <details><summary>Diagnostic 21/07 — reprise de fond</summary>
 
@@ -599,6 +653,14 @@ Le manifest et le mode application n'entraient donc jamais en jeu — les change
         le hero passe sous la navbar comme partout, gap identique à elevage (54px),
         badge non masqué. ⚠️ Corrige la note précédente « pas de padding-top sur le
         body » : il y en avait un (80px), d'où le doublon.
+
+- [x] **`memoire.html` — même correctif d'espace hero (22/07)** : même doublon que
+      accouplement, mais l'offset était dans `style.css` : `.memorial-page {
+      padding-top: 80px }` + hero `.memorial-hero { padding: 7rem ... }`. Retiré
+      l'offset (→ `padding-top: 0`) et passé le hero à **8rem** en haut → le hero passe
+      sous la navbar, écart navbar→label = 54px, identique à elevage. Les deux règles
+      sont propres à memoire (classe `.memorial-*`), aucun impact sur les autres pages.
+      Sauvegarde : /tmp/style.backup.css.
 - [ ] **Bande crème sous le footer (iOS)** : toujours présente, abandonnée faute de
       solution acceptable. À rouvrir seulement si une nouvelle idée émerge — voir la liste
       des pistes déjà éliminées plus haut.
