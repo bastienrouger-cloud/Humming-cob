@@ -131,7 +131,7 @@
   th,td{text-align:left;padding:10px 12px;border-bottom:1px solid rgba(28,28,28,0.05);}
   th{color:#8a7d6d;font-weight:500;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;padding-bottom:12px;}
   tbody tr{transition:filter .12s ease;}
-  tbody tr:not(.section-divider):hover{filter:brightness(0.96);}
+  tbody tr:not(.group-head):hover{filter:brightness(0.96);}
   .tag{
     display:inline-block;
     font-size:0.66rem;
@@ -234,14 +234,22 @@
   .collapse-wrap[open] summary{border-bottom:1px solid var(--line);}
   .collapse-wrap table{margin:14px 0 10px;}
 
-  /* --- Séparation visuelle sections --- */
-  .section-divider td{padding:16px 12px 8px;border-bottom:none;}
+  /* --- En-tête de groupe du tableau (titre d'élevage / lignée) ---
+     Classe dédiée .group-head : NE PAS réutiliser .section-divider, qui est le
+     trait dégradé rose décoratif global de style.css (sinon il remplit la ligne). */
+  .group-head td{padding:20px 12px 8px;border-bottom:none;background:none;}
   .divider-line{
-    display:flex;align-items:center;gap:10px;
-    font-size:0.68rem;text-transform:uppercase;letter-spacing:.06em;color:#a99d8c;
+    display:flex;align-items:center;gap:14px;
+    font-family:'Jost',sans-serif;
+    font-size:0.7rem;text-transform:uppercase;letter-spacing:.16em;
+    font-weight:500;color:var(--rose-deep);
   }
-  .divider-line::before,.divider-line::after{content:'';flex:1;height:1px;background:var(--line);}
-  .divider-content{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+  .divider-line::before,.divider-line::after{
+    content:'';flex:1;height:1px;
+    background:linear-gradient(to right, transparent, var(--line));
+  }
+  .divider-line::after{background:linear-gradient(to left, transparent, var(--line));}
+  .divider-content{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;}
 
   /* --- Note explicative repliable (méthode de calcul) --- */
   .calc-info{margin-top:14px;}
@@ -433,7 +441,7 @@
      pour les deux. La case étalon (#leftBox) est bleue au repos (label + liseré),
      elle doit le rester au survol ; seule la jument passe au rose. */
   #leftBox.match-box-click:hover  { border-color:var(--sex-stallion); background:#f3f6f9; }
-  #rightBox.match-box-click:hover { border-color:var(--sex-mare);     background:#fbf6ee; }
+  #rightBox.match-box-click:hover { border-color:var(--sex-mare);     background:#fbeef2; }
   .match-box-placeholder{color:#a99d8c;font-size:0.85rem;}
   .match-box-filled{display:flex;flex-direction:column;align-items:center;gap:8px;}
   .match-box-filled .name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;}
@@ -1436,7 +1444,7 @@ function horseRowHTML(h){
 }
 function sectionDividerHTML(label, count, swatchColorValue){
   const dot = swatchColorValue ? `<span class="swatch" style="width:9px;height:9px;background:${swatchColorValue}"></span>` : '';
-  return `<tr class="section-divider"><td colspan="6"><div class="divider-line"><span class="divider-content">${dot}${label} (${count})</span></div></td></tr>`;
+  return `<tr class="group-head"><td colspan="6"><div class="divider-line"><span class="divider-content">${dot}${label} (${count})</span></div></td></tr>`;
 }
 function render(){
   const refHorses = horses.filter(h => h.source !== 'saisie manuelle' && h.source !== 'importé');

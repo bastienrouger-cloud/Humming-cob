@@ -578,6 +578,20 @@ Le manifest et le mode application n'entraient donc jamais en jeu — les change
       négociable : navbar fixe de 80px, pas de padding-top sur le body → en dessous
       le contenu passe sous la barre (c'était le bug des 4rem, badge masqué). Copie
       de sauvegarde avant modif : /tmp/accouplement.backup.html (éphémère).</details>
+- [x] **`accouplement.html` — correctifs en vrac (22/07)** :
+      <details><summary>Deux corrections</summary>
+
+      - **Survol case jument** : le fond au survol était un crème `#fbf6ee` (rendu
+        « crème » signalé) → rose pâle `#fbeef2`, symétrique du bleu pâle de la case
+        étalon (`#f3f6f9`).
+      - **Titres d'élevage du menu « Chevaux enregistrés »** : collision de classe.
+        Les `<tr>` d'en-tête de groupe réutilisaient `.section-divider`, qui dans
+        `style.css` est le trait **dégradé rose décoratif global** (sous les titres) —
+        il remplissait toute la ligne (gros bandeau rose). Renommés en classe dédiée
+        `.group-head`, avec un style de titre propre : petites capitales rose-deep
+        entre deux filets qui s'estompent + pastille de lignée. La `<div
+        class="section-divider">` décorative (sous le h1) reste inchangée.
+        Sauvegarde : /tmp/accouplement.backup.html.
 - [ ] **Bande crème sous le footer (iOS)** : toujours présente, abandonnée faute de
       solution acceptable. À rouvrir seulement si une nouvelle idée émerge — voir la liste
       des pistes déjà éliminées plus haut.
