@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Patrons OG — fiches chevaux Humming Cob</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-cream:#FEFBF6; --bg-light:#FFF8F2; --rose-pale:#F5DDE4;
+    --rose:#D4899A; --rose-deep:#B06070; --rose-dark:#8B4A5C;
+    --noir:#1C1C1C; --gris:#6A6A6A; --gris-clair:#C8C0BC; --or-pale:#EFE0CC;
+    --serif:'Cormorant Garamond',Georgia,serif; --sans:'Jost',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#e9e4dc;font-family:var(--sans);padding:40px;color:var(--noir);}
+  h2.doc{font-family:var(--sans);font-weight:400;font-size:14px;letter-spacing:.18em;
+    text-transform:uppercase;color:#8a8178;margin:32px 0 12px;}
+  h2.doc:first-child{margin-top:0;}
+  p.doc{max-width:1200px;font-size:14px;line-height:1.7;color:#5a5248;margin-bottom:16px;}
+
+  /* Cadre OG exact : 1200×630, ramené à l'échelle pour tenir à l'écran */
+  .og{
+    width:1200px;height:630px;position:relative;overflow:hidden;
+    background:var(--bg-cream);
+    transform-origin:top left;
+    box-shadow:0 10px 40px rgba(60,40,35,.18);
+  }
+  @media(max-width:1300px){ .og{transform:scale(.66);} .og-wrap{height:416px;} }
+  .og-wrap{width:1200px;}
+
+  /* ============ VARIANTE A — photo pleine hauteur à gauche ============ */
+  .A{display:grid;grid-template-columns:600px 600px;}
+  .A .photo{position:relative;background:#c9bfae;}
+  .A .photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  /* Dégradé pour fondre la photo vers le panneau crème */
+  .A .photo::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent 70%,var(--bg-cream) 100%);}
+  .A .info{padding:64px 60px;display:flex;flex-direction:column;justify-content:center;position:relative;}
+  /* Liseré rose vertical, rappel du liseré des cartes du site */
+  .A .info::before{content:"";position:absolute;left:0;top:64px;bottom:64px;width:1px;background:var(--rose-pale);}
+  .badge{align-self:flex-start;font-family:var(--sans);font-size:15px;font-weight:400;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep);
+    border:1px solid var(--rose);border-radius:20px;padding:8px 18px;margin-bottom:26px;}
+  .statut{font-family:var(--sans);font-size:16px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--gris);margin-bottom:10px;}
+  .nom{font-family:var(--serif);font-weight:300;font-size:74px;line-height:1;color:var(--noir);margin-bottom:6px;}
+  .nom em{font-style:italic;color:var(--rose-deep);}
+  .divider{width:54px;height:2px;background:var(--rose);margin:26px 0;}
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:16px 30px;}
+  .spec .k{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris-clair);}
+  .spec .v{font-family:var(--serif);font-size:24px;color:var(--noir);line-height:1.15;}
+  .brand{position:absolute;bottom:44px;left:60px;font-family:var(--serif);font-size:22px;color:var(--noir);}
+  .brand b{font-weight:500;} .brand span{color:var(--rose-deep);font-weight:500;}
+  .brand small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--rose-deep);margin-top:2px;}
+
+  /* ============ VARIANTE B — photo cadrée + doublure, texte centré ============ */
+  .B{background:var(--bg-light);display:grid;grid-template-columns:560px 640px;align-items:center;}
+  .B .frame{position:relative;margin-left:70px;width:420px;height:490px;}
+  .B .frame::before{content:"";position:absolute;top:-18px;left:-18px;right:18px;bottom:18px;
+    border:1px solid var(--rose-pale);border-radius:14px;}
+  .B .frame img{position:relative;width:420px;height:490px;object-fit:cover;border-radius:14px;
+    box-shadow:0 8px 30px rgba(92,62,52,.16);display:block;}
+  .B .info{padding:0 70px 0 40px;}
+  .B .statut{font-size:15px;}
+  .B .nom{font-size:64px;}
+  .B .tagline{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--gris);
+    line-height:1.4;margin-top:22px;max-width:440px;}
+  .B .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;}
+  .B .chip{font-family:var(--sans);font-size:14px;letter-spacing:.06em;color:var(--noir);
+    background:#fff;border:1px solid var(--rose-pale);border-radius:20px;padding:8px 16px;}
+  .B .brand{position:absolute;top:44px;right:60px;left:auto;bottom:auto;text-align:right;}
+
+  /* ============ VARIANTE C — bandeau, photo panoramique haute ============ */
+  .C{display:flex;flex-direction:column;}
+  .C .photo{height:400px;position:relative;background:#c9bfae;}
+  .C .photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .C .photo::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 55%,rgba(28,28,28,.55) 100%);}
+  .C .badge-abs{position:absolute;top:30px;left:44px;background:rgba(254,251,246,.92);
+    color:var(--rose-deep);border:none;margin:0;}
+  .C .over{position:absolute;left:44px;bottom:26px;color:#fff;}
+  .C .over .statut{color:rgba(255,255,255,.85);margin-bottom:4px;}
+  .C .over .nom{color:#fff;font-size:60px;}
+  .C .over .nom em{color:var(--rose-pale);}
+  .C .band{height:230px;background:var(--bg-cream);padding:36px 44px;
+    display:flex;align-items:center;justify-content:space-between;gap:40px;}
+  .C .specs{display:grid;grid-template-columns:repeat(3,auto);gap:14px 46px;}
+  .C .brand{position:static;}
+</style>
+</head>
+<body>
+
+<h2 class="doc">Gabarit Open Graph — 1200 × 630 px</h2>
+<p class="doc">Trois pistes à la charte du site. Sur chaque fiche, seuls la <b>photo</b> et les <b>infos</b> changent — le reste (couleurs, polices, liseré, logo) reste fixe. Reproduis celle que tu préfères dans Canva à 1200×630. Polices : <b>Cormorant Garamond</b> (titres) et <b>Jost</b> (labels), toutes deux sur Google Fonts, donc dispo dans Canva.</p>
+
+<h2 class="doc">Variante A — photo pleine hauteur + fiche d'identité</h2>
+<p class="doc">La plus proche du hero du site. Lisible même en petit, la photo occupe la moitié. Idéale pour un étalon dont on veut afficher les specs.</p>
+<div class="og-wrap"><div class="og A">
+  <div class="photo"><img src="../img/archy/ar-hero.jpg" alt=""></div>
+  <div class="info">
+    <span class="badge">Étalon · Élite grade 1</span>
+    <div class="statut">Ouvert aux saillies</div>
+    <div class="nom">Cairnview <em>Archy</em></div>
+    <div class="divider"></div>
+    <div class="specs">
+      <div class="spec"><div class="k">Robe</div><div class="v">Noir Tobiano · yeux bleus</div></div>
+      <div class="spec"><div class="k">Taille</div><div class="v">1m41</div></div>
+      <div class="spec"><div class="k">Né en</div><div class="v">2010 · Irlande</div></div>
+      <div class="spec"><div class="k">Test ADN</div><div class="v">PSSM1 Free</div></div>
+    </div>
+    <div class="brand"><b>Humming <span>Cob</span></b><small>Élevage Irish Cob · Gard</small></div>
+  </div>
+</div></div>
+
+<h2 class="doc">Variante B — photo cadrée façon carte + accroche</h2>
+<p class="doc">Reprend le liseré rose et la doublure du carrousel. Plus « éditorial », moins de données, une phrase d'accroche. Bien pour une jument ou un cheval qu'on présente par son caractère.</p>
+<div class="og-wrap"><div class="og B">
+  <div class="frame"><img src="../img/archy/ar-hero.jpg" alt=""></div>
+  <div class="info">
+    <div class="statut">Étalon · Irish Cob</div>
+    <div class="nom">Cairnview <em>Archy</em></div>
+    <p class="tagline">« Le premier pilier de l'élevage. Deux yeux bleus perçants, un tempérament facile et fiable en extérieur. »</p>
+    <div class="chips"><span class="chip">Élite grade 1</span><span class="chip">Champion France QL</span><span class="chip">Ouvert aux saillies</span></div>
+    <div class="brand"><b>Humming <span>Cob</span></b><small>Élevage · Gard</small></div>
+  </div>
+</div></div>
+
+<h2 class="doc">Variante C — photo panoramique + bandeau specs</h2>
+<p class="doc">La photo respire sur toute la largeur, le nom en incrustation. Le plus impactant en vignette réseau, mais la photo doit être nette et bien cadrée horizontalement.</p>
+<div class="og-wrap"><div class="og C">
+  <div class="photo">
+    <img src="../img/archy/ar-hero.jpg" alt="">
+    <span class="badge badge-abs">Étalon · Élite grade 1</span>
+    <div class="over">
+      <div class="statut">Ouvert aux saillies</div>
+      <div class="nom">Cairnview <em>Archy</em></div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="specs">
+      <div class="spec"><div class="k">Robe</div><div class="v">Noir Tobiano</div></div>
+      <div class="spec"><div class="k">Taille</div><div class="v">1m41</div></div>
+      <div class="spec"><div class="k">Origine</div><div class="v">Irlande · 2010</div></div>
+    </div>
+    <div class="brand"><b>Humming <span>Cob</span></b><small>Élevage Irish Cob · Gard</small></div>
+  </div>
+</div></div>
+
+</body>
+</html>
