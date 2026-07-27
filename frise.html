@@ -30,6 +30,20 @@
     ═══════════════════════════════════════════ */
 
     body { overflow-x: hidden; }
+    /* Fond de la frise : au lieu du crème plat hérité de style.css, une couche
+       décorative fixe qui donne de la profondeur — halo chaud en haut, floraison
+       rosée en bas, léger dégradé vertical. Fixe = ancrée à l'écran, donc stable
+       pendant le long défilement de la timeline, et sans coût de scroll. */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(115% 70% at 50% 0%, #FFF6EE 0%, transparent 55%),
+        radial-gradient(85% 55% at 50% 100%, rgba(240,169,189,.28) 0%, transparent 62%),
+        linear-gradient(180deg, #FDF6EF 0%, #FBEFE7 100%);
+    }
 
     /* ── Header simple ── */
     /* Header aligné sur celui de arbre-genealogique.html. Frise lie style.css,
@@ -124,9 +138,17 @@
       padding-top: 6px;
     }
 
-    /* Label col 3 pour --right, col 1 pour --left */
-    .frise-event--right .frise-label { grid-column: 3; padding-left: 28px; }
-    .frise-event--left  .frise-label { grid-column: 1; padding-right: 28px; text-align: right; }
+    /* Label col 3 pour --right, col 1 pour --left.
+       Padding élargi : la fleur est décalée de son côté (voir plus bas), le
+       texte doit lui laisser la place. */
+    .frise-event--right .frise-label { grid-column: 3; padding-left: 78px; }
+    .frise-event--left  .frise-label { grid-column: 1; padding-right: 78px; text-align: right; }
+
+    /* Version cerisier : la fleur quitte le tronc central et se décale vers son
+       côté. La branche (dessinée en JS du tronc jusqu'à la fleur) devient alors
+       visible. getBoundingClientRect capture le transform, donc le JS suit. */
+    .frise-event--right .frise-flower-col { transform: translateX(46px); }
+    .frise-event--left  .frise-flower-col { transform: translateX(-46px); }
 
     /* Bouton fleur */
     .frise-flower {
@@ -174,15 +196,15 @@
     /* ═══════════════════════════════════════════
        PANNEAU DE DÉTAIL
     ═══════════════════════════════════════════ */
+    /* ═══ Panneau = page de carnet intime ═══
+       Fond papier crème, marge de cahier, texte à l'encre, lettrine, photo
+       façon polaroïd. Classes et transitions inchangées (JS + bloc mobile
+       reposent dessus) : seul l'habillage change. */
     .event-panel {
       position: fixed;
       top: 0; right: 0;
-      width: clamp(320px, 46vw, 520px);
+      width: clamp(330px, 46vw, 540px);
       height: 100dvh;
-      background: rgba(14, 8, 4, .97);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-left: 1px solid rgba(232,168,187,.18);
       z-index: 200;
       transform: translateX(110%);
       transition: transform .42s cubic-bezier(.25,.8,.25,1);
@@ -190,102 +212,143 @@
       overscroll-behavior: contain;
       display: flex;
       flex-direction: column;
-      gap: 0;
+      /* Papier crème chaud. (Les lignes de cahier ont été retirées : elles ne
+         s'alignaient pas sur le texte et créaient un effet brouillon.) */
+      background: linear-gradient(135deg, #FBF3E7 0%, #FDF8F1 55%, #FBF1E6 100%);
+      border-left: 1px solid rgba(176,96,112,.22);
+      box-shadow: -18px 0 50px rgba(60,40,35,.16),
+                  inset 26px 0 40px -30px rgba(120,80,70,.25);
     }
     .event-panel.open { transform: translateX(0); }
 
     .panel-inner {
-      padding: 2rem 1.8rem 3rem;
+      position: relative;
+      padding: 2rem 2rem 3rem 3rem;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1.1rem;
       flex: 1;
+    }
+    /* Ligne de marge verticale, comme un cahier */
+    .panel-inner::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0; left: 2.1rem;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent,
+        rgba(196,120,138,.4) 12%, rgba(196,120,138,.4) 88%, transparent);
     }
 
     .panel-topbar {
       display: flex;
       justify-content: flex-end;
-      margin-bottom: .5rem;
     }
     .panel-close {
-      background: rgba(232,168,187,.1);
-      border: 1px solid rgba(232,168,187,.25);
-      color: #E8A8BB;
+      background: transparent;
+      border: 1px solid rgba(176,96,112,.35);
+      color: var(--rose-deep, #B06070);
       border-radius: 50%;
-      width: 36px; height: 36px;
-      font-size: 1rem;
+      width: 34px; height: 34px;
+      font-size: .95rem;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background .15s;
+      transition: background .18s, transform .3s cubic-bezier(.34,1.56,.64,1);
       flex-shrink: 0;
     }
-    .panel-close:hover { background: rgba(232,168,187,.22); }
+    .panel-close:hover { background: rgba(176,96,112,.1); transform: rotate(90deg); }
 
+    /* Date : en-tête de la page de journal, en italique serif */
     .panel-date-badge {
-      display: inline-block;
-      background: rgba(232,168,187,.12);
-      border: 1px solid rgba(232,168,187,.3);
-      color: #E8A8BB;
-      font-size: .68rem;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      padding: .28rem .75rem;
-      border-radius: 20px;
-      width: fit-content;
+      align-self: flex-start;
+      font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      letter-spacing: .04em;
+      color: var(--rose-deep, #B06070);
+      border: none;
+      padding: 0;
+    }
+    .panel-date-badge::after {
+      content: '';
+      display: block;
+      width: 46px; height: 1px;
+      margin-top: .5rem;
+      background: rgba(196,120,138,.55);
     }
 
     .panel-title {
       font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
-      font-size: 1.65rem;
-      color: #f5ede8;
-      line-height: 1.2;
+      font-weight: 500;
+      font-size: 1.9rem;
+      color: var(--noir, #1C1C1C);
+      line-height: 1.15;
       margin: 0;
     }
-
     .panel-subtitle {
-      font-size: .82rem;
-      color: rgba(232,168,187,.6);
-      letter-spacing: .06em;
-      margin: -.5rem 0 0;
+      font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+      font-style: italic;
+      font-size: 1.02rem;
+      color: var(--gris, #6A6A6A);
+      margin: -.4rem 0 0;
     }
 
+    /* Séparateur : petit fleuron centré plutôt qu'un trait */
     .panel-divider {
-      height: 1px;
-      background: linear-gradient(90deg, rgba(232,168,187,.3) 0%, rgba(232,168,187,.08) 100%);
-      margin: .2rem 0;
+      height: 0;
+      border: none;
+      text-align: center;
+      margin: .3rem 0;
+      color: rgba(196,120,138,.75);
     }
+    .panel-divider::before { content: '❦'; font-size: 1rem; }
 
     .panel-text {
-      font-size: .88rem;
-      color: rgba(245,232,222,.75);
-      line-height: 1.8;
+      font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+      font-size: 1.08rem;
+      color: #3a2f2a;
+      line-height: 1.85;
     }
-    .panel-text p { margin: 0 0 .9rem; }
+    .panel-text p { margin: 0 0 1rem; }
     .panel-text p:last-child { margin-bottom: 0; }
+    /* Lettrine sur la première lettre, façon page manuscrite */
+    .panel-text p:first-child::first-letter {
+      font-size: 3rem;
+      line-height: .8;
+      float: left;
+      padding: .1rem .5rem 0 0;
+      color: var(--rose-deep, #B06070);
+      font-weight: 500;
+    }
 
+    /* Photo montée façon polaroïd, légèrement de travers */
     .panel-img {
-      width: 100%;
-      border-radius: 10px;
-      object-fit: cover;
-      max-height: 240px;
+      width: calc(100% - 1rem);
       display: block;
+      margin: .5rem auto;
+      background: #fff;
+      padding: 8px 8px 26px;
+      border-radius: 2px;
+      box-shadow: 0 6px 20px rgba(60,40,35,.22);
+      transform: rotate(-1.6deg);
+      object-fit: cover;
+      max-height: 260px;
     }
 
     .panel-placeholder-note {
-      font-size: .72rem;
-      color: rgba(232,168,187,.35);
-      letter-spacing: .06em;
+      font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
       font-style: italic;
-      border-top: 1px solid rgba(232,168,187,.1);
-      padding-top: .8rem;
-      margin-top: .5rem;
+      font-size: .9rem;
+      color: var(--rose-deep, #B06070);
+      border-top: 1px dashed rgba(196,120,138,.4);
+      padding-top: .9rem;
+      margin-top: .4rem;
     }
 
     /* Scrim */
     .panel-scrim {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.5);
+      background: rgba(40,25,20,.45);
       z-index: 199;
       opacity: 0;
       pointer-events: none;
@@ -304,15 +367,18 @@
         margin-bottom: 64px;
       }
       .frise-flower-col { grid-column: 2; }
+      /* Décalage réduit sur mobile : la colonne est étroite */
+      .frise-event--right .frise-flower-col { transform: translateX(24px); }
+      .frise-event--left  .frise-flower-col { transform: translateX(-24px); }
       .frise-event--right .frise-label {
         grid-column: 3;
-        padding-left: 10px;
+        padding-left: 44px;
         padding-right: 0;
         text-align: left;
       }
       .frise-event--left .frise-label {
         grid-column: 1;
-        padding-right: 10px;
+        padding-right: 44px;
         padding-left: 0;
         text-align: right;
       }
@@ -323,7 +389,10 @@
       .event-panel {
         top: auto; right: 0; bottom: 0; left: 0;
         width: 100%;
-        height: 78dvh;
+        /* Hauteur ajustée au contenu (plafonnée), au lieu d'un 78dvh figé qui
+           laissait un grand vide sous les textes courts et montait trop haut. */
+        height: auto;
+        max-height: 85dvh;
         border-left: none;
         border-top: 1px solid rgba(212,137,154,.2);
         border-radius: 16px 16px 0 0;
@@ -583,6 +652,39 @@ function flowerSVG(size, colors) {
   </svg>`;
 }
 
+/* Bourgeon — pour l'événement encore à venir (placeholder). La timeline
+   fleurit du passé (fleurs ouvertes) vers le futur, qui reste en germe. */
+function budSVG(size, colors) {
+  const [c1, c2] = colors;
+  const s = size * 0.42;         // bourgeon dodu, proche de la taille d'une fleur
+  const vb = size / 2;
+  const calyx = '#8f7245';       // calice gold-brun, raccord à la branche
+  const f = n => n.toFixed(2);
+
+  const top = -s * 1.0;          // pointe douce, en haut
+  const bot = s * 0.72;          // base bombée, en bas
+  const w   = s * 0.54;          // demi-largeur
+
+  // Corps en bulbe : large en bas, se referme en pointe arrondie
+  const body = `M 0 ${f(top)} C ${f(w)} ${f(top + s*0.5)} ${f(w)} ${f(bot)} 0 ${f(bot)} `
+             + `C ${f(-w)} ${f(bot)} ${f(-w)} ${f(top + s*0.5)} 0 ${f(top)} Z`;
+  // Moitié droite plus soutenue (volume)
+  const shade = `M 0 ${f(top)} C ${f(w)} ${f(top + s*0.5)} ${f(w)} ${f(bot)} 0 ${f(bot)} `
+              + `C ${f(w*0.2)} ${f(bot - s*0.2)} ${f(w*0.4)} ${f(top + s*0.45)} 0 ${f(top)} Z`;
+  // Calice : une coupe arrondie qui enserre la base du bourgeon
+  const cup = `M ${f(-w*0.85)} ${f(bot - s*0.12)} Q 0 ${f(bot + s*0.5)} ${f(w*0.85)} ${f(bot - s*0.12)}`;
+
+  // rotate(-90) : le bourgeon pointe vers la gauche plutôt que vers le haut,
+  // comme s'il poussait au bout de sa branche.
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-vb} ${-vb} ${size} ${size}" width="${size}" height="${size}">
+    <g transform="rotate(-90)">
+      <path d="${body}" fill="${c1}"/>
+      <path d="${shade}" fill="${c2}" opacity="0.4"/>
+      <path d="${cup}" fill="none" stroke="${calyx}" stroke-width="${f(s*0.2)}" stroke-linecap="round"/>
+    </g>
+  </svg>`;
+}
+
 /* ═══════════════════════════════════════════════════════
    RENDU DES ÉVÉNEMENTS
 ═══════════════════════════════════════════════════════ */
@@ -602,7 +704,9 @@ function renderEvents() {
     btn.className = 'frise-flower';
     btn.dataset.idx = i;
     btn.setAttribute('aria-label', `${ev.date} — ${ev.title}`);
-    btn.innerHTML = flowerSVG(52, colors);
+    // Événement à venir : bourgeon fermé plutôt que fleur ouverte
+    btn.innerHTML = ev.placeholder ? budSVG(52, colors) : flowerSVG(52, colors);
+    if (ev.placeholder) btn.classList.add('frise-flower--bud');
     flowerCol.appendChild(btn);
 
     // Colonne label
@@ -681,64 +785,92 @@ function drawBranch() {
   });
   trunkD += ` L ${cx.toFixed(1)} ${endY.toFixed(1)}`;
 
+  // Tronc principal (dégradé brun)
   svg.appendChild(svgEl('path', {
     d: trunkD,
     stroke: 'url(#trunkGrad)',
-    'stroke-width': '2.8',
+    'stroke-width': '3.4',
     fill: 'none',
     'stroke-linecap': 'round',
     'stroke-linejoin': 'round',
   }));
+  // Texture d'écorce, en deux passes légères par-dessus le tronc :
+  // 1) un reflet clair décalé qui arrondit le tronc (effet cylindrique)
+  svg.appendChild(svgEl('path', {
+    d: trunkD,
+    transform: 'translate(-0.7 0)',
+    stroke: '#b0895a',
+    'stroke-width': '1',
+    fill: 'none',
+    'stroke-linecap': 'round',
+    opacity: '0.45',
+  }));
+  // 2) de courtes stries sombres (lenticelles) via un pointillé irrégulier
+  svg.appendChild(svgEl('path', {
+    d: trunkD,
+    stroke: '#3a2208',
+    'stroke-width': '3.4',
+    fill: 'none',
+    'stroke-linecap': 'butt',
+    'stroke-dasharray': '1 9 1 15 2 11',
+    opacity: '0.22',
+  }));
 
   // ── Branches vers les fleurs ──
   positions.forEach((p, i) => {
+    // Branche du tronc jusqu'au CENTRE de la fleur : arrivée quasi horizontale
+    // pour que la branche se glisse sous le cœur de la fleur, et non vers un
+    // pétale. On prolonge un peu au-delà du centre (offX*7) : la fleur étant
+    // opaque et dessinée par-dessus, le raccord disparaît proprement dessous.
     const offX = p.side === 'right' ? 1 : -1;
-    const cp1x = cx + offX * 18;
-    const cp1y = p.y - 18;
-    const cp2x = p.x - offX * 14;
-    const cp2y = p.y - 10;
+    const cp1x = cx + offX * 28;
+    const cp1y = p.y - 2;
+    const cp2x = p.x - offX * 12;
+    const cp2y = p.y;
+    const endX = p.x + offX * 7;
 
     svg.appendChild(svgEl('path', {
-      d: `M ${cx.toFixed(1)} ${p.y.toFixed(1)} C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)} ${cp2x.toFixed(1)} ${cp2y.toFixed(1)} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`,
+      d: `M ${cx.toFixed(1)} ${p.y.toFixed(1)} C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)} ${cp2x.toFixed(1)} ${cp2y.toFixed(1)} ${endX.toFixed(1)} ${p.y.toFixed(1)}`,
       stroke: '#6b4422',
-      'stroke-width': '1.6',
+      'stroke-width': '2.6',
       fill: 'none',
       'stroke-linecap': 'round',
-      opacity: '0.72',
+      opacity: '0.78',
     }));
 
-    // Petite branchette décorative côté opposé
-    const tw = p.side === 'right' ? -1 : 1;
-    const twLen = 22 + (i * 7) % 14;
-    const twEndX = cx + tw * twLen * 0.65;
-    const twEndY = p.y - twLen;
-    svg.appendChild(svgEl('path', {
-      d: `M ${cx.toFixed(1)} ${(p.y - 4).toFixed(1)} Q ${(cx + tw * 12).toFixed(1)} ${((p.y + twEndY)/2 - 5).toFixed(1)} ${twEndX.toFixed(1)} ${twEndY.toFixed(1)}`,
-      stroke: '#5a3515',
-      'stroke-width': '1',
-      fill: 'none',
-      'stroke-linecap': 'round',
-      opacity: '0.4',
-    }));
+    // (Branchette décorative du côté opposé retirée : depuis que les fleurs
+    //  sont décalées, elle créait une fourche parasite en face de chaque fleur.)
   });
 
   // ── Pétales tombants décoratifs ──
-  const petalColors = ['#F5C6D2','#E8A8BB','#F2D0DC','#FBDDE6','#EAB8C8'];
+  // Deux couches pour donner de la profondeur : de gros pétales estompés en
+  // arrière-plan, puis des pétales plus nets par-dessus. Les opacités ont été
+  // relevées (avant : 0.10–0.28, quasi invisibles sur le crème).
+  const petalColors = ['#EF9FB4','#E687A3','#F3BFCE','#E9ACC0','#D88AA0'];
   const rng = (seed, min, max) => min + ((seed * 9301 + 49297) % 233280) / 233280 * (max - min);
-  for (let i = 0; i < 16; i++) {
-    const px = cx + rng(i*3+1, -W*0.38, W*0.38);
-    const py = startY + rng(i*3+2, 0, endY - startY);
-    const rx = rng(i*3+3, 3.5, 6.5);
-    const ry = rx * rng(i*3, 0.45, 0.7);
-    const angle = rng(i*7, 0, 360);
-    const color = petalColors[i % petalColors.length];
-    const op    = (0.1 + rng(i*11, 0, 0.18)).toFixed(2);
-    svg.appendChild(svgEl('ellipse', {
-      cx: px.toFixed(1), cy: py.toFixed(1),
-      rx: rx.toFixed(1), ry: ry.toFixed(1),
-      fill: color, opacity: op,
-      transform: `rotate(${angle.toFixed(0)} ${px.toFixed(1)} ${py.toFixed(1)})`,
+
+  const drawPetal = (px, py, rx, color, op) => {
+    const ry = rx * rng((px|0)*3, 0.5, 0.72);
+    const angle = rng((py|0)*7, 0, 360);
+    // Forme de pétale (goutte) plutôt qu'une ellipse pure : deux courbes de Bézier
+    const d = `M 0 ${-ry} C ${rx} ${-ry*0.4} ${rx} ${ry*0.7} 0 ${ry} C ${-rx} ${ry*0.7} ${-rx} ${-ry*0.4} 0 ${-ry} Z`;
+    svg.appendChild(svgEl('path', {
+      d, fill: color, opacity: op.toFixed(2),
+      transform: `translate(${px.toFixed(1)} ${py.toFixed(1)}) rotate(${angle.toFixed(0)})`,
     }));
+  };
+
+  // Couche de fond : gros pétales estompés, un peu flous en donnant une teinte diffuse
+  for (let i = 0; i < 10; i++) {
+    const px = cx + rng(i*5+1, -W*0.42, W*0.42);
+    const py = startY + rng(i*5+2, 0, endY - startY);
+    drawPetal(px, py, rng(i*5+3, 9, 15), petalColors[i % petalColors.length], 0.12 + rng(i*5+4, 0, 0.10));
+  }
+  // Couche nette : pétales plus petits et bien visibles
+  for (let i = 0; i < 26; i++) {
+    const px = cx + rng(i*3+1, -W*0.40, W*0.40);
+    const py = startY + rng(i*3+2, 0, endY - startY);
+    drawPetal(px, py, rng(i*3+3, 4, 8), petalColors[i % petalColors.length], 0.30 + rng(i*11, 0, 0.32));
   }
 }
 
