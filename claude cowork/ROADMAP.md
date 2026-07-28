@@ -127,7 +127,7 @@
 
 - [x] Hébergement choisi et fonctionnel — GitHub Pages (prod) + Netlify (preview `Dev`)
 - [x] DNS / SSL configurés — hummingcob.fr en HTTPS
-- [x] Mentions légales / politique de confidentialité — pages créées le 20/07, **coordonnées de l'éditeur à compléter** (placeholders `[...]` dans les deux fichiers)
+- [x] Mentions légales / politique de confidentialité — pages créées le 20/07, coordonnées de l'éditeur **complétées le 21/07** (régime éditeur non professionnel, plus aucun placeholder)
   <details><summary>Pourquoi</summary>Obligatoire dès qu'un site français collecte des données (formulaire, analytics) — même un site d'entraînement gagne à s'y habituer.</details>
 
 ---
@@ -177,7 +177,7 @@ Points relevés en inspectant les fichiers du repo — pas des cases cochées, j
 - **Favicon cassé** : toutes les pages référencent `img/favicon.png`, ce fichier n'existe pas dans `img/`.
 - **`robots.txt` et `sitemap.xml`** absents à la racine.
 - **Pas de page 404** personnalisée.
-- ~~Aucune page mentions légales / politique de confidentialité~~ → créées le 20/07. Google Analytics retiré ; reste le formulaire de contact (Web3Forms), couvert par la politique de confidentialité. **Coordonnées légales à compléter.**
+- ~~Aucune page mentions légales / politique de confidentialité~~ → créées le 20/07, coordonnées complétées le 21/07. Google Analytics retiré ; reste le formulaire de contact (Web3Forms), couvert par la politique de confidentialité.
 - ~~Pas de bandeau de consentement cookies~~ → sans objet depuis le retrait de gtag (20/07).
 - ~~Pas de mise en évidence de la page active dans la nav~~ → corrigé le 18/07 (détection dynamique dans `js/main.js`, testée sur les 6 cas de figure + logo mis en avant sur l'accueil, seul cas sans lien de nav correspondant).
 - **Pas de balises `<header>`/`<main>` sémantiques** — `<nav>` et les `<section>` sont directement sous `<body>`.
