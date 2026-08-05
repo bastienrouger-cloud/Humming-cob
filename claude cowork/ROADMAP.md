@@ -94,11 +94,21 @@
 - [ ] Audit Lighthouse passé
 - [x] Balises de suivi statistique — **gtag retiré des 19 pages le 20/07** (stats non consultées) → plus de bandeau cookies nécessaire
   <details><summary>Pourquoi</summary>Si un vrai tracking est ajouté, ça implique en toute rigueur un bandeau de consentement cookies (RGPD), même sur un site d'entraînement.</details>
-- [ ] **Open Graph par page** — `og:title` et `og:description` sont propres à chaque
-      page, mais **10 pages partagent la même `og:image` générique** (`og-preview.jpg`) :
-      index, elevage, poulains, reproducteurs, memoire, acheter, frise,
-      arbre-genealogique et les deux pages légales. Les fiches chevaux ont déjà leur
-      image propre — mais **au format brut, non calibré OG**.
+- [x] **Open Graph par page — FAIT (vérifié 05/08)** : dossier `img/og/` avec une
+      image OG dédiée par page ET par cheval (og-index, og-elevage, og-reproducteurs,
+      og-accouplement, og-frise, og-arbre-genealogique + og-nashi, og-omamori, og-orion,
+      og-kaeru, og-jinba-ittai, og-archy, og-avantgarde, og-sakura, og-suzie, og-ruby-jane).
+      Toutes les pages principales et fiches chevaux les référencent.
+      <details><summary>Bug de casse corrigé + petits restes</summary>
+
+      ⚠️ **Bug corrigé** : le dossier était `img/OG/` (majuscule) dans git, mais les URLs
+      pointent vers `img/og/` (minuscule) → OK sur Mac (insensible à la casse), **404 en
+      prod** sur serveur Linux (Netlify/GH Pages). Renommé `img/OG` → `img/og` via git.
+
+      Restent sur l'image générique `og-preview.jpg` (probablement volontaire) : la page
+      liste **poulains.html**, **memoire.html**, **poulains/acheter.html**, et les deux
+      pages légales. À voir si on leur fait une image dédiée.
+      </details>
   <details><summary>Plan retenu (Bastien) — carte de visite par cheval</summary>
 
   **Usage réel** : poster sur les réseaux pour répondre à des annonces d'acheteurs
@@ -119,9 +129,9 @@
   </details>
   <details><summary>Pourquoi</summary>Sans ça, partager le lien sur les réseaux ou en message n'affiche ni image ni description propre.</details>
 - [x] Favicon en place — jeu complet monogramme HC, 21/07
-- [ ] robots.txt + sitemap.xml
+- [x] robots.txt + sitemap.xml ✓ (fichiers présents)
   <details><summary>Pourquoi</summary>Pas bloquant pour un site non indexé, mais fait partie du SEO de base d'un vrai déploiement.</details>
-- [ ] Page 404 personnalisée
+- [x] Page 404 personnalisée ✓ (fichiers présents)
 
 ## 9. Déploiement
 
@@ -370,16 +380,19 @@ Ces constats viennent de l'inspection du code, pas d'un test utilisateur réel (
       en 300) pour matcher `.section-title`. Cohérent maintenant que la police charge.
       </details>
 
-- [ ] **Aligner `frise.html`** (page JS, ÎLOT autonome comme l'arbre — ne PAS lier style.css)
-  <details><summary>Diagnostic 21/07 — reprise de fond</summary>
+- [ ] **Aligner `frise.html`** — quasi fini (état réel 05/08, l'ancien diagnostic
+      était périmé)
+  <details><summary>Ce qui est fait / ce qui reste</summary>
 
-  Plus lourd que l'arbre. Écarts marqués : **aucune variable CSS** (tout en dur, ~15
-  teintes), **police hors charte** — `Playfair Display` sur les titres au lieu de
-  Cormorant Garamond, la rupture la plus visible — et une palette plus rose et saturée
-  (`#E8A8BB`, `#F5C6D2`…) plus des bruns sépia (`#6b4422`, `#7a5028`).
-  Décision de goût AVANT de coder : garde-t-on le parti sépia (défendable pour une frise
-  mémorielle) ou l'aligne-t-on ? Traiter comme un îlot : corriger les valeurs à la main,
-  ne pas brancher au système (mêmes raisons que l'arbre — collisions de classes / JS).
+  **Fait** : la frise lie désormais `style.css` (plus un îlot strict comme l'arbre) ;
+  header aligné sur l'arbre (Cormorant, bouton pilule rose + flèche SVG) ; polices
+  Cormorant/Jost OK (plus aucun Playfair ni var fantôme) ; panneau détail refait en
+  **crème clair** (`#FBF3E7`, était sombre `rgba(14,8,4)`) ; couleurs quasi toutes dans
+  la charte (#B06070, #FEFBF6, #1C1C1C, #6A6A6A).
+
+  **Reste** : deux bruns résiduels (`#7a6a60`, `#3a2f2a`) à valider (tige/racine) ;
+  passe visuelle finale desktop + mobile ; question sépia largement close (c'est crème
+  maintenant). Point structurel commun avec l'arbre → voir « Nav sur les pages JS ».
   </details>
 - [ ] **Nav sur les pages JS** — arbre et frise n'ont pas la navbar/footer commune,
       mais ont chacune un bouton « Retour au site ». À tester : ce bouton suffit-il,
