@@ -48,6 +48,11 @@ if (exploreVisualImg) {
     exploreCards.forEach(c => c.classList.toggle('is-selected', c === card));
   };
   exploreCards.forEach(card => {
+    // --card-img : image en tête de carte sur mobile (voir style.css). On résout
+    // en URL absolue (via document.baseURI) car un url() relatif dans une variable
+    // CSS serait résolu depuis la feuille (css/) et non depuis la page → 404.
+    const cardImgUrl = new URL(card.getAttribute('data-visual-bg'), document.baseURI).href;
+    card.style.setProperty('--card-img', `url("${cardImgUrl}")`);
     card.addEventListener('mouseenter', () => selectCard(card));
     card.addEventListener('focus', () => selectCard(card));
   });

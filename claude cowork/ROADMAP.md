@@ -179,6 +179,14 @@
   verticale pour la marge, plutôt horizontale pour un chevauchement de frontière.
   </details>
 - [x] **"Explorez notre univers" — image par défaut + sélection persistante (09/08)** : le panneau gauche (`.explore-visual`) affichait un monogramme HC au repos et ne montrait une photo qu'au survol (qui disparaissait au mouseleave). Désormais « Notre élevage » est **sélectionnée par défaut** (photo + carte surlignée), le survol change la sélection, et l'image **persiste** sur la dernière carte (classe `.is-selected` réutilisant l'éclairage rosé du survol sans le lift). Dans style.css + main.js, index uniquement.
+- [x] **"Explorez notre univers" — refonte mobile (09/08)** : sur ≤900px le
+      panneau-image partagé (`.explore-visual`) est masqué (inutile sans survol, il
+      restait figé sur élevage). Chaque carte devient **autonome** : son image en tête
+      (pleine largeur via `::before` + `--card-img`, marges négatives pour être à fleur
+      du liseré, coins hauts arrondis) puis titre + texte. Surbrillance neutralisée au
+      tactile. ⚠️ Piège corrigé : un `url()` relatif dans une variable CSS est résolu
+      depuis la feuille (`css/`) → 404 ; on résout en URL absolue via `document.baseURI`
+      dans main.js. Sauvegardes : /tmp/style.b4mobile.css, /tmp/main.b4mobile.js.
   <details><summary>Détail</summary>
 
   Desktop : au survol de chaque carte du panneau droit (Notre élevage / Arbre généalogique / Testez un accouplement), l'image affichée dans `.explore-visual` à gauche change pour correspondre à la carte survolée.
