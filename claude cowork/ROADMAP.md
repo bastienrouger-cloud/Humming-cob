@@ -144,6 +144,16 @@
 
 ## 💡 Idées à reprendre plus tard
 
+- [x] **Carrousel hero des fiches — photo entière + fond flouté (09/08)** : les photos
+      étaient en `object-fit: cover` → une photo portrait dans un cadre large se faisait
+      zoomer violemment. Passé en `object-fit: contain` (photo entière, sans rognage) +
+      un `::before` flouté/assombri (`blur(26px) brightness(.72)`) qui reprend le `src`
+      de chaque slide (`--slide-bg` posé par `js/main.js`) pour combler le vide, façon
+      Apple TV / Photos. Fait dans **style.css + ~5 lignes de main.js** → s'applique à
+      **toutes les fiches** sans modif page par page. L'index (carrousel « Qui sommes-nous »)
+      n'est pas touché (cible : `.hero-slide` uniquement). Sauvegardes :
+      /tmp/style.b4carousel.css, /tmp/main.b4carousel.js.
+
 - [ ] **PNG détourés de Nashi** pour décorer les zones vides des fiches poulains (desktop)
   <details><summary>Détail technique — vérifié le 20/07</summary>
 

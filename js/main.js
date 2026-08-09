@@ -572,6 +572,14 @@ if (nav2) {
   if (!wrap) return;
 
   const slides = Array.from(wrap.querySelectorAll('.hero-slide'));
+
+  // Fond flouté par slide (rendu "contain") : on recopie le src de chaque photo
+  // dans --slide-bg, utilisé par .hero-slide::before pour remplir le cadre.
+  slides.forEach(sl => {
+    const img = sl.querySelector('img');
+    if (img) sl.style.setProperty('--slide-bg', `url("${img.getAttribute('src')}")`);
+  });
+
   if (slides.length < 2) return;
 
   const timerEl = document.getElementById('heroTimer');
