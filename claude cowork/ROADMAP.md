@@ -154,7 +154,43 @@
       n'est pas touché (cible : `.hero-slide` uniquement). Sauvegardes :
       /tmp/style.b4carousel.css, /tmp/main.b4carousel.js.
 
-- [ ] **PNG détourés de Nashi** pour décorer les zones vides des fiches poulains (desktop)
+- [ ] **Rendus détourés en décor des fiches chevaux (desktop)** — recette VALIDÉE le
+      09/08 sur Nashi (essai concluant), **rétablie ensuite** en attendant la matière
+      première (photos détourées appropriées par cheval) et le merge sur `main`. À
+      réappliquer page par page quand les rendus seront prêts.
+      <details><summary>Recette technique (reproductible telle quelle)</summary>
+
+      Objectif : un PNG détouré (RGBA transparent, ~1400px) du cheval en **arrière-plan
+      décoratif** qui comble le vide à droite et **chevauche plusieurs sections**.
+
+      - **HTML** : envelopper les sections à couvrir dans `<div class="X-render-zone">`
+        (position relative), et poser en fin de zone `<img class="X-render" ... alt=""
+        aria-hidden="true">` (après les sections dans le DOM → l'image passe au-dessus
+        des fonds de section).
+      - **CSS** (dans un `<style>` scopé à la page, PAS dans style.css) :
+        ```
+        .X-render { display: none; }                 /* mobile : rien */
+        @media (min-width: 901px) {                  /* desktop only */
+          .X-render-zone { position: relative; }
+          .X-render {
+            display: block; position: absolute;
+            left: 56%; top: 50%; transform: translateY(-50%);  /* ancrée à gauche */
+            width: 600px;                            /* garde sa taille, ne rétrécit pas */
+            pointer-events: none; z-index: 2;
+            filter: drop-shadow(0 14px 28px rgba(60,40,35,.30)); /* ombre = silhouette */
+          }
+        }
+        ```
+      - **Pourquoi `left:56%` et pas `right`** : ancrer par la gauche garde le texte au
+        clair et laisse la droite de l'image **sortir de l'écran** (débord immersif) sur
+        les desktops étroits, au lieu de rétrécir ou de recouvrir le texte. `body` a
+        `overflow-x: hidden` → le débord est coupé net au bord.
+      - **Ombre** : `drop-shadow` (pas `box-shadow`) suit l'alpha du PNG → l'ombre épouse
+        la silhouette du cheval et le détache du fond.
+      - Réglages retenus sur Nashi : taille 600px, centrage vertical sur 2 sections
+        (`#bases` + `#adoption`), ombre douce à 30 %. Sauvegarde de l'essai :
+        /tmp/nashi.b4render.html (éphémère).
+      </details>
   <details><summary>Détail technique — vérifié le 20/07</summary>
 
   Bastien prépare des PNG de Nashi sans arrière-plan. Objectif : combler les blancs
