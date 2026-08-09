@@ -140,12 +140,6 @@ if (navToggle && navLinks) {
     }
   });
 
-  // Accueil : aucun lien du menu ne pointe vers index.html lui-même
-  // (À propos et Contact sont des ancres internes) → on met le logo en avant.
-  if (path === '/' || path.endsWith('/index.html')) {
-    const logo = document.querySelector('.nav-logo');
-    if (logo) logo.classList.add('nav-active');
-  }
 })();
 
 // Révélation au scroll (Intersection Observer)

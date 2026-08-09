@@ -180,6 +180,14 @@
   </details>
 - [x] **"Explorez notre univers" — image par défaut + sélection persistante (09/08)** : le panneau gauche (`.explore-visual`) affichait un monogramme HC au repos et ne montrait une photo qu'au survol (qui disparaissait au mouseleave). Désormais « Notre élevage » est **sélectionnée par défaut** (photo + carte surlignée), le survol change la sélection, et l'image **persiste** sur la dernière carte (classe `.is-selected` réutilisant l'éclairage rosé du survol sans le lift). Dans style.css + main.js, index uniquement.
 - [x] **"Explorez notre univers" — refonte mobile (09/08)** : sur ≤900px le
+- [x] **Nav — logo neutre (09/08)** : le logo « Humming Cob » passait en rose sur
+      l'accueil (`.nav-logo.nav-active`), se comportant comme un onglet actif — d'où une
+      incohérence (le logo s'allume, mais « À propos », vrai lien vers la section histoire
+      de l'accueil, jamais). Convention : un logo est identité + bouton accueil, sans état
+      « page active ». Retiré le bloc JS qui posait `nav-active` sur le logo + la règle CSS.
+      Résultat : accueil = rien de surligné (logique, l'accueil n'est pas un onglet), autres
+      pages = onglet correspondant surligné. « À propos » conservé. Sauvegardes :
+      /tmp/main.b4logo.js, /tmp/style.b4logo.css.
       panneau-image partagé (`.explore-visual`) est masqué (inutile sans survol, il
       restait figé sur élevage). Chaque carte devient **autonome** : son image en tête
       (pleine largeur via `::before` + `--card-img`, marges négatives pour être à fleur

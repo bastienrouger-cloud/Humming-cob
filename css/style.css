@@ -1868,8 +1868,6 @@ footer {
   .showcase-grid--compact .showcase-card { aspect-ratio: 16 / 10; }
 }
 
-/* Logo actif — surbrillance quand on est sur l'accueil (aucun lien de nav ne pointe vers index.html) */
-.nav-logo.nav-active .nav-logo-text { color: var(--rose-deep); }
 
 /* Réglages spécifiques section "Nos chevaux" — cartes en 4/3, conteneur élargi à l'essai */
 #nos-chevaux .section-inner { max-width: 1850px; }
