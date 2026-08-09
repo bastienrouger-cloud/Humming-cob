@@ -1871,8 +1871,16 @@ footer {
 
 /* Réglages spécifiques section "Nos chevaux" — cartes en 4/3, conteneur élargi à l'essai */
 #nos-chevaux .section-inner { max-width: 1850px; }
-#nos-chevaux .showcase-card { aspect-ratio: 4 / 3; }
+#nos-chevaux .showcase-card { aspect-ratio: 1602 / 2048; } /* = ratio des images portrait → image entière, jamais rognée */
+/* Zoom neutralisé sur ces cartes (repos ET survol) : le léger scale grignotait
+   les bords. Le survol garde le lift + le changement de dégradé. */
+#nos-chevaux .showcase-card-img,
+#nos-chevaux .showcase-card:hover .showcase-card-img,
+#nos-chevaux .showcase-card:focus-visible .showcase-card-img { transform: scale(1); }
 #nos-chevaux .showcase-grid { gap: 1.5rem; }
+/* Essai : contenu des cartes centré (tag, titre, description, bouton). */
+#nos-chevaux .showcase-card-content { text-align: center; }
+#nos-chevaux .showcase-card-desc { margin-left: auto; margin-right: auto; }
 
 /* ============================================
    ALLER PLUS LOIN — panneau visuel + 3 cartes-liens
