@@ -1966,6 +1966,13 @@ footer {
   box-shadow: none;
   border-color: var(--rose-deep);
 }
+/* Carte sélectionnée (persistante) sur l'index : même éclairage rosé que le
+   survol, mais SANS le lift — une carte surélevée en permanence flotterait.
+   Le survol par-dessus ajoute le lift normalement. */
+.explore-card.is-selected {
+  background: var(--rose-pale);
+  border-color: var(--rose-deep);
+}
 
 /* Titre en deux colonnes : l'émoji d'un côté, le libellé de l'autre. En flex,
    le libellé est un bloc à part entière — quand il passe sur deux lignes, la

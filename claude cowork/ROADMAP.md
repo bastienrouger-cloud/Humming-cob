@@ -178,7 +178,7 @@
   n'occupe que la moitié de la largeur) et frontière bases/adoption. Silhouette plutôt
   verticale pour la marge, plutôt horizontale pour un chevauchement de frontière.
   </details>
-- [ ] "Aller plus loin" — image du panneau gauche (`.explore-visual`) dynamique
+- [x] **"Explorez notre univers" — image par défaut + sélection persistante (09/08)** : le panneau gauche (`.explore-visual`) affichait un monogramme HC au repos et ne montrait une photo qu'au survol (qui disparaissait au mouseleave). Désormais « Notre élevage » est **sélectionnée par défaut** (photo + carte surlignée), le survol change la sélection, et l'image **persiste** sur la dernière carte (classe `.is-selected` réutilisant l'éclairage rosé du survol sans le lift). Dans style.css + main.js, index uniquement.
   <details><summary>Détail</summary>
 
   Desktop : au survol de chaque carte du panneau droit (Notre élevage / Arbre généalogique / Testez un accouplement), l'image affichée dans `.explore-visual` à gauche change pour correspondre à la carte survolée.
