@@ -36,18 +36,25 @@ if (navbar) {
 // le dégradé par défaut dans le panneau de gauche (.explore-visual-img)
 const exploreVisualImg = document.getElementById('exploreVisualImg');
 if (exploreVisualImg) {
-  document.querySelectorAll('.explore-card[data-visual-bg]').forEach(card => {
+  // Sélection PERSISTANTE : la carte survolée/focus devient la sélection et son
+  // image reste affichée (pas de retour au repos au mouseleave). La carte active
+  // porte .is-selected (éclairage rosé). Au chargement, "Notre élevage" est
+  // sélectionnée par défaut → une vraie photo accueille le visiteur.
+  const exploreCards = document.querySelectorAll('.explore-card[data-visual-bg]');
+  const selectCard = (card) => {
     const bgUrl = card.getAttribute('data-visual-bg');
-    const show = () => {
-      exploreVisualImg.style.backgroundImage = `url('${bgUrl}')`;
-      exploreVisualImg.classList.add('active');
-    };
-    const hide = () => exploreVisualImg.classList.remove('active');
-    card.addEventListener('mouseenter', show);
-    card.addEventListener('mouseleave', hide);
-    card.addEventListener('focus', show);
-    card.addEventListener('blur', hide);
+    exploreVisualImg.style.backgroundImage = `url('${bgUrl}')`;
+    exploreVisualImg.classList.add('active');
+    exploreCards.forEach(c => c.classList.toggle('is-selected', c === card));
+  };
+  exploreCards.forEach(card => {
+    card.addEventListener('mouseenter', () => selectCard(card));
+    card.addEventListener('focus', () => selectCard(card));
   });
+  const defaultCard =
+    document.querySelector('.explore-card[data-visual-bg="img/explore-elevage.jpg"]')
+    || exploreCards[0];
+  if (defaultCard) selectCard(defaultCard);
 }
 
 // Menu mobile
