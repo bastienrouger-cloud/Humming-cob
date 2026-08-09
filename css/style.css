@@ -2026,9 +2026,26 @@ footer {
 
 @media (max-width: 900px) {
   .explore-panel { grid-template-columns: 1fr; }
-  .explore-visual { min-height: 220px; }
   .explore-content { padding: 2.4rem 1.8rem; }
   .explore-cards { grid-template-columns: 1fr; }
+
+  /* Sur tactile, pas de survol : le panneau-image partagé n'a aucun sens (il
+     resterait figé sur élevage, déconnecté des cartes). On le masque et chaque
+     carte devient autonome : sa propre image en tête + son texte dessous. */
+  .explore-visual { display: none; }
+  .explore-card.is-selected { background: transparent; }  /* pas de sélection au tactile */
+  .explore-card[data-visual-bg]::before {
+    content: '';
+    display: block;
+    /* marges négatives = annulent le padding de la carte → image pleine largeur,
+       à fleur du liseré, coins hauts arrondis. */
+    margin: -1.7rem -1.5rem 1.3rem;
+    height: 190px;
+    background-image: var(--card-img);
+    background-size: cover;
+    background-position: center;
+    border-radius: 24px 24px 0 0;
+  }
 }
 
 /* ============================================
