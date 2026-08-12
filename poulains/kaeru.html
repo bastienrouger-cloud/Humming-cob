@@ -68,12 +68,12 @@
       <li><a href="#premieres-semaines">Premières semaines</a></li>
       <li><a href="#pedigree">Pedigree</a></li>
     </ul>
-    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Suivre son évolution</a>
+    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Nous contacter</a>
   </div>
 </nav>
 
 <div class="horse-hero-top">
-  <span style="position:static;display:inline-block;background:rgba(60,160,160,0.85);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;"><strong>Croissance en cours</strong></span>
+  <span class="badge-available" style="position:static;display:inline-block;"><strong>Disponible</strong></span>
   <p class="horse-hero-race">Entier · Irish Cob · Noir Pearl</p>
 </div>
 
@@ -118,7 +118,7 @@
   </div>
 
   <div class="horse-hero-info">
-    <h1 class="horse-hero-name">Quercus <em>Kaeru</em></h1>
+    <h1 class="horse-hero-name">HC Quercus <em>Kaeru</em></h1>
 
     <div class="horse-specs">
       <div class="horse-spec"><div class="horse-spec-label">Né le</div><div class="horse-spec-value">13/05/2026</div></div>
@@ -151,10 +151,17 @@
       <span class="horse-tag">Câlin</span>
     </div>
 
-    <!-- Point d'ancrage du bouton : le sentinel sert de repère au script pour
-         savoir quand le dupliquer dans nav2 (voir js/main.js, bloc nav2). -->
-    <div id="ctaAnchor" class="cta-anchor">
-      <a href="../index.html#contact" class="btn btn-primary">Suivre son évolution</a>
+    <!-- Prix et CTA sur une même ligne. #ctaAnchor reste le repère du script
+         nav2 (voir js/main.js) : il doit continuer d'envelopper le bouton. -->
+    <div class="horse-price-row">
+      <div class="horse-price">
+        <span class="horse-price-value">3 700 €</span>
+        <span class="horse-price-note">Prix indicatif</span>
+      </div>
+
+      <div id="ctaAnchor" class="cta-anchor">
+        <a href="../index.html#contact" class="btn btn-primary">Demander des informations</a>
+      </div>
     </div>
   </div>
 </div>
@@ -191,12 +198,13 @@
       découvre le monde à son rythme.
     </p>
     <p class="section-text" style="margin-top:.8rem;">
-      Encore trop jeune pour être proposé à la vente, il poursuit simplement son chemin de jeune
-      poulain. Si son profil vous intéresse, n'hésitez pas à nous contacter : nous partagerons
-      avec plaisir son évolution au fil des mois.
+      Aujourd'hui assez grand pour rejoindre une nouvelle famille, il est proposé à la vente.
+      Comme pour chacun de nos chevaux, la rencontre se fait sur coup de cœur, après une visite —
+      nous vous demanderons de nous décrire votre projet de vie avec lui.
     </p>
     <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:2.2rem;flex-wrap:wrap;max-width:620px;">
-      <a href="../index.html#contact" class="btn btn-primary">Suivre son évolution</a>
+      <a href="../index.html#contact" class="btn btn-primary">Demander des informations</a>
+      <a href="acheter.html" class="link-arrow" style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);">Comment ça se passe ? →</a>
     </div>
   </div>
 </section>
