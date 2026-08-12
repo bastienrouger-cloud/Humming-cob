@@ -3,6 +3,8 @@
 .DS_Store
 Thumbs.db
 desktop.ini
-"img/_backup/" 
-"compress_images.py" 
-"img/_backup/" 
+img/_backup/
+compress_images.py
+
+# Archives d'originaux non servies par le site (gardées en local)
+**/_originaux/
