@@ -27,6 +27,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Feuille du site : nav et typographie communes. Chargée AVANT le style
+       local, qui garde la main sur l'arbre. Aucune règle globale du site ne
+       vise .active / .visible seules (toujours qualifiées : .ar-slide.active,
+       .reveal.visible…) : pas de collision avec les états de l'arbre. -->
+  <link rel="stylesheet" href="css/style.css">
   <style>
     :root {
       --cream:     #FEFBF6;
@@ -48,11 +53,14 @@
       color: var(--noir);
       padding: 0;
       min-height: 100vh;
+      min-height: 100dvh;
+      line-height: normal;   /* style.css met 1.7 : on garde le rendu d'origine */
     }
 
     .header {
       text-align: center;
-      padding: 1.5rem 2rem 1rem;
+      /* la navbar du site est fixe : on réserve sa hauteur */
+      padding: calc(var(--nav-h, 80px) + 1.2rem) 2rem 1rem;
       position: relative;
       margin-bottom: 0;
     }
@@ -60,46 +68,13 @@
     .header h1 em { color: var(--rose-deep); font-style: italic; }
     .header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris); margin-top: 0.4rem; }
 
-    .back-btn {
-      position: absolute;
-      top: 50%; left: 1.5rem;
-      transform: translateY(-50%);
-      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
-      /* DA alignée sur le CTA du site (.btn-primary) : pilule pleine rose-deep,
-         texte blanc, la flèche suit (currentColor). La page n'importe pas
-         style.css → valeurs locales + littéral #8B4A5C pour le survol
-         (= --rose-dark de la charte, absent du :root local).
-         Pas de lift en transform au survol : l'élément est déjà centré par
-         translateY(-50%) et repasse en position:static sur mobile — un second
-         transform casserait l'un ou l'autre. Le box-shadow suffit à l'effet. */
-      color: #fff; text-decoration: none;
-      background: var(--rose-deep);
-      border: 1.5px solid var(--rose-deep);
-      border-radius: 50px;
-      padding: .5rem 1.4rem;
-      display: flex; align-items: center; gap: .4rem;
-      transition: background .18s, border-color .18s, box-shadow .18s;
-      white-space: nowrap;
-    }
-    .back-btn:hover {
-      background: #8B4A5C; border-color: #8B4A5C;
-      box-shadow: 0 6px 24px rgba(176,96,112,0.28);
-    }
-    @media (max-width: 600px) {
-      .header { padding: 1.2rem 1.5rem 1rem; }
-      .back-btn {
-        position: static;
-        transform: none;
-        margin: 0 auto .9rem;
-        width: fit-content;
-      }
-    }
-
     .tree-outer {
       overflow: hidden;
       touch-action: none;
       cursor: grab;
-      height: 68vh;
+      height: 68vh;            /* repli si flex non pris en compte */
+      flex: 1 1 auto;          /* body est en colonne flex (style.css) */
+      min-height: 55vh;
       position: relative;
       user-select: none;
     }
@@ -133,8 +108,7 @@
 
     @media (max-width: 900px) {
       .mobile-hint { display: block; }
-      .header { padding: 1.2rem 1rem 0.8rem; }
-      .back-btn { font-size: .62rem; }
+      .header { padding: calc(var(--nav-h, 80px) + 1rem) 1rem 0.8rem; }
       .info-panel { flex-direction: column; gap: 0; min-height: auto; }
       .info-panel.active .info-panel-name { border-right: none; border-bottom: 1px solid var(--sel-color, rgba(176,96,112,0.18)); }
       .info-panel-name, .info-panel-fields { padding: .8rem 1.2rem; }
@@ -146,8 +120,7 @@
     @media (max-width: 600px) {
       .header h1 { font-size: 1.6rem; }
       .header p { display: none; }
-      .tree-outer { height: 60vh; }
-      .back-btn { font-size: .6rem; left: .75rem; }
+      .tree-outer { height: 60vh; min-height: 60vh; }
     }
 
     /* Paths */
@@ -366,11 +339,42 @@
 </head>
 <body>
 
-<div class="header">
-  <a href="index.html" class="back-btn">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Retour au site
+<!-- @partial:header -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
+    <div class="nav-logo-text">
+      Humming Cob
+      <span>Élevage Irish Cob · Gard</span>
+    </div>
   </a>
+  <ul class="nav-links">
+    <li><a href="index.html#qui-sommes-nous">À propos</a></li>
+    <li><a href="elevage.html">L'élevage</a></li>
+    <li class="has-dropdown">
+      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="reproducteurs.html">Reproducteurs</a></li>
+        <li><a href="poulains.html">Poulains</a></li>
+        <li><a href="memoire.html">Ils ont marqué notre histoire</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="arbre-genealogique.html">Arbre généalogique</a></li>
+        <li><a href="accouplement.html">Testez un accouplement</a></li>
+      </ul>
+    </li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<!-- @end:header -->
+
+<div class="header">
   <h1>Arbre <em>généalogique</em></h1>
   <p>Survoler un cheval pour voir ses liens</p>
 </div>
@@ -417,6 +421,7 @@
 </div>
 
 
+<script src="js/main.js"></script>
 <script src="js/chevaux.js"></script>
 <script>
 // ── RADII
