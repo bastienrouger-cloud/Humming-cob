@@ -23,6 +23,13 @@ Jetons remplacés dans les partials
 Le jeton {{home}} évite un rechargement inutile de la page quand on clique sur
 "Contact" depuis l'accueil (on veut "#contact", pas "index.html#contact").
 
+Données des chevaux
+-------------------
+Le script génère aussi `js/chevaux.js` à partir de `data/chevaux/*.json`
+(source unique, voir data/README.md). Les fichiers sont vérifiés au passage :
+champs obligatoires, valeurs autorisées, père et mère existants. En cas
+d'erreur, rien n'est écrit.
+
 Usage
 -----
     python3 build.py            # régénère toutes les pages
@@ -36,6 +43,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 PARTIALS = ROOT / "partials"
+
+DATA_CHEVAUX = ROOT / "data" / "chevaux"
+CHEVAUX_JS = ROOT / "js" / "chevaux.js"
 
 # Dossiers à ne jamais parcourir
 EXCLUDED_DIRS = {".git", "img", "partials", "claude cowork", "node_modules"}
@@ -78,11 +88,77 @@ def inject(html, name, partial_text, page):
     return pattern.sub(replacement, html), True
 
 
+VALEURS = {
+    "famille": {"humming", "externe"},
+    "sexe": {"male", "femelle", "hongre"},
+    "role": {"etalon", "jument", "poulain", "memoire"},
+    "statut": {"a-vendre", "reserve", "vendu", "garde"},
+}
+
+
+def generer_chevaux_js():
+    """
+    Lit data/chevaux/*.json, vérifie la cohérence et renvoie
+    (contenu_de_js/chevaux.js, liste_d_erreurs).
+    """
+    import json
+
+    chevaux, erreurs = [], []
+    for f in sorted(DATA_CHEVAUX.glob("*.json")):
+        try:
+            c = json.loads(f.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            erreurs.append("%s : JSON invalide (%s)" % (f.name, e))
+            continue
+        if c.get("id") != f.stem:
+            erreurs.append("%s : l'id doit être « %s »" % (f.name, f.stem))
+        for champ in ("id", "nom", "famille", "sexe"):
+            if not c.get(champ):
+                erreurs.append("%s : champ « %s » manquant" % (f.name, champ))
+        for champ, permis in VALEURS.items():
+            if champ in c and c[champ] not in permis:
+                erreurs.append("%s : %s « %s » inconnu (permis : %s)"
+                               % (f.name, champ, c[champ], ", ".join(sorted(permis))))
+        chevaux.append(c)
+
+    par_id = {c.get("id"): c for c in chevaux}
+    for c in chevaux:
+        for champ, sexes in (("pere", {"male", "hongre"}), ("mere", {"femelle"})):
+            p = c.get(champ)
+            if not p:
+                continue
+            if p not in par_id:
+                erreurs.append("%s : %s « %s » introuvable dans data/chevaux/" % (c.get("id"), champ, p))
+            elif par_id[p].get("sexe") not in sexes:
+                erreurs.append("%s : %s « %s » a le mauvais sexe (%s)" % (c.get("id"), champ, p, par_id[p].get("sexe")))
+
+    lignes = ",\n".join("  " + json.dumps(c, ensure_ascii=False) for c in chevaux)
+    contenu = (
+        "// FICHIER GÉNÉRÉ par build.py à partir de data/chevaux/*.json — ne pas éditer à la main.\n"
+        "// Pour modifier un cheval : éditer son fichier JSON, puis lancer `python3 build.py`.\n"
+        "const CHEVAUX = [\n" + lignes + "\n];\n"
+    )
+    return contenu, erreurs
+
+
 def main():
     check_only = "--check" in sys.argv
 
     header = (PARTIALS / "header.html").read_text(encoding="utf-8")
     footer = (PARTIALS / "footer.html").read_text(encoding="utf-8")
+
+    # ---- données des chevaux ----
+    chevaux_js, erreurs = generer_chevaux_js()
+    if erreurs:
+        print("Erreurs dans data/chevaux/ (%d) — rien n'a été écrit :" % len(erreurs))
+        for e in erreurs:
+            print("  ✗ " + e)
+        return 1
+    actuel = CHEVAUX_JS.read_text(encoding="utf-8") if CHEVAUX_JS.exists() else ""
+    chevaux_perime = actuel != chevaux_js
+    if chevaux_perime and not check_only:
+        CHEVAUX_JS.write_text(chevaux_js, encoding="utf-8", newline="\n")
+        print("✓ js/chevaux.js régénéré (%d chevaux)\n" % chevaux_js.count('"id":'))
 
     pages = find_pages()
     changed, skipped, stale = [], [], []
@@ -111,6 +187,8 @@ def main():
 
     # ---- rapport ----
     if check_only:
+        if chevaux_perime:
+            stale.insert(0, "js/chevaux.js")
         if stale:
             print("Pages à régénérer (%d) :" % len(stale))
             for rel in stale:

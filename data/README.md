@@ -7,6 +7,17 @@ endroits ne doit être écrite qu'ici.
 
 Le nom du fichier est l'`id` du cheval : `chevaux/nashi.json` → `"id": "nashi"`.
 
+## Après une modification
+
+```
+python3 build.py
+```
+
+Le script vérifie les fichiers (champs obligatoires, valeurs permises, père et mère
+existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
+**Ne jamais éditer `js/chevaux.js` à la main** : il est réécrit à chaque passage.
+`python3 build.py --check` signale s'il est périmé.
+
 ## Champs
 
 | Champ | Valeurs | Remarque |

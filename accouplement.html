@@ -635,7 +635,25 @@
 <!-- @end:footer -->
 
 <script src="js/main.js"></script>
-<script src="js/donnees-chevaux.js"></script>
+<script src="js/chevaux.js"></script>
+<script>
+// Adaptateur : la source unique des chevaux est data/chevaux/*.json, compilée
+// dans js/chevaux.js par build.py. Le calculateur garde son format interne.
+const HORSES_BASE = CHEVAUX.map(c => ({
+  id: c.id,
+  name: c.nom,
+  sex: c.sexe === 'femelle' ? 'mare' : 'stallion',
+  gelding: c.sexe === 'hongre',          // hongre : jamais proposé comme reproducteur
+  deceased: !!c.deces,
+  sire: c.pere || null,
+  dam: c.mere || null,
+  lineage: [c.elevage || c.origine, c.race, c.robe, ((c.naissance || '').match(/\d{4}/) || [''])[0]]
+             .filter(Boolean).join(' · '),
+  source: c.source || 'site hummingcob.fr',
+  strain: c.souche || 'inconnue',
+  owned: c.famille === 'humming'
+}));
+</script>
 <script>
 // --- Lignées / souches d'origine (code couleur) ---
 const STRAINS = {
@@ -1146,8 +1164,8 @@ function renderTree(){
   let existingPicker = '';
   if(compareMode){
     const pool = draft.rootShowAll
-      ? horses.filter(h => !h.synthetic && h.sex === requiredSex)
-      : horses.filter(h => (h.owned || h.source === 'saisie manuelle' || h.source === 'importé') && h.sex === requiredSex);
+      ? horses.filter(h => !h.synthetic && !h.gelding && h.sex === requiredSex)
+      : horses.filter(h => (h.owned || h.source === 'saisie manuelle' || h.source === 'importé') && !h.gelding && !h.deceased && h.sex === requiredSex);
     let optionsHTML = '';
     if(draft.rootShowAll){
       const grouped = sortedGrouped(pool);
@@ -1710,7 +1728,7 @@ const startupCyclicId = findCycle(horses.map(h => h.id), byId);
 if(startupCyclicId){
   const h = byId(startupCyclicId);
   alert(
-    "⚠️ Cycle de parenté détecté dans la base (donnees-chevaux.js) : " +
+    "⚠️ Cycle de parenté détecté dans la base (data/chevaux/) : " +
     (h ? h.name : startupCyclicId) + " (id '" + startupCyclicId + "') est son propre ancêtre " +
     "selon les liens sire/dam actuels. Le calcul de consanguinité plantera (boucle infinie) si " +
     "ce cheval est utilisé dans un test — corrige le fichier avant de continuer."
@@ -1721,7 +1739,7 @@ const startupValidation = validateImport(HORSES_BASE, []);
 if(startupValidation.rejected.length > 0 || startupValidation.warnings.length > 0){
   const parts = [];
   if(startupValidation.rejected.length > 0){
-    parts.push("Entrées invalides dans donnees-chevaux.js :\n" +
+    parts.push("Entrées invalides dans data/chevaux/ :\n" +
       startupValidation.rejected.map(r => "• " + (r.horse.name || r.horse.id || '?') + " — " + r.reasons.join(' ; ')).join('\n'));
   }
   if(startupValidation.warnings.length > 0){
@@ -1729,7 +1747,7 @@ if(startupValidation.rejected.length > 0 || startupValidation.warnings.length > 
       startupValidation.warnings.map(w => "• " + w).join('\n'));
   }
   alert(
-    "⚠️ Vérification d'intégrité de la base au chargement (donnees-chevaux.js) :\n\n" +
+    "⚠️ Vérification d'intégrité de la base au chargement (data/chevaux/) :\n\n" +
     parts.join('\n\n') +
     "\n\nCorrige le fichier si besoin ; l'outil continue de fonctionner mais ces chevaux " +
     "peuvent fausser les calculs."
