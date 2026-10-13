@@ -120,7 +120,7 @@
   </div>
 
   <div class="horse-hero-info">
-    <h1 class="horse-hero-name">San Cler <em>Avantgarde</em></h1>
+    <h1 class="horse-hero-name"><!-- @nom: avantgarde --><span class="nc nc--male"><span class="nc-a">San Cler</span> <em class="nc-n">Avantgarde</em></span><!-- @end:nom --></h1>
 
     <div class="horse-specs">
       <div class="horse-spec"><div class="horse-spec-label">Né le</div><div class="horse-spec-value">24/05/2022</div></div>
@@ -178,60 +178,52 @@
 
     <p class="section-text" style="margin-top:2rem;">Élevage Humming Cob</p>
     <div class="horses-grid" style="margin-top:1rem;">
-      <a href="../poulains/kaeru.html" class="horse-card">
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/kaeru/kaeru-portrait.jpg" alt="Quercus Kaeru"
-               style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+      <!-- @cartes: kaeru contexte=avantgarde -->
+      <a class="cc cc--male reveal reveal-delay-1" href="../poulains/kaeru.html" data-cheval="kaeru">
+        <div class="cc-photo">
+          <img src="../img/kaeru/kaeru-portrait.jpg" alt="HC Quercus Kaeru" loading="lazy" style="object-position:center top">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
         </div>
-        <span class="badge-available"><strong>⭐ Disponible</strong></span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Poulain · Irish Cob · Noir Pearl · 2026</span>
-          <h3 class="horse-card-name">HC Quercus Kaeru</h3>
-          <p class="horse-card-desc">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. 
-            Un petit chêne qui a su montrer qu'il était un véritable battant.</p>
-          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>Irish Cob</span><span>Noir Pearl</span><span>2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Quercus Kaeru</em></span></h3>
+          <p class="cc-texte">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. Un petit chêne qui a su montrer qu&#x27;il était un véritable battant.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
+      <!-- @end:cartes -->
     </div>
 
     <p class="section-text" style="margin-top:3rem;">Autres descendants - Naissances extérieures</p>
     <div class="horses-grid" style="margin-top:1rem;">
-
-      <!-- Qinaï -->
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Qinaï"
-           data-desc="Fils d'Avantgarde × Mystic de L'Oume. Né le 13 mai 2026. Élevage Le Cros de l'Oume."
-           data-images='["../img/avantgarde/Qinaï 01.jpg", "../img/avantgarde/Qinaï 02.jpg", "../img/avantgarde/Qinaï 03.jpg", "../img/avantgarde/Qinaï 04.jpg", "../img/avantgarde/Qinaï 05.jpg", "../img/avantgarde/Qinaï 06.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/avantgarde/Qinaï 05.jpg" alt="Qinaï" style="width:100%;height:100%;object-fit:cover;">
+      <!-- @cartes: qinai, qoulitch contexte=avantgarde -->
+      <article class="cc cc--male cc--modale reveal reveal-delay-1" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="qinai" data-contexte="avantgarde">
+        <div class="cc-photo">
+          <img src="../img/avantgarde/Qinaï 05.jpg" alt="Qinaï de L&#x27;Oume" loading="lazy">
+          <span class="cc-badge cc-badge--vente">À vendre par Le Cros</span>
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 6</span>
         </div>
-        <div class="horse-card-body">
-          <span style="position:absolute;top:1rem;left:1rem;background:rgba(80,80,80,0.75);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;">À vendre par Le Cros</span>
-          <span class="horse-card-tag">Poulain · Irish Cob · Bai Pearl · 2026</span>
-          <h3 class="horse-card-name">Qinaï de L'Oume</h3>
-          <p class="horse-card-desc">Fils d'Avantgarde × Mystic de L'Oume. Né le 13 mai 2026. Élevage Le Cros de l'Oume. Un poulain d'une grande douceur.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>Irish Cob</span><span>Bai Pearl</span><span>2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><em class="nc-n">Qinaï</em> <span class="nc-a">de L&#x27;Oume</span></span></h3>
+          <p class="cc-texte">Fils d&#x27;Avantgarde × Mystic de L&#x27;Oume. Né le 13 mai 2026. Élevage Le Cros de l&#x27;Oume. Un poulain d&#x27;une grande douceur.</p>
+          <span class="cc-action">Voir les 6 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
-      <!-- Qoulitch -->
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Qoulitch Yasuke"
-           data-desc="Fils d'Avantgarde × SD Ruby Jane, il est né le 23 mai 2026, en Bretagne, à l'Élevage Yasuke. Observateur, posé et réfléchi."
-            data-images='["../img/avantgarde/Qoulitch 01.jpg", "../img/avantgarde/Qoulitch 02.jpg", "../img/avantgarde/Qoulitch 03.jpg", "../img/avantgarde/Qoulitch 013.jpg", "../img/avantgarde/Qoulitch 05.jpg", "../img/avantgarde/Qoulitch 06.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/avantgarde/Qoulitch 013.jpg" alt="Qoulitch Yasuke" style="width:100%;height:100%;object-fit:cover;">
+      </article>
+      <article class="cc cc--male cc--modale reveal reveal-delay-2" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="qoulitch" data-contexte="avantgarde">
+        <div class="cc-photo">
+          <img src="../img/avantgarde/Qoulitch 013.jpg" alt="Qoulitch Yasuke" loading="lazy">
+          <span class="cc-badge cc-badge--vente">À vendre par Yasuke</span>
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 6</span>
         </div>
-        <div class="horse-card-body">
-          <span style="position:absolute;top:1rem;left:1rem;background:rgba(80,80,80,0.75);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;">À vendre par Yasuke</span>
-          <span class="horse-card-tag">Poulain · OC · Bai Pearl · 2026</span>
-          <h3 class="horse-card-name">Qoulitch Yasuke</h3>
-          <p class="horse-card-desc">Fils d'Avantgarde x SD Ruby Jane, il est né le 23 mai 2026, en Bretagne, à l'Élevage Yasuke.
-            Observateur, posé et réfléchi.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>OC</span><span>Bai Pearl</span><span>2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><em class="nc-n">Qoulitch</em> <span class="nc-a">Yasuke</span></span></h3>
+          <p class="cc-texte">Fils d&#x27;Avantgarde x SD Ruby Jane, il est né le 23 mai 2026, en Bretagne, à l&#x27;Élevage Yasuke. Observateur, posé et réfléchi.</p>
+          <span class="cc-action">Voir les 6 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
+      </article>
+      <!-- @end:cartes -->
     </div>
   </div>
 </section>
@@ -439,6 +431,7 @@
   </div>
 </footer>
 <!-- @end:footer -->
+<script src="../js/chevaux.js"></script>
 <script src="../js/main.js"></script>
 </body>
 </html>

@@ -2,6 +2,7 @@
   "id": "kaeru",
   "nom": "HC Quercus Kaeru",
   "nom_usuel": "Kaeru",
+  "affixe": "HC",
   "famille": "humming",
   "role": "poulain",
   "statut": "a-vendre",
@@ -19,6 +20,7 @@
   "souche": "hc",
   "page": "poulains/kaeru.html",
   "photo": "img/kaeru/kaeru-portrait.jpg",
+  "cadrage": "center top",
   "photo_arbre": "img/tree/kaeru.jpg",
   "resume": "Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. Un petit chêne qui a su montrer qu'il était un véritable battant.",
   "caractere": [

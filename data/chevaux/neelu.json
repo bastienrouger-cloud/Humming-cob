@@ -1,7 +1,10 @@
 {
   "id": "neelu",
   "nom": "Neelu DC",
+  "affixe": "DC",
   "famille": "externe",
+  "statut": "vendu",
+  "vendeur": "DC",
   "sexe": "femelle",
   "pere": "kuarahy",
   "mere": "rubyjane",
@@ -9,7 +12,7 @@
   "robe": "Smoky Black",
   "race": "OC",
   "souche": "autre",
-  "photo": "img/ruby/Neelu 05.jpg",
+  "photo": "img/ruby/Ruby Neelu.jpg",
   "photo_arbre": "img/tree/neelu.jpg",
   "photos": [
     "img/ruby/Neelu 05.jpg",
@@ -20,5 +23,5 @@
     "img/ruby/Ne-05.jpg",
     "img/ruby/neelu-01.jpg"
   ],
-  "resume": "Fille de SD Ruby Jane. Née en 2023."
+  "resume": "Née chez Éloïse Richard, pleine sœur d'Orion. Neelu (« diamant » en hindi) allie un petit caractère affirmé à une grande vivacité d'esprit."
 }

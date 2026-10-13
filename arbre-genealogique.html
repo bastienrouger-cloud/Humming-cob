@@ -752,10 +752,7 @@ const enfantsDe = id => CHEVAUX
 function carteHTML(c) {
   const vraiePhoto = c.photo || c.photo_arbre;
   const photo = vraiePhoto || PLACEHOLDER[c.sexe];
-  const mots = nomCourt(c).split(' ');
-  const nomHTML = mots.length > 1
-    ? esc(mots.slice(0, -1).join(' ')) + ' <em>' + esc(mots[mots.length - 1]) + '</em>'
-    : '<em>' + esc(mots[0]) + '</em>';
+  const nomHTML = nomChevalHTML(c);   // js/chevaux.js : nom en italique, affixe en petites capitales
   const sous = c.famille === 'humming' ? (c.distinction || '') : (c.elevage || c.origine || '');
 
   const infos = [];
@@ -765,7 +762,7 @@ function carteHTML(c) {
   if (c.robe) { const rc = robeToColor(c.robe);
     infos.push(['Robe', `<span class="robe-pill" style="color:${rc};border-color:${rc}">${esc(c.robe)}</span>`]); }
   const parents = [c.pere, c.mere].filter(Boolean).map(lienCheval).join('');
-  infos.push(['Parents', parents ? `<span class="ap-liens">${parents}</span>` : '<span style="color:var(--gris)">non renseignés</span>']);
+  if (parents) infos.push(['Parents', `<span class="ap-liens">${parents}</span>`]);   // inconnus : on n'affiche rien
   const enfants = enfantsDe(c.id);
   if (enfants.length) infos.push(['Descendance',
     `<span class="ap-liens">${enfants.map(e => lienCheval(e.id)).join('')}</span>`]);

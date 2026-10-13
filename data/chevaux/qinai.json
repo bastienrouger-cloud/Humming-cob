@@ -1,7 +1,10 @@
 {
   "id": "qinai",
   "nom": "Qinaï de L'Oume",
+  "affixe": "de L'Oume",
   "famille": "externe",
+  "statut": "a-vendre",
+  "vendeur": "Le Cros",
   "sexe": "male",
   "pere": "avantgarde",
   "mere": "mystic",
@@ -10,7 +13,7 @@
   "race": "Irish Cob",
   "elevage": "Le Cros de l'Oume",
   "souche": "autre",
-  "photo": "img/avantgarde/Qinaï 01.jpg",
+  "photo": "img/avantgarde/Qinaï 05.jpg",
   "photo_arbre": "img/tree/qinai.jpg",
   "photos": [
     "img/avantgarde/Qinaï 01.jpg",
@@ -20,5 +23,5 @@
     "img/avantgarde/Qinaï 05.jpg",
     "img/avantgarde/Qinaï 06.jpg"
   ],
-  "resume": "Fils d'Avantgarde × Mystic de L'Oume. Né le 13 mai 2026. Élevage Le Cros de l'Oume."
+  "resume": "Fils d'Avantgarde × Mystic de L'Oume. Né le 13 mai 2026. Élevage Le Cros de l'Oume. Un poulain d'une grande douceur."
 }

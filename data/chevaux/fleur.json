@@ -1,6 +1,7 @@
 {
   "id": "fleur",
   "nom": "Fleur Du Vallat",
+  "affixe": "Du Vallat",
   "famille": "externe",
   "sexe": "femelle",
   "pere": "archy",

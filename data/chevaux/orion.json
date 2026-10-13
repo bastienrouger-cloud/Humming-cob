@@ -2,6 +2,7 @@
   "id": "orion",
   "nom": "HC Orion",
   "nom_usuel": "Orion",
+  "affixe": "HC",
   "famille": "humming",
   "role": "poulain",
   "statut": "a-vendre",
@@ -21,6 +22,11 @@
   "photo": "img/orion/or-index.jpg",
   "photo_arbre": "img/tree/orion.jpg",
   "resume": "Fin, élégant, sensible — grand amoureux de l'humain. Robe Grullo Silver. Taille estimée ~1m45/1m50 (toisé à 1m42). Plus léger et atlhétique, parfait pour du dressage, du poney game...",
+  "cartes": {
+    "rubyjane": {
+      "resume": "Fin, élégant, sensible — grand amoureux de l'humain. Robe Grullo Silver. Taille est. ~1m45/1m50 (toisé à 1m42). Plus léger et atlhétique, parfait pour du dressage, du poney game..."
+    }
+  },
   "caractere": [
     "Sensible",
     "Curieux",

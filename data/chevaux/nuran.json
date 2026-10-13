@@ -1,7 +1,10 @@
 {
   "id": "nuran",
   "nom": "Nuran DC",
+  "affixe": "DC",
   "famille": "externe",
+  "statut": "vendu",
+  "vendeur": "DC",
   "sexe": "male",
   "pere": "kuarahy",
   "mere": "suzie",

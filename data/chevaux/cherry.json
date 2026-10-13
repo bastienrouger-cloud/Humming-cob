@@ -1,7 +1,10 @@
 {
   "id": "cherry",
   "nom": "SD Cherry Oh Baby",
+  "affixe": "SD",
   "famille": "externe",
+  "statut": "vendu",
+  "vendeur": "SD",
   "sexe": "femelle",
   "pere": "flashharry",
   "mere": "suzie",
@@ -10,7 +13,7 @@
   "race": "Gypsy Cob",
   "elevage": "SD",
   "souche": "sd",
-  "photo": "img/suzie/cherry-01.jpg",
+  "photo": "img/suzie/cherry-04.jpg",
   "photo_arbre": "img/tree/cherry.jpg",
   "photos": [
     "img/suzie/cherry-01.jpg",

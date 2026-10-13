@@ -2,6 +2,7 @@
   "id": "omamori",
   "nom": "HC Omamori",
   "nom_usuel": "Omamori",
+  "affixe": "HC",
   "famille": "humming",
   "role": "poulain",
   "statut": "a-vendre",
@@ -19,8 +20,14 @@
   "souche": "hc",
   "page": "poulains/omamori.html",
   "photo": "img/omamori/om-index.jpg",
+  "cadrage": "center top",
   "photo_arbre": "img/tree/omamori.jpg",
   "resume": "Intelligent, réfléchi, polyvalent. De robe Grullo Silver, rare dans la race. Taille estimée ~1m50 (toisé à 1m46 déjà). Super caractère avec l'humain. Il pourra aisément évoluer en TREC, en randonnée ou devenir étalon.",
+  "cartes": {
+    "suzie": {
+      "photo": "img/omamori/Oma.jpg"
+    }
+  },
   "caractere": [
     "Lumineux",
     "Doux",

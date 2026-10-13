@@ -2,6 +2,7 @@
   "id": "sakura",
   "nom": "SD Sakura",
   "nom_usuel": "Sakura",
+  "affixe": "SD",
   "famille": "humming",
   "role": "jument",
   "sexe": "femelle",
@@ -19,6 +20,12 @@
   "photo": "img/sakura/Sakura Portrait 02.jpg",
   "photo_arbre": "img/tree/sakura.jpg",
   "resume": "Née au Pays de Galles, fille de SD Flash Harry, arrive en France en 2018. Elle entre au SB et obtient la mention Elite en 2021. Débourrée montée.",
+  "cartes": {
+    "suzie": {
+      "photo": "img/sakura/sa- 02 J15.jpg",
+      "resume": "Actuellement en confiage chez mon amie Ludivine du Cros de L'Oume, elle s'épanouit au rythme de randonnées actives."
+    }
+  },
   "notes": "Sœur complète de Ruby Jane.",
   "source": "site hummingcob.fr"
 }

@@ -2735,3 +2735,186 @@ footer {
    L'adresse #id ouvre l'arbre directement sur le cheval. */
 .voir-arbre { text-align: center; margin-top: 2.2rem; }
 .voir-arbre .btn { display: inline-flex; align-items: center; gap: .5rem; }
+
+
+/* ============================================
+   CARTES CHEVAUX — générées par build.py (<!-- @cartes: … -->)
+   Nos chevaux : lien vers la fiche. Chevaux extérieurs : ouvrent la modale.
+   Code couleur : bleu = mâle, rose = femelle (liseré, sexe, action).
+   ============================================ */
+.cc {
+  --c: var(--bleu); --ct: var(--bleu-deep);
+  position: relative; display: flex; flex-direction: column; height: 100%;
+  background: #fff; color: var(--noir); text-decoration: none;
+  border: 1px solid rgba(60, 40, 35, .07); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 1px 2px rgba(60, 40, 35, .04), 0 8px 24px rgba(60, 40, 35, .06);
+  cursor: pointer;
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease, opacity .7s ease;
+}
+.cc--femelle { --c: var(--rose); --ct: var(--rose-deep); }
+.cc:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgba(60, 40, 35, .05), 0 18px 40px rgba(60, 40, 35, .12); }
+.cc:focus-visible { outline: 2px solid var(--c); outline-offset: 3px; }
+
+.cc-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #F3EEE6; }
+.cc-photo img {
+  width: 100%; height: 100%; max-width: none; object-fit: cover;
+  transition: transform .8s cubic-bezier(.2, .8, .2, 1);
+}
+.cc:hover .cc-photo img { transform: scale(1.05); }
+.cc-photo::after {                                   /* liseré bleu / rose sous la photo */
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--c);
+}
+.cc-badge {
+  position: absolute; top: .9rem; left: .9rem; z-index: 1;
+  padding: .34rem .8rem; border-radius: 50px;
+  font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: #fff;
+  background: rgba(28, 28, 28, .5); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.cc-badge--vente { background: rgba(62, 125, 90, .9); }
+.cc-badge--elite { background: rgba(176, 140, 60, .92); }
+.cc-nb {
+  position: absolute; right: .9rem; bottom: 1rem; z-index: 1;
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .28rem .65rem; border-radius: 50px; font-size: .72rem; color: #fff;
+  background: rgba(28, 28, 28, .45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.cc-corps { display: flex; flex-direction: column; flex: 1; padding: 1.15rem 1.3rem 1.3rem; }
+.cc-tags {                                           /* 2 lignes réservées : hauteur de carte constante, rien de tronqué */
+  margin: 0 0 .45rem; line-height: 1.6; min-height: calc(1.6em * 2);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris);
+}
+.cc-tags span + span::before { content: '·'; margin: 0 .4rem; opacity: .6; }
+.cc-sexe { color: var(--ct); font-weight: 500; }
+.cc-nom { font-family: var(--font-serif); font-weight: 400; font-size: 1.55rem; line-height: 1.15; margin: 0 0 .55rem; color: var(--noir); }
+.cc-texte {
+  margin: 0 0 1.1rem; font-size: .86rem; line-height: 1.6; color: var(--gris);
+  min-height: calc(1.6em * 3);                       /* hauteur uniforme : 3 lignes */
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.cc-action {
+  margin-top: auto; display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct);
+  transition: gap .3s ease;
+}
+.cc-action svg { transition: transform .3s ease; }
+.cc:hover .cc-action { gap: .8rem; }
+.cc:hover .cc-action svg { transform: translateX(3px); }
+
+/* Grilles de cartes : colonnes de largeur bornée → toutes les cartes du site
+   ont la même taille, quelle que soit la grille qui les accueille. */
+.horses-grid:has(> .cc) { grid-template-columns: repeat(auto-fill, minmax(250px, 290px)); justify-content: start; gap: 1.75rem; }
+@media (max-width: 600px) {
+  .horses-grid:has(> .cc) { grid-template-columns: minmax(0, 340px); justify-content: center; }
+}
+
+/* ── Modale des chevaux extérieurs (js/main.js) ── */
+.cm[hidden] { display: none; }
+.cm { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: 1.5rem; }
+.cm-fond {
+  position: absolute; inset: 0; background: rgba(28, 22, 20, .62);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); animation: cm-fondu .25s ease;
+}
+.cm-boite {
+  --c: var(--bleu); --ct: var(--bleu-deep);
+  position: relative; width: min(1040px, 100%); height: min(640px, calc(100vh - 3rem));
+  display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  background: #FFFDFB; border-radius: 24px; overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .35);
+  animation: cm-entree .35s cubic-bezier(.2, .8, .2, 1);
+}
+.cm-boite.is-femelle { --c: var(--rose); --ct: var(--rose-deep); }
+.cm-carrousel { position: relative; overflow: hidden; background: #1C1C1C; touch-action: pan-y; }
+.cm-slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .5s ease; }
+.cm-slide.actif { opacity: 1; }
+.cm-slide::before {                                   /* fond flouté de la même photo */
+  content: ''; position: absolute; inset: 0;
+  background: var(--bg) center / cover no-repeat;
+  filter: blur(26px) brightness(.7); transform: scale(1.18);
+}
+.cm-slide img { position: relative; width: 100%; height: 100%; max-width: none; object-fit: contain; }
+.cm-nav {
+  position: absolute; top: 50%; z-index: 2; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(255, 255, 255, .85); color: var(--noir); font-size: 1.5rem; line-height: 1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .2); transition: background .2s, transform .2s;
+}
+.cm-nav:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
+.cm-prec { left: 1rem; }
+.cm-suiv { right: 1rem; }
+.cm-points { position: absolute; left: 0; right: 0; bottom: 1rem; z-index: 2; display: flex; justify-content: center; gap: .4rem; }
+.cm-points button {
+  width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+  background: rgba(255, 255, 255, .5); transition: width .25s, background .25s, border-radius .25s;
+}
+.cm-points button.actif { width: 22px; border-radius: 4px; background: #fff; }
+.cm-compteur {
+  position: absolute; top: 1rem; left: 1rem; z-index: 2;
+  padding: .25rem .65rem; border-radius: 50px; font-size: .7rem; color: #fff; background: rgba(0, 0, 0, .35);
+}
+.cm-fermer {
+  position: absolute; top: .9rem; right: .9rem; z-index: 3;
+  width: 38px; height: 38px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(255, 255, 255, .94); color: var(--noir); font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+}
+.cm-infos { position: relative; overflow-y: auto; overscroll-behavior: contain; padding: 2.4rem 2.2rem 2rem; display: flex; flex-direction: column; }
+.cm-infos::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--c); }
+.cm-genre {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: 0 0 .45rem;
+  font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct);
+}
+.cm-badge { padding: .18rem .6rem; border-radius: 50px; border: 1px solid currentColor; font-size: .58rem; letter-spacing: .12em; color: var(--gris); }
+.cm-badge--vente { color: #3E7D5A; }
+.cm-nom { font-family: var(--font-serif); font-weight: 400; font-size: 2.1rem; line-height: 1.1; margin: 0; color: var(--noir); }
+.cm-nom em { color: var(--ct); }
+.cm-texte { margin: 1.3rem 0 0; font-size: .92rem; line-height: 1.7; color: var(--noir); }
+.cm-infos dl {
+  display: grid; grid-template-columns: auto 1fr; gap: .6rem 1.2rem; align-items: baseline;
+  margin: 1.4rem 0 0; padding-top: 1.2rem; border-top: 1px solid rgba(60, 40, 35, .08); font-size: .86rem;
+}
+.cm-infos dt { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
+.cm-infos dd { margin: 0; color: var(--noir); }
+.cm-infos dd a { color: var(--ct); border-bottom: 1px solid currentColor; }
+.cm-infos .cm-n--male { color: var(--bleu-deep); }
+.cm-infos .cm-n--femelle { color: var(--rose-deep); }
+.cm-actions { margin-top: auto; padding-top: 1.6rem; display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
+.cm-lien {
+  display: inline-flex; align-items: center; gap: .45rem; padding: .55rem 1.15rem;
+  font-size: .64rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ct); border: 1.5px solid var(--ct); border-radius: 50px; transition: background .2s, color .2s;
+}
+.cm-lien:hover { background: var(--ct); color: #fff; }
+@keyframes cm-entree { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes cm-fondu  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cm-monte  { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+@media (max-width: 800px) {
+  .cm { padding: 0; place-items: end center; }
+  .cm-boite {
+    grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr);
+    width: 100%; height: 92vh; height: 92dvh; border-radius: 22px 22px 0 0; animation-name: cm-monte;
+  }
+  .cm-carrousel { aspect-ratio: 4 / 3; }
+  .cm-infos { padding: 1.5rem 1.3rem calc(1.6rem + env(safe-area-inset-bottom)); }
+  .cm-infos::before { right: 0; bottom: auto; width: auto; height: 3px; }
+  .cm-nav { width: 38px; height: 38px; font-size: 1.3rem; }
+  .cm-nom { font-size: 1.75rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NOMS DES CHEVAUX — générés par build.py (nom_html) ou chevaux.js
+   (nomChevalHTML) : <span class="nc nc--male|femelle">
+     <span class="nc-a">affixe</span> <em class="nc-n">nom</em> …
+   Le nom en italique, couleur du sexe ; l'affixe d'élevage en petites
+   capitales grises, devant ou derrière selon le nom officiel.
+   ═══════════════════════════════════════════════════════════ */
+.nc-n { font-style: italic; }
+.nc--male    .nc-n { color: var(--bleu-deep); }
+.nc--femelle .nc-n { color: var(--rose-deep); }
+.nc-a {
+  font-family: var(--font-sans); font-style: normal; font-weight: 400;
+  font-size: .42em; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--gris); vertical-align: .32em; white-space: nowrap;
+}
+.nc-p { font-size: .62em; font-style: normal; color: var(--gris); }
+.horse-hero-name .nc-a { font-size: .3em; vertical-align: .55em; letter-spacing: .2em; }

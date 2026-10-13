@@ -306,72 +306,150 @@ if (revealEls.length) {
   }, {passive:true});
 })();
 
-// ── Modal descendants (foal-card) ──────────────────────────────────────────────
+// ── Cartes chevaux → modale (chevaux extérieurs) ──────────────────────────────
+// Les cartes sont générées par build.py (<!-- @cartes: … -->). Une carte de
+// cheval extérieur (.cc--modale) ouvre cette modale, nourrie par js/chevaux.js
+// (CHEVAUX) : carrousel des photos + toutes les données connues. Une donnée
+// absente n'est pas affichée (pas de « mère : inconnue »).
 (function () {
-  if (!document.querySelector('.foal-card')) return;
+  const cartes = document.querySelectorAll('.cc--modale');
+  if (!cartes.length || typeof CHEVAUX === 'undefined') return;
 
-  // Injection HTML (évite de dupliquer dans chaque page)
+  const PAR_ID = Object.fromEntries(CHEVAUX.map(c => [c.id, c]));
+  const scriptMain = document.querySelector('script[src$="js/main.js"]');
+  const BASE = scriptMain ? scriptMain.getAttribute('src').replace(/js\/main\.js$/, '') : '';
+  const url  = p => BASE + p;
+  const esc  = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
+  const MOIS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  const dateFr = d => { const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(d || ''); return m ? `${+m[3]} ${MOIS[+m[2] - 1]} ${m[1]}` : d; };
+  const annee = c => { const m = /\d{4}/.exec(c.naissance || ''); return m ? +m[0] : null; };
+
+  // Même règle que build.py (libelle_sexe)
+  function libelleSexe(c) {
+    const an = annee(c), age = an ? new Date().getFullYear() - an : null;
+    if (c.sexe === 'hongre') return 'Hongre';
+    if (c.sexe === 'femelle') return (age !== null && age < 3 && c.role !== 'jument') ? 'Pouliche' : 'Jument';
+    if (c.role === 'etalon') return 'Étalon';
+    return (age !== null && age < 1) ? 'Poulain' : 'Entier';
+  }
+  function badge(c) {
+    const e = c.sexe === 'femelle' ? 'e' : '', par = c.vendeur ? ' par ' + c.vendeur : '';
+    if (c.statut === 'a-vendre') return `<span class="cm-badge cm-badge--vente">À vendre${esc(par)}</span>`;
+    if (c.statut === 'reserve')  return `<span class="cm-badge">Réservé${e}${esc(par)}</span>`;
+    if (c.statut === 'vendu')    return `<span class="cm-badge">Vendu${e}${esc(par)}</span>`;
+    return '';
+  }
+  const lienCheval = id => {
+    const c = PAR_ID[id];
+    if (!c) return '';
+    const cl = 'cm-n cm-n--' + (c.sexe === 'femelle' ? 'femelle' : 'male');
+    return c.page ? `<a class="${cl}" href="${esc(url(c.page))}">${esc(c.nom)}</a>` : `<span class="${cl}">${esc(c.nom)}</span>`;
+  };
+
   document.body.insertAdjacentHTML('beforeend', `
-    <div id="foal-modal">
-      <div id="foal-panel">
-        <div id="foal-panel-img-wrap">
-          <button id="foal-modal-close" aria-label="Fermer">✕</button>
-          <button class="foal-nav" id="foal-prev">&#8249;</button>
-          <img id="foal-panel-img" src="" alt="">
-          <button class="foal-nav" id="foal-next">&#8250;</button>
-        </div>
-        <div id="foal-panel-info">
-          <h3 id="foal-panel-name"></h3>
-          <p id="foal-panel-desc"></p>
-          <p id="foal-panel-counter"></p>
-        </div>
+    <div class="cm" id="cm" hidden>
+      <div class="cm-fond" data-fermer></div>
+      <div class="cm-boite" role="dialog" aria-modal="true" aria-labelledby="cmNom">
+        <button type="button" class="cm-fermer" data-fermer aria-label="Fermer">✕</button>
+        <div class="cm-carrousel"></div>
+        <div class="cm-infos"></div>
       </div>
     </div>`);
+  const cm = document.getElementById('cm');
+  const boite = cm.querySelector('.cm-boite');
+  const carrousel = cm.querySelector('.cm-carrousel');
+  const infos = cm.querySelector('.cm-infos');
+  let photos = [], idx = 0, carteOrigine = null;
 
-  const modal  = document.getElementById('foal-modal');
-  const mImg   = document.getElementById('foal-panel-img');
-  const mName  = document.getElementById('foal-panel-name');
-  const mDesc  = document.getElementById('foal-panel-desc');
-  const mCount = document.getElementById('foal-panel-counter');
-  const mPrev  = document.getElementById('foal-prev');
-  const mNext  = document.getElementById('foal-next');
-  let mImgs = [], mIdx = 0;
+  function montrer(n) {
+    if (!photos.length) return;
+    idx = (n + photos.length) % photos.length;
+    carrousel.querySelectorAll('.cm-slide').forEach((s, i) => s.classList.toggle('actif', i === idx));
+    carrousel.querySelectorAll('.cm-points button').forEach((p, i) => p.classList.toggle('actif', i === idx));
+    const cpt = carrousel.querySelector('.cm-compteur');
+    if (cpt) cpt.textContent = `${idx + 1} / ${photos.length}`;
+  }
 
-  function openModal(name, desc, imgs, startIdx) {
-    mImgs = imgs; mIdx = (startIdx >= 0 && startIdx < imgs.length) ? startIdx : 0;
-    mName.textContent = name;
-    mDesc.textContent = desc;
-    update();
-    modal.classList.add('open');
+  function ouvrir(carte) {
+    const c = PAR_ID[carte.dataset.cheval];
+    if (!c) return;
+    const v = Object.assign({}, c, (c.cartes || {})[carte.dataset.contexte || ''] || {});
+    photos = (v.photos && v.photos.length) ? v.photos : [v.photo].filter(Boolean);
+    const femelle = c.sexe === 'femelle';
+    boite.classList.toggle('is-femelle', femelle);
+
+    carrousel.innerHTML = photos.map((p, i) => `
+      <figure class="cm-slide" style="--bg:url('${esc(url(p)).replace(/'/g, '%27')}')">
+        <img src="${esc(url(p))}" alt="${esc(c.nom)} — photo ${i + 1}"${i ? ' loading="lazy"' : ''}>
+      </figure>`).join('') + (photos.length > 1 ? `
+      <button type="button" class="cm-nav cm-prec" aria-label="Photo précédente">‹</button>
+      <button type="button" class="cm-nav cm-suiv" aria-label="Photo suivante">›</button>
+      <div class="cm-points">${photos.map((_, i) => `<button type="button" aria-label="Photo ${i + 1}"></button>`).join('')}</div>
+      <span class="cm-compteur"></span>` : '');
+
+    const nom = nomChevalHTML(c);   // js/chevaux.js (généré par build.py)
+    const lignes = [];
+    if (c.naissance) lignes.push([c.deces ? 'Vie' : (femelle ? 'Née' : 'Né'), esc(dateFr(c.naissance)) + (c.deces ? ' — ' + esc(c.deces) : '')]);
+    if (c.race)   lignes.push(['Race', esc(c.race)]);
+    if (c.robe)   lignes.push(['Robe', esc(c.robe)]);
+    if (c.taille) lignes.push(['Taille', esc(c.taille)]);
+    if (c.pere && PAR_ID[c.pere]) lignes.push(['Père', lienCheval(c.pere)]);
+    if (c.mere && PAR_ID[c.mere]) lignes.push(['Mère', lienCheval(c.mere)]);
+    if (c.elevage)      lignes.push(['Élevage', esc(c.elevage.replace(/^Élevage\s+/i, ''))]);
+    else if (c.origine) lignes.push(['Origine', esc(c.origine)]);
+    if (c.papiers) lignes.push(['Papiers', esc(c.papiers)]);
+    const texte = v.description || v.resume;
+    const arbre = (typeof POSITIONS_ARBRE !== 'undefined' && POSITIONS_ARBRE[c.id])
+      ? `<a class="cm-lien" href="${esc(url('arbre-genealogique.html#' + c.id))}">Voir dans l'arbre généalogique
+           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>` : '';
+
+    infos.innerHTML = `
+      <p class="cm-genre">${libelleSexe(c)}${badge(c)}</p>
+      <h2 class="cm-nom" id="cmNom">${nom}</h2>
+      ${texte ? `<p class="cm-texte">${esc(texte)}</p>` : ''}
+      ${lignes.length ? `<dl>${lignes.map(([k, x]) => `<dt>${k}</dt><dd>${x}</dd>`).join('')}</dl>` : ''}
+      ${arbre ? `<div class="cm-actions">${arbre}</div>` : ''}`;
+    infos.scrollTop = 0;
+    montrer(0);
+    carteOrigine = carte;
+    cm.hidden = false;
     document.body.style.overflow = 'hidden';
+    cm.querySelector('.cm-fermer').focus();
   }
-  function closeModal() {
-    modal.classList.remove('open');
+
+  function fermer() {
+    cm.hidden = true;
     document.body.style.overflow = '';
+    if (carteOrigine) carteOrigine.focus();
   }
-  function update() {
-    mImg.src = mImgs[mIdx];
-    mCount.textContent = mImgs.length > 1 ? (mIdx + 1) + ' / ' + mImgs.length : '';
-    mPrev.classList.toggle('hidden', mImgs.length <= 1);
-    mNext.classList.toggle('hidden', mImgs.length <= 1);
-  }
-  function go(n) { mIdx = (n + mImgs.length) % mImgs.length; update(); }
 
-  document.getElementById('foal-modal-close').addEventListener('click', closeModal);
-  mPrev.addEventListener('click', e => { e.stopPropagation(); go(mIdx - 1); });
-  mNext.addEventListener('click', e => { e.stopPropagation(); go(mIdx + 1); });
-  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', e => {
-    if (!modal.classList.contains('open')) return;
-    if (e.key === 'Escape')     closeModal();
-    if (e.key === 'ArrowLeft')  go(mIdx - 1);
-    if (e.key === 'ArrowRight') go(mIdx + 1);
+  cm.addEventListener('click', e => { if (e.target.closest('[data-fermer]')) fermer(); });
+  carrousel.addEventListener('click', e => {
+    if (e.target.closest('.cm-prec')) montrer(idx - 1);
+    else if (e.target.closest('.cm-suiv')) montrer(idx + 1);
+    else {
+      const p = e.target.closest('.cm-points button');
+      if (p) montrer([...p.parentNode.children].indexOf(p));
+    }
   });
+  document.addEventListener('keydown', e => {
+    if (cm.hidden) return;
+    if (e.key === 'Escape')     fermer();
+    if (e.key === 'ArrowLeft')  montrer(idx - 1);
+    if (e.key === 'ArrowRight') montrer(idx + 1);
+  });
+  let x0 = null;
+  carrousel.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  carrousel.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) montrer(idx + (dx < 0 ? 1 : -1));
+  }, { passive: true });
 
-  document.querySelectorAll('.foal-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const imgs = JSON.parse(card.dataset.images);
-      openModal(card.dataset.name, card.dataset.desc, imgs, 0);
+  cartes.forEach(carte => {
+    carte.addEventListener('click', () => ouvrir(carte));
+    carte.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ouvrir(carte); }
     });
   });
 })();

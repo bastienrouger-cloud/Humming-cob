@@ -2,6 +2,7 @@
   "id": "jinba",
   "nom": "HC Jinba Ittaï",
   "nom_usuel": "Jinba Ittaï",
+  "affixe": "HC",
   "famille": "humming",
   "role": "poulain",
   "statut": "vendu",
@@ -10,7 +11,7 @@
   "mere": "suzie",
   "naissance": "2019-04-04",
   "robe": "Noire Sabino",
-  "race": "2019",
+  "race": "Irish Cob",
   "taille": "1m45",
   "origine": "France · Humming Cob",
   "papiers": "Plein Papier",
@@ -18,6 +19,13 @@
   "souche": "hc",
   "page": "poulains/Jinba-Ittaï.html",
   "photo": "img/jinba/ji-index.jpg",
+  "cadrage": "center top",
   "photo_arbre": "img/tree/jinba.jpg",
-  "resume": "Née le 4 avril 2019. Noir sabino, du bleu dans les yeux. Première pouliche née en France du mariage inégalable de Suzie et Flash Harry, à porter notre affixe (HC). Elle réside désormais à deux pas de l'élevage."
+  "resume": "Née le 4 avril 2019. Noir sabino, du bleu dans les yeux. Première pouliche née en France du mariage inégalable de Suzie et Flash Harry, à porter notre affixe (HC). Elle réside désormais à deux pas de l'élevage.",
+  "cartes": {
+    "suzie": {
+      "photo": "img/jinba/ji-03-J+30.jpg",
+      "resume": "Du bleu dans les yeux, du tempérament, elle est la première pouliche à porter notre affixe (HC). Elle poursuit son aventure à deux pas de l'élevage."
+    }
+  }
 }
