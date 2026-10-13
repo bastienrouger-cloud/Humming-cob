@@ -44,7 +44,6 @@ existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
 | `photos` | liste d'images | galerie de la modale |
 | `resume` | 2–3 phrases | texte de la carte et de la modale |
 | `caractere` | liste de mots | |
-| `arbre` | `true` · `false` | visible dans l'arbre généalogique |
 | `notes` | texte libre | infos de référence (GVHS, taille…), non affichées sur les cartes |
 | `source` | `site hummingcob.fr`, `infochevaux IFCE`… | origine de l'information |
 
@@ -52,3 +51,10 @@ Les champs vides sont simplement absents du fichier.
 
 Le texte long des fiches (histoire, palmarès, descriptions) reste dans les pages HTML :
 seules les données répétées ailleurs vivent ici.
+
+## Arbre généalogique
+
+`arbre-positions.json` donne la place de chaque cheval dans l'arbre (`x`, `y`,
+placement à la main). **Un cheval apparaît dans l'arbre s'il a une position** ; les
+liens père/mère sont tracés automatiquement à partir des fiches. Rangées actuelles
+(`y`) : −110 et 70 ascendants, 255 et 440 reproducteurs, 630 et 820 descendants.

@@ -26,7 +26,7 @@ Le jeton {{home}} évite un rechargement inutile de la page quand on clique sur
 Données des chevaux
 -------------------
 Le script génère aussi `js/chevaux.js` à partir de `data/chevaux/*.json`
-(source unique, voir data/README.md). Les fichiers sont vérifiés au passage :
+et `data/arbre-positions.json` (source unique, voir data/README.md). Les fichiers sont vérifiés au passage :
 champs obligatoires, valeurs autorisées, père et mère existants. En cas
 d'erreur, rien n'est écrit.
 
@@ -46,6 +46,7 @@ PARTIALS = ROOT / "partials"
 
 DATA_CHEVAUX = ROOT / "data" / "chevaux"
 CHEVAUX_JS = ROOT / "js" / "chevaux.js"
+POSITIONS_ARBRE = ROOT / "data" / "arbre-positions.json"
 
 # Dossiers à ne jamais parcourir
 EXCLUDED_DIRS = {".git", "img", "partials", "claude cowork", "node_modules"}
@@ -132,11 +133,28 @@ def generer_chevaux_js():
             elif par_id[p].get("sexe") not in sexes:
                 erreurs.append("%s : %s « %s » a le mauvais sexe (%s)" % (c.get("id"), champ, p, par_id[p].get("sexe")))
 
+    # Positions dans l'arbre généalogique (placement manuel) : un cheval est
+    # dans l'arbre s'il a une position.
+    positions = {}
+    if POSITIONS_ARBRE.exists():
+        try:
+            positions = json.loads(POSITIONS_ARBRE.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            erreurs.append("arbre-positions.json : JSON invalide (%s)" % e)
+    for pid, p in positions.items():
+        if pid not in par_id:
+            erreurs.append("arbre-positions.json : « %s » n'existe pas dans data/chevaux/" % pid)
+        if not isinstance(p, dict) or not all(isinstance(p.get(k), (int, float)) for k in ("x", "y")):
+            erreurs.append("arbre-positions.json : position de « %s » invalide (attendu {\"x\": …, \"y\": …})" % pid)
+
     lignes = ",\n".join("  " + json.dumps(c, ensure_ascii=False) for c in chevaux)
+    lignes_pos = ",\n".join("  %s: %s" % (json.dumps(k), json.dumps(v)) for k, v in positions.items())
     contenu = (
         "// FICHIER GÉNÉRÉ par build.py à partir de data/chevaux/*.json — ne pas éditer à la main.\n"
         "// Pour modifier un cheval : éditer son fichier JSON, puis lancer `python3 build.py`.\n"
-        "const CHEVAUX = [\n" + lignes + "\n];\n"
+        "const CHEVAUX = [\n" + lignes + "\n];\n\n"
+        "// Positions dans l'arbre généalogique (data/arbre-positions.json).\n"
+        "const POSITIONS_ARBRE = {\n" + lignes_pos + "\n};\n"
     )
     return contenu, erreurs
 
