@@ -54,7 +54,10 @@
       padding: 0;
       min-height: 100vh;
       min-height: 100dvh;
-      line-height: normal;   /* style.css met 1.7 : on garde le rendu d'origine */
+      line-height: normal;
+      /* ESSAI de fond nuancé (crème → rosé très léger), limité à cette page en
+         attendant la refonte des fonds du site. Retirer cette ligne pour revenir au crème uni. */
+      background: linear-gradient(180deg, #FEFBF6 0%, #FDF7F3 55%, #FAF0EE 100%) fixed;   /* style.css met 1.7 : on garde le rendu d'origine */
     }
 
     .header {
@@ -178,24 +181,28 @@
     /* Étiquettes de génération */
     .gen-label {
       position: absolute;
-      left: 10px;
+      left: 14px;
       pointer-events: none;
       z-index: 5;
-      transform: translateY(-50%);
+      transform: translateY(calc(-100% - 7px));   /* posée AU-DESSUS de sa ligne : ne chevauche jamais un cheval de la rangée */
       opacity: 0;
       transition: opacity 0.25s;
     }
     .gen-label.visible { opacity: 1; }
     .gen-label-text {
-      font-size: 0.56rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gris);
-      white-space: nowrap;
-      background: rgba(254,251,246,0.88);
-      padding: 2px 7px;
-      border-radius: 4px;
-      border-left: 2px solid rgba(176,96,112,0.25);
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-family: var(--sans); font-size: .55rem; font-weight: 500;
+      letter-spacing: .15em; text-transform: uppercase; white-space: nowrap;
+      color: var(--rose-deep);
+      background: rgba(255, 255, 255, .78);
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+      padding: .26rem .7rem .26rem .55rem; border-radius: 50px;
+      border: 1px solid rgba(176, 96, 112, .16);
+      box-shadow: 0 2px 8px rgba(60, 40, 35, .06);
+    }
+    .gen-label-text::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; opacity: .5;
     }
 
     /* Lightbox photo arbre */
@@ -224,8 +231,10 @@
 
     /* Legend */
     .legend {
-      display: flex; gap: 2rem; justify-content: center;
-      margin-top: 2rem; flex-wrap: wrap;
+      display: flex; gap: .6rem 1.6rem; justify-content: center; flex-wrap: wrap;
+      padding: .75rem 1.25rem;
+      border-top: 1px solid rgba(176, 96, 112, .12);
+      background: rgba(255, 255, 255, .55);
     }
     .leg { display: flex; align-items: center; gap: 8px; font-size: 0.72rem; color: var(--gris); }
     .leg-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; }
@@ -242,13 +251,23 @@
       grid-template-columns: minmax(0, 1fr) 360px;
       grid-template-rows: auto minmax(0, 1fr);
       column-gap: 1.25rem;
-      padding-right: 1.25rem;
+      padding: 0 1.25rem 1.25rem 0;
       position: relative;
     }
-    .arbre-zone .tree-outer {
+    /* Cadre de l'arbre : un « plan de travail » à peine plus clair au centre et
+       légèrement rosé sur les bords, pour détacher l'arbre du fond de page.
+       Il porte aussi l'interrupteur et la légende (bandeau du bas). */
+    .arbre-cadre {
       grid-column: 1; grid-row: 1 / span 2;
-      height: auto; min-height: 0; flex: none;
+      position: relative; min-height: 0;
+      display: flex; flex-direction: column;
+      margin-left: 1.25rem;
+      border-radius: 22px; overflow: hidden;
+      background: radial-gradient(ellipse 75% 70% at 50% 45%, #FFFEFB 0%, #FCF6F1 62%, #F9EEEC 100%);
+      border: 1px solid rgba(176, 96, 112, .16);
+      box-shadow: 0 1px 0 rgba(255,255,255,.8) inset, 0 12px 34px rgba(60, 40, 35, .06);
     }
+    .arbre-cadre .tree-outer { flex: 1 1 auto; height: auto; min-height: 0; }
     .node-group:hover { opacity: 1 !important; }   /* un extérieur estompé se révèle au survol */
 
     /* Recherche */
@@ -345,7 +364,8 @@
     .ap-cta:hover { background: var(--ct); color: #fff; }
     .ap-note { margin-top: 1rem; font-size: .75rem; color: var(--gris); font-style: italic; }
     .ap-vide {
-      padding: 1.25rem; border: 1px dashed rgba(176,96,112,.3); border-radius: 18px;
+      padding: 1.25rem; border: 1px solid rgba(176,96,112,.16); border-radius: 18px;
+      background: linear-gradient(180deg, #FFFEFB 0%, #FBF3EF 100%);
       color: var(--gris); font-size: .85rem; line-height: 1.6;
     }
     .ap-vide-titre { font-family: var(--serif); font-size: 1.45rem; color: var(--noir); margin-bottom: .25rem; }
@@ -368,17 +388,57 @@
     .ap-med-nom { font-family: var(--serif); font-size: .98rem; line-height: 1.1; text-align: center; }
     .ap-med-note { font-size: .56rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); margin-top: -.15rem; }
     .ap-med-note.is-vente { color: #3E7D5A; }
+    /* Élite : même code que l'arbre — étoile dorée + anneau doré en pointillés */
+    .ap-med { position: relative; }
+    .ap-med.is-elite .ap-med-img { outline: 1.5px dashed rgba(192, 160, 80, .75); outline-offset: 4px; }
+    .ap-med-etoile {
+      position: absolute; top: -.55rem; left: 50%; transform: translateX(-50%);
+      color: #C0A050; font-size: .78rem; line-height: 1;
+      text-shadow: 0 0 3px #FEFBF6, 0 0 3px #FEFBF6;
+    }
     .ap-med.is-memoire .ap-med-img { filter: grayscale(.85); opacity: .85; border-style: dashed; }
     .ap-vide .ap-vide-sous { color: var(--rose-deep); }
+
+    /* Légende : mini-photo et étoile */
+    .leg-photo { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; border: 1.5px solid #D4899A; flex-shrink: 0; }
+    .leg-star { width: 14px; text-align: center; color: #C0A050; font-size: 12px; flex-shrink: 0; }
+
+    /* Interrupteur « Chevaux extérieurs » (posé sur l'arbre, hors de la zone
+       tactile de l'arbre, qui bloque les gestes par défaut) */
+    .arbre-switch {
+      position: absolute; top: .6rem; left: .75rem; z-index: 15;
+      display: inline-flex; align-items: center; gap: .55rem;
+      padding: .4rem .8rem .4rem .5rem; border-radius: 50px;
+      background: rgba(255,255,255,.88); backdrop-filter: blur(4px);
+      border: 1px solid rgba(0,0,0,.08); box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris);
+      cursor: pointer; user-select: none;
+    }
+    .arbre-switch input { position: absolute; opacity: 0; pointer-events: none; }
+    .arbre-switch-piste {
+      width: 28px; height: 16px; border-radius: 8px; background: #D9D3CB; position: relative;
+      transition: background .2s;
+    }
+    .arbre-switch-piste::after {
+      content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px;
+      border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform .2s;
+    }
+    .arbre-switch input:checked + .arbre-switch-piste { background: var(--rose-deep); }
+    .arbre-switch input:checked + .arbre-switch-piste::after { transform: translateX(12px); }
+    .arbre-switch input:focus-visible + .arbre-switch-piste { outline: 2px solid var(--rose); outline-offset: 2px; }
+    @media (max-width: 900px) { .arbre-switch { top: 3.6rem; left: .6rem; } }
 
     /* Sous-titre adapté : souris ou doigt */
     .sur-tactile { display: none; }
     @media (hover: none) { .sur-souris { display: none; } .sur-tactile { display: inline; } }
 
     @media (max-width: 900px) {
-      .arbre-zone { display: flex; flex-direction: column; padding-right: 0; min-height: 60vh; }
-      .arbre-zone .tree-outer { flex: 1 1 auto; min-height: 60vh; }
-      .ap-recherche { position: absolute; top: .6rem; left: .75rem; right: .75rem; padding: 0; }
+      .arbre-zone { display: flex; flex-direction: column; padding: 0 0 .9rem; min-height: 60vh; }
+      .arbre-cadre { flex: 1 1 auto; margin: 0 .6rem; border-radius: 18px; }
+      .arbre-cadre .tree-outer { min-height: 55vh; }
+      .legend { gap: .45rem 1.1rem; padding: .65rem .9rem; }
+      .leg { font-size: .66rem; }
+      .ap-recherche { position: absolute; top: .65rem; left: 1.2rem; right: 1.2rem; padding: 0; }   /* dans le cadre (marge .6rem) */
       .ap-recherche input { box-shadow: 0 2px 10px rgba(0,0,0,.08); }
       .mobile-hint { top: auto; bottom: .7rem; left: .75rem; transform: none; }
       .arbre-panneau {
@@ -441,6 +501,7 @@
 </div>
 
 <div class="arbre-zone">
+<div class="arbre-cadre">
 <div class="tree-outer" id="treeOuter">
   <svg class="tree-svg" id="tree"></svg>
   <div class="gen-label" data-y="-110"><div class="gen-label-text">Ascendants</div></div>
@@ -454,6 +515,26 @@
   </div>
 </div>
 
+
+
+<label class="arbre-switch">
+  <input type="checkbox" id="voirExt">
+  <span class="arbre-switch-piste" aria-hidden="true"></span>
+  Chevaux extérieurs
+</label>
+
+<div class="legend">
+  <div class="leg"><div class="leg-dot" style="background:#EEF3F7;border-color:#5B7FA6;"></div>Mâle</div>
+  <div class="leg"><div class="leg-dot" style="background:#FFF0F4;border-color:#D4899A;"></div>Femelle</div>
+  <div class="leg"><img class="leg-photo" src="img/placeholders/jument.jpg" alt="">Nos chevaux</div>
+  <div class="leg"><div class="leg-dot" style="background:#F6F3EE;border-color:#9A9290;border-style:dashed;opacity:.7;"></div>Extérieur à l'élevage</div>
+  <div class="leg"><span class="leg-star">★</span>Élite grade 1</div>
+  <div class="leg"><div class="leg-cross">†</div>En mémoire</div>
+  <div class="leg"><div class="leg-line" style="background:#5B7FA6;"></div>Ligne paternelle</div>
+  <div class="leg"><div class="leg-line" style="background:#D4899A;"></div>Ligne maternelle</div>
+</div>
+</div><!-- /.arbre-cadre -->
+
 <div class="ap-recherche" role="search">
   <input id="recherche" type="search" placeholder="Rechercher un cheval…" autocomplete="off"
          aria-label="Rechercher un cheval" aria-controls="suggestions">
@@ -465,29 +546,7 @@
 </aside>
 </div><!-- /.arbre-zone -->
 
-<div class="legend">
-  <div class="leg">
-    <div class="leg-dot" style="background:#EEF3F7;border-color:#5B7FA6;"></div>Étalon
-  </div>
-  <div class="leg">
-    <div class="leg-dot" style="background:#FFF0F4;border-color:#D4899A;"></div>Jument
-  </div>
-  <div class="leg">
-    <div class="leg-dot" style="background:#F5EDE0;border-color:#C0A050;"></div>Poulain
-  </div>
-  <div class="leg">
-    <div class="leg-dot" style="background:#F0EEE8;border-color:#C8C0BC;border-style:dashed;"></div>Externe
-  </div>
-  <div class="leg">
-    <div class="leg-cross">†</div>En mémoire
-  </div>
-  <div class="leg">
-    <div class="leg-line" style="background:#5B7FA6;"></div>Ligne paternelle
-  </div>
-  <div class="leg">
-    <div class="leg-line" style="background:#D4899A;"></div>Ligne maternelle
-  </div>
-</div>
+
 
 
 <script src="js/main.js"></script>
@@ -496,6 +555,7 @@
 // ── RADII
 const R          = 12;
 const R_ACTIVE   = 52;
+const R_NOTRE    = 24;  // nos chevaux au repos : mini-photo (les extérieurs gardent R)
 const R_SELECTED = 64;  // n'est plus utilisé : le nœud sélectionné ne grossit plus, il est identifié par son nom éclairé (voir applyState). Conservé au cas où.
 
 // ── DONNÉES ─────────────────────────────────────────────────────────────
@@ -544,10 +604,12 @@ const DATA = DANS_ARBRE.map(c => {
   if (c.role === 'memoire')                         d.memorial = true;
   else if (c.role === 'poulain' || produitDesNotres) {
     d.foal = true;
-    if (produitDesNotres || c.statut === 'vendu')   d.hidden = true;   // estompé au repos
+    if (produitDesNotres)                           d.hidden = true;   // né ailleurs : estompé au repos
   }
   else if (c.famille === 'externe')                 d.ext = true;
   if (/Élite/.test(c.distinction || ''))            d.elite = true;
+  d.notre   = c.famille === 'humming';      // mini-photo au repos
+  d.externe = c.famille === 'externe';      // masquable (interrupteur « Chevaux extérieurs »)
   return d;
 });
 
@@ -562,6 +624,8 @@ const circleEls  = {};   // cercle principal par id
 const photoEls   = {};   // <image> SVG par id
 const haloEls    = {};   // halo crème par id (grandit avec le nœud ouvert)
 const starEls    = {};   // étoile élite par id
+const clipEls    = {};   // cercle de découpe de la photo par id
+let afficherExt  = !window.matchMedia('(max-width: 900px)').matches;   // extérieurs visibles ? (non par défaut sur mobile)
 const nameEls    = {};   // <text> du nom par id (pour l'éclairage à la sélection)
 const subEls     = {};   // <text> du sous-titre "Élite grade 1" par id (soulignement)
 const nodeStroke = {};   // couleur du cercle par id (= couleur d'éclairage du nom)
@@ -582,6 +646,11 @@ function el(tag, attrs) {
 // ── DEFS (clipPaths)
 const defs = el('defs', {});
 svg.appendChild(defs);
+// Dégradé des lignes de génération : transparent → rosé → transparent
+const genFade = el('linearGradient', { id: 'genFade', gradientUnits: 'userSpaceOnUse', x1: -150, y1: 0, x2: 2050, y2: 0 });
+[['0', 0], ['0.12', .28], ['0.88', .28], ['1', 0]].forEach(([o, a]) =>
+  genFade.appendChild(el('stop', { offset: o, 'stop-color': '#B06070', 'stop-opacity': a })));
+defs.appendChild(genFade);
 
 // ── VIEWPORT GROUP (pan/zoom target)
 const viewport = el('g', { id:'viewport' });
@@ -610,9 +679,8 @@ const GEN_Y = [-110, 255, 630];
 GEN_Y.forEach(y => {
   const line = el('line', {
     x1: -150, y1: y, x2: 2050, y2: y,
-    stroke: 'rgba(176,96,112,0.22)',
-    'stroke-width': '1.5',
-    'stroke-dasharray': '6 4'
+    stroke: 'url(#genFade)',
+    'stroke-width': '1'
   });
   lineLayer.appendChild(line);
 });
@@ -722,21 +790,22 @@ function carteHTML(c) {
 }
 
 // Panneau au repos : nos chevaux en médaillons, rangés par groupe.
-// Poulains : à vendre d'abord, puis par âge. Reproducteurs : par âge.
+// Reproducteurs : étalons d'abord, puis par âge. Poulains : à vendre d'abord, puis par âge.
 const parAge = (a, b) => (a.naissance || '').localeCompare(b.naissance || '');
+// Le sexe se lit à la couleur du médaillon : pas besoin de groupes séparés.
 const GROUPES = [
-  { titre: 'Étalons',    filtre: c => c.role === 'etalon',  tri: parAge },
-  { titre: 'Juments',    filtre: c => c.role === 'jument',  tri: parAge },
+  { titre: 'Reproducteurs', filtre: c => c.role === 'etalon' || c.role === 'jument',
+    tri: (a, b) => (a.role === 'etalon' ? 0 : 1) - (b.role === 'etalon' ? 0 : 1) || parAge(a, b) },
   { titre: 'Poulains',   filtre: c => c.role === 'poulain',
     tri: (a, b) => (b.statut === 'a-vendre') - (a.statut === 'a-vendre') || parAge(a, b) },
-  { titre: 'En mémoire', filtre: c => c.role === 'memoire', tri: parAge },
 ];
 function medaillon(c) {
   const img = c.photo_arbre || c.photo || PLACEHOLDER[c.sexe];
   const e = c.sexe === 'femelle' ? 'e' : '';
   const note = c.statut === 'vendu' ? `vendu${e}` : c.statut === 'a-vendre' ? 'à vendre' : '';
-  return `<button type="button" class="ap-med ap-lien-med${c.role === 'memoire' ? ' is-memoire' : ''}" data-id="${c.id}" style="--c:${COUL[c.sexe]}">
-      <span class="ap-med-img"><img src="${esc(img)}" alt="" loading="lazy"></span>
+  const elite = /Élite/.test(c.distinction || '');
+  return `<button type="button" class="ap-med ap-lien-med${c.role === 'memoire' ? ' is-memoire' : ''}${elite ? ' is-elite' : ''}" data-id="${c.id}" style="--c:${COUL[c.sexe]}"${elite ? ' title="Élite grade 1"' : ''}>
+      <span class="ap-med-img"><img src="${esc(img)}" alt="" loading="lazy"></span>${elite ? '<span class="ap-med-etoile" aria-label="Élite grade 1">★</span>' : ''}
       <span class="ap-med-nom">${esc(c.nom_usuel || nomCourt(c))}</span>
       ${note ? `<span class="ap-med-note${c.statut === 'a-vendre' ? ' is-vente' : ''}">${note}</span>` : ''}
     </button>`;
@@ -796,25 +865,25 @@ function applyState() {
     if(!nodeGroups[d.id]) return;
     const revealed = activeRevealIds.has(d.id);
 
-    // Opacité nœuds externes / hors-élevage / mémoire
-    if(d.ext || d.hidden) {
-      nodeGroups[d.id].style.opacity = revealed ? '1' : '0.15';
+    // Extérieurs : estompés au repos (noms encore lisibles), masqués si
+    // l'interrupteur est coupé, sauf s'ils sont liés au cheval sélectionné.
+    if(d.externe) {
+      nodeGroups[d.id].style.display = (afficherExt || revealed) ? '' : 'none';
+      nodeGroups[d.id].style.opacity = revealed ? '1' : '0.42';
     } else if(d.memorial) {
-      nodeGroups[d.id].style.opacity = revealed ? '1' : '0.5';
+      nodeGroups[d.id].style.opacity = revealed ? '1' : '0.6';
     }
+    const rRepos = d.notre ? R_NOTRE : R;
+    const rNow   = revealed ? R_ACTIVE : rRepos;
 
     // Taille du cercle : le nœud sélectionné ne grossit plus (il débordait sur
     // son nom et l'effet ne marchait pas au tap). Il est désormais identifié par
     // son NOM éclairé de la couleur de son cercle — voir plus bas.
     const isSelected = activeNode && d.id === activeNode.id;
-    if(circleEls[d.id]) {
-      circleEls[d.id].setAttribute('r', revealed ? R_ACTIVE : R);
-    }
+    if(circleEls[d.id]) circleEls[d.id].setAttribute('r', rNow);
     // Le halo crème suit le cercle : ouvert, il ceinture la photo (R_ACTIVE) et
     // sépare le nœud des traits qui le traversent sans le concerner.
-    if(haloEls[d.id]) {
-      haloEls[d.id].setAttribute('r', revealed ? R_ACTIVE : R);
-    }
+    if(haloEls[d.id]) haloEls[d.id].setAttribute('r', rNow);
 
     // Éclairage du nom : le cheval à l'origine de la lignée voit son nom passer
     // à la couleur de son cercle (bleu étalon, rose jument, or poulain…). Branché
@@ -826,14 +895,17 @@ function applyState() {
 
     // Photo
     if(photoEls[d.id]) {
-      photoEls[d.id].setAttribute('opacity', revealed ? '1' : '0');
+      const p = POS[d.id], im = photoEls[d.id];
+      im.setAttribute('opacity', (revealed || d.notre) ? '1' : '0');
+      im.setAttribute('x', p.x - rNow); im.setAttribute('y', p.y - rNow);
+      im.setAttribute('width', rNow * 2); im.setAttribute('height', rNow * 2);
+      if(clipEls[d.id]) clipEls[d.id].setAttribute('r', rNow);
     }
 
     // Étoile élite — suit le cercle
     if(starEls[d.id]) {
       const p = POS[d.id];
-      const rNow = revealed ? R_ACTIVE : R;
-      starEls[d.id].setAttribute('y', revealed ? p.y - rNow - 6 : p.y - R - 8);
+      starEls[d.id].setAttribute('y', revealed ? p.y - rNow - 6 : p.y - rNow - 8);
     }
   });
 
@@ -906,19 +978,19 @@ DATA.forEach(h => {
 
   // Couleurs selon sexe / catégorie
   let fill, stroke;
-  if(h.memorial)           { fill = '#EDE8E4'; stroke = '#9A8A84'; }
-  else if(h.ext && h.sex==='s') { fill = '#EEF3F7'; stroke = '#5B7FA6'; }
-  else if(h.ext && h.sex==='m') { fill = '#FFF0F4'; stroke = '#D4899A'; }
-  else if(h.ext)           { fill = '#F0EEE8'; stroke = '#C8C0BC'; }
-  else if(h.foal)          { fill = '#F5EDE0'; stroke = '#C0A050'; }
+  // Code couleur du site : bleu = mâle, rose = femelle (poulains compris).
+  // Seuls les chevaux en mémoire gardent un gris. Les extérieurs se
+  // distinguent par le pointillé et l'estompage, pas par la couleur.
+  if(h.memorial)      { fill = '#EDE8E4'; stroke = '#9A8A84'; }
   else if(h.sex==='s'){ fill = '#EEF3F7'; stroke = '#5B7FA6'; }
   else                { fill = '#FFF0F4'; stroke = '#D4899A'; }
+  const rRepos = h.notre ? R_NOTRE : R;
 
   // Halo crème sous le liseré : sépare le nœud replié des lignes de filiation
   // qui le croisent ou le frôlent (même principe que le contour crème des noms).
   // En état actif, la grande photo (R_ACTIVE) le recouvre → sans effet.
   const halo = el('circle', {
-    cx: p.x, cy: p.y, r: R,
+    cx: p.x, cy: p.y, r: rRepos,
     fill: 'none', stroke: '#FEFBF6', 'stroke-width': '6'
   });
   halo.style.transition = 'r 0.25s ease';
@@ -928,7 +1000,7 @@ DATA.forEach(h => {
   // Anneau élite (toujours sous la photo)
   if(h.elite) {
     const ring = el('circle', {
-      cx: p.x, cy: p.y, r: R + 5,
+      cx: p.x, cy: p.y, r: rRepos + 5,
       fill: 'none', stroke: '#C0A050',
       'stroke-width': '1.5', 'stroke-dasharray': '3 2', opacity: '0.7'
     });
@@ -937,9 +1009,9 @@ DATA.forEach(h => {
 
   // Pastille principale
   const circle = el('circle', {
-    cx: p.x, cy: p.y, r: R,
+    cx: p.x, cy: p.y, r: rRepos,
     fill, stroke,
-    'stroke-width': h.ext ? '1.5' : '2',
+    'stroke-width': (h.ext || h.hidden) ? '1.5' : '2',
     'stroke-dasharray': (h.ext || h.hidden || h.memorial) ? '4 2' : 'none'
   });
   circle.style.transition = 'r 0.25s ease';
@@ -951,18 +1023,21 @@ DATA.forEach(h => {
   if(PHOTOS[h.id]) {
     const clipId = 'clip-' + h.id;
     const clipPath = el('clipPath', { id: clipId });
-    clipPath.appendChild(el('circle', { cx: p.x, cy: p.y, r: R_ACTIVE }));
+    const clipC = el('circle', { cx: p.x, cy: p.y, r: rRepos });
+    clipC.style.transition = 'r 0.25s ease';
+    clipPath.appendChild(clipC);
     defs.appendChild(clipPath);
+    clipEls[h.id] = clipC;
 
     const img = el('image', {
       href: PHOTOS[h.id],
-      x: p.x - R_ACTIVE, y: p.y - R_ACTIVE,
-      width: R_ACTIVE * 2, height: R_ACTIVE * 2,
+      x: p.x - rRepos, y: p.y - rRepos,
+      width: rRepos * 2, height: rRepos * 2,
       'clip-path': `url(#${clipId})`,
-      opacity: '0',
+      opacity: h.notre ? '1' : '0',
       preserveAspectRatio: 'xMidYMid slice'
     });
-    img.style.transition = 'opacity 0.25s ease';
+    img.style.transition = 'opacity 0.25s ease, x 0.25s ease, y 0.25s ease, width 0.25s ease, height 0.25s ease';
     g.appendChild(img);
     photoEls[h.id] = img;
   }
@@ -970,7 +1045,7 @@ DATA.forEach(h => {
   // Étoile élite — position initiale près du petit cercle
   if(h.elite) {
     const star = el('text', {
-      x: p.x, y: p.y - R - 8,
+      x: p.x, y: p.y - rRepos - 8,
       'text-anchor':'middle', fill:'#C0A050',
       'font-size':'9', 'font-family':'serif'
     });
@@ -985,10 +1060,10 @@ DATA.forEach(h => {
   const name = el('text', {
     x: p.x, y: labelY,
     'text-anchor': 'middle',
-    fill: h.ext ? '#9A9290' : '#1C1C1C',
+    fill: h.externe ? '#8A8280' : '#1C1C1C',
     'font-family': "'Cormorant Garamond', Georgia, serif",
     'font-size': '13', 'font-weight': '500',
-    'font-style': h.ext ? 'italic' : 'normal',
+    'font-style': h.externe ? 'italic' : 'normal',
     // Halo crème (technique cartographique) : le liseré est peint SOUS le
     // remplissage (paint-order:stroke) et creuse un coussin propre autour des
     // lettres, pour que le nom se détache des traits bleu/rose qui passent
@@ -1002,7 +1077,7 @@ DATA.forEach(h => {
   // sélectionnée (voir applyState). Remplace l'ancien grossissement du cercle.
   nameEls[h.id]   = name;
   nodeStroke[h.id] = stroke;
-  nameFill0[h.id]  = h.ext ? '#9A9290' : '#1C1C1C';
+  nameFill0[h.id]  = h.externe ? '#8A8280' : '#1C1C1C';
 
   if(h.elite) {
     const sub = el('text', {
@@ -1034,15 +1109,8 @@ DATA.forEach(h => {
   nodeGroups[h.id] = g;
 });
 
-// ── Opacité initiale
-DATA.forEach(d => {
-  if((d.ext || d.hidden) && nodeGroups[d.id]) {
-    nodeGroups[d.id].style.opacity = '0.15';
-  }
-  if(d.memorial && nodeGroups[d.id]) {
-    nodeGroups[d.id].style.opacity = '0.5';
-  }
-});
+// ── État initial (estompage / masquage des extérieurs)
+applyState();
 
 // ── PAN / ZOOM ────────────────────────────────────────────────────────────
 const treeOuter = document.getElementById('treeOuter');
@@ -1219,6 +1287,7 @@ treeOuter.addEventListener('touchend', e => {
     let closest = null, minD = Infinity;
     DATA.forEach(d => {
       const p = POS[d.id]; if(!p) return;
+      if(nodeGroups[d.id] && nodeGroups[d.id].style.display === 'none') return;
       const dist = Math.hypot(sx - p.x, sy - p.y);
       if(dist < minD) { minD = dist; closest = d; }
     });
@@ -1343,6 +1412,23 @@ suggestions.addEventListener('pointerdown', e => {
 recherche.addEventListener('blur', () => setTimeout(() => { suggestions.hidden = true; }, 150));
 
 // ── ADRESSE : arbre-genealogique.html#nashi ouvre l'arbre sur Nashi
+// ── INTERRUPTEUR « Chevaux extérieurs »
+const voirExt = document.getElementById('voirExt');
+voirExt.checked = afficherExt;
+voirExt.addEventListener('change', () => { afficherExt = voirExt.checked; applyState(); });
+
+// ── MOBILE : ouverture zoomée sur nos chevaux plutôt que l'arbre entier
+if (window.matchMedia('(max-width: 900px)').matches) {
+  const pts = DATA.filter(d => d.notre).map(d => POS[d.id]);
+  const cx = (Math.min(...pts.map(p => p.x)) + Math.max(...pts.map(p => p.x))) / 2;
+  const cy = (Math.min(...pts.map(p => p.y)) + Math.max(...pts.map(p => p.y))) / 2;
+  // 0.45 : compromis lisibilité / étendue — nos chevaux s'étalent sur 1 400 px
+  // de large, on en montre la majorité et on laisse glisser pour le reste.
+  const s = 0.45;
+  vScale = s; vTx = treeOuter.clientWidth / 2 - cx * s; vTy = treeOuter.clientHeight * 0.56 - cy * s;
+  applyVP();
+}
+
 function suivreAdresse() {
   const id = decodeURIComponent(location.hash.slice(1));
   if (PAR_ID[id]) { if (!activeNode || activeNode.id !== id) selectionner(id, { centrer: true }); }
