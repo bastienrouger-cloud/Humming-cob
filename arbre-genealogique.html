@@ -109,12 +109,6 @@
     @media (max-width: 900px) {
       .mobile-hint { display: block; }
       .header { padding: calc(var(--nav-h, 80px) + 1rem) 1rem 0.8rem; }
-      .info-panel { flex-direction: column; gap: 0; min-height: auto; }
-      .info-panel.active .info-panel-name { border-right: none; border-bottom: 1px solid var(--sel-color, rgba(176,96,112,0.18)); }
-      .info-panel-name, .info-panel-fields { padding: .8rem 1.2rem; }
-      .info-panel-cta { padding: 0 1.2rem .8rem; }
-      .info-panel-name { min-width: unset; }
-      .info-panel-cta { margin-left: 0; }
       .legend { gap: 1rem; }
     }
     @media (max-width: 600px) {
@@ -162,78 +156,9 @@
       pointer-events: none;
     }
 
-    /* Panneau d'info fixe */
-    /* Carte alignée sur la DA des cartes du site (ex. le panneau du calculateur) :
-       coins arrondis, léger relief, bordée de la COULEUR DU CHEVAL sélectionné
-       (--sel-color, posé par showPanel). Au repos (aucune sélection) : bordure
-       neutre discrète, pas de fond. */
-    .info-panel {
-      display: flex;
-      align-items: stretch;
-      gap: 0;
-      margin: 1.5rem auto 0;
-      width: calc(100% - 4rem);
-      max-width: 1680px;
-      min-height: 90px;
-      padding: 0;
-      border: 1.5px solid rgba(176,96,112,0.15);
-      border-radius: 18px;
-      background: transparent;
-      transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
-    }
-    .info-panel.active {
-      border-color: var(--sel-color, rgba(176,96,112,0.15));
-      background: #FFFCF8;
-      box-shadow: 0 4px 28px rgba(92,62,52,0.08);
-    }
     /* Cheval externe / en mémoire : bordure en pointillés, comme son portrait. */
-    .info-panel.active.is-ext { border-style: dashed; }
     /* Conteneur du nom : séparé des infos par un filet vertical de la couleur du
        cheval. Sur mobile la carte passe en colonne → filet horizontal en bas. */
-    .info-panel.active .info-panel-name {
-      border-right: 1px solid var(--sel-color, rgba(176,96,112,0.18));
-    }
-    .info-panel-name {
-      min-width: 200px;
-      flex-shrink: 0;
-      padding: 1.1rem 2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .info-panel-name h2 {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      font-weight: 400;
-      line-height: 1.2;
-      color: var(--noir);
-    }
-    .info-panel-name h2 em { color: var(--sel-color, var(--rose-deep)); font-style: italic; }
-    .info-panel-name .sub {
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gris);
-      margin-top: 3px;
-    }
-    .info-panel-fields {
-      flex: 1;
-      display: flex;
-      flex-wrap: wrap;
-      align-content: center;
-      gap: 0.4rem 2rem;
-      font-size: 0.78rem;
-      padding: 1.1rem 2rem;
-    }
-    .info-panel-fields .field { color: var(--gris); }
-    .info-panel-fields .field strong { color: var(--noir); font-weight: 500; }
-    .info-panel-info {
-      font-size: 0.78rem;
-      font-style: italic;
-      color: var(--gris);
-      flex-basis: 100%;
-      margin-top: 0.1rem;
-    }
     .robe-pill {
       display: inline-flex;
       align-items: center;
@@ -248,35 +173,6 @@
       letter-spacing: .06em;
       text-transform: uppercase;
       align-self: center;
-    }
-    .info-panel-empty {
-      width: 100%;
-      text-align: center;
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(106,106,106,0.4);
-    }
-    .info-panel-cta {
-      flex-shrink: 0;
-      margin-left: auto;
-    }
-    .info-panel-cta { padding-right: 2rem; align-self: center; }
-    .info-panel-cta a {
-      display: inline-block;
-      padding: 0.45rem 1.1rem;
-      border: 1px solid var(--sel-color, var(--rose));
-      border-radius: 30px;
-      color: var(--sel-color, var(--rose-deep));
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.18s, color 0.18s;
-    }
-    .info-panel-cta a:hover {
-      background: var(--sel-color, var(--rose));
-      color: white;
     }
 
     /* Étiquettes de génération */
@@ -335,6 +231,171 @@
     .leg-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; }
     .leg-line { width: 30px; height: 2px; border-radius: 2px; flex-shrink: 0; }
     .leg-cross { width: 14px; height: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #9A8A84; font-family: Georgia, serif; opacity: .8; }
+
+    /* ── ZONE : ARBRE + RECHERCHE + PANNEAU ─────────────────────────────
+       Ordinateur : arbre à gauche, recherche et carte du cheval à droite.
+       Mobile (≤ 900px) : recherche posée sur l'arbre, carte en volet du bas. */
+    .arbre-zone {
+      flex: 1 1 0;
+      min-height: 55vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      grid-template-rows: auto minmax(0, 1fr);
+      column-gap: 1.25rem;
+      padding-right: 1.25rem;
+      position: relative;
+    }
+    .arbre-zone .tree-outer {
+      grid-column: 1; grid-row: 1 / span 2;
+      height: auto; min-height: 0; flex: none;
+    }
+    .node-group:hover { opacity: 1 !important; }   /* un extérieur estompé se révèle au survol */
+
+    /* Recherche */
+    .ap-recherche { grid-column: 2; grid-row: 1; position: relative; padding: .25rem 0 .6rem; z-index: 20; }
+    .ap-recherche input {
+      width: 100%; font: inherit; font-size: .85rem; color: var(--noir);
+      padding: .6rem 1rem .6rem 2.3rem;
+      border: 1px solid rgba(0,0,0,.12); border-radius: 50px; background: #fff;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%236A6A6A' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: .85rem center;
+      outline: none; transition: border-color .15s, box-shadow .15s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .ap-recherche input:focus { border-color: var(--rose); box-shadow: 0 0 0 3px rgba(212,137,154,.18); }
+    .ap-suggestions {
+      position: absolute; left: 0; right: 0; top: calc(100% - .3rem);
+      list-style: none; margin: 0; padding: .35rem;
+      background: #fff; border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.14);
+      max-height: 320px; overflow-y: auto;
+    }
+    .ap-suggestions li {
+      display: flex; align-items: center; gap: .55rem;
+      padding: .5rem .65rem; border-radius: 9px; font-size: .86rem; cursor: pointer;
+    }
+    .ap-suggestions li.sel, .ap-suggestions li:hover { background: #FBF3E7; }
+    .ap-suggestions .pt { width: 8px; height: 8px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
+    .ap-suggestions .hc { margin-left: auto; font-size: .6rem; letter-spacing: .12em; color: var(--rose-deep); }
+    .ap-suggestions li.vide { color: var(--gris); cursor: default; background: none; }
+
+    /* Panneau */
+    .arbre-panneau {
+      grid-column: 2; grid-row: 2;
+      overflow-y: auto; overscroll-behavior: contain;
+      padding-bottom: 1rem;
+    }
+    .ap-carte {
+      position: relative; background: #fff;
+      border: 1.5px solid var(--c); border-radius: 18px; overflow: hidden;
+      box-shadow: 0 10px 30px rgba(60,40,35,.08);
+      animation: ap-in .3s ease;
+    }
+    .ap-carte.is-ext { border-style: dashed; }
+    @keyframes ap-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .ap-photo {
+      display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; border: 0;
+      background: #F3EEE6; cursor: zoom-in;
+    }
+    .ap-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ap-photo.is-vide { cursor: default; }
+    .ap-fermer {
+      position: absolute; top: .6rem; right: .6rem; z-index: 2;
+      width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer;
+      background: rgba(255,255,255,.9); color: var(--noir); font-size: 1rem; line-height: 1;
+      box-shadow: 0 2px 6px rgba(0,0,0,.12);
+    }
+    .ap-corps { padding: 1.1rem 1.25rem 1.3rem; }
+    .ap-genre {
+      display: flex; align-items: center; flex-wrap: wrap; gap: .5rem;
+      font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct);
+      margin-bottom: .3rem;
+    }
+    .ap-badge {
+      font-size: .58rem; letter-spacing: .1em; padding: .12rem .55rem;
+      border-radius: 20px; border: 1px solid currentColor; color: var(--gris);
+    }
+    .ap-badge--vente { color: #3E7D5A; }
+    .ap-badge--memoire { color: #9A8A84; }
+    .ap-nom { font-family: var(--serif); font-weight: 400; font-size: 1.75rem; line-height: 1.15; color: var(--noir); }
+    .ap-nom em { color: var(--ct); font-style: italic; }
+    .ap-sous { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); margin-top: .3rem; }
+    .ap-infos {
+      margin: 1rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: .5rem .9rem;
+      font-size: .82rem; align-items: baseline;
+    }
+    .ap-infos dt { color: var(--gris); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; }
+    .ap-infos dd { margin: 0; color: var(--noir); }
+    .ap-liens { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .ap-lien {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font: inherit; font-size: .78rem; color: var(--noir);
+      padding: .22rem .7rem .22rem .55rem; border-radius: 20px;
+      border: 1px solid var(--c); background: #fff; cursor: pointer;
+      transition: background .15s;
+    }
+    .ap-lien::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
+    .ap-lien:hover { background: #FBF3E7; }
+    .ap-resume { margin-top: 1rem; font-size: .85rem; line-height: 1.6; color: var(--noir); }
+    .ap-cta {
+      margin-top: 1.1rem; display: inline-flex; align-items: center; gap: .45rem;
+      font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+      color: var(--ct); border: 1.5px solid var(--ct); border-radius: 50px; padding: .55rem 1.2rem;
+      transition: background .15s, color .15s;
+    }
+    .ap-cta:hover { background: var(--ct); color: #fff; }
+    .ap-note { margin-top: 1rem; font-size: .75rem; color: var(--gris); font-style: italic; }
+    .ap-vide {
+      padding: 1.25rem; border: 1px dashed rgba(176,96,112,.3); border-radius: 18px;
+      color: var(--gris); font-size: .85rem; line-height: 1.6;
+    }
+    .ap-vide-titre { font-family: var(--serif); font-size: 1.45rem; color: var(--noir); margin-bottom: .25rem; }
+    .ap-vide-sous { margin: 1.1rem 0 .5rem; font-size: .64rem; letter-spacing: .16em; text-transform: uppercase; }
+
+
+    /* Panneau au repos : galerie de médaillons */
+    .ap-galerie { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: .8rem .4rem; }
+    .ap-med {
+      display: flex; flex-direction: column; align-items: center; gap: .3rem;
+      background: none; border: 0; padding: .2rem 0; cursor: pointer; font: inherit; color: var(--noir);
+    }
+    .ap-med-img {
+      width: 56px; height: 56px; border-radius: 50%; overflow: hidden; display: block;
+      border: 2px solid var(--c); box-shadow: 0 0 0 3px #FEFBF6, 0 3px 10px rgba(60,40,35,.12);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .ap-med-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ap-med:hover .ap-med-img { transform: translateY(-2px) scale(1.06); box-shadow: 0 0 0 3px #FEFBF6, 0 6px 16px rgba(60,40,35,.18); }
+    .ap-med-nom { font-family: var(--serif); font-size: .98rem; line-height: 1.1; text-align: center; }
+    .ap-med-note { font-size: .56rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); margin-top: -.15rem; }
+    .ap-med-note.is-vente { color: #3E7D5A; }
+    .ap-med.is-memoire .ap-med-img { filter: grayscale(.85); opacity: .85; border-style: dashed; }
+    .ap-vide .ap-vide-sous { color: var(--rose-deep); }
+
+    /* Sous-titre adapté : souris ou doigt */
+    .sur-tactile { display: none; }
+    @media (hover: none) { .sur-souris { display: none; } .sur-tactile { display: inline; } }
+
+    @media (max-width: 900px) {
+      .arbre-zone { display: flex; flex-direction: column; padding-right: 0; min-height: 60vh; }
+      .arbre-zone .tree-outer { flex: 1 1 auto; min-height: 60vh; }
+      .ap-recherche { position: absolute; top: .6rem; left: .75rem; right: .75rem; padding: 0; }
+      .ap-recherche input { box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+      .mobile-hint { top: auto; bottom: .7rem; left: .75rem; transform: none; }
+      .arbre-panneau {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+        max-height: 62vh; padding: .55rem .85rem calc(1rem + env(safe-area-inset-bottom));
+        background: var(--cream); border-radius: 20px 20px 0 0;
+        box-shadow: 0 -10px 30px rgba(0,0,0,.15);
+        transform: translateY(105%); transition: transform .3s cubic-bezier(.2,.8,.2,1);
+      }
+      .arbre-panneau.ouvert { transform: none; }
+      .arbre-panneau::before {
+        content: ''; display: block; width: 40px; height: 4px; border-radius: 2px;
+        background: rgba(0,0,0,.15); margin: 0 auto .6rem;
+      }
+      .ap-photo { aspect-ratio: 16 / 9; }
+      .ap-vide { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -376,9 +437,10 @@
 
 <div class="header">
   <h1>Arbre <em>généalogique</em></h1>
-  <p>Survoler un cheval pour voir ses liens</p>
+  <p><span class="sur-souris">Cliquez sur un cheval pour voir ses liens</span><span class="sur-tactile">Touchez un cheval pour voir ses liens</span></p>
 </div>
 
+<div class="arbre-zone">
 <div class="tree-outer" id="treeOuter">
   <svg class="tree-svg" id="tree"></svg>
   <div class="gen-label" data-y="-110"><div class="gen-label-text">Ascendants</div></div>
@@ -392,9 +454,16 @@
   </div>
 </div>
 
-<div class="info-panel" id="infoPanel">
-  <div class="info-panel-empty">Survoler un cheval pour voir ses informations</div>
+<div class="ap-recherche" role="search">
+  <input id="recherche" type="search" placeholder="Rechercher un cheval…" autocomplete="off"
+         aria-label="Rechercher un cheval" aria-controls="suggestions">
+  <ul class="ap-suggestions" id="suggestions" role="listbox" hidden></ul>
 </div>
+
+<aside class="arbre-panneau" id="panneau" aria-live="polite">
+  <div id="apContenu"></div>
+</aside>
+</div><!-- /.arbre-zone -->
 
 <div class="legend">
   <div class="leg">
@@ -567,9 +636,15 @@ RELS.forEach(r => {
   drawPath(r.p2, r.c, '#D4899A'); // mère → rose
 });
 
-// ── PANNEAU D'INFO
-const infoPanel = document.getElementById('infoPanel');
-const EMPTY_HTML = '<div class="info-panel-empty">Survoler un cheval pour voir ses informations</div>';
+// ── PANNEAU : carte du cheval ─────────────────────────────────────────────
+// Ordinateur : à droite de l'arbre. Mobile : volet qui monte du bas.
+// Tous les chevaux des données ont une carte, même ceux absents de l'arbre.
+const panneau   = document.getElementById('panneau');
+const apContenu = document.getElementById('apContenu');
+const COUL       = { male: '#5B7FA6', hongre: '#5B7FA6', femelle: '#D4899A' };
+const COUL_TEXTE = { male: '#3F6289', hongre: '#3F6289', femelle: '#B06070' };
+const PLACEHOLDER = { male: 'img/placeholders/etalon.jpg', hongre: 'img/placeholders/etalon.jpg', femelle: 'img/placeholders/jument.jpg' };
+const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
 
 // Couleur d'une robe d'après sa teinte de base (pour la pastille). L'ordre
 // compte : on teste les dilutions/bases dans l'ordre de priorité visuelle.
@@ -580,65 +655,119 @@ function robeToColor(robe) {
   if(/grull|grulla/.test(r))    return '#7C7468';  // gris-dun
   if(/alezan|chestnut/.test(r)) return '#A85A32';  // alezan
   if(/bai|bay/.test(r))         return '#8B5E34';  // bai
-  if(/noir|black|tobiano|pinto|roan/.test(r)) return '#423C36';  // noir
+  if(/noir|black|tobiano|pinto|roan|smoky/.test(r)) return '#423C36';  // noir
   return '#8A8A8A';               // par défaut : gris neutre
 }
 
-function showPanel(h) {
-  const t = h.tip || {};
-  let fields = '';
+function libelleSexe(c) {
+  if (c.sexe === 'hongre') return 'Hongre';
+  if (c.role === 'poulain') return c.sexe === 'femelle' ? 'Pouliche' : 'Poulain';
+  return c.sexe === 'femelle' ? 'Jument' : 'Étalon';
+}
+function badgeStatut(c) {
+  const e = c.sexe === 'femelle' ? 'e' : '';
+  if (c.role === 'memoire')    return '<span class="ap-badge ap-badge--memoire">En mémoire</span>';
+  if (c.statut === 'a-vendre') return '<span class="ap-badge ap-badge--vente">À vendre</span>';
+  if (c.statut === 'reserve')  return `<span class="ap-badge">Réservé${e}</span>`;
+  if (c.statut === 'vendu')    return `<span class="ap-badge">Vendu${e}</span>`;
+  return '';
+}
+function lienCheval(id) {
+  const c = PAR_ID[id];
+  if (!c) return '';
+  return `<button type="button" class="ap-lien" data-id="${c.id}" style="--c:${COUL[c.sexe]}">${esc(nomCourt(c))}</button>`;
+}
+const enfantsDe = id => CHEVAUX
+  .filter(c => c.pere === id || c.mere === id)
+  .sort((a, b) => (a.naissance || '').localeCompare(b.naissance || ''));
 
-  // Robe — pastille pill (option A)
-  if(h.robe) {
-    const rc = robeToColor(h.robe);
-    fields += `<span class="robe-pill" style="color:${rc};border-color:${rc}">${h.robe}</span>`;
-  }
+function carteHTML(c) {
+  const vraiePhoto = c.photo || c.photo_arbre;
+  const photo = vraiePhoto || PLACEHOLDER[c.sexe];
+  const mots = nomCourt(c).split(' ');
+  const nomHTML = mots.length > 1
+    ? esc(mots.slice(0, -1).join(' ')) + ' <em>' + esc(mots[mots.length - 1]) + '</em>'
+    : '<em>' + esc(mots[0]) + '</em>';
+  const sous = c.famille === 'humming' ? (c.distinction || '') : (c.elevage || c.origine || '');
 
-  // Date de naissance
-  const naissLabel = (h.sex === 'm') ? 'Née' : 'Né';
-  if(h.naissance) fields += `<span class="field"><strong>${naissLabel} :</strong> ${h.naissance}</span>`;
+  const infos = [];
+  if (c.naissance) infos.push([c.deces ? 'Vie' : (c.sexe === 'femelle' ? 'Née' : 'Né'),
+                              esc(dateFr(c.naissance)) + (c.deces ? ' — ' + esc(c.deces) : '')]);
+  if (c.race) infos.push(['Race', esc(c.race)]);
+  if (c.robe) { const rc = robeToColor(c.robe);
+    infos.push(['Robe', `<span class="robe-pill" style="color:${rc};border-color:${rc}">${esc(c.robe)}</span>`]); }
+  const parents = [c.pere, c.mere].filter(Boolean).map(lienCheval).join('');
+  infos.push(['Parents', parents ? `<span class="ap-liens">${parents}</span>` : '<span style="color:var(--gris)">non renseignés</span>']);
+  const enfants = enfantsDe(c.id);
+  if (enfants.length) infos.push(['Descendance',
+    `<span class="ap-liens">${enfants.map(e => lienCheval(e.id)).join('')}</span>`]);
 
-  // Parents
-  if(t.parents) fields += `<span class="field"><strong>Parents :</strong> ${t.parents}</span>`;
-
-  // Descendants (calculés depuis RELS)
-  const children = RELS
-    .filter(r => r.p1 === h.id || r.p2 === h.id)
-    .map(r => DATA.find(d => d.id === r.c))
-    .filter(Boolean);
-  if(children.length) {
-    fields += `<span class="field"><strong>Descendants :</strong> ${children.map(c => c.em).join(', ')}</span>`;
-  }
-
-
-  // Nom — dernier mot en italique
-  const words = h.em.split(' ');
-  const nameHtml = words.length > 1
-    ? words.slice(0, -1).join(' ') + ' <em>' + words[words.length - 1] + '</em>'
-    : `<em>${h.em}</em>`;
-
-  const subLabel = h.sub || '';
-
-  infoPanel.innerHTML = `
-    <div class="info-panel-name">
-      <h2>${nameHtml}</h2>
-      ${subLabel ? `<div class="sub">${subLabel}</div>` : ''}
+  return `
+  <article class="ap-carte${c.famille === 'externe' ? ' is-ext' : ''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
+    <button type="button" class="ap-fermer" aria-label="Fermer">✕</button>
+    <button type="button" class="ap-photo${vraiePhoto ? '' : ' is-vide'}" ${vraiePhoto ? `data-photo="${esc(photo)}" aria-label="Agrandir la photo"` : 'tabindex="-1" aria-hidden="true"'}>
+      <img src="${esc(photo)}" alt="${vraiePhoto ? esc(c.nom) : ''}" loading="lazy">
+    </button>
+    <div class="ap-corps">
+      <p class="ap-genre">${libelleSexe(c)}${badgeStatut(c)}</p>
+      <h2 class="ap-nom">${nomHTML}</h2>
+      ${sous ? `<p class="ap-sous">${esc(sous)}</p>` : ''}
+      <dl class="ap-infos">${infos.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
+      ${c.resume ? `<p class="ap-resume">${esc(c.resume)}</p>` : ''}
+      ${c.page ? `<a class="ap-cta" href="${esc(c.page)}">Voir la fiche
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>` : ''}
+      ${POSITIONS_ARBRE[c.id] ? '' : '<p class="ap-note">Ce cheval n’est pas placé dans l’arbre.</p>'}
     </div>
-    <div class="info-panel-fields">${fields}</div>
-    ${h.page ? `<div class="info-panel-cta"><a href="${h.page}">Voir la fiche →</a></div>` : ''}
-  `;
-  // Couleur du cheval → bordure de la carte, filet interne, nom et CTA
-  infoPanel.style.setProperty('--sel-color', nodeStroke[h.id] || 'var(--rose-deep)');
-  infoPanel.classList.toggle('is-ext', !!(h.ext || h.hidden || h.memorial));
-  infoPanel.classList.add('active');
+  </article>`;
 }
 
-function hidePanel() {
-  infoPanel.innerHTML = EMPTY_HTML;
-  infoPanel.classList.remove('active');
-  infoPanel.classList.remove('is-ext');
-  infoPanel.style.removeProperty('--sel-color');
+// Panneau au repos : nos chevaux en médaillons, rangés par groupe.
+// Poulains : à vendre d'abord, puis par âge. Reproducteurs : par âge.
+const parAge = (a, b) => (a.naissance || '').localeCompare(b.naissance || '');
+const GROUPES = [
+  { titre: 'Étalons',    filtre: c => c.role === 'etalon',  tri: parAge },
+  { titre: 'Juments',    filtre: c => c.role === 'jument',  tri: parAge },
+  { titre: 'Poulains',   filtre: c => c.role === 'poulain',
+    tri: (a, b) => (b.statut === 'a-vendre') - (a.statut === 'a-vendre') || parAge(a, b) },
+  { titre: 'En mémoire', filtre: c => c.role === 'memoire', tri: parAge },
+];
+function medaillon(c) {
+  const img = c.photo_arbre || c.photo || PLACEHOLDER[c.sexe];
+  const e = c.sexe === 'femelle' ? 'e' : '';
+  const note = c.statut === 'vendu' ? `vendu${e}` : c.statut === 'a-vendre' ? 'à vendre' : '';
+  return `<button type="button" class="ap-med ap-lien-med${c.role === 'memoire' ? ' is-memoire' : ''}" data-id="${c.id}" style="--c:${COUL[c.sexe]}">
+      <span class="ap-med-img"><img src="${esc(img)}" alt="" loading="lazy"></span>
+      <span class="ap-med-nom">${esc(c.nom_usuel || nomCourt(c))}</span>
+      ${note ? `<span class="ap-med-note${c.statut === 'a-vendre' ? ' is-vente' : ''}">${note}</span>` : ''}
+    </button>`;
 }
+const VIDE_HTML = `
+  <div class="ap-vide">
+    <p class="ap-vide-titre">Explorez les lignées</p>
+    <p>Cliquez sur un cheval de l'arbre, ou cherchez-le par son nom.</p>
+    ${GROUPES.map(g => {
+      const liste = CHEVAUX.filter(c => c.famille === 'humming' && g.filtre(c)).sort(g.tri);
+      return liste.length ? `<p class="ap-vide-sous">${g.titre}</p><div class="ap-galerie">${liste.map(medaillon).join('')}</div>` : '';
+    }).join('')}
+  </div>`;
+
+function ouvrirCarte(c) {
+  apContenu.innerHTML = carteHTML(c);
+  panneau.classList.add('ouvert');
+  panneau.scrollTop = 0;
+}
+function fermerCarte() {
+  apContenu.innerHTML = VIDE_HTML;
+  panneau.classList.remove('ouvert');
+}
+
+panneau.addEventListener('click', e => {
+  const lien = e.target.closest('.ap-lien, .ap-lien-med');
+  if (lien) { selectionner(lien.dataset.id, { centrer: true }); return; }
+  if (e.target.closest('.ap-fermer')) { deselectionner(); return; }
+  const ph = e.target.closest('.ap-photo[data-photo]');
+  if (ph) openPhotoLb(ph.dataset.photo, ph.querySelector('img').alt);
+});
 
 // ── ÉTAT PARTAGÉ : calcul des nœuds à révéler pour un cheval donné
 function computeReveal(hid) {
@@ -755,9 +884,9 @@ lbPhotoName.className = 'lb-name';
 lbOv.append(lbPhotoClose, lbPhotoImg, lbPhotoName);
 document.body.appendChild(lbOv);
 
-function openPhotoLb(h) {
-  lbPhotoImg.src = PHOTOS[h.id];
-  lbPhotoName.textContent = h.em;
+function openPhotoLb(src, nom) {
+  lbPhotoImg.src = src;
+  lbPhotoName.textContent = nom || '';
   lbOv.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
@@ -897,26 +1026,9 @@ DATA.forEach(h => {
   });
   g.appendChild(hit);
 
-  // ── Événements
-  g.addEventListener('mouseenter', () => {
-    activeNode = h;
-    const { ids, pairs } = computeReveal(h.id);
-    activeRevealIds    = ids;
-    activeVisiblePairs = pairs;
-    applyState();
-    showPanel(h);
-  });
-  // Pas de mouseleave : l'état persiste jusqu'au prochain hover ou clic dans le vide
-
-  if(h.page) {
-    g.addEventListener('click', () => {
-      if(!dragMoved) window.location.href = h.page;
-    });
-  } else if(PHOTOS[h.id]) {
-    g.addEventListener('click', () => {
-      if(!dragMoved) openPhotoLb(h);
-    });
-  }
+  // ── Événements : un clic sélectionne (carte + liens). La fiche s'ouvre
+  // depuis la carte, plus directement depuis le nœud.
+  g.addEventListener('click', () => { if (!dernierGlisse) selectionner(h.id); });
 
   nodeLayer.appendChild(g);
   nodeGroups[h.id] = g;
@@ -1002,7 +1114,7 @@ function applyVP() {
 applyVP();
 
 // ── Mouse drag
-let dragging = false, dragMoved = false, dragOrig = null;
+let dragging = false, dragMoved = false, dragOrig = null, dernierGlisse = false;
 treeOuter.addEventListener('mousedown', e => {
   if(e.button !== 0) return;
   dragging = true;
@@ -1021,11 +1133,13 @@ window.addEventListener('mousemove', e => {
 });
 window.addEventListener('mouseup', e => {
   const wasDrag = dragMoved;
+  const dansArbre = dragging;          // le geste a commencé dans l'arbre
+  dernierGlisse = wasDrag;             // lu par le clic des nœuds, qui suit
   dragging = false; dragMoved = false;
   treeOuter.classList.remove('panning');
 
   // Clic simple (pas un drag) sur fond vide → effacer la mise en avant
-  if(!wasDrag && activeNode) {
+  if(dansArbre && !wasDrag && panneau.classList.contains('ouvert')) {
     const r = treeOuter.getBoundingClientRect();
     const sx = (e.clientX - r.left - vTx) / vScale;
     const sy = (e.clientY - r.top  - vTy) / vScale;
@@ -1033,13 +1147,7 @@ window.addEventListener('mouseup', e => {
       const p = POS[d.id];
       return p && Math.hypot(sx - p.x, sy - p.y) < R_ACTIVE + 15;
     });
-    if(!onNode) {
-      activeNode = null;
-      activeRevealIds    = new Set();
-      activeVisiblePairs = new Set();
-      applyState();
-      hidePanel();   // plus de persistance : le bandeau revient à l'état neutre
-    }
+    if(!onNode) deselectionner();
   }
 });
 
@@ -1114,14 +1222,8 @@ treeOuter.addEventListener('touchend', e => {
       const dist = Math.hypot(sx - p.x, sy - p.y);
       if(dist < minD) { minD = dist; closest = d; }
     });
-    if(closest && minD < R_ACTIVE + 30) {
-      const { ids, pairs } = computeReveal(closest.id);
-      activeRevealIds = ids; activeVisiblePairs = pairs;
-      applyState(); showPanel(closest);
-    } else {
-      activeRevealIds = new Set(); activeVisiblePairs = new Set();
-      applyState();
-    }
+    if(closest && minD < R_ACTIVE + 30) selectionner(closest.id);
+    else deselectionner();
   }
   touchBase = null; pinchBase = null; tapStart = null;
 });
@@ -1140,6 +1242,114 @@ document.getElementById('zoomOut').addEventListener('click',   () => zoomAround(
 document.getElementById('zoomReset').addEventListener('click', () => {
   const f = fitTransform(); vScale = f.s; vTx = f.tx; vTy = f.ty; applyVP();
 });
+
+// ── SÉLECTION ─────────────────────────────────────────────────────────────
+// Point d'entrée unique : clic, tap, recherche, liens de la carte, adresse #id.
+function selectionner(id, { centrer = false } = {}) {
+  const c = PAR_ID[id];
+  if (!c) return;
+  const d = DATA.find(x => x.id === id);
+  if (d) {
+    const { ids, pairs } = computeReveal(id);
+    ids.add(id);
+    activeNode = d; activeRevealIds = ids; activeVisiblePairs = pairs;
+  } else {
+    activeNode = null; activeRevealIds = new Set(); activeVisiblePairs = new Set();
+  }
+  applyState();
+  ouvrirCarte(c);
+  history.replaceState(null, '', '#' + id);
+  if (centrer && d) centrerSur(id);
+}
+function deselectionner() {
+  activeNode = null; activeRevealIds = new Set(); activeVisiblePairs = new Set();
+  applyState();
+  fermerCarte();
+  history.replaceState(null, '', location.pathname + location.search);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && lbOv.style.display !== 'flex' && panneau.classList.contains('ouvert')
+      && document.activeElement !== recherche) deselectionner();
+});
+
+// ── RECENTRAGE animé sur un cheval
+function animerVers(s1, tx1, ty1, ms = 450) {
+  const s0 = vScale, tx0 = vTx, ty0 = vTy, t0 = performance.now();
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  (function pas(now) {
+    const k = ease(Math.min(1, (now - t0) / ms));
+    vScale = s0 + (s1 - s0) * k; vTx = tx0 + (tx1 - tx0) * k; vTy = ty0 + (ty1 - ty0) * k;
+    applyVP();
+    if (k < 1) requestAnimationFrame(pas);
+  })(t0);
+}
+function centrerSur(id) {
+  const p = POS[id]; if (!p) return;
+  const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
+  const mobile = window.matchMedia('(max-width: 900px)').matches;
+  const s = Math.min(MAX_S, Math.max(vScale, mobile ? 0.7 : 0.8));
+  const cy = mobile ? ch * 0.3 : ch / 2;     // sur mobile, le volet couvre le bas
+  animerVers(s, cw / 2 - p.x * s, cy - p.y * s);
+}
+
+// ── RECHERCHE (sans accents ni majuscules, nos chevaux en premier)
+const recherche   = document.getElementById('recherche');
+const suggestions = document.getElementById('suggestions');
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const INDEX = CHEVAUX.map(c => ({ c, cle: norm(c.nom + ' ' + (c.nom_usuel || '')) }));
+let resultats = [], choixIdx = -1;
+
+function chercher(q) {
+  const n = norm(q.trim());
+  if (!n) return [];
+  const debut = c => norm(nomCourt(c)).split(' ').some(m => m.startsWith(n));
+  return INDEX.filter(x => x.cle.includes(n)).map(x => x.c)
+    .sort((a, b) => (b.famille === 'humming') - (a.famille === 'humming')
+                 || debut(b) - debut(a)
+                 || a.nom.localeCompare(b.nom))
+    .slice(0, 8);
+}
+function dessinerSuggestions() {
+  if (!recherche.value.trim()) { suggestions.hidden = true; return; }
+  suggestions.innerHTML = resultats.length
+    ? resultats.map((c, i) => `<li role="option" data-id="${c.id}" class="${i === choixIdx ? 'sel' : ''}"
+        aria-selected="${i === choixIdx}" style="--c:${COUL[c.sexe]}"><span class="pt"></span>${esc(nomCourt(c))}${
+        c.famille === 'humming' ? '<span class="hc">HC</span>' : ''}</li>`).join('')
+    : '<li class="vide">Aucun cheval trouvé</li>';
+  suggestions.hidden = false;
+}
+function choisir(id) {
+  recherche.value = ''; suggestions.hidden = true; recherche.blur();
+  selectionner(id, { centrer: true });
+}
+recherche.addEventListener('input', () => {
+  resultats = chercher(recherche.value); choixIdx = resultats.length ? 0 : -1; dessinerSuggestions();
+});
+recherche.addEventListener('keydown', e => {
+  if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && resultats.length) {
+    e.preventDefault();
+    choixIdx = (choixIdx + (e.key === 'ArrowDown' ? 1 : -1) + resultats.length) % resultats.length;
+    dessinerSuggestions();
+  } else if (e.key === 'Enter' && resultats[choixIdx]) {
+    e.preventDefault(); choisir(resultats[choixIdx].id);
+  } else if (e.key === 'Escape') {
+    recherche.value = ''; suggestions.hidden = true;
+  }
+});
+suggestions.addEventListener('pointerdown', e => {
+  const li = e.target.closest('li[data-id]');
+  if (li) { e.preventDefault(); choisir(li.dataset.id); }
+});
+recherche.addEventListener('blur', () => setTimeout(() => { suggestions.hidden = true; }, 150));
+
+// ── ADRESSE : arbre-genealogique.html#nashi ouvre l'arbre sur Nashi
+function suivreAdresse() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (PAR_ID[id]) { if (!activeNode || activeNode.id !== id) selectionner(id, { centrer: true }); }
+  else if (!panneau.classList.contains('ouvert')) fermerCarte();
+}
+suivreAdresse();
+window.addEventListener('hashchange', suivreAdresse);   // lien #id depuis la page elle-même
 </script>
 </body>
 </html>
