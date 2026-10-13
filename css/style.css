@@ -2730,3 +2730,8 @@ footer {
   color: var(--gris);
   text-align: center;
 }
+
+/* Fiches chevaux : lien « Voir dans l'arbre généalogique » sous le pédigrée.
+   L'adresse #id ouvre l'arbre directement sur le cheval. */
+.voir-arbre { text-align: center; margin-top: 2.2rem; }
+.voir-arbre .btn { display: inline-flex; align-items: center; gap: .5rem; }
