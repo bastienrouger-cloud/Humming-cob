@@ -24,6 +24,13 @@
   --or-pale:     #EFE0CC;
   --border:      rgba(176, 96, 112, 0.15);
 
+  /* Code couleur des chevaux : FIXE, ne suit pas le thème de la page
+     (une jument reste rose sur la fiche d'un étalon). */
+  --femelle:      #D4899A;
+  --femelle-deep: #B06070;
+  --male:         #5B7FA6;
+  --male-deep:    #3F6289;
+
   --font-serif:  'Cormorant Garamond', 'Georgia', serif;
   --font-sans:   'Jost', 'Segoe UI', sans-serif;
 
@@ -2705,8 +2712,8 @@ footer {
    cohérent avec le code couleur déjà utilisé par les cartes du pédigrée. */
 .ped-toggle--pere { color: var(--bleu-deep); border-color: rgba(106, 143, 160, 0.32); }
 .ped-toggle--pere:hover { background: rgba(106, 143, 160, 0.08); border-color: var(--bleu); }
-.ped-toggle--mere { color: var(--rose-deep); border-color: rgba(212, 137, 154, 0.32); }
-.ped-toggle--mere:hover { background: rgba(212, 137, 154, 0.08); border-color: var(--rose); }
+.ped-toggle--mere { color: var(--femelle-deep); border-color: rgba(212, 137, 154, 0.32); }
+.ped-toggle--mere:hover { background: rgba(212, 137, 154, 0.08); border-color: var(--femelle); }
 
 .ped-toggle svg { transition: transform var(--transition); }
 .ped-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
@@ -2743,7 +2750,7 @@ footer {
    Code couleur : bleu = mâle, rose = femelle (liseré, sexe, action).
    ============================================ */
 .cc {
-  --c: var(--bleu); --ct: var(--bleu-deep);
+  --c: var(--male); --ct: var(--male-deep);
   position: relative; display: flex; flex-direction: column; height: 100%;
   background: #fff; color: var(--noir); text-decoration: none;
   border: 1px solid rgba(60, 40, 35, .07); border-radius: 20px; overflow: hidden;
@@ -2751,7 +2758,7 @@ footer {
   cursor: pointer;
   transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease, opacity .7s ease;
 }
-.cc--femelle { --c: var(--rose); --ct: var(--rose-deep); }
+.cc--femelle { --c: var(--femelle); --ct: var(--femelle-deep); }
 .cc:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgba(60, 40, 35, .05), 0 18px 40px rgba(60, 40, 35, .12); }
 .cc:focus-visible { outline: 2px solid var(--c); outline-offset: 3px; }
 
@@ -2816,14 +2823,14 @@ footer {
   -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); animation: cm-fondu .25s ease;
 }
 .cm-boite {
-  --c: var(--bleu); --ct: var(--bleu-deep);
+  --c: var(--male); --ct: var(--male-deep);
   position: relative; width: min(1040px, 100%); height: min(640px, calc(100vh - 3rem));
   display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
   background: #FFFDFB; border-radius: 24px; overflow: hidden;
   box-shadow: 0 30px 80px rgba(0, 0, 0, .35);
   animation: cm-entree .35s cubic-bezier(.2, .8, .2, 1);
 }
-.cm-boite.is-femelle { --c: var(--rose); --ct: var(--rose-deep); }
+.cm-boite.is-femelle { --c: var(--femelle); --ct: var(--femelle-deep); }
 .cm-carrousel { position: relative; overflow: hidden; background: #1C1C1C; touch-action: pan-y; }
 .cm-slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .5s ease; }
 .cm-slide.actif { opacity: 1; }
@@ -2876,8 +2883,8 @@ footer {
 .cm-infos dt { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
 .cm-infos dd { margin: 0; color: var(--noir); }
 .cm-infos dd a { color: var(--ct); border-bottom: 1px solid currentColor; }
-.cm-infos .cm-n--male { color: var(--bleu-deep); }
-.cm-infos .cm-n--femelle { color: var(--rose-deep); }
+.cm-infos .cm-n--male { color: var(--male-deep); }
+.cm-infos .cm-n--femelle { color: var(--femelle-deep); }
 .cm-actions { margin-top: auto; padding-top: 1.6rem; display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
 .cm-lien {
   display: inline-flex; align-items: center; gap: .45rem; padding: .55rem 1.15rem;
@@ -2909,8 +2916,8 @@ footer {
    capitales grises, devant ou derrière selon le nom officiel.
    ═══════════════════════════════════════════════════════════ */
 .nc-n { font-style: italic; }
-.nc--male    .nc-n { color: var(--bleu-deep); }
-.nc--femelle .nc-n { color: var(--rose-deep); }
+.nc--male    .nc-n { color: var(--male-deep); }
+.nc--femelle .nc-n { color: var(--femelle-deep); }
 .nc-a {
   font-family: var(--font-sans); font-style: normal; font-weight: 400;
   font-size: .42em; letter-spacing: .16em; text-transform: uppercase;
@@ -2918,3 +2925,51 @@ footer {
 }
 .nc-p { font-size: .62em; font-style: normal; color: var(--gris); }
 .horse-hero-name .nc-a { font-size: .3em; vertical-align: .55em; letter-spacing: .2em; }
+
+/* ═══════════════════════════════════════════════════════════
+   THÈMES DE PAGE — <body class="… theme-male | theme-femelle">
+   Pages neutres : rien à ajouter (crème, accents rose HC).
+   Fiche d'un mâle : nuances crème/bleu ; d'une femelle : crème/rosé.
+   Le thème redéfinit les variables d'accent (--rose…) et de fond
+   (--bg-…) pour tout le contenu ; les « îlots d'identité » (nav,
+   pied de page) gardent le rose de la marque ; les boutons d'action
+   de la fiche suivent le thème.
+   Les couleurs de sexe (--male / --femelle) ne bougent jamais.
+   ═══════════════════════════════════════════════════════════ */
+body.theme-male {
+  --bg-cream:  #FAFAF7;
+  --bg-light:  #F1F4F6;
+  --bg-card:   #FDFDFB;
+  --rose-pale: #D9E3EE;
+  --rose:      #8EA8C5;
+  --rose-deep: var(--male-deep);
+  --rose-dark: #2E4B6B;
+  --border:    rgba(63, 98, 137, 0.15);
+  --shadow:      0 4px 32px rgba(63, 98, 137, 0.09);
+  --shadow-hover:0 8px 48px rgba(63, 98, 137, 0.16);
+  background:
+    radial-gradient(ellipse 55% 35% at 88% 6%, rgba(91, 127, 166, 0.08), transparent 70%),
+    radial-gradient(ellipse 50% 30% at 8% 62%, rgba(91, 127, 166, 0.06), transparent 70%),
+    linear-gradient(180deg, #FDFBF7 0%, #F8F8F5 28%, #F1F4F6 65%, #EBF0F5 100%);
+}
+body.theme-femelle {
+  --bg-cream:  #FEF9F7;
+  --bg-light:  #FBF0EF;
+  --bg-card:   #FFFCFB;
+  --rose-pale: #F3D8E0;
+  background:
+    radial-gradient(ellipse 55% 35% at 88% 6%, rgba(212, 137, 154, 0.09), transparent 70%),
+    radial-gradient(ellipse 50% 30% at 8% 62%, rgba(212, 137, 154, 0.07), transparent 70%),
+    linear-gradient(180deg, #FEFBF6 0%, #FDF7F3 28%, #FBF0EE 65%, #F8EAEA 100%);
+}
+/* Sur les pages à thème, les sections laissent voir le dégradé de la page. */
+body:is(.theme-male, .theme-femelle) :is(.horse-hero-top, .horse-hero-img-wrap, .horse-hero-info, .horse-pedigree) {
+  background: transparent !important;
+}
+/* Îlots d'identité : la marque reste rose quel que soit le thème. */
+body:is(.theme-male, .theme-femelle) :is(.navbar, footer) {
+  --rose-pale: #F5DDE4; --rose: #D4899A; --rose-deep: #B06070; --rose-dark: #8B4A5C;
+  --border: rgba(176, 96, 112, 0.15);
+}
+/* Pédigrées (styles encore recopiés dans les fiches) : la mère reste rose. */
+body .ped-label--mere { color: var(--femelle); }
