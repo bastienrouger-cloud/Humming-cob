@@ -8,3 +8,6 @@ compress_images.py
 
 # Archives d'originaux non servies par le site (gardées en local)
 **/_originaux/
+
+# Notes de travail internes (doc projet, roadmap) — ne jamais publier
+claude cowork/
