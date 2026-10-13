@@ -1,0 +1,23 @@
+{
+  "id": "fleur",
+  "nom": "Fleur Du Vallat",
+  "famille": "externe",
+  "sexe": "femelle",
+  "pere": "archy",
+  "naissance": "2015",
+  "robe": "Pie Noir",
+  "race": "Irish Cob",
+  "souche": "autre",
+  "photo": "img/archy/fleur-01.jpg",
+  "photo_arbre": "img/tree/fleur.jpg",
+  "photos": [
+    "img/archy/fleur-01.jpg",
+    "img/archy/Fleur 04.jpg",
+    "img/archy/Fleur 08.jpg",
+    "img/archy/Fleur 05.jpg",
+    "img/archy/Fleur 09.jpg"
+  ],
+  "resume": "Née au Domaine Du Vallat (13). Facile sous la selle même avec les enfants, elle toise 1m44.",
+  "arbre": false,
+  "notes": "Hors élevage Humming Cob."
+}

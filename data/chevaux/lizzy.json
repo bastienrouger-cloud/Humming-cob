@@ -1,0 +1,10 @@
+{
+  "id": "lizzy",
+  "nom": "SD Lizzy",
+  "famille": "externe",
+  "sexe": "femelle",
+  "elevage": "SD",
+  "souche": "sd",
+  "photo_arbre": "img/tree/lizzy.jpg",
+  "arbre": true
+}

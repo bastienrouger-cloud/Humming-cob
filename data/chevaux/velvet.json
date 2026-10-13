@@ -1,0 +1,19 @@
+{
+  "id": "velvet",
+  "nom": "SD Red Velvet",
+  "nom_usuel": "Red Velvet",
+  "famille": "humming",
+  "role": "memoire",
+  "sexe": "femelle",
+  "pere": "flashharry",
+  "mere": "lizzy",
+  "naissance": "2017",
+  "deces": "2020",
+  "race": "Gypsy Cob",
+  "souche": "sd",
+  "page": "memoire.html",
+  "photo": "img/velvet/rv-01.jpg",
+  "photo_arbre": "img/tree/velvet.jpg",
+  "arbre": true,
+  "notes": "Gypsy Vanner. Décédée en 2020."
+}

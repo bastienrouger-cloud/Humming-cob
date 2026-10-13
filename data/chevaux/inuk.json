@@ -1,0 +1,23 @@
+{
+  "id": "inuk",
+  "nom": "Inuk de L'Oume",
+  "famille": "externe",
+  "sexe": "hongre",
+  "pere": "archy",
+  "naissance": "2018",
+  "robe": "Pie Noir",
+  "race": "Irish Cob",
+  "elevage": "Le Cros de l'Oume",
+  "souche": "autre",
+  "photo": "img/archy/inuk-01.jpg",
+  "photo_arbre": "img/tree/inuk.jpg",
+  "photos": [
+    "img/archy/inuk-01.jpg",
+    "img/archy/inuk-02.jpg",
+    "img/archy/Inuk 10.jpg",
+    "img/archy/Inuk 12.jpg"
+  ],
+  "resume": "Né dans la Drôme, il toise 1m53 à 4 ans et est un maitre d'école pour les enfants.",
+  "arbre": false,
+  "notes": "Hors élevage."
+}

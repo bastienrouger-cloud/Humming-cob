@@ -1,0 +1,25 @@
+{
+  "id": "qinai",
+  "nom": "Qinaï de L'Oume",
+  "famille": "externe",
+  "sexe": "male",
+  "pere": "avantgarde",
+  "mere": "mystic",
+  "naissance": "2026-05-13",
+  "robe": "Bai Pearl",
+  "race": "Irish Cob",
+  "elevage": "Le Cros de l'Oume",
+  "souche": "autre",
+  "photo": "img/avantgarde/Qinaï 01.jpg",
+  "photo_arbre": "img/tree/qinai.jpg",
+  "photos": [
+    "img/avantgarde/Qinaï 01.jpg",
+    "img/avantgarde/Qinaï 02.jpg",
+    "img/avantgarde/Qinaï 03.jpg",
+    "img/avantgarde/Qinaï 04.jpg",
+    "img/avantgarde/Qinaï 05.jpg",
+    "img/avantgarde/Qinaï 06.jpg"
+  ],
+  "resume": "Fils d'Avantgarde × Mystic de L'Oume. Né le 13 mai 2026. Élevage Le Cros de l'Oume.",
+  "arbre": false
+}

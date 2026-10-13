@@ -1,0 +1,16 @@
+{
+  "id": "razzamataz",
+  "nom": "San Cler Razzamataz",
+  "famille": "externe",
+  "sexe": "male",
+  "pere": "creamcracker",
+  "mere": "butterscotch",
+  "naissance": "2015",
+  "robe": "Buckskin",
+  "elevage": "San Cler",
+  "souche": "sancler",
+  "photo_arbre": "img/tree/razzamataz.jpg",
+  "arbre": true,
+  "notes": "Buckskin Pearl · Gypsy Vanner · 2015",
+  "source": "site hummingcob.fr"
+}

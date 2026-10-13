@@ -1,0 +1,26 @@
+{
+  "id": "qoulitch",
+  "nom": "Qoulitch Yasuke",
+  "famille": "externe",
+  "sexe": "male",
+  "pere": "avantgarde",
+  "mere": "rubyjane",
+  "naissance": "2026-05-23",
+  "robe": "Bai Pearl",
+  "race": "OC",
+  "elevage": "Élevage Yasuke",
+  "souche": "autre",
+  "photo": "img/ruby/Qoulitch 013.jpg",
+  "photo_arbre": "img/tree/qoulitch.jpg",
+  "photos": [
+    "img/ruby/Qoulitch 013.jpg",
+    "img/ruby/Qoulitch 01.jpg",
+    "img/ruby/Qoulitch 02.jpg",
+    "img/ruby/Qoulitch 03.jpg",
+    "img/ruby/Qoulitch 04.jpg",
+    "img/ruby/Qoulitch 05.jpg",
+    "img/ruby/Qoulitch 06.jpg"
+  ],
+  "resume": "Troisième fils d'Avantgarde, il est né le 23 mai 2026, en Bretagne, à l'Élevage Yasuke. Observateur, posé et réfléchi.",
+  "arbre": false
+}

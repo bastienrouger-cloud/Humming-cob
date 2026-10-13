@@ -1,0 +1,20 @@
+{
+  "id": "festival",
+  "nom": "Festival De Lohé",
+  "famille": "externe",
+  "sexe": "hongre",
+  "pere": "archy",
+  "naissance": "2015",
+  "robe": "Bai",
+  "race": "OC",
+  "souche": "autre",
+  "photo": "img/archy/festival-01.jpg",
+  "photo_arbre": "img/tree/festival.jpg",
+  "photos": [
+    "img/archy/festival-01.jpg",
+    "img/archy/festival-02.jpg"
+  ],
+  "resume": "Né dans le Gard (30), il toise 1m40, croisé PFS. Un véritable randonneur.",
+  "arbre": false,
+  "notes": "Hors élevage."
+}

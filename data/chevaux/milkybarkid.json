@@ -1,0 +1,15 @@
+{
+  "id": "milkybarkid",
+  "nom": "The Milky Bar Kid",
+  "famille": "externe",
+  "sexe": "male",
+  "pere": "cremedream",
+  "naissance": "2005",
+  "robe": "Palomino Pearl",
+  "elevage": "San Cler · IRL",
+  "souche": "sancler",
+  "photo_arbre": "img/tree/milkybar.jpg",
+  "arbre": true,
+  "notes": "Gypsy Vanner Palomino Pearl. PSSM1 N/N.",
+  "source": "site hummingcob.fr"
+}

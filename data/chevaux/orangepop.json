@@ -1,0 +1,15 @@
+{
+  "id": "orangepop",
+  "nom": "San Cler Orange Pop",
+  "famille": "externe",
+  "sexe": "femelle",
+  "pere": "creamcracker",
+  "naissance": "2014",
+  "robe": "Alezan",
+  "elevage": "San Cler",
+  "souche": "sancler",
+  "photo_arbre": "img/tree/orangepop.jpg",
+  "arbre": true,
+  "notes": "Chestnut · Gypsy Vanner · 2014",
+  "source": "site hummingcob.fr"
+}

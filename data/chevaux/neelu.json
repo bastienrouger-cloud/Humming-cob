@@ -1,0 +1,25 @@
+{
+  "id": "neelu",
+  "nom": "Neelu DC",
+  "famille": "externe",
+  "sexe": "femelle",
+  "pere": "kuarahy",
+  "mere": "rubyjane",
+  "naissance": "2023",
+  "robe": "Smocky Black",
+  "race": "OC",
+  "souche": "autre",
+  "photo": "img/ruby/Neelu 05.jpg",
+  "photo_arbre": "img/tree/neelu.jpg",
+  "photos": [
+    "img/ruby/Neelu 05.jpg",
+    "img/ruby/Ne-01.jpg",
+    "img/ruby/Ne-02.jpg",
+    "img/ruby/Ne-03.jpg",
+    "img/ruby/Ne-04.jpg",
+    "img/ruby/Ne-05.jpg",
+    "img/ruby/neelu-01.jpg"
+  ],
+  "resume": "Fille de SD Ruby Jane. Née en 2023.",
+  "arbre": false
+}

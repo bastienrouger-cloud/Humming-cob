@@ -1,0 +1,16 @@
+{
+  "id": "jballar",
+  "nom": "Jballar",
+  "nom_usuel": "Jballar",
+  "famille": "humming",
+  "role": "memoire",
+  "sexe": "hongre",
+  "naissance": "2004",
+  "deces": "2023",
+  "robe": "Gris",
+  "race": "Espagnol",
+  "souche": "autre",
+  "page": "memoire.html",
+  "photo": "img/jballar/jb-01.jpg",
+  "arbre": false
+}

@@ -1,0 +1,27 @@
+{
+  "id": "nuran",
+  "nom": "Nuran DC",
+  "famille": "externe",
+  "sexe": "male",
+  "pere": "kuarahy",
+  "mere": "suzie",
+  "naissance": "2023",
+  "robe": "Smocky Silver",
+  "race": "OC",
+  "souche": "autre",
+  "photo": "img/suzie/Nuran/01- Nuran 2023.jpg",
+  "photo_arbre": "img/tree/nuran.jpg",
+  "photos": [
+    "img/suzie/Nuran/01- Nuran 2023.jpg",
+    "img/suzie/Nuran/02- Nuran mai 2023.jpg",
+    "img/suzie/Nuran/03- Nuran 07 2023.jpg",
+    "img/suzie/Nuran/04- Nuran 07 2023.jpg",
+    "img/suzie/Nuran/05- Nuran 07 2023.jpg",
+    "img/suzie/Nuran/06- Nuran nov 2023.jpg",
+    "img/suzie/Nuran/07- Nuran janv 2024.jpg",
+    "img/suzie/Nuran/08- Nuran 2026.jpg"
+  ],
+  "resume": "Né chez Éloïse Richard, de l'union avec son étalon Kuarahy. Curieux, intelligent et débrouillard, Nuran allie indépendance et affection.",
+  "arbre": false,
+  "notes": "Hors élevage."
+}

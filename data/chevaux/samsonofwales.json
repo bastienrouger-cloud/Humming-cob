@@ -1,0 +1,16 @@
+{
+  "id": "samsonofwales",
+  "nom": "Samson of Wales",
+  "famille": "externe",
+  "sexe": "male",
+  "pere": "oldhorsewales",
+  "mere": "sweepermare",
+  "naissance": "~2000",
+  "robe": "Noir Tobiano",
+  "origine": "Royaume-Uni",
+  "souche": "sd",
+  "photo_arbre": "img/tree/samson.jpg",
+  "arbre": true,
+  "notes": "Black Tobiano · Gypsy Vanner · ~2000 — Gypsy Vanner.",
+  "source": "site hummingcob.fr"
+}
