@@ -491,20 +491,9 @@ _PG_LABELS = {1: ("Père", "Mère"), 2: ("Grand-père", "Grand-mère"), 3: ("", 
 
 
 def _pg_meta(c, niveau):
-    morceaux = [c.get("robe_courte") or c.get("robe"), _naissance_courte(c)]
-    if niveau <= 2:
-        morceaux.append(c.get("taille"))
-    meta = " · ".join(_esc(m) for m in morceaux if m)
-    extra = []
-    if niveau <= 2:
-        race = c.get("race")
-        if race and race not in ("Irish Cob", "Gypsy Vanner", "Gypsy Cob"):
-            extra.append(race)
-        if c.get("distinction"):
-            extra.append(c["distinction"])
-        elif c.get("registre"):
-            extra.append(c["registre"])
-    return meta, " · ".join(_esc(e) for e in extra)
+    """Carte fermée : la robe seule (tailles de cartes homogènes). Année, taille,
+    race, registre et distinctions sont dans la modale / sur la fiche."""
+    return _esc(c.get("robe_courte") or c.get("robe") or ""), ""
 
 
 def _pg_noeud(par_id, cid, niveau, cote, base, repete=None):
@@ -521,11 +510,11 @@ def _pg_noeud(par_id, cid, niveau, cote, base, repete=None):
     img = ('<img class="pg-photo" src="%s%s" alt="" loading="lazy">' % (base, _esc(photo))
            if niveau == 1 and photo else "")
     corps = (img + '<span class="pg-texte">' + lab
-             + '<span class="pg-nom">%s</span>' % nom_html(c)
+             + '<span class="pg-nom">%s%s</span>' % (nom_html(c), (
+                 '<span class="pg-repete" title="Ancêtre présent %d fois dans ce pédigrée">%d×</span>'
+                 % (repete, repete)) if repete else "")
              + ('<span class="pg-meta">%s</span>' % meta if meta else "")
              + ('<span class="pg-extra">%s</span>' % extra if extra else "")
-             + ('<span class="pg-repete" title="Ancêtre présent %d fois dans ce pédigrée">'
-                '%d× dans le pédigrée</span>' % (repete, repete) if repete else "")
              + "</span>")
     cls = "pg-node pg-node--%s pg-n%d%s" % (sexe, niveau, " pg-node--repete" if repete else "")
     if c.get("page"):
@@ -533,8 +522,10 @@ def _pg_noeud(par_id, cid, niveau, cote, base, repete=None):
             cls, base, _esc(c["page"]), corps)
     if c.get("photos") or c.get("photo") or c.get("photo_arbre"):
         return ('<div class="%s pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" '
-                'data-cheval="%s">%s</div>' % (cls, c["id"], corps))
-    return '<div class="%s">%s</div>' % (cls, corps)
+                'data-cheval="%s" title="Voir les photos et les infos">%s<span class="pg-fleche">%s</span></div>'
+                % (cls, c["id"], corps, _PHOTOS))
+    # Ni fiche ni photo : rien à ouvrir — case atténuée, sans effet au survol.
+    return '<div class="%s pg-node--simple">%s</div>' % (cls, corps)
 
 
 def pedigree_html(c, par_id, base):

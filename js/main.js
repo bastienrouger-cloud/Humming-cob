@@ -405,6 +405,7 @@ if (revealEls.length) {
     else if (c.origine) lignes.push(['Origine', esc(c.origine)]);
     if (c.papiers) lignes.push(['Papiers', esc(c.papiers)]);
     if (c.registre) lignes.push(['Registre', esc(c.registre)]);
+    if (c.distinction) lignes.push(['Distinction', esc(c.distinction)]);   // n'est plus sur la carte du pédigrée
     const texte = v.description || v.resume;
     const arbre = (typeof POSITIONS_ARBRE !== 'undefined' && POSITIONS_ARBRE[c.id])
       ? `<a class="cm-lien" href="${esc(url('arbre-genealogique.html#' + c.id))}">Voir dans l'arbre généalogique
