@@ -457,6 +457,105 @@
       .ap-photo { aspect-ratio: 16 / 9; }
       .ap-vide { display: none; }
     }
+
+    /* ── MODE FOCUS (mobile) ─────────────────────────────────────────────
+       Un cheval au centre, ses parents au-dessus, sa descendance en dessous.
+       Toucher un cheval le met au centre. Bascule « Famille / Arbre ». */
+    .focus, .vue-bascule, .sw-court { display: none; }
+    @media (max-width: 900px) {
+      .vue-bascule {
+        display: flex; position: absolute; top: 3.6rem; right: .6rem; z-index: 15;
+        padding: 3px; border-radius: 50px; background: rgba(255,255,255,.92);
+        box-shadow: 0 2px 10px rgba(0,0,0,.07);
+      }
+      .vue-bascule button {
+        border: 0; background: none; font: inherit; cursor: pointer;
+        padding: .38rem .85rem; border-radius: 50px;
+        font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gris);
+      }
+      .vue-bascule button.actif { background: var(--rose-deep); color: #fff; }
+      .sw-long { display: none; }
+      .sw-court { display: inline; }   /* place pour la bascule à droite */
+      .arbre-zone.vue-focus .tree-outer,
+      .arbre-zone.vue-focus .legend,
+      .arbre-zone.vue-focus .arbre-switch { display: none; }
+      /* la zone Famille défile dans le cadre, sous la recherche qui reste en place */
+      .arbre-zone.vue-focus .focus {
+        display: block; position: absolute; inset: 6.4rem 0 0; overflow-y: auto;
+        padding: .5rem 1rem 1.6rem; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+      }
+      .arbre-zone.vue-focus .arbre-cadre { min-height: 70vh; }
+    }
+    .fx { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .fx.fx-entre { animation: fxEntre .32s ease both; }
+    @keyframes fxEntre { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .fx-titre { margin: 0 0 .55rem; font-size: .58rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gris); }
+    .fx-parents { display: flex; justify-content: center; gap: 1.6rem; }
+    .fx-med {
+      display: flex; flex-direction: column; align-items: center; gap: .3rem; width: 96px;
+      background: none; border: 0; padding: 0; font: inherit; color: var(--noir); cursor: pointer;
+    }
+    .fx-med-img {
+      width: 64px; height: 64px; border-radius: 50%; overflow: hidden; display: block; flex-shrink: 0;
+      border: 2px solid var(--c); box-shadow: 0 0 0 3px #FEFBF6, 0 3px 10px rgba(60,40,35,.12);
+      background: #F3EEE6;
+    }
+    .fx-med-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .fx-med:active .fx-med-img { transform: scale(.95); }
+    .fx-med-nom { font-family: var(--serif); font-size: .95rem; line-height: 1.15; overflow-wrap: anywhere; }
+    .fx-med-note { font-size: .62rem; color: var(--gris); line-height: 1.3; }
+    .fx-med.is-ext .fx-med-nom { color: var(--gris); font-style: italic; }
+    .fx-med.is-memoire .fx-med-img { filter: grayscale(.85); border-style: dashed; }
+    .fx-med.is-inconnu { cursor: default; }
+    .fx-med.is-inconnu .fx-med-img {
+      display: grid; place-items: center; border: 1.5px dashed #C9C0BA; box-shadow: none;
+      background: transparent; color: #C9C0BA; font-family: var(--serif); font-size: 1.4rem;
+    }
+    .fx-med.is-inconnu .fx-med-nom { color: #B4AAA4; font-style: italic; font-size: .85rem; }
+    .fx-trait { width: 1.5px; height: 1.4rem; margin: .5rem 0; background: linear-gradient(var(--rose), rgba(212,137,154,.25)); }
+    .fx-centre {
+      display: flex; flex-direction: column; align-items: center; gap: .2rem;
+      width: 100%; max-width: 360px; padding: 1.1rem 1rem 1.2rem; border-radius: 22px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--c) 18%, #FFFEFB) 0%, #FFFEFB 70%);
+      border: 1px solid color-mix(in srgb, var(--c) 28%, transparent);
+      box-shadow: 0 10px 28px color-mix(in srgb, var(--c) 16%, transparent);
+    }
+    .fx-centre-photo {
+      width: 124px; height: 124px; border-radius: 50%; overflow: hidden; padding: 0; cursor: pointer;
+      border: 3px solid var(--c); box-shadow: 0 0 0 5px #FEFBF6, 0 8px 22px rgba(60,40,35,.18);
+      background: #F3EEE6; margin-bottom: .55rem;
+    }
+    .fx-centre-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .fx-centre.is-memoire .fx-centre-photo img { filter: grayscale(.85); }
+    .fx-genre { margin: 0; font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct); display: flex; gap: .4rem; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .fx-nom { margin: .1rem 0 0; font-family: var(--serif); font-weight: 400; font-size: 1.75rem; line-height: 1.1; }
+    .fx-meta { margin: .15rem 0 0; font-size: .78rem; color: var(--gris); }
+    .fx-actions { display: flex; gap: .5rem; margin-top: .8rem; flex-wrap: wrap; justify-content: center; }
+    .fx-bouton {
+      display: inline-flex; align-items: center; gap: .35rem; padding: .5rem 1rem; border-radius: 50px;
+      border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); background: #fff; color: var(--ct);
+      font: inherit; font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; cursor: pointer;
+    }
+    .fx-bouton--plein { background: var(--ct); border-color: var(--ct); color: #fff; }
+    .fx-rangee {
+      display: flex; gap: .4rem; max-width: 100%; overflow-x: auto; padding: .3rem .2rem .6rem;
+      scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+    }
+    .fx-rangee-bloc { width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .fx-rangee { scrollbar-width: none; }
+    .fx-rangee::-webkit-scrollbar { display: none; }
+    .fx-defil { position: relative; width: min(220px, 60%); height: 4px; margin-top: .2rem; border-radius: 4px;
+                background: color-mix(in srgb, var(--c) 18%, transparent); }
+    .fx-defil[hidden] { display: none; }
+    .fx-defil span { position: absolute; top: 0; bottom: 0; border-radius: 4px; background: var(--c); transition: left .08s linear; }
+    .fx-rangee .fx-med { scroll-snap-align: start; flex-shrink: 0; width: 88px; }
+    .fx-rangee .fx-med-img { width: 56px; height: 56px; }
+    .fx-aucun { margin: 0; font-family: var(--serif); font-style: italic; color: var(--gris); }
+    .fx-accueil { align-items: stretch; }
+    .fx-accueil .fx-accueil-titre { margin: 0 0 .3rem; font-family: var(--serif); font-size: 1.6rem; color: var(--noir); }
+    .fx-accueil p { margin: 0 0 .6rem; color: var(--gris); font-size: .85rem; line-height: 1.5; }
+    .fx-accueil .ap-galerie { width: 100%; margin-bottom: 1rem; }
+    .fx-accueil .ap-vide-sous { margin: 1rem 0 .7rem; text-align: left; font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gris); }
   </style>
 </head>
 <body>
@@ -519,10 +618,16 @@
 
 
 
+<div class="focus" id="focus" aria-live="polite"></div>
+<div class="vue-bascule" role="group" aria-label="Affichage">
+  <button type="button" data-vue="focus">Famille</button>
+  <button type="button" data-vue="arbre">Arbre</button>
+</div>
+
 <label class="arbre-switch">
   <input type="checkbox" id="voirExt">
   <span class="arbre-switch-piste" aria-hidden="true"></span>
-  Chevaux extérieurs
+  <span class="sw-long">Chevaux extérieurs</span><span class="sw-court">Extérieurs</span>
 </label>
 
 <div class="legend">
@@ -1313,10 +1418,121 @@ document.getElementById('zoomReset').addEventListener('click', () => {
 });
 
 // ── SÉLECTION ─────────────────────────────────────────────────────────────
+// ── MODE FOCUS (mobile) : un cheval au centre, parents au-dessus, descendance dessous.
+const zone    = document.querySelector('.arbre-zone');
+const focusEl = document.getElementById('focus');
+const MOBILE  = window.matchMedia('(max-width: 900px)');
+let vue = 'focus', focusId = null;
+try { vue = localStorage.getItem('arbre-vue') || 'focus'; } catch (e) {}
+const vueFocus = () => MOBILE.matches && vue === 'focus';
+const annee = c => ((c.naissance || '').match(/\d{4}/) || [''])[0];
+
+function medFocus(c, note, role) {
+  if (!c) return `<span class="fx-med is-inconnu"><span class="fx-med-img">?</span><span class="fx-med-nom">${role} inconnu${role === 'Mère' ? 'e' : ''}</span></span>`;
+  const img = c.photo_arbre || c.photo || PLACEHOLDER[c.sexe];
+  const cls = (c.famille === 'externe' ? ' is-ext' : '') + (c.role === 'memoire' ? ' is-memoire' : '');
+  return `<button type="button" class="fx-med${cls}" data-id="${c.id}" style="--c:${COUL[c.sexe]}">
+      <span class="fx-med-img"><img src="${esc(img)}" alt="" loading="lazy"></span>
+      <span class="fx-med-nom">${esc(c.nom_usuel || nomCourt(c))}</span>
+      ${note ? `<span class="fx-med-note">${note}</span>` : ''}</button>`;
+}
+function afficherFocus(id) {
+  const c = PAR_ID[id];
+  if (!c) return;
+  focusId = id;
+  const pere = PAR_ID[c.pere], mere = PAR_ID[c.mere];
+  const enfants = enfantsDe(id);
+  const img = c.photo_arbre || c.photo || PLACEHOLDER[c.sexe];
+  const meta = [c.robe_courte || c.robe, annee(c) && (c.deces ? annee(c) + ' – ' + c.deces.slice(0, 4) : annee(c))].filter(Boolean).join(' · ');
+  // sous chaque poulain : l'autre parent (« avec Suzie »)
+  const avec = e => { const autre = PAR_ID[e.pere === id ? e.mere : e.pere]; return [annee(e), autre ? 'avec ' + esc(autre.nom_usuel || nomCourt(autre)) : ''].filter(Boolean).join('<br>'); };
+  focusEl.innerHTML = `
+    <div class="fx fx-entre">
+      <p class="fx-titre">Parents</p>
+      <div class="fx-parents">${medFocus(pere, '', 'Père')}${medFocus(mere, '', 'Mère')}</div>
+      <span class="fx-trait" aria-hidden="true"></span>
+      <div class="fx-centre${c.role === 'memoire' ? ' is-memoire' : ''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
+        <button type="button" class="fx-centre-photo" data-carte aria-label="Voir sa carte"><img src="${esc(img)}" alt="${esc(c.nom)}"></button>
+        <p class="fx-genre">${libelleSexe(c)}${badgeStatut(c)}</p>
+        <h2 class="fx-nom">${nomChevalHTML(c)}</h2>
+        ${meta ? `<p class="fx-meta">${esc(meta)}</p>` : ''}
+        <div class="fx-actions">
+          <button type="button" class="fx-bouton" data-carte>Sa carte</button>
+          ${c.page ? `<a class="fx-bouton fx-bouton--plein" href="${esc(c.page)}">Voir la fiche</a>` : ''}
+        </div>
+      </div>
+      <span class="fx-trait" aria-hidden="true"></span>
+      <p class="fx-titre">${enfants.length ? `Descendance (${enfants.length})` : 'Descendance'}</p>
+      ${enfants.length ? `<div class="fx-rangee-bloc" style="--c:${COUL[c.sexe]}"><div class="fx-rangee">${enfants.map(e => medFocus(e, avec(e))).join('')}</div>
+           <div class="fx-defil" hidden aria-hidden="true"><span></span></div></div>`
+                       : '<p class="fx-aucun">Pas de descendance connue.</p>'}
+    </div>`;
+  const rangee = focusEl.querySelector('.fx-rangee');
+  if (rangee) { rangee.addEventListener('scroll', majDefil, { passive: true }); requestAnimationFrame(majDefil); }
+}
+// Barre de défilement maison sous la descendance (celle du téléphone est blanche et
+// presque invisible, et iOS ne permet pas de la colorer) : couleur du cheval au centre.
+function majDefil() {
+  const r = focusEl.querySelector('.fx-rangee'), barre = focusEl.querySelector('.fx-defil');
+  if (!r || !barre) return;
+  const deborde = r.scrollWidth > r.clientWidth + 2;
+  barre.hidden = !deborde;
+  if (!deborde) return;
+  const t = barre.firstElementChild, part = r.clientWidth / r.scrollWidth;
+  t.style.width = (part * 100) + '%';
+  t.style.left = (r.scrollLeft / r.scrollWidth * 100) + '%';
+}
+window.addEventListener('resize', majDefil);
+function accueilFocus() {
+  focusId = null;
+  focusEl.innerHTML = `<div class="fx fx-accueil fx-entre">
+      <p class="fx-accueil-titre">Explorez une famille</p>
+      <p>Choisissez un cheval, ou cherchez-le par son nom. Touchez ensuite un parent pour remonter la lignée.</p>
+      ${GROUPES.map(g => {
+        const liste = CHEVAUX.filter(c => c.famille === 'humming' && g.filtre(c)).sort(g.tri);
+        return liste.length ? `<p class="ap-vide-sous">${g.titre}</p><div class="ap-galerie">${liste.map(medaillon).join('')}</div>` : '';
+      }).join('')}
+    </div>`;
+}
+focusEl.addEventListener('click', e => {
+  const b = e.target.closest('[data-id]');
+  if (b) { allerA(b.dataset.id); return; }
+  if (e.target.closest('[data-carte]') && focusId) ouvrirCarte(PAR_ID[focusId]);
+});
+// Navigation avec historique : le bouton « retour » du téléphone redescend d'un cheval.
+function allerA(id) {
+  if (location.hash.slice(1) === id) { selectionner(id); return; }
+  location.hash = id;                     // → hashchange → suivreAdresse → selectionner
+}
+function appliquerVue() {
+  zone.classList.toggle('vue-focus', vue === 'focus');
+  document.querySelectorAll('.vue-bascule button').forEach(b => b.classList.toggle('actif', b.dataset.vue === vue));
+}
+document.querySelector('.vue-bascule').addEventListener('click', e => {
+  const b = e.target.closest('button[data-vue]');
+  if (!b || b.dataset.vue === vue) return;
+  const courant = vue === 'focus' ? focusId : (activeNode && activeNode.id);
+  vue = b.dataset.vue;
+  try { localStorage.setItem('arbre-vue', vue); } catch (err) {}
+  appliquerVue();
+  fermerCarte();
+  if (courant) selectionner(courant, { centrer: true });
+  else if (vue === 'focus') accueilFocus();
+});
+appliquerVue();
+accueilFocus();
+
 // Point d'entrée unique : clic, tap, recherche, liens de la carte, adresse #id.
 function selectionner(id, { centrer = false } = {}) {
   const c = PAR_ID[id];
   if (!c) return;
+  if (vueFocus()) {                       // mobile, vue « Famille »
+    fermerCarte();
+    afficherFocus(id);
+    if (location.hash.slice(1) !== id) history.pushState(null, '', '#' + id);   // « retour » = cheval précédent
+    focusEl.scrollTop = 0;
+    return;
+  }
   const d = DATA.find(x => x.id === id);
   if (d) {
     const { ids, pairs } = computeReveal(id);
@@ -1331,6 +1547,7 @@ function selectionner(id, { centrer = false } = {}) {
   if (centrer && d) centrerSur(id);
 }
 function deselectionner() {
+  if (vueFocus()) { fermerCarte(); return; }   // vue « Famille » : on ferme juste la carte
   activeNode = null; activeRevealIds = new Set(); activeVisiblePairs = new Set();
   applyState();
   fermerCarte();
@@ -1435,7 +1652,8 @@ if (window.matchMedia('(max-width: 900px)').matches) {
 
 function suivreAdresse() {
   const id = decodeURIComponent(location.hash.slice(1));
-  if (PAR_ID[id]) { if (!activeNode || activeNode.id !== id) selectionner(id, { centrer: true }); }
+  if (PAR_ID[id]) { if (vueFocus() ? focusId !== id : (!activeNode || activeNode.id !== id)) selectionner(id, { centrer: true }); }
+  else if (vueFocus() && focusId) accueilFocus();
   else if (!panneau.classList.contains('ouvert')) fermerCarte();
 }
 suivreAdresse();
