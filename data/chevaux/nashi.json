@@ -14,9 +14,17 @@
   "robe_courte": "Bai",
   "race": "Irish Cob",
   "taille": "1m42 au 01/06/2026",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/_",
+    "A": "A/a"
+  },
+  "genetique_deduit": [
+    "PSSM1",
+    "A"
+  ],
   "origine": "France · Humming Cob",
   "papiers": "Plein Papier",
-  "test_adn": "PSSM1 Free Par Filiation",
   "prix": 4000,
   "souche": "hc",
   "page": "poulains/nashi.html",

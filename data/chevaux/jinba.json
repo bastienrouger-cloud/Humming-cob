@@ -13,9 +13,16 @@
   "robe": "Noire Sabino",
   "race": "Irish Cob",
   "taille": "1m45",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/_",
+    "A": "a/a"
+  },
+  "genetique_deduit": [
+    "PSSM1"
+  ],
   "origine": "France · Humming Cob",
   "papiers": "Plein Papier",
-  "test_adn": "PSSM1 Free Par Filiation",
   "souche": "hc",
   "page": "poulains/Jinba-Ittaï.html",
   "photo": "img/jinba/ji-index.jpg",

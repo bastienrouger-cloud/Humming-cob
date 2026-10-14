@@ -12,9 +12,14 @@
   "robe": "Bai Sabino",
   "race": "Irish Cob",
   "taille": "1m45",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/e",
+    "A": "A/a",
+    "KIT": "Sb1/W20"
+  },
   "origine": "Pays de Galles · SD Farm",
   "distinction": "Élite grade 1",
-  "test_adn": "PSSM1 Free - Ee Aa Sb1 DW20",
   "souche": "sd",
   "page": "reproducteurs/sakura.html",
   "photo": "img/sakura/Sakura Portrait 02.jpg",

@@ -2748,6 +2748,99 @@ footer {
 
 
 /* ============================================
+   PÉDIGRÉE — généré par build.py (<!-- @pedigree: id -->)
+   Ordi : tableau sur 3 générations, père en haut, mère en bas, traits de liaison.
+   Téléphone : liste indentée, arrière-grands-parents par deux.
+   Bleu = mâle, rose = femelle (liseré gauche + libellé).
+   ============================================ */
+.pg { --pg-trait: rgba(0, 0, 0, 0.14); --pg-l: 16px; margin-top: .5rem; }
+.pg-gens {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 calc(var(--pg-l) * 2);
+  font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gris);
+  margin-bottom: .9rem;
+}
+.pg-arbre { display: flex; flex-direction: column; gap: 1.4rem; }
+.pg-branche { display: grid; grid-template-columns: 1fr 2fr; align-items: center; }
+.pg-sous .pg-branche { grid-template-columns: 1fr 1fr; }
+.pg-sous { position: relative; padding-left: calc(var(--pg-l) * 2); display: flex; flex-direction: column; }
+.pg-sous::before {                       /* départ du trait depuis la case parente */
+  content: ""; position: absolute; left: 0; top: 50%; width: var(--pg-l);
+  border-top: 1px solid var(--pg-trait);
+}
+.pg-c { position: relative; padding: .3rem 0; }
+.pg-c::before {                          /* trait horizontal vers la case */
+  content: ""; position: absolute; left: calc(var(--pg-l) * -1); top: 50%; width: var(--pg-l);
+  border-top: 1px solid var(--pg-trait);
+}
+.pg-c::after {                           /* trait vertical (accolade) */
+  content: ""; position: absolute; left: calc(var(--pg-l) * -1); border-left: 1px solid var(--pg-trait);
+}
+.pg-c:first-child::after { top: 50%; bottom: 0; }
+.pg-c:last-child::after  { top: 0; bottom: 50%; }
+
+.pg-node {
+  --c: rgba(91, 127, 166, 0.6); --ct: var(--male-deep);
+  display: flex; align-items: center; gap: .75rem; min-width: 0;
+  background: var(--bg-card); color: inherit; text-decoration: none;
+  border: 1px solid var(--border); border-left: 3px solid var(--c); border-radius: 10px;
+  padding: .55rem .75rem;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.pg-node--femelle { --c: rgba(212, 137, 154, 0.7); --ct: var(--femelle-deep); }
+.pg-n1 { padding: .8rem 1rem; }
+.pg-texte { display: flex; flex-direction: column; min-width: 0; }
+.pg-label { font-size: .58rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct); margin-bottom: .15rem; }
+.pg-nom { font-family: var(--font-serif); font-weight: 600; font-size: .95rem; line-height: 1.2; }
+.pg-n1 .pg-nom { font-size: 1.2rem; }
+.pg-n3 .pg-nom { font-size: .85rem; }
+.pg-meta  { font-size: .68rem; color: var(--gris); margin-top: .2rem; line-height: 1.4; }
+.pg-extra { font-size: .64rem; color: var(--gris); font-style: italic; line-height: 1.4; }
+.pg-photo {
+  width: 54px; height: 54px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 3px var(--c);
+}
+.pg-fleche { margin-left: auto; padding-left: .4rem; color: var(--ct); opacity: .45; transition: opacity var(--transition), transform var(--transition); }
+.pg-node--lien, .pg-node--modale { cursor: pointer; }
+.pg-node--lien:hover, .pg-node--modale:hover,
+.pg-node--lien:focus-visible, .pg-node--modale:focus-visible {
+  transform: translateY(-1px); box-shadow: var(--shadow); border-color: var(--c);
+}
+.pg-node--lien:hover .pg-fleche { opacity: 1; transform: translateX(3px); }
+.pg-repete {
+  align-self: flex-start; margin-top: .3rem; font-size: .58rem; letter-spacing: .08em; text-transform: uppercase;
+  color: #8a6a2f; background: rgba(201, 162, 39, 0.12); border: 1px solid rgba(201, 162, 39, 0.35);
+  border-radius: 20px; padding: .1rem .5rem;
+}
+.pg-node--repete { box-shadow: inset 0 0 0 1px rgba(201, 162, 39, 0.35); }
+.pg-node--inconnu { background: transparent; border-style: dashed; border-left-style: dashed; }
+.pg-node--inconnu .pg-nom { font-family: var(--font-sans); font-weight: 400; font-size: .74rem; font-style: italic; color: var(--gris); }
+
+@media (max-width: 760px) {
+  .pg-gens { display: none; }
+  .pg-arbre { gap: 1.1rem; }
+  .pg-branche, .pg-sous .pg-branche { display: block; }
+  .pg-sous { padding-left: calc(var(--pg-l) + 6px); margin-top: .35rem; }
+  .pg-sous::before { display: none; }
+  .pg-c::before { left: calc(var(--pg-l) * -1 + 6px); width: calc(var(--pg-l) - 6px); }
+  .pg-c::after  { left: calc(var(--pg-l) * -1 + 6px); }
+  .pg-c:first-child::after { top: -.35rem; bottom: 0; }
+  .pg-c:last-child::after  { top: 0; bottom: 50%; }
+  /* arrière-grands-parents : côte à côte, sans traits */
+  .pg-sous .pg-sous { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding-left: calc(var(--pg-l) + 6px); }
+  .pg-sous .pg-sous .pg-c { padding: 0; }
+  .pg-sous .pg-sous .pg-c::before, .pg-sous .pg-sous .pg-c::after { display: none; }
+  .pg-sous .pg-sous { border-left: 1px solid var(--pg-trait); margin-left: 0; }
+}
+
+/* Note sous le pédigrée (texte libre de la fiche) */
+.ped-note {
+  margin-top: 2rem; background: rgba(106, 143, 160, 0.06); border: 1px solid rgba(106, 143, 160, 0.2);
+  border-radius: 12px; padding: 1.25rem 1.5rem; font-size: .8rem; line-height: 1.65; color: var(--noir);
+}
+.ped-note strong { color: var(--bleu); }
+
+
+/* ============================================
    CARTES CHEVAUX — générées par build.py (<!-- @cartes: … -->)
    Nos chevaux : lien vers la fiche. Chevaux extérieurs : ouvrent la modale.
    Code couleur : bleu = mâle, rose = femelle (liseré, sexe, action).
@@ -3104,3 +3197,58 @@ body .ped-label--mere { color: var(--femelle); }
   .troupeau-lien { font-size: .66rem; line-height: 1.6; }
 }
 @media (prefers-reduced-motion: reduce) { .rangee { scroll-behavior: auto; } }
+
+
+/* ============================================
+   PAGE CONTACT (contact.html)
+   ============================================ */
+#contact.contact-page {
+  padding-top: 2rem;
+  background: linear-gradient(to bottom, var(--bg-cream) 0%, #FDF5F7 45%, var(--bg-light) 100%);
+}
+.contact-cote { display: flex; flex-direction: column; gap: 2rem; }
+.contact-item-text a { color: var(--rose-deep); text-decoration: none; border-bottom: 1px solid var(--border); }
+.contact-item-text a:hover { border-bottom-color: currentColor; }
+.contact-encart {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; text-align: left;
+  text-decoration: none; color: inherit; padding: 1.3rem 1.5rem; border-radius: var(--radius); background: var(--bg-card);
+  border: 1px solid var(--border); transition: box-shadow var(--transition), transform var(--transition);
+}
+.contact-encart:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.contact-encart-titre { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 600; color: var(--noir); }
+.contact-encart-texte { font-size: .85rem; color: var(--gris); line-height: 1.6; }
+.contact-encart-lien {
+  display: inline-flex; align-items: center; gap: .4rem; margin-top: .3rem;
+  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--rose-deep);
+}
+.form-rgpd { margin-top: .9rem; font-size: .72rem; color: var(--gris); text-align: center; line-height: 1.6; }
+.form-rgpd a { color: inherit; }
+.form-result { margin-top: 1rem; text-align: center; font-size: .85rem; color: var(--rose-deep); }
+.form-result.is-erreur { color: #b03a2e; }
+
+/* ============================================
+   EN-TÊTES AVEC PHOTO (.page-header--photo) — pages intérieures neutres
+   Bandeau photo pleine largeur en haut, qui se fond dans le crème : le titre
+   (sombre) se pose dans la zone fondue, l'intro suit sur le crème.
+   <img class="page-header-photo"> en premier enfant, cadrage via object-position.
+   ============================================ */
+.page-header--photo {
+  --ph-h: clamp(21rem, 58vh, 36rem);
+  position: relative; isolation: isolate; overflow: hidden;
+  padding-top: calc(var(--ph-h) - 7.5rem);
+  background: var(--bg-cream);
+}
+.page-header--photo.page-header--sous-nav2 { padding-top: calc(var(--ph-h) - 7.5rem); }
+.page-header-photo {
+  position: absolute; top: 0; left: 0; z-index: -2;
+  width: 100%; height: var(--ph-h); object-fit: cover;
+}
+.page-header--photo::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: var(--ph-h); z-index: -1;
+  background: linear-gradient(to bottom,
+    rgba(254, 251, 246, 0) 0%, rgba(254, 251, 246, 0) 40%,
+    rgba(254, 251, 246, 0.72) 70%, rgba(254, 251, 246, 0.94) 86%, var(--bg-cream) 100%);
+}
+@media (max-width: 700px) {
+  .page-header--photo { --ph-h: clamp(17rem, 46vh, 24rem); }
+}

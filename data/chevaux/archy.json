@@ -13,9 +13,14 @@
   "robe_courte": "Pie Noir",
   "race": "Irish Cob",
   "taille": "1m41",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/e",
+    "A": "a/a",
+    "To": "To/n"
+  },
   "origine": "Irlande · Cairnview Stud",
   "distinction": "Champion France QL · Élite grade 1",
-  "test_adn": "PSSM1 Free - Ee aa Tox",
   "souche": "cairnview",
   "page": "reproducteurs/archy.html",
   "photo": "img/archy/ar-aniane-04.jpg",

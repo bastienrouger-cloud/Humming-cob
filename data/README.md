@@ -37,7 +37,8 @@ existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
 | `robe_courte` | `Bai Pearl` | version courte de la robe pour la ligne d'étiquettes des cartes (si `robe` est trop longue) |
 | `distinction` | `Élite grade 1` | reproducteurs |
 | `papiers` | `Plein Papier`, `Origines Constatées` | poulains |
-| `test_adn` | texte libre | |
+| `genetique` | `{"PSSM1": "N/N", "E": "E/e", "KIT": "Sb1/W20"}` | tests génétiques, un génotype `X/Y` par locus ; `_` = allèle inconnu (`E/_`) ; locus absent = **pas testé** (jamais « négatif » par défaut). Locus : `PSSM1`, `FIS` (`N`/`P`), `E`, `A`, `D`, `Z`, `prl`, `Cr`, `To`, `KIT` (`Sb1`, `W20`, `n` — même gène). Le build vérifie le format et la cohérence avec les parents. Tableau de travail : Notion › Tests génétiques |
+| `genetique_deduit` | `["PSSM1"]` | locus non testés sur le cheval lui-même mais déduits (« par filiation », robe) |
 | `prix` | nombre en euros | affiché uniquement sur la fiche du cheval |
 | `souche` | `cairnview` · `sancler` · `sd` · `hc` · `autre` | élevage d'origine, sert au code couleur du calculateur — **ce n'est pas une parenté** |
 | `ueln` | identifiant officiel | |
@@ -85,3 +86,17 @@ Dans une page, `<!-- @nom: archy --><!-- @end:nom -->` est remplacé par le nom 
 placement à la main). **Un cheval apparaît dans l'arbre s'il a une position** ; les
 liens père/mère sont tracés automatiquement à partir des fiches. Rangées actuelles
 (`y`) : −110 et 70 ascendants, 255 et 440 reproducteurs, 630 et 820 descendants.
+
+## Pédigrées
+
+Dans une fiche, `<!-- @pedigree: nashi --><!-- @end:pedigree -->` est remplacé par le pédigrée
+sur trois générations, tiré de `pere` / `mere`. Nos chevaux → lien vers leur fiche ; extérieurs
+avec une photo (`photos`, `photo` ou `photo_arbre`) → modale. Un ancêtre présent plusieurs fois est
+signalé (« 2× dans le pédigrée »). Les ancêtres d'un cheval inconnu ne sont pas affichés.
+Le texte d'introduction et la « Note sur les origines » restent écrits à la main dans la fiche.
+
+## Formulaire de contact
+
+Dans `contact.html`, `<!-- @sujets --><!-- @end:sujets -->` est rempli avec les poulains à vendre ou
+réservés et les étalons (saillies). Une fiche présélectionne le sujet par l'adresse :
+`contact.html?sujet=nashi`, `contact.html?sujet=saillie-archy`.

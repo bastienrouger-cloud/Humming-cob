@@ -13,9 +13,17 @@
   "robe": "Noir Pearl",
   "race": "Irish Cob",
   "taille": "Croissance en cours",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/_",
+    "A": "a/a",
+    "prl": "prl/n"
+  },
+  "genetique_deduit": [
+    "PSSM1"
+  ],
   "origine": "France · Humming Cob",
   "papiers": "Plein Papier",
-  "test_adn": "E_ aa prl/n",
   "prix": 3700,
   "souche": "hc",
   "page": "poulains/kaeru.html",

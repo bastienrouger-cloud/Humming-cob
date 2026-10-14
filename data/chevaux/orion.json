@@ -13,9 +13,14 @@
   "robe": "Grullo Silver",
   "race": "OC",
   "taille": "1m42 au 01/06/2026",
+  "genetique": {
+    "E": "E/_",
+    "A": "a/a",
+    "D": "D/_",
+    "Z": "Z/z"
+  },
   "origine": "France · Humming Cob",
   "papiers": "Origines Constatées",
-  "test_adn": "E_ aa D_ Zz",
   "prix": 3500,
   "souche": "hc",
   "page": "poulains/orion.html",

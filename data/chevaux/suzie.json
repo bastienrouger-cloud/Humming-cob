@@ -12,9 +12,14 @@
   "robe": "Noire",
   "race": "Irish Cob",
   "taille": "1m4x",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/e",
+    "A": "a/a",
+    "KIT": "Sb1/W20"
+  },
   "origine": "Royaume-Uni · SD Farm",
   "distinction": "Facteur Irish Cob",
-  "test_adn": "PSSM 1 Free - Ee aa Sb1/DW20",
   "souche": "sd",
   "page": "reproducteurs/suzie.html",
   "photo": "img/suzie/Suzie Portrait.jpg",

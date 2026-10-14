@@ -308,11 +308,11 @@ if (revealEls.length) {
 
 // ── Cartes chevaux → modale (chevaux extérieurs) ──────────────────────────────
 // Les cartes sont générées par build.py (<!-- @cartes: … -->). Une carte de
-// cheval extérieur (.cc--modale) ouvre cette modale, nourrie par js/chevaux.js
+// cheval extérieur (.cc--modale), ou une case de pédigrée (.pg-node--modale), ouvre cette modale, nourrie par js/chevaux.js
 // (CHEVAUX) : carrousel des photos + toutes les données connues. Une donnée
 // absente n'est pas affichée (pas de « mère : inconnue »).
 (function () {
-  const cartes = document.querySelectorAll('.cc--modale');
+  const cartes = document.querySelectorAll('.cc--modale, .pg-node--modale');
   if (!cartes.length || typeof CHEVAUX === 'undefined') return;
 
   const PAR_ID = Object.fromEntries(CHEVAUX.map(c => [c.id, c]));
@@ -377,7 +377,7 @@ if (revealEls.length) {
     if (!c) return;
     const v = Object.assign({}, c, (c.cartes || {})[carte.dataset.contexte || ''] || {});
     // Une photo = un chemin, ou {src, legende} quand elle a une légende.
-    photos = ((v.photos && v.photos.length) ? v.photos : [v.photo].filter(Boolean))
+    photos = ((v.photos && v.photos.length) ? v.photos : [v.photo || v.photo_arbre].filter(Boolean))
       .map(p => typeof p === 'string' ? { src: p } : p);
     const femelle = c.sexe === 'femelle';
     boite.classList.toggle('is-femelle', femelle);
@@ -404,6 +404,7 @@ if (revealEls.length) {
     if (c.elevage)      lignes.push(['Élevage', esc(c.elevage.replace(/^Élevage\s+/i, ''))]);
     else if (c.origine) lignes.push(['Origine', esc(c.origine)]);
     if (c.papiers) lignes.push(['Papiers', esc(c.papiers)]);
+    if (c.registre) lignes.push(['Registre', esc(c.registre)]);
     const texte = v.description || v.resume;
     const arbre = (typeof POSITIONS_ARBRE !== 'undefined' && POSITIONS_ARBRE[c.id])
       ? `<a class="cm-lien" href="${esc(url('arbre-genealogique.html#' + c.id))}">Voir dans l'arbre généalogique
@@ -522,23 +523,47 @@ if (shareBtn) {
   document.addEventListener('keydown', e => { if (ov.style.display !== 'none' && e.key === 'Escape') close(); });
 })();
 
-// Formulaire contact — feedback visuel simple
-const form = document.querySelector('.contact-form form');
-if (form) {
-  form.addEventListener('submit', (e) => {
+// Formulaire de contact (contact.html) — envoi Web3Forms sans quitter la page.
+// ?sujet=<valeur> présélectionne le sujet (liens des fiches : ?sujet=nashi,
+// ?sujet=saillie-archy) ; le sujet choisi est repris dans l'objet du mail.
+(function () {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+  const select = form.querySelector('#sujet');
+  const objet = form.querySelector('input[name="subject"]');
+  const majObjet = () => {
+    const opt = select && select.selectedOptions[0];
+    objet.value = 'Humming Cob — ' + (opt && opt.value ? opt.textContent.trim() : 'nouveau message');
+  };
+  if (select) {
+    const voulu = new URLSearchParams(location.search).get('sujet');
+    if (voulu && select.querySelector(`option[value="${CSS.escape(voulu)}"]`)) select.value = voulu;
+    select.addEventListener('change', majObjet);
+  }
+  majObjet();
+
+  const btn = form.querySelector('button[type=submit]');
+  const result = document.getElementById('form-result');
+  const libelle = btn.textContent;
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const btn = form.querySelector('.form-submit');
-    btn.textContent = 'Message envoyé ✦';
-    btn.style.background = '#7A9E7E';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'Envoyer';
-      btn.style.background = '';
-      btn.disabled = false;
-      form.reset();
-    }, 3500);
+    btn.textContent = 'Envoi en cours…';
+    let ok = false;
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      ok = (await res.json()).success === true;
+    } catch (_) { ok = false; }
+    result.hidden = false;
+    result.classList.toggle('is-erreur', !ok);
+    result.textContent = ok
+      ? 'Message envoyé ! Nous vous répondrons dans les meilleurs délais.'
+      : "Le message n'est pas parti. Réessayez, ou écrivez-nous à contact@hummingcob.fr.";
+    if (ok) { form.reset(); majObjet(); }
+    btn.disabled = false;
+    btn.textContent = libelle;
   });
-}
+})();
 
 /* ============================================
    NAV2 — navigation secondaire des fiches chevaux

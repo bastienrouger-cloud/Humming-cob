@@ -13,9 +13,15 @@
   "robe_courte": "Bai Pearl",
   "race": "Irish Cob",
   "taille": "1m45",
+  "genetique": {
+    "PSSM1": "N/N",
+    "FIS": "N/N",
+    "E": "E/e",
+    "A": "A/a",
+    "prl": "prl/prl"
+  },
   "origine": "Pays de Galles · San Cler Stud",
   "distinction": "Vice-Champion de France 2025",
-  "test_adn": "PSSM 1 FIS Free - Ee Aa prlprl",
   "souche": "sancler",
   "page": "reproducteurs/avantgarde.html",
   "photo": "img/avantgarde/av-portrait.jpg",

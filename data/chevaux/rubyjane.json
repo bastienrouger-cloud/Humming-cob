@@ -12,9 +12,14 @@
   "robe": "Bai",
   "race": "Irish Cob",
   "taille": "1m45",
+  "genetique": {
+    "PSSM1": "N/N",
+    "FIS": "N/N",
+    "E": "E/E",
+    "A": "A/a"
+  },
   "origine": "Pays de Galles · SD Farm",
   "distinction": "Élite grade 1",
-  "test_adn": "PSSM 1 Free - EE Aa",
   "souche": "sd",
   "page": "reproducteurs/ruby-jane.html",
   "photo": "img/ruby/Ruby Portrait.jpg",

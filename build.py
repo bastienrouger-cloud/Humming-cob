@@ -44,6 +44,8 @@ les cartes : les variantes de photo/texte prévues pour cette page (champ
 « cartes » des données) remplacent alors les valeurs par défaut.
 Nos chevaux → lien vers leur fiche. Chevaux extérieurs → modale (js/main.js).
 
+Pédigrées : <!-- @pedigree: id --> … <!-- @end:pedigree --> (voir plus bas).
+
 Au lieu d'une liste, on peut demander une section entière, triée :
 
     <!-- @cartes: section=poulains -->
@@ -124,6 +126,48 @@ VALEURS = {
     "statut": {"a-vendre", "reserve", "vendu", "garde"},
 }
 
+# Tests génétiques (champ « genetique ») : locus → allèles permis. Génotype écrit
+# « X/Y » ; « _ » = allèle inconnu (ex. « E/_ » : au moins un E). Sb1 et W20 sont
+# deux variantes du même gène (KIT), d'où un seul locus. Le tobiano (To) est testé
+# à part. Voir data/README.md.
+LOCI = {
+    "PSSM1": {"N", "P"}, "FIS": {"N", "P"},
+    "E": {"E", "e"}, "A": {"A", "a"}, "D": {"D", "d"}, "Z": {"Z", "z"},
+    "prl": {"prl", "n"}, "Cr": {"Cr", "n"}, "To": {"To", "n"}, "KIT": {"Sb1", "W20", "n"},
+}
+
+
+def verifier_genetique(c, par_id, erreurs):
+    """Format des génotypes, puis cohérence avec ceux des parents (chaque allèle
+    connu du poulain doit pouvoir venir d'un parent dont le génotype est connu)."""
+    g = c.get("genetique") or {}
+    if not isinstance(g, dict):
+        erreurs.append("%s : « genetique » doit être un objet {locus: génotype}" % c.get("id")); return
+    for locus, gt in g.items():
+        permis = LOCI.get(locus)
+        al = str(gt).split("/")
+        if permis is None:
+            erreurs.append("%s : locus génétique inconnu « %s » (permis : %s)" % (c.get("id"), locus, ", ".join(LOCI)))
+        elif len(al) != 2 or any(a not in permis | {"_"} for a in al) or al == ["_", "_"]:
+            erreurs.append("%s : génotype « %s » invalide pour %s (allèles : %s, « _ » si inconnu)"
+                           % (c.get("id"), gt, locus, ", ".join(sorted(permis))))
+    for locus in c.get("genetique_deduit") or []:
+        if locus not in g:
+            erreurs.append("%s : genetique_deduit cite %s, absent de genetique" % (c.get("id"), locus))
+    # cohérence mendélienne avec les parents
+    pere, mere = par_id.get(c.get("pere")) or {}, par_id.get(c.get("mere")) or {}
+    for locus, gt in g.items():
+        if locus not in LOCI:
+            continue
+        a, b = str(gt).split("/") if "/" in str(gt) else ("_", "_")
+        gp, gm = (pere.get("genetique") or {}).get(locus), (mere.get("genetique") or {}).get(locus)
+        ap = set(gp.split("/")) if gp else None
+        am = set(gm.split("/")) if gm else None
+        ok = lambda x, s: x == "_" or s is None or "_" in s or x in s
+        if not ((ok(a, ap) and ok(b, am)) or (ok(b, ap) and ok(a, am))):
+            erreurs.append("%s : %s %s impossible avec le père %s et la mère %s"
+                           % (c.get("id"), locus, gt, gp or "?", gm or "?"))
+
 
 def generer_chevaux_js():
     """
@@ -151,6 +195,8 @@ def generer_chevaux_js():
         chevaux.append(c)
 
     par_id = {c.get("id"): c for c in chevaux}
+    for c in chevaux:
+        verifier_genetique(c, par_id, erreurs)
     for c in chevaux:
         if c.get("affixe") and decouper_nom(c)[1] == _sans_parentheses(c.get("nom", "")):
             erreurs.append("%s : affixe « %s » introuvable au début ou à la fin du nom « %s »"
@@ -297,6 +343,8 @@ SECTIONS = {
                       lambda c: (_ORDRE_STATUT.get(c.get("statut") or "garde", 2), _age(c))),
     "memoire":       (lambda c: _nous(c) and c.get("role") == "memoire", _age),
     "a-vendre":      (lambda c: _nous(c) and c.get("role") == "poulain" and c.get("statut") == "a-vendre", _age),
+    # Accueil : les chevaux présents (ni vendus ni disparus) — à vendre d'abord,
+    # puis étalons, juments, autres poulains.
 }
 
 
@@ -426,6 +474,166 @@ def injecter_cartes(html, page, par_id, erreurs):
     return _CARTES.sub(remplace, html)
 
 
+# ---------------------------------------------------------------- pédigrées
+# Dans une fiche :
+#
+#     <!-- @pedigree: nashi -->
+#     … pédigrée généré, ne pas éditer à la main …
+#     <!-- @end:pedigree -->
+#
+# Trois générations (parents, grands-parents, arrière-grands-parents) tirées des
+# champs pere/mere. Ordi : tableau classique de gauche à droite, père en haut ;
+# téléphone : liste indentée. Nos chevaux → lien vers leur fiche ; extérieurs
+# avec photo → modale (comme leurs cartes) ; un ancêtre inconnu reste une case
+# « Inconnu » discrète, sans texte inventé.
+
+_PG_LABELS = {1: ("Père", "Mère"), 2: ("Grand-père", "Grand-mère"), 3: ("", "")}
+
+
+def _pg_meta(c, niveau):
+    morceaux = [c.get("robe_courte") or c.get("robe"), _naissance_courte(c)]
+    if niveau <= 2:
+        morceaux.append(c.get("taille"))
+    meta = " · ".join(_esc(m) for m in morceaux if m)
+    extra = []
+    if niveau <= 2:
+        race = c.get("race")
+        if race and race not in ("Irish Cob", "Gypsy Vanner", "Gypsy Cob"):
+            extra.append(race)
+        if c.get("distinction"):
+            extra.append(c["distinction"])
+        elif c.get("registre"):
+            extra.append(c["registre"])
+    return meta, " · ".join(_esc(e) for e in extra)
+
+
+def _pg_noeud(par_id, cid, niveau, cote, base, repete=None):
+    """Une case du pédigrée. cote = 0 (père) ou 1 (mère)."""
+    sexe = "femelle" if cote else "male"
+    label = _PG_LABELS[niveau][cote]
+    c = par_id.get(cid) if cid else None
+    lab = '<span class="pg-label">%s</span>' % label if label else ""
+    if not c:
+        return ('<div class="pg-node pg-node--%s pg-node--inconnu pg-n%d">%s'
+                '<span class="pg-nom">%s</span></div>' % (sexe, niveau, lab, "Inconnue" if cote else "Inconnu"))
+    meta, extra = _pg_meta(c, niveau)
+    photo = c.get("photo_arbre") or c.get("photo")
+    img = ('<img class="pg-photo" src="%s%s" alt="" loading="lazy">' % (base, _esc(photo))
+           if niveau == 1 and photo else "")
+    corps = (img + '<span class="pg-texte">' + lab
+             + '<span class="pg-nom">%s</span>' % nom_html(c)
+             + ('<span class="pg-meta">%s</span>' % meta if meta else "")
+             + ('<span class="pg-extra">%s</span>' % extra if extra else "")
+             + ('<span class="pg-repete" title="Ancêtre présent %d fois dans ce pédigrée">'
+                '%d× dans le pédigrée</span>' % (repete, repete) if repete else "")
+             + "</span>")
+    cls = "pg-node pg-node--%s pg-n%d%s" % (sexe, niveau, " pg-node--repete" if repete else "")
+    if c.get("page"):
+        return '<a class="%s pg-node--lien" href="%s%s">%s<span class="pg-fleche" aria-hidden="true">→</span></a>' % (
+            cls, base, _esc(c["page"]), corps)
+    if c.get("photos") or c.get("photo") or c.get("photo_arbre"):
+        return ('<div class="%s pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" '
+                'data-cheval="%s">%s</div>' % (cls, c["id"], corps))
+    return '<div class="%s">%s</div>' % (cls, corps)
+
+
+def pedigree_html(c, par_id, base):
+    # Ancêtres présents plusieurs fois (consanguinité) : repérés par un badge.
+    vus = []
+    def compter(cid, niveau):
+        x = par_id.get(cid) if cid else None
+        if not x:
+            return
+        vus.append(cid)
+        if niveau < 3:
+            compter(x.get("pere"), niveau + 1)
+            compter(x.get("mere"), niveau + 1)
+    compter(c.get("pere"), 1)
+    compter(c.get("mere"), 1)
+    repetes = {i: vus.count(i) for i in vus if vus.count(i) > 1}
+
+    def branche(cid, niveau, cote):
+        noeud = _pg_noeud(par_id, cid, niveau, cote, base, repetes.get(cid))
+        x = par_id.get(cid) if cid else None
+        if niveau == 3:
+            return noeud
+        if not x or not (x.get("pere") or x.get("mere")):
+            # pas de cases « Inconnu » pour les ancêtres d'un inconnu ; la
+            # branche garde sa colonne pour que la case ne s'étale pas
+            return '<div class="pg-branche pg-branche--seule">%s</div>' % noeud
+        p, m = x.get("pere"), x.get("mere")
+        return ('<div class="pg-branche">%s<div class="pg-sous"><div class="pg-c">%s</div>'
+                '<div class="pg-c">%s</div></div></div>'
+                % (noeud, branche(p, niveau + 1, 0), branche(m, niveau + 1, 1)))
+    return ('<div class="pg" role="group" aria-label="Pédigrée sur trois générations">'
+            + '<div class="pg-gens" aria-hidden="true"><span>Parents</span><span>Grands-parents</span>'
+            + '<span>Arrière-grands-parents</span></div>'
+            + '<div class="pg-arbre">' + branche(c.get("pere"), 1, 0) + branche(c.get("mere"), 1, 1)
+            + "</div></div>")
+
+
+_PEDIGREE = re.compile(r"(<!--\s*@pedigree:\s*(\w+)\s*-->)(.*?)(<!--\s*@end:pedigree\s*-->)", re.S)
+
+
+def injecter_pedigrees(html, page, par_id, erreurs):
+    depth = len(page.relative_to(ROOT).parts) - 1
+    base = "../" * depth
+
+    def remplace(m):
+        c = par_id.get(m.group(2))
+        if not c:
+            erreurs.append("%s : pédigrée inconnu « %s »" % (page.relative_to(ROOT).as_posix(), m.group(2)))
+            return m.group(0)
+        debut = html.rfind("\n", 0, m.start()) + 1
+        ind = re.match(r"[ \t]*", html[debut:m.start()]).group(0)
+        corps = pedigree_html(c, par_id, base)
+        # une ligne par case, pour des diffs lisibles
+        corps = re.sub(r"(<(?:div class=\"pg-(?:branche|sous|arbre|gens|c)\"|a class=\"pg-node|div class=\"pg-node))",
+                       r"\n\1", corps).strip("\n")
+        corps = "\n".join(ind + l for l in corps.split("\n"))
+        return m.group(1) + "\n" + corps + "\n" + ind + m.group(4)
+
+    return _PEDIGREE.sub(remplace, html)
+
+
+# ---------------------------------------------------------------- sujets du formulaire
+# contact.html : <!-- @sujets --> … <!-- @end:sujets --> = options du menu « Sujet »,
+# tirées des données (poulains à vendre ou réservés, étalons). Une fiche peut
+# présélectionner un sujet : contact.html?sujet=nashi, ?sujet=saillie-archy.
+
+_SUJETS = re.compile(r"(<!--\s*@sujets\s*-->)(.*?)(<!--\s*@end:sujets\s*-->)", re.S)
+
+
+def sujets_html():
+    nous = [c for c in _CHEVAUX_LUS if c.get("famille") == "humming"]
+    nom = lambda c: c.get("nom_usuel") or c["nom"]
+    poulains = sorted((c for c in nous if c.get("role") == "poulain" and c.get("statut") in ("a-vendre", "reserve")),
+                      key=lambda c: c.get("naissance") or "")
+    etalons = sorted((c for c in nous if c.get("role") == "etalon"), key=lambda c: c.get("naissance") or "")
+    o = lambda v, t: '<option value="%s">%s</option>' % (_esc(v), _esc(t))
+    lignes = []
+    if poulains:
+        lignes.append('<optgroup label="Nos poulains">')
+        lignes += ["  " + o(c["id"], nom(c) + (" (réservé%s)" % ("e" if c["sexe"] == "femelle" else "")
+                                               if c.get("statut") == "reserve" else "")) for c in poulains]
+        lignes.append("</optgroup>")
+    if etalons:
+        lignes.append('<optgroup label="Saillies">')
+        lignes += ["  " + o("saillie-" + c["id"], "Saillie avec " + nom(c)) for c in etalons]
+        lignes.append("</optgroup>")
+    lignes += ['<optgroup label="Autre">', "  " + o("visite", "Demande de visite"),
+               "  " + o("reproducteurs", "Nos reproducteurs"), "  " + o("autre", "Autre question"), "</optgroup>"]
+    return lignes
+
+
+def injecter_sujets(html):
+    def remplace(m):
+        debut = html.rfind("\n", 0, m.start()) + 1
+        ind = re.match(r"[ \t]*", html[debut:m.start()]).group(0)
+        return m.group(1) + "\n" + "\n".join(ind + l for l in sujets_html()) + "\n" + ind + m.group(3)
+    return _SUJETS.sub(remplace, html)
+
+
 def main():
     check_only = "--check" in sys.argv
 
@@ -460,6 +668,8 @@ def main():
             found_any = found_any or found
         html = injecter_cartes(html, page, par_id, erreurs_cartes)
         html = injecter_noms(html, page, par_id, erreurs_cartes)
+        html = injecter_pedigrees(html, page, par_id, erreurs_cartes)
+        html = injecter_sujets(html)
 
         rel = page.relative_to(ROOT).as_posix()
 
