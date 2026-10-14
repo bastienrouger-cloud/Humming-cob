@@ -1369,30 +1369,34 @@ const INDEX = CHEVAUX.map(c => ({ c, cle: norm(c.nom + ' ' + (c.nom_usuel || '')
 let resultats = [], choixIdx = -1;
 
 function chercher(q) {
+  // vide : tous les chevaux (nos chevaux d'abord) ; sinon, la liste s'affine
   const n = norm(q.trim());
-  if (!n) return [];
-  const debut = c => norm(nomCourt(c)).split(' ').some(m => m.startsWith(n));
+  const debut = c => !n || norm(nomCourt(c)).split(' ').some(m => m.startsWith(n));
   return INDEX.filter(x => x.cle.includes(n)).map(x => x.c)
     .sort((a, b) => (b.famille === 'humming') - (a.famille === 'humming')
                  || debut(b) - debut(a)
-                 || a.nom.localeCompare(b.nom))
-    .slice(0, 8);
+                 || nomCourt(a).localeCompare(nomCourt(b)));
 }
 function dessinerSuggestions() {
-  if (!recherche.value.trim()) { suggestions.hidden = true; return; }
   suggestions.innerHTML = resultats.length
     ? resultats.map((c, i) => `<li role="option" data-id="${c.id}" class="${i === choixIdx ? 'sel' : ''}"
         aria-selected="${i === choixIdx}" style="--c:${COUL[c.sexe]}"><span class="pt"></span>${esc(nomCourt(c))}${
         c.famille === 'humming' ? '<span class="hc">HC</span>' : ''}</li>`).join('')
     : '<li class="vide">Aucun cheval trouvé</li>';
   suggestions.hidden = false;
+  const sel = suggestions.querySelector('.sel');
+  if (sel) sel.scrollIntoView({ block: 'nearest' });
 }
 function choisir(id) {
   recherche.value = ''; suggestions.hidden = true; recherche.blur();
   selectionner(id, { centrer: true });
 }
 recherche.addEventListener('input', () => {
-  resultats = chercher(recherche.value); choixIdx = resultats.length ? 0 : -1; dessinerSuggestions();
+  const q = recherche.value.trim();
+  resultats = chercher(recherche.value); choixIdx = q && resultats.length ? 0 : -1; dessinerSuggestions();
+});
+recherche.addEventListener('focus', () => {
+  resultats = chercher(recherche.value); choixIdx = recherche.value.trim() && resultats.length ? 0 : -1; dessinerSuggestions();
 });
 recherche.addEventListener('keydown', e => {
   if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && resultats.length) {

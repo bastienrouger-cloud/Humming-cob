@@ -195,7 +195,21 @@
   .modal-intro{margin:0;padding:.3rem 1.6rem .4rem;font-size:.84rem;line-height:1.55;color:var(--gris);}
   .modal-corps{overflow-y:auto;padding:.4rem 1.6rem 1.4rem;}
   .modal-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;padding:1rem 1.6rem 1.2rem;border-top:1px solid rgba(60,40,35,.07);background:#FBF7F2;}
-  .modal-actions .btn-primary{margin-top:0;}
+  .modal-actions .btn-primary,.modal-actions .btn-secondary{margin-top:0;}
+
+  .ed-actions-gauche{display:flex;gap:1rem;align-items:center;}
+  .modal-actions [hidden]{display:none;}
+
+  /* Liste déroulante de chevaux (même principe que la recherche de l'arbre) */
+  .dd{position:relative;}
+  .dd-liste{margin:.4rem 0 0;padding:.35rem;list-style:none;max-height:300px;overflow-y:auto;border-radius:14px;background:#fff;border:1px solid rgba(60,40,35,.1);box-shadow:0 12px 30px rgba(60,40,35,.14);}
+  .dd-liste[hidden]{display:none;}
+  .ed-resultats.dd-liste{margin:0;}
+  .dd-item{display:flex;align-items:center;gap:.55rem;width:100%;padding:.5rem .7rem;border-radius:9px;background:transparent;text-align:left;font-weight:400;font-size:.92rem;color:var(--noir);cursor:pointer;}
+  .dd-item:hover,.dd-item.sel{background:#FBF3E7;}
+  .dd-pt{width:8px;height:8px;flex-shrink:0;border-radius:50%;background:var(--c,var(--gris));}
+  .dd-meta{margin-left:auto;font-size:.7rem;color:var(--gris);}
+  .dd-vide{padding:.5rem .7rem;font-size:.8rem;color:var(--gris);}
   .ed-recommencer{padding:0;background:none;color:var(--gris);font-size:.74rem;font-weight:400;text-decoration:underline;}
   .ed-actions-droite{display:flex;gap:.6rem;align-items:center;}
   .ed-annuler{padding:.7rem 1.2rem;border-radius:50px;background:transparent;color:var(--gris);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;font-weight:400;}
@@ -221,6 +235,7 @@
   .ed-input--grand{padding:.75rem .9rem;font-family:var(--font-serif);font-size:1.2rem;}
   .ed-ligne2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
   .ed-ligne2 .ed-champ{margin-bottom:0;}
+  .ed-ligne2 + .ed-ligne2{margin-top:.8rem;}
 
   .ed-parents{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;align-items:start;}
   .ed-slot{--c:var(--male);padding:.8rem .85rem .9rem;border-radius:14px;background:color-mix(in srgb,var(--c) 7%,#fff);border:1px solid color-mix(in srgb,var(--c) 22%,transparent);}
@@ -416,6 +431,65 @@
     .ac-anc-part{grid-row:auto;grid-column:2;}
   }
 
+  /* Génétique du poulain (js/genetique.js) */
+  .ac-niveau--inconnu{background:linear-gradient(135deg,#BDB5AF,#8F8781);}
+  .ag{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:1.1rem;max-width:1040px;margin:0 auto;text-align:left;}
+  .ag-sante{display:flex;flex-direction:column;gap:1.1rem;}
+  .ag-maladie,.ag-robe{padding:1.05rem 1.2rem;border-radius:18px;background:#FBF8F3;border:1px solid rgba(60,40,35,.07);}
+  .ag-mal-tete{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;}
+  .ag-mal-titre,.ag-titre{font-family:var(--font-serif);font-weight:400;font-size:1.3rem;color:var(--noir);}
+  .ag-maladie .ac-niveau{padding:.3rem .8rem;font-size:.56rem;}
+  .ag-mal-texte{margin:.55rem 0 0;font-size:.9rem;line-height:1.5;color:var(--noir);}
+  .ag-mal-detail{margin:.3rem 0 0;font-size:.8rem;line-height:1.5;color:var(--gris);}
+  .ag-mal-def{margin:.7rem 0 0;padding-top:.6rem;border-top:1px solid rgba(60,40,35,.07);font-size:.72rem;line-height:1.55;color:var(--gris);}
+  .ag-titre{margin:0 0 .7rem;border:0;padding:0;}
+  .ag-st{margin:1.1rem 0 .45rem;font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);}
+  .ag-lignes{display:flex;flex-direction:column;gap:.4rem;margin:0;padding:0;list-style:none;}
+  .ag-ligne{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(70px,1fr) 6.6rem;align-items:center;gap:.75rem;font-size:.86rem;}
+  .ag-nom{display:flex;align-items:center;gap:.5rem;min-width:0;}
+  .ag-pastille{flex-shrink:0;width:.9rem;height:.9rem;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14),0 1px 2px rgba(0,0,0,.08);}
+  .ag-ligne--sous{font-size:.76rem;color:var(--gris);}
+  .ag-ligne--sous .ag-nom{padding-left:1.4rem;}
+  .ag-barre{position:relative;display:block;height:7px;border-radius:7px;background:rgba(60,40,35,.07);overflow:hidden;}
+  .ag-barre-max,.ag-barre-min{position:absolute;inset:0 auto 0 0;border-radius:7px;}
+  .ag-barre-max{background:repeating-linear-gradient(135deg,#E6D0A0 0 4px,#F5EAD2 4px 8px);}
+  .ag-barre-min{background:linear-gradient(90deg,#DDBC72,#B08B3B);}
+  .ag-pct{text-align:right;white-space:nowrap;font-size:.8rem;font-weight:500;color:#8A6A2C;}
+  .ag-vide{margin:0;font-family:var(--font-serif);font-style:italic;color:var(--gris);}
+  .ag-legende,.ag-np{margin:1rem 0 0;font-size:.74rem;line-height:1.55;color:var(--gris);}
+  .ag-legende{display:flex;align-items:center;gap:.6rem;}
+  .ag-barre--legende{flex-shrink:0;width:52px;}
+  .ag-np strong{font-weight:500;color:var(--noir);}
+  .ag-parents{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+  .ag-parent{--c:var(--male);padding:.85rem 1rem;border-radius:16px;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 14%,#fff),#fff 70%);border:1px solid color-mix(in srgb,var(--c) 22%,transparent);}
+  .ag-parent--femelle{--c:var(--femelle);}
+  .ag-parent-nom{font-family:var(--font-serif);font-size:1.1rem;}
+  .ag-puces{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem;}
+  .ag-puce{display:inline-flex;gap:.3rem;padding:.2rem .6rem;border-radius:50px;background:rgba(255,255,255,.85);border:1px solid rgba(60,40,35,.13);font-size:.72rem;white-space:nowrap;}
+  .ag-puce b{font-weight:500;color:var(--gris);}
+  .ag-puce--deduit{border-style:dashed;}
+  .ag-puce--mini{padding:0 .45rem;font-size:.66rem;}
+  .ag-nt{margin:.5rem 0 0;font-size:.7rem;line-height:1.5;color:var(--gris);}
+  .ag-note{grid-column:1 / -1;margin:.1rem 0 0;font-size:.72rem;color:var(--gris);text-align:center;}
+  @media (max-width:800px){
+    .ag,.ag-parents{grid-template-columns:1fr;}
+    .ag-ligne{grid-template-columns:minmax(0,1fr) auto;gap:.25rem .75rem;}
+    .ag-ligne .ag-barre{grid-column:1 / -1;grid-row:2;}
+  }
+
+  /* Éditeur : étape 3, tests génétiques (repliable) */
+  .ed-gen-bloc > summary{margin:0;cursor:pointer;list-style:none;}
+  .ed-gen-bloc > summary::-webkit-details-marker{display:none;}
+  .ed-gen-bloc > summary::after{content:'';margin-left:auto;width:.5rem;height:.5rem;border-right:1.5px solid var(--gris);border-bottom:1.5px solid var(--gris);transform:rotate(45deg);transition:transform .2s;}
+  .ed-gen-bloc[open] > summary{margin-bottom:.8rem;}
+  .ed-gen-bloc[open] > summary::after{transform:rotate(-135deg);}
+  .ed-gen-groupe{margin:.9rem 0 .4rem;font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);}
+  .ed-gen{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:0 .8rem;}
+  .ed-gen .ed-champ{margin-bottom:.55rem;font-size:.74rem;letter-spacing:0;text-transform:none;}
+  .ed-input.is-rempli{border-color:var(--rose);background:color-mix(in srgb,var(--rose-pale) 45%,#fff);}
+  .ed-gen-erreur{margin:.4rem 0 0;font-size:.78rem;color:#A9564F;}
+  .ed-gen-erreur:empty{display:none;}
+
   /* Sélecteur d'un parent (modale) */
   /* Bloc « Sauvegarder mes chevaux » : même largeur que le résultat (refonte à l'étape 3). */
   .ac-resultat ~ .panel{width:100%;max-width:1240px;margin:0 auto;}
@@ -461,6 +535,22 @@
     .cp-tete,.cp-corps,.cp-pied{padding-left:1.1rem;padding-right:1.1rem;}
     .cp-cartes{grid-template-columns:repeat(2,minmax(0,1fr));}
     .cp-pied{justify-content:center;text-align:center;}
+  }
+
+  /* Pied de la modale « Ajouter » : une seule ligne sur ordinateur */
+  .modal-actions{flex-wrap:nowrap;}
+  .modal-actions .btn-primary,.modal-actions .btn-secondary{padding:.72rem 1.1rem;letter-spacing:.06em;white-space:nowrap;}
+  @media (max-width:700px){
+    /* Mobile : l'action principale en premier, pleine largeur */
+    .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .6rem;}
+    .modal-actions .ed-actions-gauche,.modal-actions .ed-actions-droite{display:contents;}
+    .modal-actions .btn-primary,.modal-actions .btn-secondary{padding:.7rem .6rem;}
+    .modal-actions #saveTreeBtn{grid-column:1 / -1;order:-3;}
+    .modal-actions #dlTreeBtn{order:-2;}
+    .modal-actions #modalImport{order:-1;}
+    .modal-actions:has(#dlTreeBtn[hidden]) #modalImport,.modal-actions:has(#modalImport[hidden]) #dlTreeBtn{grid-column:1 / -1;}
+    .modal-actions .ed-annuler{order:1;justify-self:start;padding-left:0;}
+    .modal-actions #resetTreeBtn{order:2;justify-self:end;}
   }
 </style>
 </head>
@@ -544,6 +634,7 @@
     <div class="ac-jauge" id="acJauge"></div>
     <p class="ac-res-note" id="resultHint"></p>
     <div id="acCommuns"></div>
+    <div id="acGenetique"></div>
     <div class="ac-pedigrees" id="acPedigrees"></div>
     <p class="ac-fiabilite">
       <strong>À lire comme une estimation.</strong> Le pourcentage ne tient compte que des ancêtres
@@ -584,9 +675,14 @@
     <p class="modal-intro">Seul le nom est obligatoire. Renseignez ensuite ce que vous connaissez de son ascendance&nbsp;: c'est elle qui fait le calcul.</p>
     <div class="modal-corps"><div class="ed" id="treeContainer"></div></div>
     <div class="modal-actions">
-      <button type="button" class="ed-recommencer" id="resetTreeBtn" onclick="resetTreeForm()">Tout effacer</button>
+      <div class="ed-actions-gauche">
+        <button type="button" class="btn-secondary" id="modalImport" onclick="document.getElementById('fileInputModal').click()" title="Reprendre un cheval déjà enregistré sur votre ordinateur (fichier .json téléchargé ici)">Importer un fichier</button>
+        <input type="file" id="fileInputModal" accept="application/json,.json" hidden onchange="importJSON(event, draft.context)">
+        <button type="button" class="ed-recommencer" id="resetTreeBtn" onclick="resetTreeForm()">Tout effacer</button>
+      </div>
       <div class="ed-actions-droite">
         <button type="button" class="ed-annuler" onclick="closeModal()">Annuler</button>
+        <button type="button" class="btn-secondary" id="dlTreeBtn" onclick="saveTreeHorse(true)" title="Ajoute le cheval et télécharge sa fiche sur votre ordinateur (avec les ancêtres saisis), pour la réimporter plus tard ou nous l'envoyer">Télécharger</button>
         <button type="button" class="btn-primary" id="saveTreeBtn" onclick="saveTreeHorse()">Ajouter et tester</button>
       </div>
     </div>
@@ -614,6 +710,7 @@
 
 <script src="js/main.js"></script>
 <script src="js/chevaux.js"></script>
+<script src="js/genetique.js"></script>
 <script>
 // Adaptateur : la source unique des chevaux est data/chevaux/*.json, compilée
 // dans js/chevaux.js par build.py. Le calculateur garde son format interne.
@@ -627,9 +724,12 @@ const HORSES_BASE = CHEVAUX.map(c => ({
   dam: c.mere || null,
   lineage: [c.elevage || c.origine, c.race, c.robe, ((c.naissance || '').match(/\d{4}/) || [''])[0]]
              .filter(Boolean).join(' · '),
+  naissance: c.naissance || '', robe: c.robe || '', race: c.race || '',
   source: c.source || 'site hummingcob.fr',
   strain: c.souche || 'inconnue',
-  owned: c.famille === 'humming'
+  owned: c.famille === 'humming',
+  genetique: c.genetique || null,
+  genetique_deduit: c.genetique_deduit || []
 }));
 </script>
 <script>
@@ -679,7 +779,7 @@ const treeContainer = document.getElementById('treeContainer');
 const legendEl = document.getElementById('legend');
 
 let idSeq = 1000;
-function nextId(){ return 'h' + (idSeq++); }
+function nextId(){ let id; do id = 'h' + (idSeq++); while(horses.some(h => h.id === id)); return id; }   // jamais un id déjà importé
 
 function byId(id){ return horses.find(h => h.id === id); }
 function nameOf(id){
@@ -794,7 +894,7 @@ function updateXResult(){
   if(!leftH || !rightH || leftH.sex === rightH.sex){
     box.hidden = false;
     document.getElementById('resultValue').textContent = '—';
-    ['resultBadge', 'acJauge', 'acCommuns', 'acPedigrees'].forEach(k => { document.getElementById(k).innerHTML = ''; });
+    ['resultBadge', 'acJauge', 'acCommuns', 'acGenetique', 'acPedigrees'].forEach(k => { document.getElementById(k).innerHTML = ''; });
     document.getElementById('resultHint').textContent = 'Il faut un étalon et une jument pour calculer une descendance hypothétique.';
     return;
   }
@@ -946,8 +1046,92 @@ function renderMatchResult(sireId, damId){
          <span class="ac-anc-part">${pctFr(a.part * 100)}</span></li>`).join('')}</ol>`
     : '<p class="ac-aucun">Aucun ancêtre commun dans les générations connues.</p>';
   // Grand écran : arbre en miroir. Mobile : les deux pédigrées l'un sous l'autre.
+  document.getElementById('acGenetique').innerHTML = genetiqueHTML(sireH, damH);
   document.getElementById('acPedigrees').innerHTML = pedigreeMiroirHTML(sireId, damId, num, pct)
     + `<div class="ac-ped-blocs">${pedigreeCalcHTML(sireId, 'male', num)}${pedigreeCalcHTML(damId, 'femelle', num)}</div>`;
+}
+
+// ═══ Génétique du poulain ═══════════════════════════════════════════════════
+// Calcul dans js/genetique.js. Ici : l'affichage. Une fourchette « 50 à 100 % »
+// veut dire qu'un test manque chez un parent : le minimum est sûr, le reste dépend du test.
+const AG_NOM_NP = { E:'noir / alezan', A:'bai / noir', D:'dun', Z:'silver', SLC:'crème / pearl', To:'tobiano', KIT:'sabino 1 / W20' };
+const AG_COURT = { PSSM1:'PSSM1', FIS:'FIS', E:'E', A:'A', D:'Dun', Z:'Silver', Cr:'Crème', prl:'Pearl', To:'Tobiano', KIT:'KIT' };
+function agNomCourt(h){ return echap((CH_PAR_ID[h.id] || {}).nom_usuel || h.name); }
+function agPct(x){ return (Math.round(x * 1000) / 10).toLocaleString('fr-FR') + ' %'; }
+function agFourchette(r){ return r[0] === r[1] ? agPct(r[0]) : (Math.round(r[0] * 1000) / 10).toLocaleString('fr-FR') + ' à ' + agPct(r[1]); }
+function agLigne(x){
+  return `<li class="ag-ligne${x.sous ? ' ag-ligne--sous' : ''}">
+    <span class="ag-nom">${x.teinte ? `<span class="ag-pastille" style="background:${x.teinte}"></span>` : ''}${echap(x.nom)}</span>
+    <span class="ag-barre" aria-hidden="true"><span class="ag-barre-max" style="width:${x.p[1] * 100}%"></span><span class="ag-barre-min" style="width:${x.p[0] * 100}%"></span></span>
+    <span class="ag-pct">${agFourchette(x.p)}</span></li>`;
+}
+// Parents dont le génotype n'est pas entièrement connu à ce locus
+function agManquantsH(hs, locus){
+  const l = locus === 'Cr' || locus === 'prl' ? 'SLC' : locus;
+  return hs.filter(h => !Genetique.complet(h.genetique, l));
+}
+function agManquants(hs, locus){ return agManquantsH(hs, locus).map(agNomCourt).join(' et '); }
+// accord : « Sakura n'est pas testée », « Archy et Sakura ne sont pas testés »
+function agAccord(hs, locus, m, f, pl){ const x = agManquantsH(hs, locus); return x.length > 1 ? pl : (x[0] && x[0].sex === 'mare' ? f : m); }
+const AG_NIVEAU = { faible:'Aucun risque', modere:'Risque possible', eleve:'Risque', 'tres-eleve':'À éviter', inconnu:'Imprévisible' };
+function agMaladie(titre, niveau, texte, detail, def){
+  return `<div class="ag-maladie"><div class="ag-mal-tete"><span class="ag-mal-titre">${titre}</span>
+    <span class="ac-niveau ac-niveau--${niveau}">${AG_NIVEAU[niveau]}</span></div>
+    <p class="ag-mal-texte">${texte}</p>${detail ? `<p class="ag-mal-detail">${detail}</p>` : ''}<p class="ag-mal-def">${def}</p></div>`;
+}
+function agSante(r, hs){
+  const I = Genetique.inconnu, manq = l => agManquants(hs, l);
+  const pl = l => agAccord(hs, l, "n'est pas testé", "n'est pas testée", 'ne sont pas testés');
+  let html = '';
+  // PSSM1 : dominante
+  const a = r.PSSM1.atteint, defP = 'Myopathie (stockage anormal du sucre dans les muscles). Gène dominant : un seul parent porteur suffit à la transmettre.';
+  if(!a) html += agMaladie('PSSM1', 'inconnu', 'Tests incohérents, à vérifier.', '', defP);
+  else if(a[1] === 0) html += agMaladie('PSSM1', 'faible', 'Aucun poulain atteint : les deux parents sont N/N.', '', defP);
+  else if(a[0] > 0) html += agMaladie('PSSM1', 'eleve', `${agFourchette(a)} des poulains seront atteints.`, '', defP);
+  else if(I(a)) html += agMaladie('PSSM1', 'inconnu', `Impossible à prévoir : ${manq('PSSM1')} ${pl('PSSM1')}.`, '', defP);
+  else html += agMaladie('PSSM1', 'modere', `Jusqu'à ${agPct(a[1])} des poulains atteints, selon le test de ${manq('PSSM1')}.`, '', defP);
+  // FIS : récessive, mortelle
+  const f = r.FIS.atteint, c = r.FIS.porteur, defF = "Immunodéficience du poulain, mortelle dans ses premiers mois. Gène récessif : le poulain n'est malade que s'il reçoit le gène de ses deux parents ; un porteur (N/P) n'est jamais malade.";
+  const porteurs = !c || c[1] === 0 ? 'Aucun porteur.'
+    : I(c) ? `Porteurs sains : impossible à dire, ${manq('FIS')} ${pl('FIS')}.`
+    : `${agFourchette(c)} de porteurs sains (jamais malades, mais ils peuvent transmettre le gène).`;
+  if(!f) html += agMaladie('FIS', 'inconnu', 'Tests incohérents, à vérifier.', '', defF);
+  else if(f[0] > 0) html += agMaladie('FIS', 'tres-eleve', `${agFourchette(f)} des poulains seront atteints : maladie mortelle.`, porteurs, defF);
+  else if(f[1] === 0) html += agMaladie('FIS', 'faible', 'Aucun poulain malade.', porteurs, defF);
+  else if(I(f)) html += agMaladie('FIS', 'inconnu', `Impossible à prévoir : ${manq('FIS')} ${pl('FIS')}.`, '', defF);
+  else html += agMaladie('FIS', 'modere', `Jusqu'à ${agPct(f[1])} des poulains atteints si ${manq('FIS')} est ${agAccord(hs, 'FIS', 'porteur', 'porteuse', 'porteurs')} : à faire tester avant l'accouplement.`, '', defF);
+  return html;
+}
+function agParent(h){
+  const g = h.genetique || {}, ded = new Set(h.genetique_deduit || []);
+  const ls = Object.keys(Genetique.LOCI);
+  const puces = ls.filter(l => g[l]).map(l => `<span class="ag-puce${ded.has(l) ? ' ag-puce--deduit' : ''}" title="${echap(Genetique.LIBELLES[l])}${ded.has(l) ? ' — déduit (filiation), pas testé directement' : ''}"><b>${AG_COURT[l]}</b>${echap(g[l]).replace(/_/g, '?')}</span>`).join('');
+  const nt = ls.filter(l => !g[l]).map(l => Genetique.LIBELLES[l]);
+  return `<div class="ag-parent ag-parent--${h.sex === 'mare' ? 'femelle' : 'male'}">
+    <span class="ag-parent-nom">${nomCalc(h)}</span>
+    ${puces ? `<div class="ag-puces">${puces}</div>` : '<p class="ag-nt">Aucun test génétique connu.</p>'}
+    ${puces && nt.length ? `<p class="ag-nt">Non testé : ${nt.join(', ')}.</p>` : ''}
+    ${ded.size ? '<p class="ag-nt"><span class="ag-puce ag-puce--deduit ag-puce--mini">pointillés</span> = déduit par filiation.</p>' : ''}</div>`;
+}
+function genetiqueHTML(sireH, damH){
+  const hs = [sireH, damH], r = Genetique.analyser(sireH.genetique, damH.genetique);
+  const tout = [...r.robes, ...r.motifs, ...r.caches];
+  const np = r.nonPris.map(l => `${AG_NOM_NP[l]} (${agManquants(hs, l)})`);
+  const robe = `<div class="ag-robe"><h4 class="ag-titre">Robe</h4>
+    ${r.robes.length ? `<ul class="ag-lignes">${r.robes.map(agLigne).join('')}</ul>`
+      : `<p class="ag-vide">Couleur de base imprévisible : ${agManquants(hs, 'E')} sans test noir / alezan (E).</p>`}
+    ${r.motifs.length ? `<h5 class="ag-st">Panachures</h5><ul class="ag-lignes">${r.motifs.map(agLigne).join('')}</ul>` : ''}
+    ${r.caches.length ? `<h5 class="ag-st">Gènes cachés, transmissibles</h5><ul class="ag-lignes">${r.caches.map(agLigne).join('')}</ul>` : ''}
+    ${tout.some(x => x.p[0] !== x.p[1]) ? '<p class="ag-legende"><span class="ag-barre ag-barre--legende"><span class="ag-barre-max" style="width:100%"></span><span class="ag-barre-min" style="width:45%"></span></span> Fourchette : la partie pleine est sûre, la partie hachurée dépend d’un test manquant.</p>' : ''}
+    ${np.length ? `<p class="ag-np"><strong>Pas pris en compte</strong>, test manquant : ${np.join(' · ')}.</p>` : ''}</div>`;
+  return `<h3 class="ac-sous-titre">Génétique du <em>poulain</em></h3>
+    <p class="ac-intro">D'après les tests ADN des deux parents. Quand un test manque, on n'invente rien : le résultat devient une fourchette, ou n'est pas calculé.</p>
+    <div class="ag">
+      <div class="ag-sante">${agSante(r.sante, hs)}</div>
+      ${robe}
+      <div class="ag-parents">${hs.map(agParent).join('')}</div>
+      <p class="ag-note">Calcul indicatif à partir des tests des parents. Gris, rouan, splash et les autres maladies génétiques ne sont pas couverts.</p>
+    </div>`;
 }
 
 // Survol d'un ancêtre commun (liste ou pédigrée) : toutes ses cases s'allument.
@@ -985,14 +1169,39 @@ function cpCarte(h){
     + `${vignetteCalc(h, 'cp-carte-photo')}<span class="cp-carte-nom">${nomCalc(h)}</span>`
     + `<span class="cp-carte-meta">${echap(infosCalc(h))}</span></button>`;
 }
+// Tri alphabétique sur le nom affiché (sans l'affixe : « Cairnview Archy » → Archy)
+function nomTri(h){ const c = CH_PAR_ID[h.id]; return sansAccents(c && c.affixe ? c.nom.replace(c.affixe, '') : h.name).trim(); }
+// Ligne de liste déroulante : pastille bleue / rose, nom, année
+function ddItem(h, attrs, sel){
+  const an = ((h.naissance || '').match(/\d{4}/) || [''])[0];
+  return `<li role="option" class="dd-item${sel ? ' sel' : ''}" ${attrs}><span class="dd-pt" style="--c:var(--${h.sex === 'mare' ? 'femelle' : 'male'})"></span>`
+    + `${nomCalc(h, false)}${an ? `<span class="dd-meta">${an}</span>` : ''}</li>`;
+}
+// Flèches haut / bas, Entrée, Échap dans une liste déroulante
+function ddClavier(e, liste){
+  const items = [...liste.querySelectorAll('.dd-item')];
+  if(liste.hidden || !items.length) return false;
+  let i = items.findIndex(x => x.classList.contains('sel'));
+  if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+    e.preventDefault();
+    i = (i + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+    items.forEach((x, k) => x.classList.toggle('sel', k === i));
+    items[i].scrollIntoView({ block: 'nearest' });
+    return true;
+  }
+  if(e.key === 'Enter' && i >= 0){ e.preventDefault(); items[i].click(); return true; }
+  if(e.key === 'Escape'){ e.stopPropagation(); liste.hidden = true; return true; }
+  return false;
+}
 function cpRechercher(q){
   const out = document.getElementById('cpResultats');
   const t = sansAccents(q).trim();
-  if(!t){ out.innerHTML = ''; return; }
-  const res = cpCandidats().filter(h => sansAccents(h.name).includes(t))
-    .sort((a, b) => sansAccents(a.name).indexOf(t) - sansAccents(b.name).indexOf(t) || a.name.localeCompare(b.name)).slice(0, 8);
-  out.innerHTML = res.length ? res.map(cpLigne).join('')
-    : `<p class="cp-vide">Aucun cheval de ce nom dans la base. Vous pouvez l'ajouter avec le bouton ci-dessous.</p>`;
+  // vide : toute la base (ordre alphabétique) ; sinon, la liste s'affine
+  const res = cpCandidats().filter(h => !t || sansAccents(h.name).includes(t))
+    .sort((a, b) => (t ? sansAccents(a.name).indexOf(t) - sansAccents(b.name).indexOf(t) : 0) || nomTri(a).localeCompare(nomTri(b)));
+  out.innerHTML = res.length ? res.map((h, i) => ddItem(h, `data-choisir="${echap(h.id)}"`, t && i === 0)).join('')
+    : `<li class="dd-vide">Aucun cheval de ce nom dans la base. Vous pouvez l'ajouter avec le bouton ci-dessous.</li>`;
+  out.hidden = false;
 }
 function ouvrirSelecteur(side){
   cpCote = side;
@@ -1004,11 +1213,16 @@ function ouvrirSelecteur(side){
       `<p class="cp-groupe">${male ? 'Nos étalons' : 'Nos juments'}</p><div class="cp-cartes">${nos.map(cpCarte).join('')}</div>`
     + (vos.length ? `<p class="cp-groupe">Vos chevaux</p><div class="cp-liste">${vos.map(cpLigne).join('')}</div>` : '')
     + `<p class="cp-groupe">Un autre cheval de la base</p>`
-    + `<input type="search" class="cp-recherche" id="cpRecherche" placeholder="Rechercher par nom (ex. Flash Harry)…" autocomplete="off" aria-label="Rechercher un cheval par son nom">`
-    + `<div class="cp-liste" id="cpResultats"></div>`;
+    + `<div class="dd"><input type="search" class="cp-recherche" id="cpRecherche" placeholder="Rechercher par nom (ex. Flash Harry)…" autocomplete="off" aria-label="Rechercher un cheval par son nom" aria-controls="cpResultats">`
+    + `<ul class="dd-liste" id="cpResultats" role="listbox" hidden></ul></div>`;
   document.getElementById('cpPiedTexte').textContent = male ? "Votre étalon n'est pas dans la liste ?" : "Votre jument n'est pas dans la liste ?";
   document.getElementById('cpAjouter').textContent = male ? 'Ajouter mon étalon' : 'Ajouter ma jument';
-  document.getElementById('cpRecherche').addEventListener('input', e => cpRechercher(e.target.value));
+  const rech = document.getElementById('cpRecherche'), liste = document.getElementById('cpResultats');
+  rech.addEventListener('input', () => cpRechercher(rech.value));
+  rech.addEventListener('focus', () => { cpRechercher(rech.value); setTimeout(() => rech.scrollIntoView({ block: 'start', behavior: 'smooth' }), 30); });
+  rech.addEventListener('blur', () => setTimeout(() => { liste.hidden = true; }, 150));
+  rech.addEventListener('keydown', e => ddClavier(e, liste));
+  liste.addEventListener('pointerdown', e => e.preventDefault());   // garder le focus le temps du clic
   cpEl.hidden = false;
   document.body.style.overflow = 'hidden';
   cpEl.querySelector('.cp-fermer').focus();
@@ -1077,12 +1291,12 @@ function closeModalOnOverlay(e){
 
 let draft;
 function resetDraft(){
-  draft = { root: { mode:'new', existingId:'', name:'', sex:'stallion', lineage:'', strain:'inconnue', owned:false }, nodes:{}, context:'catalog', rootShowAll:false };
+  draft = { root: { mode:'new', existingId:'', name:'', sex:'stallion', naissance:'', robe:'', race:'', strain:'inconnue', owned:false, genetique:{} }, nodes:{}, context:'catalog', rootShowAll:false };
 }
 resetDraft();
 
 function getNode(path){
-  if(!draft.nodes[path]) draft.nodes[path] = { mode:'empty', existingId:'', name:'', lineage:'', strain:'inconnue', expanded:false };
+  if(!draft.nodes[path]) draft.nodes[path] = { mode:'empty', existingId:'', name:'', naissance:'', robe:'', strain:'inconnue', expanded:false };
   return draft.nodes[path];
 }
 function roleOf(path){ const s = path.split('.'); return s[s.length - 1]; }
@@ -1242,7 +1456,7 @@ function onRootExistingSelect(value){
     draft.root.mode = 'new';
     draft.root.existingId = '';
     draft.root.name = '';
-    draft.root.lineage = '';
+    draft.root.naissance = draft.root.robe = draft.root.race = '';
     draft.root.strain = 'inconnue';
     draft.root.sex = forcedSexFor(draft.context) || 'stallion';
     clearDescendants('sire'); clearDescendants('dam');
@@ -1256,7 +1470,7 @@ function onRootExistingSelect(value){
   draft.root.existingId = value;
   draft.root.name = h.name;
   draft.root.sex = h.sex;
-  draft.root.lineage = h.lineage || '';
+  draft.root.naissance = h.naissance || ''; draft.root.robe = h.robe || ''; draft.root.race = h.race || '';
   draft.root.strain = h.strain || 'inconnue';
   cascadeRootExisting(value);
   renderTree();
@@ -1285,7 +1499,7 @@ function openPedigreeView(horseId){
   draft.root.existingId = horseId;
   draft.root.name = h.name;
   draft.root.sex = h.sex;
-  draft.root.lineage = h.lineage || '';
+  draft.root.naissance = h.naissance || ''; draft.root.robe = h.robe || ''; draft.root.race = h.race || '';
   draft.root.strain = h.strain || 'inconnue';
   cascadeRootExisting(horseId);
   document.getElementById('modalOverlay').classList.add('open');
@@ -1326,13 +1540,12 @@ function slotRechercher(path, text){
   const el = document.getElementById(comboListId(path));
   if(!el) return;
   const q = normalizeSearch(text).trim();
-  if(!q){ el.innerHTML = ''; el.hidden = true; return; }
-  const res = poolForPath(path).filter(h => normalizeSearch(h.name).includes(q))
-    .sort((a, b) => normalizeSearch(a.name).indexOf(q) - normalizeSearch(b.name).indexOf(q) || a.name.localeCompare(b.name)).slice(0, 8);
+  // vide : toute la base (le champ a le focus) ; sinon, la liste s'affine
+  const res = poolForPath(path).filter(h => !q || normalizeSearch(h.name).includes(q))
+    .sort((a, b) => (q ? normalizeSearch(a.name).indexOf(q) - normalizeSearch(b.name).indexOf(q) : 0) || nomTri(a).localeCompare(nomTri(b)));
   el.innerHTML = res.length
-    ? res.map(h => `<button type="button" class="ed-res" onmousedown="event.preventDefault()" onclick="pickCombo('${path}','${h.id}')">`
-        + `${vignetteCalc(h, 'ed-res-photo')}<span><span class="ed-res-nom">${nomCalc(h, false)}</span><span class="ed-note">${echap(infosCalc(h))}</span></span></button>`).join('')
-    : `<p class="ed-vide">Pas dans la base sous ce nom.</p>`;
+    ? res.map((h, i) => ddItem(h, `onmousedown="event.preventDefault()" onclick="pickCombo('${path}','${h.id}')"`, q && i === 0)).join('')
+    : `<li class="dd-vide">Pas dans la base sous ce nom.</li>`;
   el.hidden = false;
 }
 function slotFermerResultats(path){
@@ -1357,14 +1570,16 @@ function slotHTML(path, depth){
         <input class="ed-input" placeholder="Nom" value="${escapeAttr(node.name)}" oninput="updateDraftField('${path}','name',this.value)">
         <div class="ed-ligne2">
           <label class="ed-champ ed-champ--petit">Élevage d'origine ${elevageSelectHTML(node.strain, `setNodeStrain.bind(null,'${path}')`)}</label>
-          <label class="ed-champ ed-champ--petit">Précisions <input class="ed-input" placeholder="race, robe, année…" value="${escapeAttr(node.lineage)}" oninput="updateDraftField('${path}','lineage',this.value)"></label>
+          <label class="ed-champ ed-champ--petit">Naissance <input class="ed-input" placeholder="2015" value="${escapeAttr(node.naissance)}" oninput="updateDraftField('${path}','naissance',this.value)"></label>
         </div>
+        <label class="ed-champ ed-champ--petit">Robe <input class="ed-input" placeholder="Bai, Noir tobiano…" value="${escapeAttr(node.robe)}" oninput="updateDraftField('${path}','robe',this.value)"></label>
       </div>`;
   } else {
     corps = `<div class="ed-recherche">
         <input type="search" class="ed-input" placeholder="Rechercher dans notre base…" autocomplete="off" aria-label="Rechercher ${role === 'sire' ? 'le père' : 'la mère'} dans la base"
-          oninput="slotRechercher('${path}', this.value)" onfocus="slotRechercher('${path}', this.value)" onblur="slotFermerResultats('${path}')">
-        <div class="ed-resultats" id="${comboListId(path)}" hidden></div>
+          oninput="slotRechercher('${path}', this.value)" onfocus="slotRechercher('${path}', this.value)" onblur="slotFermerResultats('${path}')"
+          onkeydown="ddClavier(event, document.getElementById('${comboListId(path)}'))">
+        <ul class="ed-resultats dd-liste" id="${comboListId(path)}" role="listbox" hidden></ul>
       </div>
       <button type="button" class="ed-lien" onclick="setSlotMode('${path}','__new__')">Pas dans la base ? Saisir son nom</button>`;
   }
@@ -1396,19 +1611,49 @@ function renderTree(){
         <input class="ed-input ed-input--grand" id="edNom" value="${escapeAttr(root.name)}" oninput="updateRootField('name', this.value)" ${existant ? 'disabled' : ''}></label>
       <div class="ed-ligne2">
         <label class="ed-champ">Élevage d'origine ${elevageSelectHTML(root.strain, 'setRootStrain')}</label>
-        <label class="ed-champ">Précisions <span class="ed-facultatif">facultatif</span>
-          <input class="ed-input" placeholder="race, robe, année…" value="${escapeAttr(root.lineage)}" oninput="updateRootField('lineage', this.value)" ${existant ? 'disabled' : ''}></label>
+        <label class="ed-champ">Naissance <span class="ed-facultatif">facultatif</span>
+          <input class="ed-input" placeholder="2015, ou 2015-04-12" value="${escapeAttr(root.naissance)}" oninput="updateRootField('naissance', this.value)" ${existant ? 'disabled' : ''}></label>
+      </div>
+      <div class="ed-ligne2">
+        <label class="ed-champ">Robe <span class="ed-facultatif">facultatif</span>
+          <input class="ed-input" placeholder="Bai, Noir tobiano…" value="${escapeAttr(root.robe)}" oninput="updateRootField('robe', this.value)" ${existant ? 'disabled' : ''}></label>
+        <label class="ed-champ">Race <span class="ed-facultatif">facultatif</span>
+          <input class="ed-input" placeholder="Irish Cob…" value="${escapeAttr(root.race)}" oninput="updateRootField('race', this.value)" ${existant ? 'disabled' : ''}></label>
       </div>
     </section>
     <section class="ed-bloc">
       <p class="ed-etape"><span class="ed-etape-num">2</span>Ses parents</p>
       <p class="ed-aide">Cherchez-les d'abord dans notre base : s'ils y sont, toute leur ascendance connue suit, rien à ressaisir. Sinon, saisissez leur nom — vous pourrez ensuite remonter plus loin avec « Ajouter ses parents ». Plus vous remontez, plus le calcul est fiable.</p>
       <div class="ed-parents">${slotHTML('sire', 1)}${slotHTML('dam', 1)}</div>
-    </section>`;
+    </section>
+    ${existant ? '' : genSaisieHTML()}`;
+  const dlBtn = document.getElementById('dlTreeBtn'), imp = document.getElementById('modalImport');
+  if(dlBtn) dlBtn.hidden = existant || draft.context === 'view';
+  if(imp) imp.hidden = draft.context === 'view';
   const saveBtn = document.getElementById('saveTreeBtn');
   if(saveBtn) saveBtn.textContent = existant ? 'Utiliser ce cheval' : (requiredSex ? 'Ajouter et tester' : 'Enregistrer ce cheval');
   const titre = document.getElementById('modalTitle');
   if(titre) titre.innerHTML = requiredSex ? (male ? 'Ajouter mon <em>étalon</em>' : 'Ajouter ma <em>jument</em>') : 'Ajouter un <em>cheval</em>';
+}
+
+// Étape 3 (facultative) : tests génétiques du cheval saisi.
+function genSaisieHTML(){
+  const g = draft.root.genetique || {}, n = Object.keys(g).length;
+  const groupes = [['Santé', ['PSSM1', 'FIS']], ['Robe', ['E', 'A', 'D', 'Z', 'Cr', 'prl']], ['Panachures', ['To', 'KIT']]];
+  return `<details class="ed-bloc ed-gen-bloc"${n ? ' open' : ''}>
+    <summary class="ed-etape"><span class="ed-etape-num">3</span>Ses tests génétiques <span class="ed-facultatif">facultatif${n ? ' · ' + n + ' renseigné' + (n > 1 ? 's' : '') : ''}</span></summary>
+    <p class="ed-aide">Reportez les résultats de ses analyses ADN : le calculateur en déduit les risques et les robes possibles du poulain. Laissez « Non testé » pour tout le reste, rien n'est supposé.</p>
+    ${groupes.map(([t, ls]) => `<p class="ed-gen-groupe">${t}</p><div class="ed-gen">${ls.map(l => `<label class="ed-champ">${Genetique.LIBELLES[l]}
+      <select class="ed-input${g[l] ? ' is-rempli' : ''}" onchange="setRootGen('${l}', this.value, this)"><option value="">Non testé</option>${Genetique.CHOIX[l].map(v => `<option${g[l] === v ? ' selected' : ''}>${v}</option>`).join('')}</select></label>`).join('')}</div>`).join('')}
+    <p class="ed-gen-erreur" id="edGenErreur" role="alert"></p>
+  </details>`;
+}
+function setRootGen(locus, valeur, el){
+  const g = draft.root.genetique = draft.root.genetique || {};
+  if(valeur) g[locus] = valeur; else delete g[locus];
+  if(el) el.classList.toggle('is-rempli', !!valeur);
+  const e = document.getElementById('edGenErreur');
+  if(e) e.textContent = Genetique.erreurs(g).join(' ; ');
 }
 
 function nodeHasContent(node){
@@ -1472,11 +1717,13 @@ function resolveNodeToId(path, depth){
   }
   const role = roleOf(path);
   const id = nextId();
+  const naissance = (node.naissance || '').trim(), robe = (node.robe || '').trim();
   horses.push({
     id, name: n,
     sex: role === 'sire' ? 'stallion' : 'mare',
     sire: sireId, dam: damId,
-    lineage: (node.lineage || '').trim(),
+    naissance, robe,
+    lineage: lineageDe({ naissance, robe }),
     source: 'saisie manuelle',
     strain: node.strain || 'inconnue'
   });
@@ -1527,7 +1774,7 @@ function saveViewedGaps(){
   render();
 }
 
-function saveTreeHorse(){
+function saveTreeHorse(telecharger){
   const context = draft.context;
   if(context === 'view'){
     saveViewedGaps();
@@ -1545,6 +1792,8 @@ function saveTreeHorse(){
 
   const name = draft.root.name.trim();
   if(!name){ alert('Le nom du cheval est obligatoire.'); return; }
+  const gen = { ...(draft.root.genetique || {}) }, genErr = Genetique.erreurs(gen);
+  if(genErr.length){ alert('Tests génétiques à corriger : ' + genErr.join(' ; ')); return; }
 
   const plan = planTreeResolution();
   const namesToCheck = plan.plannedNew.map(p => p.name);
@@ -1580,10 +1829,12 @@ function saveTreeHorse(){
     sex: draft.root.sex,
     sire: sireId,
     dam: damId,
-    lineage: draft.root.lineage.trim(),
+    naissance: draft.root.naissance.trim(), robe: draft.root.robe.trim(), race: draft.root.race.trim(),
+    lineage: lineageDe({ naissance: draft.root.naissance.trim(), robe: draft.root.robe.trim(), race: draft.root.race.trim() }),
     source: 'saisie manuelle',
     strain: draft.root.strain || 'inconnue',
-    owned: !!draft.root.owned
+    owned: !!draft.root.owned,
+    ...(Object.keys(gen).length ? { genetique: gen } : {})
   });
 
   if(context === 'left') testState.leftId = newHorseId;
@@ -1591,6 +1842,7 @@ function saveTreeHorse(){
   closeModal();
   resetDraft();
   render();
+  if(telecharger) telechargerChevaux(avecAscendanceSaisie(newHorseId), (slugId(name) || 'mon-cheval') + '.json');
 }
 
 function horseRowHTML(h){
@@ -1721,17 +1973,89 @@ function inbreedingCoefficient(sireId, damId){
   return additiveRelationship(sireId, damId, memo, gen) / 2;
 }
 
+// ═══ Format d'échange = format des fiches du site (data/chevaux/*.json) ══════
+// Le fichier téléchargé reprend les mêmes champs que nos fiches (nom, sexe, pere,
+// mere, naissance, robe, genetique…) : un cheval reçu peut être rangé tel quel
+// dans data/chevaux/. L'import accepte aussi l'ancien format du calculateur
+// (name, sex, sire, dam, lineage…) pour les fichiers déjà téléchargés.
+const SOUCHES_SITE = ['cairnview', 'sancler', 'sd', 'hc', 'autre'];
+function lineageDe(h){
+  return [h.race, h.robe, ((h.naissance || '').match(/\d{4}/) || [''])[0], h.notes].filter(Boolean).join(' · ');
+}
+function versFormatSite(h){
+  const o = { id: h.id, nom: h.name, famille: 'externe', sexe: h.sex === 'mare' ? 'femelle' : (h.gelding ? 'hongre' : 'male') };
+  if(h.sire) o.pere = h.sire;
+  if(h.dam) o.mere = h.dam;
+  if(h.naissance) o.naissance = h.naissance;
+  if(h.robe) o.robe = h.robe;
+  if(h.race) o.race = h.race;
+  if(h.strain && h.strain !== 'inconnue'){
+    if(SOUCHES_SITE.includes(h.strain)) o.souche = h.strain;
+    else { o.souche = 'autre'; o.elevage = strainLabel(h.strain); }
+  }
+  if(h.genetique && Object.keys(h.genetique).length) o.genetique = { ...h.genetique };
+  // ancien texte libre « Précisions » (fichiers d'avant l'alignement)
+  const notes = h.notes || (!h.naissance && !h.robe && !h.race ? h.lineage : '');
+  if(notes) o.notes = notes;
+  o.source = 'calculateur hummingcob.fr';
+  return o;
+}
+function depuisFormatSite(o){
+  const sexes = { male: 'stallion', hongre: 'stallion', femelle: 'mare' };
+  let strain = 'inconnue';
+  if(o.souche && o.souche !== 'autre' && SOUCHES_SITE.includes(o.souche)) strain = o.souche;
+  else if(o.elevage) strain = registerCustomStrainFromLabel(o.elevage) || 'autre';
+  else if(o.souche === 'autre') strain = 'autre';
+  const h = {
+    id: o.id, name: o.nom, sex: sexes[o.sexe] || o.sexe, gelding: o.sexe === 'hongre',
+    sire: o.pere || null, dam: o.mere || null,
+    naissance: o.naissance || '', robe: o.robe || '', race: o.race || '', notes: o.notes || '',
+    strain, owned: false
+  };
+  if(o.genetique != null) h.genetique = o.genetique;
+  h.lineage = lineageDe(h);
+  return h;
+}
+const estFormatSite = o => !!o && typeof o === 'object' && ('nom' in o || 'sexe' in o);
+
+const estAjoute = h => !!h && (h.source === 'saisie manuelle' || h.source === 'importé');
+const slugId = n => (n || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+// Un cheval et les ancêtres saisis par le visiteur (ceux de notre base restent des liens).
+function avecAscendanceSaisie(id){
+  const out = [], vus = new Set();
+  (function go(i){ const h = byId(i); if(!estAjoute(h) || vus.has(i)) return; vus.add(i); out.push(h); go(h.sire); go(h.dam); })(id);
+  return out;
+}
 function exportJSON(){
-  const added = horses.filter(h => h.source === 'saisie manuelle' || h.source === 'importé');
+  const added = horses.filter(estAjoute);
   if(added.length === 0){
     alert("Vous n'avez encore ajouté aucun cheval dans cette session — rien à télécharger.");
     return;
   }
-  const blob = new Blob([JSON.stringify(added, null, 2)], {type:'application/json'});
+  telechargerChevaux(added, 'mes-chevaux-ajoutes.json');
+}
+function telechargerChevaux(added, fichier){
+  // id lisible tiré du nom (« Bella du Test » → « belladutest »), comme nos fiches :
+  // le fichier peut être rangé tel quel dans data/chevaux/. Liens pere / mere suivis.
+  const slug = slugId;
+  const pris = new Set(horses.filter(h => !added.includes(h)).map(h => h.id)), nouvelId = new Map();
+  added.forEach(h => {
+    const base = slug(h.name) || h.id; let id = base, n = 2;
+    while(pris.has(id)) id = base + '-' + n++;
+    pris.add(id); nouvelId.set(h.id, id);
+  });
+  const sortie = added.map(h => {
+    const o = versFormatSite(h);
+    o.id = nouvelId.get(h.id);
+    if(o.pere && nouvelId.has(o.pere)) o.pere = nouvelId.get(o.pere);
+    if(o.mere && nouvelId.has(o.mere)) o.mere = nouvelId.get(o.mere);
+    return o;
+  });
+  const blob = new Blob([JSON.stringify(sortie, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'mes-chevaux-ajoutes.json';
+  a.download = fichier;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -1757,12 +2081,12 @@ function validateImport(data, currentHorses){
     if(typeof h.id !== 'string' || !h.id.trim()) reasons.push('id manquant ou vide');
     else if(seenIds.has(h.id)) reasons.push("id '" + h.id + "' en double dans le fichier");
     if(typeof h.name !== 'string' || !h.name.trim()) reasons.push('nom manquant');
-    if(h.sex !== 'stallion' && h.sex !== 'mare') reasons.push("sexe invalide (attendu 'stallion' ou 'mare', reçu " + JSON.stringify(h.sex) + ')');
+    if(h.sex !== 'stallion' && h.sex !== 'mare') reasons.push("sexe invalide (attendu « male », « femelle » ou « hongre », reçu " + JSON.stringify(h.sex) + ')');
     if(h.sire != null){
-      if(typeof h.sire !== 'string' || !allIds.has(h.sire)) reasons.push("père (sire) introuvable : " + JSON.stringify(h.sire));
+      if(typeof h.sire !== 'string' || !allIds.has(h.sire)) reasons.push("père introuvable : " + JSON.stringify(h.sire));
     }
     if(h.dam != null){
-      if(typeof h.dam !== 'string' || !allIds.has(h.dam)) reasons.push("mère (dam) introuvable : " + JSON.stringify(h.dam));
+      if(typeof h.dam !== 'string' || !allIds.has(h.dam)) reasons.push("mère introuvable : " + JSON.stringify(h.dam));
     }
 
     if(reasons.length){
@@ -1770,6 +2094,11 @@ function validateImport(data, currentHorses){
       return;
     }
     if(h.id) seenIds.add(h.id);
+
+    if(h.genetique != null){
+      const ge = Genetique.erreurs(h.genetique);
+      if(ge.length){ warnings.push(`${h.name} : tests génétiques ignorés (${ge.join(' ; ')})`); h = { ...h }; delete h.genetique; }
+    }
 
     if(h.sire != null){ const s = sexOf(h.sire); if(s && s !== 'stallion') warnings.push(`${h.name} : le père '${h.sire}' est enregistré comme jument`); }
     if(h.dam != null){ const s = sexOf(h.dam); if(s && s !== 'mare') warnings.push(`${h.name} : la mère '${h.dam}' est enregistrée comme étalon`); }
@@ -1780,14 +2109,16 @@ function validateImport(data, currentHorses){
   return { valid, rejected, warnings };
 }
 
-function importJSON(event){
+function importJSON(event, cote){
   const file = event.target.files[0];
   if(!file) return;
   const reader = new FileReader();
   reader.onload = e => {
     try {
-      const data = JSON.parse(e.target.result);
+      let data = JSON.parse(e.target.result);
+      if(data && !Array.isArray(data) && typeof data === 'object') data = [data];   // une fiche seule
       if(!Array.isArray(data)) throw new Error('Format invalide');
+      data = data.map(x => estFormatSite(x) ? depuisFormatSite(x) : x);
 
       const check = validateImport(data, horses);
       if(check.valid.length === 0){
@@ -1858,11 +2189,21 @@ function importJSON(event){
         if(idx >= 0){ horses[idx] = h; updated++; }
         else { horses.push(h); added++; }
       });
-      testState = { leftId: '', rightId: '' };
+      // Depuis la modale « Ajouter mon étalon / ma jument » : le cheval du fichier est
+      // choisi directement (celui qui n'est le parent d'aucun autre dans le fichier).
+      const sexe = cote === 'left' ? 'stallion' : cote === 'right' ? 'mare' : null;
+      const parentsFichier = new Set(clean.flatMap(h => [h.sire, h.dam]));
+      const racines = sexe ? clean.filter(h => h.sex === sexe && !h.gelding && !parentsFichier.has(h.id)) : [];
       resetDraft();
       render();
-      document.getElementById('resultBox').hidden = true;
+      if(sexe){
+        closeModal();
+        if(racines.length === 1){ if(cote === 'left') testState.leftId = racines[0].id; else testState.rightId = racines[0].id; }
+      }
+      ['left', 'right'].forEach(renderMatchBox);
+      updateXResult();
       alert(`Import terminé : ${added} cheval(aux) ajouté(s), ${updated} mis à jour.`);
+      if(sexe && racines.length !== 1) ouvrirSelecteur(cote);   // plusieurs chevaux : à choisir dans « Vos chevaux »
     } catch(err){
       alert('Fichier JSON invalide : ' + err.message);
     }

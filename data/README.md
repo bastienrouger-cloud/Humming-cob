@@ -29,7 +29,7 @@ existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
 | `famille` | `humming` · `externe` | `humming` = nos chevaux ; `externe` = ancêtres, descendants nés ailleurs ou vendus avant nous |
 | `role` | `etalon` · `jument` · `poulain` · `memoire` | nos chevaux uniquement |
 | `statut` | `a-vendre` · `reserve` · `vendu` · `garde` | poulains, et externes vendus / à vendre par un autre élevage |
-| `vendeur` | `Le Cros`, `SD`… | qui vend ou a vendu (externes) : badge « À vendre par … » |
+| `vendeur` | `Le Cros de l'Oume`, `SD`… | qui vend ou a vendu (externes) : badge « À vendre par … » |
 | `sexe` | `male` · `femelle` · `hongre` | pilote le code couleur (bleu / rose) |
 | `pere`, `mere` | `id` d'un autre cheval | absent si inconnu ; toute la généalogie en découle |
 | `naissance`, `deces` | `2024-01-13`, `2010`, `~2004` | date complète si connue, sinon année |
@@ -37,7 +37,7 @@ existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
 | `robe_courte` | `Bai Pearl` | version courte de la robe pour la ligne d'étiquettes des cartes (si `robe` est trop longue) |
 | `distinction` | `Élite grade 1` | reproducteurs |
 | `papiers` | `Plein Papier`, `Origines Constatées` | poulains |
-| `genetique` | `{"PSSM1": "N/N", "E": "E/e", "KIT": "Sb1/W20"}` | tests génétiques, un génotype `X/Y` par locus ; `_` = allèle inconnu (`E/_`) ; locus absent = **pas testé** (jamais « négatif » par défaut). Locus : `PSSM1`, `FIS` (`N`/`P`), `E`, `A`, `D`, `Z`, `prl`, `Cr`, `To`, `KIT` (`Sb1`, `W20`, `n` — même gène). Le build vérifie le format et la cohérence avec les parents. Tableau de travail : Notion › Tests génétiques |
+| `genetique` | `{"PSSM1": "N/N", "E": "E/e", "KIT": "Sb1/W20"}` | tests génétiques, un génotype `X/Y` par locus ; `_` = allèle inconnu (`E/_`) ; locus absent = **pas testé** (jamais « négatif » par défaut). Locus : `PSSM1`, `FIS` (`N`/`P`), `E`, `A`, `D`, `Z`, `prl`, `Cr`, `To`, `KIT` (`Sb1`, `W20`, `n` — même gène). Le build vérifie le format et la cohérence avec les parents. Le calculateur s'en sert pour la génétique du poulain (`js/genetique.js`). Tableau de travail : Notion › Tests génétiques |
 | `genetique_deduit` | `["PSSM1"]` | locus non testés sur le cheval lui-même mais déduits (« par filiation », robe) |
 | `prix` | nombre en euros | affiché uniquement sur la fiche du cheval |
 | `souche` | `cairnview` · `sancler` · `sd` · `hc` · `autre` | élevage d'origine, sert au code couleur du calculateur — **ce n'est pas une parenté** |
@@ -52,12 +52,24 @@ existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
 | `cartes` | `{"suzie": {"photo": …, "resume": …}}` | variantes par page : la clé est l'`id` du cheval dont la fiche affiche la carte ; champs possibles `photo`, `cadrage`, `resume`, `photos` |
 | `caractere` | liste de mots | |
 | `notes` | texte libre | infos de référence (GVHS, taille…), non affichées sur les cartes |
+| `registre` | `GVHS GV13705P · TGCA` | stud-books / numéros d'inscription, affichés dans la modale |
 | `source` | `site hummingcob.fr`, `infochevaux IFCE`… | origine de l'information |
 
 Les champs vides sont simplement absents du fichier.
 
 Le texte long des fiches (histoire, palmarès, descriptions) reste dans les pages HTML :
 seules les données répétées ailleurs vivent ici.
+
+## Fichier du calculateur
+
+Le bouton « Télécharger mes ajouts » d'`accouplement.html` produit une **liste de chevaux au même
+format que ces fiches** (`nom`, `sexe`, `pere`, `mere`, `naissance`, `robe`, `race`, `souche`,
+`elevage`, `genetique`…), avec `famille: "externe"` et `source: "calculateur hummingcob.fr"`.
+L'`id` est tiré du nom (« Bella du Test » → `belladutest`, suffixe `-2` si déjà pris) et les liens
+`pere` / `mere` suivent. Pour intégrer un cheval reçu : un objet de la liste = un fichier
+`chevaux/<id>.json`, puis `python3 build.py`. Un élevage d'origine hors de notre liste devient
+`souche: "autre"` + `elevage: "<nom>"`. L'import accepte ce format, une fiche seule, et l'ancien
+format du calculateur (`name`, `sex`, `sire`, `dam`, `lineage`), converti à la volée.
 
 ## Cartes
 
