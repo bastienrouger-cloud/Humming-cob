@@ -526,8 +526,29 @@ if (shareBtn) {
 // Formulaire de contact (contact.html) — envoi Web3Forms sans quitter la page.
 // ?sujet=<valeur> présélectionne le sujet (liens des fiches : ?sujet=nashi,
 // ?sujet=saillie-archy) ; le sujet choisi est repris dans l'objet du mail.
+// Formulaire contact de l'accueil — feedback visuel simple (l'envoi est fait par
+// le script en ligne d'index.html).
+const form = document.querySelector('.contact-form form');
+if (form && !form.dataset.envoi) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('.form-submit');
+    btn.textContent = 'Message envoyé ✦';
+    btn.style.background = '#7A9E7E';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Envoyer';
+      btn.style.background = '';
+      btn.disabled = false;
+      form.reset();
+    }, 3500);
+  });
+}
+
 (function () {
-  const form = document.getElementById('contact-form');
+  // Seulement pour contact.html (data-envoi="main.js") : le formulaire de
+  // l'accueil a son propre script d'envoi — ne pas envoyer deux fois.
+  const form = document.querySelector('form#contact-form[data-envoi="main.js"]');
   if (!form) return;
   const select = form.querySelector('#sujet');
   const objet = form.querySelector('input[name="subject"]');
