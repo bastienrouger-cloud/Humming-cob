@@ -10,6 +10,48 @@
   "robe": "Gris",
   "race": "Espagnol",
   "souche": "autre",
-  "page": "memoire.html",
-  "photo": "img/jballar/jb-01.jpg"
+  "photo": "img/jballar/jb-01.jpg",
+  "photos": [
+    {
+      "src": "img/jballar/jb-01.jpg",
+      "legende": "photo de l'annonce qui m'a fait fondre"
+    },
+    {
+      "src": "img/jballar/jb-02.jpg",
+      "legende": "Blanchissant, à Chateaurenard"
+    },
+    {
+      "src": "img/jballar/jb-03.jpg",
+      "legende": "Toujours prêt pour un bisou"
+    },
+    {
+      "src": "img/jballar/jb-04.jpg",
+      "legende": "Encore des bisous"
+    },
+    {
+      "src": "img/jballar/jb-05.jpg",
+      "legende": "Sous la selle, un fauteuil"
+    },
+    {
+      "src": "img/jballar/jb-06.jpg",
+      "legende": "Encore 😘 !"
+    },
+    {
+      "src": "img/jballar/jb-07.jpg",
+      "legende": "Balade en dextre"
+    },
+    {
+      "src": "img/jballar/jb-08.jpg",
+      "legende": "Balade en dextre"
+    },
+    {
+      "src": "img/jballar/jb-09.jpg",
+      "legende": "LE tonton des filles"
+    },
+    {
+      "src": "img/jballar/jb-10.jpg",
+      "legende": "Un grand coeur 💝"
+    }
+  ],
+  "resume": "En 2010, après cinq ans sans cheval, Djb, véritable coup de cœur, fut mon compagnon de vie pendant douze ans. Grand ami d'Archy et tonton des pouliches, il marque ceux qui croisent sa route. Guerrier, maître d'école et révélateur, il bouleverse mes certitudes, laisse son empreinte et transforme à jamais ma vision du cheval."
 }

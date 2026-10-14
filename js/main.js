@@ -337,6 +337,7 @@ if (revealEls.length) {
     if (c.statut === 'a-vendre') return `<span class="cm-badge cm-badge--vente">À vendre${esc(par)}</span>`;
     if (c.statut === 'reserve')  return `<span class="cm-badge">Réservé${e}${esc(par)}</span>`;
     if (c.statut === 'vendu')    return `<span class="cm-badge">Vendu${e}${esc(par)}</span>`;
+    if (c.role === 'memoire')    return '<span class="cm-badge">En mémoire</span>';
     return '';
   }
   const lienCheval = id => {
@@ -374,13 +375,17 @@ if (revealEls.length) {
     const c = PAR_ID[carte.dataset.cheval];
     if (!c) return;
     const v = Object.assign({}, c, (c.cartes || {})[carte.dataset.contexte || ''] || {});
-    photos = (v.photos && v.photos.length) ? v.photos : [v.photo].filter(Boolean);
+    // Une photo = un chemin, ou {src, legende} quand elle a une légende.
+    photos = ((v.photos && v.photos.length) ? v.photos : [v.photo].filter(Boolean))
+      .map(p => typeof p === 'string' ? { src: p } : p);
     const femelle = c.sexe === 'femelle';
     boite.classList.toggle('is-femelle', femelle);
+    boite.classList.toggle('is-memoire', c.role === 'memoire');
 
     carrousel.innerHTML = photos.map((p, i) => `
-      <figure class="cm-slide" style="--bg:url('${esc(url(p)).replace(/'/g, '%27')}')">
-        <img src="${esc(url(p))}" alt="${esc(c.nom)} — photo ${i + 1}"${i ? ' loading="lazy"' : ''}>
+      <figure class="cm-slide" style="--bg:url('${esc(url(p.src)).replace(/'/g, '%27')}')">
+        <img src="${esc(url(p.src))}" alt="${esc(p.legende ? c.nom + ' — ' + p.legende : c.nom + ' — photo ' + (i + 1))}"${i ? ' loading="lazy"' : ''}>
+        ${p.legende ? `<figcaption>${esc(p.legende)}</figcaption>` : ''}
       </figure>`).join('') + (photos.length > 1 ? `
       <button type="button" class="cm-nav cm-prec" aria-label="Photo précédente">‹</button>
       <button type="button" class="cm-nav cm-suiv" aria-label="Photo suivante">›</button>
@@ -760,4 +765,42 @@ document.querySelectorAll('.ped-toggle').forEach(btn => {
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     if (label) label.textContent = open ? 'Masquer les ascendants' : 'Voir les ascendants';
   });
+});
+
+/* ============================================
+   RANGÉES DE CARTES DÉFILANTES (nos-chevaux.html)
+   ============================================
+   Défilement natif (doigt, trackpad, molette + Maj). Les flèches avancent
+   d'une carte ; elles se cachent si tout tient à l'écran et se grisent en bout
+   de rangée. Les classes peut-gauche / peut-droite posent un fondu sur le bord.
+*/
+document.querySelectorAll('.troupeau').forEach(section => {
+  const rangee = section.querySelector('.rangee');
+  const fleches = section.querySelector('.troupeau-fleches');
+  if (!rangee || !fleches) return;
+  const [prec, suiv] = fleches.querySelectorAll('button');
+
+  const pas = () => {
+    const carte = rangee.querySelector('.cc');
+    const gap = parseFloat(getComputedStyle(rangee).columnGap) || 0;
+    return carte ? carte.getBoundingClientRect().width + gap : rangee.clientWidth * 0.8;
+  };
+  const maj = () => {
+    const max = rangee.scrollWidth - rangee.clientWidth;
+    const deborde = max > 2;
+    const g = deborde && rangee.scrollLeft > 2;
+    const d = deborde && rangee.scrollLeft < max - 2;
+    fleches.hidden = !deborde;
+    prec.disabled = !g;
+    suiv.disabled = !d;
+    rangee.classList.toggle('peut-gauche', g);
+    rangee.classList.toggle('peut-droite', d);
+  };
+
+  prec.addEventListener('click', () => rangee.scrollBy({ left: -pas() }));
+  suiv.addEventListener('click', () => rangee.scrollBy({ left: pas() }));
+  rangee.addEventListener('scroll', maj, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(maj).observe(rangee);
+  else window.addEventListener('resize', maj);
+  maj();
 });

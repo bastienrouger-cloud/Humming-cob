@@ -44,6 +44,15 @@ les cartes : les variantes de photo/texte prévues pour cette page (champ
 « cartes » des données) remplacent alors les valeurs par défaut.
 Nos chevaux → lien vers leur fiche. Chevaux extérieurs → modale (js/main.js).
 
+Au lieu d'une liste, on peut demander une section entière, triée :
+
+    <!-- @cartes: section=poulains -->
+
+    reproducteurs  nos étalons et juments — mâles d'abord, puis du plus âgé au plus jeune
+    poulains       nos poulains — à vendre, réservés, gardés, vendus, puis par âge
+    memoire        nos chevaux disparus — par âge
+Un nouveau cheval apparaît donc tout seul dans sa section (page nos-chevaux.html).
+
 Usage
 -----
     python3 build.py            # régénère toutes les pages
@@ -268,6 +277,25 @@ def _naissance_courte(c):
     return n[:4] if re.match(r"^\d{4}-\d\d-\d\d$", n) else n
 
 
+def _dates(c):
+    """« 2019 », ou « 2004 – 2023 » pour un cheval disparu."""
+    n, d = _naissance_courte(c), (c.get("deces") or "")[:4]
+    return "%s – %s" % (n, d) if n and d else n
+
+
+# Sections de la page « Nos chevaux » : (qui en fait partie, ordre d'affichage).
+_ORDRE_STATUT = {"a-vendre": 0, "reserve": 1, "garde": 2, "vendu": 3}
+_age = lambda c: c.get("naissance") or "9999"        # date croissante = plus âgé d'abord
+_nous = lambda c: c.get("famille") == "humming"
+SECTIONS = {
+    "reproducteurs": (lambda c: _nous(c) and c.get("role") in ("etalon", "jument"),
+                      lambda c: (c["sexe"] == "femelle", _age(c))),
+    "poulains":      (lambda c: _nous(c) and c.get("role") == "poulain",
+                      lambda c: (_ORDRE_STATUT.get(c.get("statut") or "garde", 2), _age(c))),
+    "memoire":       (lambda c: _nous(c) and c.get("role") == "memoire", _age),
+}
+
+
 def libelle_sexe(c):
     """Étalon, Entier, Poulain, Hongre, Jument, Pouliche — d'après sexe, rôle et âge."""
     an = _annee(c)
@@ -314,14 +342,20 @@ def carte_html(c, base, contexte=None, rang=0):
     photo = v.get("photo") or c.get("photo_arbre") or (
         "img/placeholders/jument.jpg" if sexe == "femelle" else "img/placeholders/etalon.jpg")
     style = ' style="object-position:%s"' % _esc(v["cadrage"]) if v.get("cadrage") else ""
-    tags = [libelle_sexe(c), c.get("race"), c.get("robe_courte") or c.get("robe"), _naissance_courte(c)]
-    tags_html = "".join('<span%s>%s</span>' % (' class="cc-sexe"' if i == 0 else "", _esc(t))
-                        for i, t in enumerate(tags) if t)
+    tags = [libelle_sexe(c), c.get("race"), c.get("robe_courte") or c.get("robe"), _dates(c)]
+    # Les dates (« 2004 – 2023 ») restent d'un bloc : <wbr> autorise le retour à
+    # la ligne juste avant elles, et .cc-dates interdit de les couper.
+    tags_html = "".join(
+        ('<span class="cc-sexe">%s</span>' if i == 0 else
+         '<wbr><span class="cc-dates">%s</span>' if i == 3 else '<span>%s</span>') % _esc(t)
+        for i, t in enumerate(tags) if t)
     b = badge_carte(c)
     badge = '<span class="cc-badge cc-badge--%s">%s</span>' % (b[0], _esc(b[1])) if b else ""
     nb = len(v.get("photos") or [])
     delai = " reveal-delay-%d" % (rang % 4 + 1)
 
+    if c.get("role") == "memoire":
+        sexe += " cc--memoire"
     if c.get("page"):
         ouvre = '<a class="cc cc--%s reveal%s" href="%s%s" data-cheval="%s">' % (sexe, delai, base, _esc(c["page"]), c["id"])
         ferme = "</a>"
@@ -362,7 +396,15 @@ def injecter_cartes(html, page, par_id, erreurs):
     def remplace(m):
         args = m.group(2)
         ctx = re.search(r"contexte=(\w+)", args)
-        ids = [i.strip() for i in re.sub(r"contexte=\w+", "", args).split(",") if i.strip()]
+        sec = re.search(r"section=(\w+)", args)
+        ids = [i.strip() for i in re.sub(r"(contexte|section)=\w+", "", args).split(",") if i.strip()]
+        if sec:
+            if sec.group(1) not in SECTIONS:
+                erreurs.append("%s : section inconnue « %s » (permis : %s)"
+                               % (page.relative_to(ROOT).as_posix(), sec.group(1), ", ".join(SECTIONS)))
+                return m.group(0)
+            garde, cle = SECTIONS[sec.group(1)]
+            ids += [c["id"] for c in sorted(_CHEVAUX_LUS, key=cle) if garde(c) and c["id"] not in ids]
         manquants = [i for i in ids if i not in par_id]
         if manquants:
             erreurs.append("%s : cartes inconnues %s" % (page.relative_to(ROOT).as_posix(), manquants))

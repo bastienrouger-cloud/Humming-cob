@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nos chevaux — Humming Cob</title>
+  <meta name="description" content="Les chevaux de l'élevage Humming Cob : nos reproducteurs Irish Cob, nos poulains nés à l'élevage et ceux qui ont marqué notre histoire.">
+  <meta property="og:title" content="Nos chevaux — Humming Cob">
+  <meta property="og:description" content="Les chevaux de l'élevage Humming Cob : nos reproducteurs Irish Cob, nos poulains nés à l'élevage et ceux qui ont marqué notre histoire.">
+  <meta property="og:image" content="https://hummingcob.fr/img/og-preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://hummingcob.fr/nos-chevaux.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Humming Cob">
+  <!-- Teinte de la barre du navigateur : calée sur le header,
+       pour ne pas voir une bande d'une autre couleur au-dessus. -->
+  <meta name="theme-color" content="#FEFBF6">
+  <!-- iOS en mode application : barre d'état claire, comme le header.
+       Le bas est géré par background_color dans le manifest. -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="img/favicon_io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon_io/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="img/favicon_io/site.webmanifest">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="horse-page">
+
+<!-- ====== NAVIGATION ====== -->
+<!-- @partial:header -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
+    <div class="nav-logo-text">
+      Humming Cob
+      <span>Élevage Irish Cob · Gard</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#qui-sommes-nous">À propos</a></li>
+    <li><a href="elevage.html">L'élevage</a></li>
+    <li class="has-dropdown">
+      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="nos-chevaux.html">Tous nos chevaux</a></li>
+        <li><a href="reproducteurs.html">Reproducteurs</a></li>
+        <li><a href="poulains.html">Poulains</a></li>
+        <li><a href="memoire.html">Ils ont marqué notre histoire</a></li>
+      </ul>
+    </li>
+    <li class="has-dropdown">
+      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
+      <ul class="nav-dropdown">
+        <li><a href="arbre-genealogique.html">Arbre généalogique</a></li>
+        <li><a href="accouplement.html">Testez un accouplement</a></li>
+      </ul>
+    </li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<!-- @end:header -->
+
+<!-- ====== NAV2 : sections de la page (même composant que les fiches) ====== -->
+<nav class="nav2" id="nav2" aria-label="Sections de la page">
+  <div class="nav2-inner">
+    <ul class="nav2-links">
+      <li><a href="#reproducteurs">Reproducteurs</a></li>
+      <li><a href="#poulains">Poulains</a></li>
+      <li><a href="#memoire"><span class="nav2-long">Ils ont marqué notre histoire</span><span class="nav2-court">En mémoire</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ====== EN-TÊTE ====== -->
+<section id="page-header" class="page-header page-header--sous-nav2 fade-to-cream">
+  <div class="section-inner">
+    <span class="section-badge">Élevage Humming Cob</span>
+    <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Nos <em>chevaux</em></h1>
+    <div class="section-divider" style="margin:1.5rem auto;"></div>
+    <p class="section-text" style="max-width:560px;margin:0 auto;">
+      Nos reproducteurs, les poulains nés à l'élevage, et ceux qui ont marqué notre histoire.
+    </p>
+  </div>
+</section>
+
+<!-- Les cartes de chaque section sont choisies et triées par build.py
+     (@cartes: section=…) : un cheval ajouté dans data/chevaux/ apparaît seul. -->
+
+<section id="reproducteurs" class="troupeau">
+  <div class="section-inner">
+    <div class="troupeau-tete reveal">
+      <div>
+        <h2 class="troupeau-titre">Nos <em>reproducteurs</em></h2>
+        <p class="troupeau-texte">Étalons et juments, sélectionnés pour leur morphologie, leurs origines et surtout leur tempérament.</p>
+      </div>
+      <div class="troupeau-fleches" hidden>
+        <button type="button" class="rangee-btn" aria-label="Reproducteurs précédents"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+        <button type="button" class="rangee-btn" aria-label="Reproducteurs suivants"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+    <div class="rangee" role="region" aria-label="Reproducteurs" tabindex="0">
+      <!-- @cartes: section=reproducteurs -->
+      <a class="cc cc--male reveal reveal-delay-1" href="reproducteurs/archy.html" data-cheval="archy">
+        <div class="cc-photo">
+          <img src="img/archy/ar-aniane-04.jpg" alt="Cairnview Archy" loading="lazy" style="object-position:center top">
+          <span class="cc-badge cc-badge--elite">★ Élite grade 1</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Étalon</span><span>Irish Cob</span><span>Pie Noir</span><wbr><span class="cc-dates">2010</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">Cairnview</span> <em class="nc-n">Archy</em></span></h3>
+          <p class="cc-texte">Né en Irlande, il arrive en France à ses 9 mois. Lignée Cairnview reconnue pour sa morphologie taillant grand et ses utilisations polyvalentes. 5 poulains à son actif.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--male reveal reveal-delay-2" href="reproducteurs/avantgarde.html" data-cheval="avantgarde">
+        <div class="cc-photo">
+          <img src="img/avantgarde/av-portrait.jpg" alt="San Cler Avantgarde" loading="lazy" style="object-position:40% top">
+          <span class="cc-badge cc-badge--distinction">Vice-Champion de France 2025</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Étalon</span><span>Irish Cob</span><span>Bai Pearl</span><wbr><span class="cc-dates">2022</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">San Cler</span> <em class="nc-n">Avantgarde</em></span></h3>
+          <p class="cc-texte">Né au Pays de Galles, il arrive en France en 2023. Vice-Champion de France 2025 des étalons à 3 ans. Bai double pearl, ses premiers poulains naissent en 2026.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--femelle reveal reveal-delay-3" href="reproducteurs/suzie.html" data-cheval="suzie">
+        <div class="cc-photo">
+          <img src="img/suzie/Suzie Portrait.jpg" alt="SD Suzie" loading="lazy">
+          <span class="cc-badge cc-badge--distinction">Facteur Irish Cob</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Irish Cob</span><span>Noire</span><wbr><span class="cc-dates">2010</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Suzie</em></span></h3>
+          <p class="cc-texte">Née en Angleterre, elle arrive en France en 2018. Fille du mondialement connu SD Woolly Mammoth. Enregistrée au TGCA, elle entre au SB.IC en 2021. Débourrée montée.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--femelle reveal reveal-delay-4" href="reproducteurs/sakura.html" data-cheval="sakura">
+        <div class="cc-photo">
+          <img src="img/sakura/Sakura Portrait 02.jpg" alt="SD Sakura" loading="lazy">
+          <span class="cc-badge cc-badge--elite">★ Élite grade 1</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Irish Cob</span><span>Bai Sabino</span><wbr><span class="cc-dates">2017</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Sakura</em></span></h3>
+          <p class="cc-texte">Née au Pays de Galles, fille de SD Flash Harry, arrive en France en 2018. Elle entre au SB et obtient la mention Elite en 2021. Débourrée montée.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--femelle reveal reveal-delay-1" href="reproducteurs/ruby-jane.html" data-cheval="rubyjane">
+        <div class="cc-photo">
+          <img src="img/ruby/Ruby Portrait.jpg" alt="SD Ruby Jane" loading="lazy">
+          <span class="cc-badge cc-badge--elite">★ Élite grade 1</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Irish Cob</span><span>Bai</span><wbr><span class="cc-dates">2018</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Ruby Jane</em></span></h3>
+          <p class="cc-texte">Née au Pays de Galles, pleine sœur de Sakura, elle arrive en France avec sa mère au mois de septembre de la même année. Elle entre au SB et obtient la mention Elite, à seulement 3 ans.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <!-- @end:cartes -->
+    </div>
+  </div>
+</section>
+
+<section id="poulains" class="troupeau">
+  <div class="section-inner">
+    <div class="troupeau-tete reveal">
+      <div>
+        <h2 class="troupeau-titre">Nos <em>poulains</em></h2>
+        <p class="troupeau-texte">Nés à l'élevage, manipulés à leur rythme et élevés au contact quotidien de l'humain.</p>
+      </div>
+      <div class="troupeau-fleches" hidden>
+        <button type="button" class="rangee-btn" aria-label="Poulains précédents"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+        <button type="button" class="rangee-btn" aria-label="Poulains suivants"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+    <div class="rangee" role="region" aria-label="Poulains" tabindex="0">
+      <!-- @cartes: section=poulains -->
+      <a class="cc cc--male reveal reveal-delay-1" href="poulains/nashi.html" data-cheval="nashi">
+        <div class="cc-photo">
+          <img src="img/nashi/na-index.jpg" alt="HC Nashi" loading="lazy">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Hongre</span><span>Irish Cob</span><span>Bai</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Nashi</em></span></h3>
+          <p class="cc-texte">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l&#x27;homme. Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. Taille estimée ~1m45.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--male reveal reveal-delay-2" href="poulains/omamori.html" data-cheval="omamori">
+        <div class="cc-photo">
+          <img src="img/omamori/om-index.jpg" alt="HC Omamori" loading="lazy" style="object-position:center top">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Entier</span><span>OC</span><span>Grullo Silver</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Omamori</em></span></h3>
+          <p class="cc-texte">Intelligent, réfléchi, polyvalent. De robe Grullo Silver, rare dans la race. Taille estimée ~1m50 (toisé à 1m46 déjà). Super caractère avec l&#x27;humain. Il pourra aisément évoluer en TREC, en randonnée ou devenir étalon.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--male reveal reveal-delay-3" href="poulains/orion.html" data-cheval="orion">
+        <div class="cc-photo">
+          <img src="img/orion/or-index.jpg" alt="HC Orion" loading="lazy">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Entier</span><span>OC</span><span>Grullo Silver</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Orion</em></span></h3>
+          <p class="cc-texte">Fin, élégant, sensible — grand amoureux de l&#x27;humain. Robe Grullo Silver. Taille estimée ~1m45/1m50 (toisé à 1m42). Plus léger et atlhétique, parfait pour du dressage, du poney game...</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--male reveal reveal-delay-4" href="poulains/kaeru.html" data-cheval="kaeru">
+        <div class="cc-photo">
+          <img src="img/kaeru/kaeru-portrait.jpg" alt="HC Quercus Kaeru" loading="lazy" style="object-position:center top">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>Irish Cob</span><span>Noir Pearl</span><wbr><span class="cc-dates">2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Quercus Kaeru</em></span></h3>
+          <p class="cc-texte">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. Un petit chêne qui a su montrer qu&#x27;il était un véritable battant.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--femelle reveal reveal-delay-1" href="poulains/Jinba-Ittaï.html" data-cheval="jinba">
+        <div class="cc-photo">
+          <img src="img/jinba/ji-index.jpg" alt="HC Jinba Ittaï" loading="lazy" style="object-position:center top">
+          <span class="cc-badge cc-badge--vendu">Vendue</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Irish Cob</span><span>Noire Sabino</span><wbr><span class="cc-dates">2019</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">HC</span> <em class="nc-n">Jinba Ittaï</em></span></h3>
+          <p class="cc-texte">Née le 4 avril 2019. Noir sabino, du bleu dans les yeux. Première pouliche née en France du mariage inégalable de Suzie et Flash Harry, à porter notre affixe (HC). Elle réside désormais à deux pas de l&#x27;élevage.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <!-- @end:cartes -->
+    </div>
+    <a href="poulains/acheter.html" class="troupeau-lien reveal"><span>Un poulain vous intéresse&nbsp;? <strong>Comment se passe une vente</strong></span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+</section>
+
+<section id="memoire" class="troupeau troupeau--memoire">
+  <div class="section-inner">
+    <div class="troupeau-tete reveal">
+      <div>
+        <h2 class="troupeau-titre">Ils ont marqué notre <em>histoire</em></h2>
+        <p class="troupeau-texte">Ils ne sont plus là, mais chacun a laissé une trace dans ce qu'est Humming Cob aujourd'hui.</p>
+      </div>
+      <div class="troupeau-fleches" hidden>
+        <button type="button" class="rangee-btn" aria-label="Ils ont marqué notre histoire précédents"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+        <button type="button" class="rangee-btn" aria-label="Ils ont marqué notre histoire suivants"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+    <div class="rangee" role="region" aria-label="Ils ont marqué notre histoire" tabindex="0">
+      <!-- @cartes: section=memoire -->
+      <article class="cc cc--male cc--memoire cc--modale reveal reveal-delay-1" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="jballar">
+        <div class="cc-photo">
+          <img src="img/jballar/jb-01.jpg" alt="Jballar" loading="lazy">
+          <span class="cc-badge cc-badge--memoire">En mémoire</span>
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 10</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Hongre</span><span>Espagnol</span><span>Gris</span><wbr><span class="cc-dates">2004 – 2023</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><em class="nc-n">Jballar</em></span></h3>
+          <p class="cc-texte">En 2010, après cinq ans sans cheval, Djb, véritable coup de cœur, fut mon compagnon de vie pendant douze ans. Grand ami d&#x27;Archy et tonton des pouliches, il marque ceux qui croisent sa route. Guerrier, maître d&#x27;école et révélateur, il bouleverse mes certitudes, laisse son empreinte et transforme à jamais ma vision du cheval.</p>
+          <span class="cc-action">Voir les 10 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </article>
+      <article class="cc cc--femelle cc--memoire cc--modale reveal reveal-delay-2" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="velvet">
+        <div class="cc-photo">
+          <img src="img/velvet/rv-01.jpg" alt="SD Red Velvet" loading="lazy">
+          <span class="cc-badge cc-badge--memoire">En mémoire</span>
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 9</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Gypsy Cob</span><wbr><span class="cc-dates">2017 – 2020</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Red Velvet</em></span></h3>
+          <p class="cc-texte">Née en Angleterre, cette pouliche et son regard bleu furent une douce évidence. Rien ne la destinait à rejoindre l&#x27;aventure. Arrivée avec Sakura dont elle était l&#x27;ombre, ma Princesse Petit Pois était d&#x27;une sensibilité rare. D&#x27;abord réservée, elle comprit vite l&#x27;intérêt des humains et venait me réclamer sa séance de gratouilles.</p>
+          <span class="cc-action">Voir les 9 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </article>
+      <!-- @end:cartes -->
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<!-- @partial:footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Humming <span>Cob</span></div>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/people/Humming-Cob/61590861954436/" aria-label="Facebook" target="_blank" rel="noopener">f</a>
+      <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
+      <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
+    <ul class="footer-legal">
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
+  </div>
+</footer>
+<!-- @end:footer -->
+
+
+<script src="js/chevaux.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
