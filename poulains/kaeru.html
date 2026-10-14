@@ -24,7 +24,7 @@
   <link rel="manifest" href="../img/favicon_io/site.webmanifest">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="horse-page">
+<body class="horse-page theme-male">
 
 <!-- @partial:header -->
 <nav class="navbar" id="navbar">
@@ -386,22 +386,46 @@
 </section>
 
 
-<!-- Autres poulains -->
-<section style="padding:4rem 1.5rem;background:var(--noir);">
-  <div class="section-inner" style="text-align:center;">
-    <span class="section-badge" style="color:var(--rose);border-color:var(--rose);">Aussi disponibles</span>
-    <h2 class="section-title" style="color:#fff;margin-bottom:2.5rem;">Les autres <em>poulains</em></h2>
-    <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
-      <a href="nashi.html" class="btn btn-outline btn-on-dark">Nashi</a>
-      <a href="omamori.html" class="btn btn-outline btn-on-dark">Omamori</a>
-      <a href="orion.html" class="btn btn-outline btn-on-dark">Orion</a>
+<!-- Les autres poulains : cartes générées par build.py (poulains à vendre, sauf celui-ci) -->
+<section class="autres-poulains">
+  <div class="section-inner">
+    <span class="section-badge">Nos poulains disponibles</span>
+    <h2 class="section-title">Les autres <em>poulains</em></h2>
+    <div class="section-divider"></div>
+    <div class="horses-grid">
+      <!-- @cartes: section=a-vendre sauf=kaeru -->
+      <a class="cc cc--male reveal reveal-delay-1" href="../poulains/nashi.html" data-cheval="nashi">
+        <div class="cc-photo">
+          <img src="../img/nashi/na-index.jpg" alt="HC Nashi" loading="lazy">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Hongre</span><span>Irish Cob</span><span>Bai</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Nashi</em></span></h3>
+          <p class="cc-texte">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l&#x27;homme. Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. Taille estimée ~1m45.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--male reveal reveal-delay-2" href="../poulains/orion.html" data-cheval="orion">
+        <div class="cc-photo">
+          <img src="../img/orion/or-index.jpg" alt="HC Orion" loading="lazy">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Entier</span><span>OC</span><span>Grullo Silver</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Orion</em></span></h3>
+          <p class="cc-texte">Fin, élégant, sensible — grand amoureux de l&#x27;humain. Robe Grullo Silver. Taille estimée ~1m45/1m50 (toisé à 1m42). Plus léger et atlhétique, parfait pour du dressage, du poney game...</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <!-- @end:cartes -->
     </div>
   </div>
 </section>
 
 <!-- Ancrage du CTA flottant (mobile). Quand ce bloc entre dans le champ,
      js/main.js masque la version flottante — voir bloc nav2. -->
-<div class="cta-end" id="ctaEnd" style="background:var(--noir);">
+<div class="cta-end" id="ctaEnd">
   <div class="cta-end-inner">
     <a href="../index.html#contact" class="btn btn-primary">Suivre son évolution</a>
   </div>

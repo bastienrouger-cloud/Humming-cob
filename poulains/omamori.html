@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Omamori — Entier OC Irish Cob Grullo Silver · Humming Cob</title>
-  <meta name="description" content="Robe Grullo Silver rare, tempérament doux et curieux. Un jeune cheval intelligent et facile, qui aborde tout avec calme — disponible.">
+  <meta name="description" content="Robe Grullo Silver rare, tempérament doux et curieux. Un jeune cheval intelligent et facile, qui aborde tout avec calme.">
   <meta property="og:title" content="Omamori — Entier OC Irish Cob Grullo Silver · Humming Cob">
-  <meta property="og:description" content="Robe Grullo Silver rare, tempérament doux et curieux. Un jeune cheval intelligent et facile, qui aborde tout avec calme — disponible.">
+  <meta property="og:description" content="Robe Grullo Silver rare, tempérament doux et curieux. Un jeune cheval intelligent et facile, qui aborde tout avec calme.">
   <meta property="og:image" content="https://hummingcob.fr/img/og/og-omamori.jpg">
   <meta property="og:url" content="https://hummingcob.fr/poulains/omamori.html">
   <meta property="og:type" content="website">
@@ -24,7 +24,7 @@
   <link rel="manifest" href="../img/favicon_io/site.webmanifest">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="horse-page">
+<body class="horse-page theme-male">
 
 <!-- @partial:header -->
 <nav class="navbar" id="navbar">
@@ -66,7 +66,6 @@
   <div class="nav2-inner">
     <ul class="nav2-links">
       <li><a href="#bases">Ses bases</a></li>
-      <li><a href="#adoption">Adoption</a></li>
       <li><a href="#pedigree">Pedigree</a></li>
     </ul>
     <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Nous contacter</a>
@@ -74,7 +73,7 @@
 </nav>
 
 <div class="horse-hero-top">
-  <span class="badge-available" style="position:static;display:inline-block;"><strong>Disponible</strong></span>
+  <span class="badge-available" style="position:static;display:inline-block;"><strong>Reste à l'élevage</strong></span>
   <p class="horse-hero-race">Entier · OC 75 % Irish Cob · Grullo Silver</p>
 </div>
 
@@ -152,13 +151,9 @@
     <!-- Prix et CTA sur une même ligne. #ctaAnchor reste le repère du script
          nav2 (voir js/main.js) : il doit continuer d'envelopper le bouton. -->
     <div class="horse-price-row">
-      <div class="horse-price">
-        <span class="horse-price-value">4 500 €</span>
-        <span class="horse-price-note">Prix indicatif</span>
-      </div>
 
       <div id="ctaAnchor" class="cta-anchor">
-        <a href="../index.html#contact" class="btn btn-primary">Demander des informations</a>
+        <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
       </div>
     </div>
   </div>
@@ -182,29 +177,7 @@
       <li>Vermifugé régulièrement</li>
       <li>Sevré tardivement dans le respect de son développement</li>
       <li>Complémenté foin à volonté et luzerne en grain</li>
-      <li>En ordre pour rejoindre sa nouvelle famille</li>
     </ul>
-  </div>
-</section>
-
-
-<!-- Adoption -->
-<section class="horse-pedigree" id="adoption">
-  <div class="section-inner">
-    <span class="section-badge">Adoption</span>
-    <h2 class="section-title">Notre façon de <em>vendre</em></h2>
-    <div class="section-divider"></div>
-    <p class="section-text">
-      Nous vendons sur coup de cœur, après une visite. Nous vous demanderons de nous décrire
-      votre projet de vie avec lui.
-    </p>
-    <p class="section-text" style="margin-top:.8rem;">
-      Nous pouvons vous accueillir un week-end pour le découvrir, dans notre belle région du Gard (30).
-    </p>
-    <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:2.2rem;flex-wrap:wrap;max-width:620px;">
-      <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
-      <a href="acheter.html" class="link-arrow" style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);">Comment ça se passe ? →</a>
-    </div>
   </div>
 </section>
 
@@ -381,26 +354,54 @@
 </section>
 
 
-<!-- Autres poulains -->
-<section style="padding:4rem 1.5rem;background:var(--noir);">
-  <div class="section-inner" style="text-align:center;">
-    <span class="section-badge" style="color:var(--rose);border-color:var(--rose);">Aussi disponibles</span>
-    <h2 class="section-title" style="color:#fff;margin-bottom:2.5rem;">Les autres <em>poulains</em></h2>
-    <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
-      <a href="nashi.html" class="btn btn-outline btn-on-dark">Nashi</a>
-      <a href="orion.html" class="btn btn-outline btn-on-dark">Orion</a>
-      <a href="kaeru.html" class="btn btn-outline btn-on-dark">Quercus Kaeru</a>
+<!-- Les autres poulains : cartes générées par build.py (poulains à vendre, sauf celui-ci) -->
+<section class="autres-poulains">
+  <div class="section-inner">
+    <span class="section-badge">Nos poulains disponibles</span>
+    <h2 class="section-title">Les autres <em>poulains</em></h2>
+    <div class="section-divider"></div>
+    <div class="horses-grid">
+      <!-- @cartes: section=a-vendre sauf=omamori -->
+      <a class="cc cc--male reveal reveal-delay-1" href="../poulains/nashi.html" data-cheval="nashi">
+        <div class="cc-photo">
+          <img src="../img/nashi/na-index.jpg" alt="HC Nashi" loading="lazy">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Hongre</span><span>Irish Cob</span><span>Bai</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Nashi</em></span></h3>
+          <p class="cc-texte">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l&#x27;homme. Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. Taille estimée ~1m45.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--male reveal reveal-delay-2" href="../poulains/orion.html" data-cheval="orion">
+        <div class="cc-photo">
+          <img src="../img/orion/or-index.jpg" alt="HC Orion" loading="lazy">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Entier</span><span>OC</span><span>Grullo Silver</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Orion</em></span></h3>
+          <p class="cc-texte">Fin, élégant, sensible — grand amoureux de l&#x27;humain. Robe Grullo Silver. Taille estimée ~1m45/1m50 (toisé à 1m42). Plus léger et atlhétique, parfait pour du dressage, du poney game...</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--male reveal reveal-delay-3" href="../poulains/kaeru.html" data-cheval="kaeru">
+        <div class="cc-photo">
+          <img src="../img/kaeru/kaeru-portrait.jpg" alt="HC Quercus Kaeru" loading="lazy" style="object-position:center top">
+          <span class="cc-badge cc-badge--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>Irish Cob</span><span>Noir Pearl</span><wbr><span class="cc-dates">2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Quercus Kaeru</em></span></h3>
+          <p class="cc-texte">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. Un petit chêne qui a su montrer qu&#x27;il était un véritable battant.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <!-- @end:cartes -->
     </div>
   </div>
 </section>
-
-<!-- Ancrage du CTA flottant (mobile). Quand ce bloc entre dans le champ,
-     js/main.js masque la version flottante — voir bloc nav2. -->
-<div class="cta-end" id="ctaEnd" style="background:var(--noir);">
-  <div class="cta-end-inner">
-    <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
-  </div>
-</div>
 
 <!-- @partial:footer -->
 <footer>

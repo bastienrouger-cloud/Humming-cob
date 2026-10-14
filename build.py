@@ -51,6 +51,9 @@ Au lieu d'une liste, on peut demander une section entière, triée :
     reproducteurs  nos étalons et juments — mâles d'abord, puis du plus âgé au plus jeune
     poulains       nos poulains — à vendre, réservés, gardés, vendus, puis par âge
     memoire        nos chevaux disparus — par âge
+    a-vendre       nos poulains à vendre — par âge (bas des fiches poulains)
+
+« sauf=id » retire un cheval de la sélection (la fiche où l'on se trouve).
 Un nouveau cheval apparaît donc tout seul dans sa section (page nos-chevaux.html).
 
 Usage
@@ -293,6 +296,7 @@ SECTIONS = {
     "poulains":      (lambda c: _nous(c) and c.get("role") == "poulain",
                       lambda c: (_ORDRE_STATUT.get(c.get("statut") or "garde", 2), _age(c))),
     "memoire":       (lambda c: _nous(c) and c.get("role") == "memoire", _age),
+    "a-vendre":      (lambda c: _nous(c) and c.get("role") == "poulain" and c.get("statut") == "a-vendre", _age),
 }
 
 
@@ -320,6 +324,8 @@ def badge_carte(c):
         return ("reserve", "Réservé" + e + par)
     if st == "vendu":
         return ("vendu", "Vendu" + e + par)
+    if st == "garde" and c.get("role") == "poulain":
+        return ("garde", "Reste à l'élevage")
     if c.get("role") == "memoire":
         return ("memoire", "En mémoire")
     d = c.get("distinction")
@@ -396,15 +402,16 @@ def injecter_cartes(html, page, par_id, erreurs):
     def remplace(m):
         args = m.group(2)
         ctx = re.search(r"contexte=(\w+)", args)
-        sec = re.search(r"section=(\w+)", args)
-        ids = [i.strip() for i in re.sub(r"(contexte|section)=\w+", "", args).split(",") if i.strip()]
+        sec = re.search(r"section=([\w-]+)", args)
+        sauf = set((re.search(r"sauf=([\w,]+)", args) or re.search("()", "")).group(1).split(",")) - {""}
+        ids = [i.strip() for i in re.sub(r"(contexte|section|sauf)=[\w,-]+", "", args).split(",") if i.strip()]
         if sec:
             if sec.group(1) not in SECTIONS:
                 erreurs.append("%s : section inconnue « %s » (permis : %s)"
                                % (page.relative_to(ROOT).as_posix(), sec.group(1), ", ".join(SECTIONS)))
                 return m.group(0)
             garde, cle = SECTIONS[sec.group(1)]
-            ids += [c["id"] for c in sorted(_CHEVAUX_LUS, key=cle) if garde(c) and c["id"] not in ids]
+            ids += [c["id"] for c in sorted(_CHEVAUX_LUS, key=cle) if garde(c) and c["id"] not in ids and c["id"] not in sauf]
         manquants = [i for i in ids if i not in par_id]
         if manquants:
             erreurs.append("%s : cartes inconnues %s" % (page.relative_to(ROOT).as_posix(), manquants))

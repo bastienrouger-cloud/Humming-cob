@@ -335,6 +335,7 @@
     }
     .ap-badge--vente { color: #3E7D5A; }
     .ap-badge--memoire { color: #9A8A84; }
+    .ap-badge--garde { color: var(--rose-deep); }
     .ap-nom { font-family: var(--serif); font-weight: 400; font-size: 1.75rem; line-height: 1.15; color: var(--noir); }
     .ap-nom em { color: var(--ct); font-style: italic; }
     .ap-sous { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); margin-top: .3rem; }
@@ -739,6 +740,7 @@ function badgeStatut(c) {
   if (c.statut === 'a-vendre') return '<span class="ap-badge ap-badge--vente">À vendre</span>';
   if (c.statut === 'reserve')  return `<span class="ap-badge">Réservé${e}</span>`;
   if (c.statut === 'vendu')    return `<span class="ap-badge">Vendu${e}</span>`;
+  if (c.statut === 'garde' && c.role === 'poulain') return '<span class="ap-badge ap-badge--garde">Reste à l\'élevage</span>';
   return '';
 }
 function lienCheval(id) {

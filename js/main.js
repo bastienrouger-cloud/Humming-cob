@@ -337,6 +337,7 @@ if (revealEls.length) {
     if (c.statut === 'a-vendre') return `<span class="cm-badge cm-badge--vente">À vendre${esc(par)}</span>`;
     if (c.statut === 'reserve')  return `<span class="cm-badge">Réservé${e}${esc(par)}</span>`;
     if (c.statut === 'vendu')    return `<span class="cm-badge">Vendu${e}${esc(par)}</span>`;
+    if (c.statut === 'garde' && c.role === 'poulain') return '<span class="cm-badge cm-badge--garde">Reste à l\'élevage</span>';
     if (c.role === 'memoire')    return '<span class="cm-badge">En mémoire</span>';
     return '';
   }
