@@ -209,6 +209,8 @@
   .dd-item:hover,.dd-item.sel{background:#FBF3E7;}
   .dd-pt{width:8px;height:8px;flex-shrink:0;border-radius:50%;background:var(--c,var(--gris));}
   .dd-meta{margin-left:auto;font-size:.7rem;color:var(--gris);}
+  .dd-hc{margin-left:auto;font-size:.5rem;}   /* nos chevaux : .pastille--hc, comme dans l'arbre */
+  .dd-hc + .dd-meta{margin-left:.5rem;}
   .dd-vide{padding:.5rem .7rem;font-size:.8rem;color:var(--gris);}
   .ed-recommencer{padding:0;background:none;color:var(--gris);font-size:.74rem;font-weight:400;text-decoration:underline;}
   .ed-actions-droite{display:flex;gap:.6rem;align-items:center;}
@@ -1167,7 +1169,7 @@ function nomTri(h){ const c = CH_PAR_ID[h.id]; return sansAccents(c && c.affixe 
 function ddItem(h, attrs, sel){
   const an = ((h.naissance || '').match(/\d{4}/) || [''])[0];
   return `<li role="option" class="dd-item${sel ? ' sel' : ''}" ${attrs}><span class="dd-pt" style="--c:var(--${h.sex === 'mare' ? 'femelle' : 'male'})"></span>`
-    + `${nomCalc(h, false)}${an ? `<span class="dd-meta">${an}</span>` : ''}</li>`;
+    + `${nomCalc(h, false)}${h.owned ? '<span class="pastille pastille--hc pastille--contour dd-hc">HC</span>' : ''}${an ? `<span class="dd-meta">${an}</span>` : ''}</li>`;
 }
 // Flèches haut / bas, Entrée, Échap dans une liste déroulante
 function ddClavier(e, liste){

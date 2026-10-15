@@ -2638,7 +2638,7 @@ footer {
 }
 .hero-slides:hover .hero-nav,
 .hero-nav:focus-visible { opacity: 1; }
-.hero-nav:hover { background: rgba(176, 96, 112, 0.85); }
+.hero-nav:hover { background: color-mix(in srgb, var(--rose-deep) 85%, transparent); }   /* accent du thème (pétrole / framboise / sakura) */
 .hero-prev { left: 0.7rem; }
 .hero-next { right: 0.7rem; }
 
@@ -2657,7 +2657,7 @@ footer {
   pointer-events: none;
   transition: background var(--transition);
 }
-.hero-slides:hover .hero-expand { background: rgba(176, 96, 112, 0.85); }
+.hero-slides:hover .hero-expand { background: color-mix(in srgb, var(--rose-deep) 85%, transparent); }
 
 /* --- Légende de la photo courante --- */
 .hero-cap {
@@ -3217,7 +3217,9 @@ body.fond-taches #memoire { background: linear-gradient(180deg, rgba(243, 238, 2
    aboutit au crème de base, et « Qui sommes-nous » repart de ce crème plein
    pour devenir transparente : les taches apparaissent sans arête. */
 body.fond-taches #hero::after { background: linear-gradient(to bottom, rgba(254, 251, 246, 0) 0%, var(--bg-cream) 100%); }
-body.fond-taches > section#qui-sommes-nous { background: linear-gradient(180deg, var(--bg-cream) 0, rgba(254, 251, 246, 0) 14rem) !important; }
+/* :not(.troupeau--memoire) : même priorité CSS que la règle générale des sections
+   transparentes (qui contient :not(#hero)), sinon celle-ci gagnait. */
+body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background: linear-gradient(180deg, var(--bg-cream) 0, rgba(254, 251, 246, 0) 14rem) !important; }
 .troupeau-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.4rem; }
 .troupeau-titre { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.75rem, 3.6vw, 2.4rem); line-height: 1.15; color: var(--noir); }
 .troupeau-titre em { color: var(--rose-deep); }
