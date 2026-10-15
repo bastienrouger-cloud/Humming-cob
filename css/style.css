@@ -3106,23 +3106,32 @@ body.theme-male {
   --border:    rgba(140, 115, 75, 0.16);
   --shadow:      0 4px 32px rgba(120, 95, 60, 0.08);
   --shadow-hover:0 8px 48px rgba(120, 95, 60, 0.14);
-  background:
-    radial-gradient(ellipse 55% 35% at 88% 6%, rgba(232, 214, 180, 0.14), transparent 70%),
-    radial-gradient(ellipse 50% 30% at 8% 62%, rgba(232, 214, 180, 0.10), transparent 70%),
-    linear-gradient(180deg, #FEFCF8 0%, #FCF9F3 45%, #FAF6EE 100%);
 }
 body.theme-femelle {
-  --bg-cream:  #FEF9F7;
-  --bg-light:  #FBF0EF;
-  --bg-card:   #FFFCFB;
+  /* Même crème que les mâles : c'est le fond à taches qui porte la couleur. */
+  --bg-cream:  #FDFBF6;
+  --bg-light:  #F9F5EC;
+  --bg-card:   #FFFEFA;
   --rose-pale: var(--femelle-pale);
   --rose:      var(--femelle);
   --rose-deep: var(--femelle-deep);
   --rose-dark: #7E2440;
-  background:
-    radial-gradient(ellipse 55% 35% at 88% 6%, rgba(212, 137, 154, 0.05), transparent 70%),
-    radial-gradient(ellipse 50% 30% at 8% 62%, rgba(212, 137, 154, 0.04), transparent 70%),
-    linear-gradient(180deg, #FEFBF6 0%, #FDF8F4 45%, #FCF3F0 100%);
+}
+/* Fond à taches (15/10) : crème + taches floues de la couleur d'accent
+   (sexe sur les fiches). Motif de 1 600 px répété sur toute la hauteur de la
+   page, pour que les taches accompagnent la lecture jusqu'en bas.
+   Tailles en px (même forme sur ordi et mobile). Chaque tache reste
+   ENTIÈREMENT dans le motif (centre ± 70 % du rayon vertical entre 0 et
+   1 600 px), sinon elle est coupée net au raccord entre deux motifs. */
+body:is(.theme-male, .theme-femelle) {
+  background-color: var(--bg-cream);
+  background-image:
+    radial-gradient(620px 380px at 92% 300px,  color-mix(in srgb, var(--rose) 15%, transparent), transparent 70%),
+    radial-gradient(480px 320px at 4% 680px,   color-mix(in srgb, var(--rose) 11%, transparent), transparent 70%),
+    radial-gradient(560px 340px at 76% 1060px, color-mix(in srgb, var(--rose) 10%, transparent), transparent 70%),
+    radial-gradient(420px 300px at 14% 1360px, color-mix(in srgb, var(--rose) 8%, transparent), transparent 70%);
+  background-size: 100% 1600px;
+  background-repeat: repeat-y;
 }
 /* Sur les pages à thème, les sections laissent voir le dégradé de la page. */
 body:is(.theme-male, .theme-femelle) :is(.horse-hero-top, .horse-hero-img-wrap, .horse-hero-info, .horse-pedigree) {
