@@ -3471,3 +3471,6 @@ body .ped-label--mere { color: var(--femelle); }
 @media (max-width: 600px) {
   .lo-mot { padding: 2.2rem 1.4rem 1.3rem; }
 }
+
+/* L'élevage : carte « Notre histoire » centrée sous les 6 cartes */
+.elevage-histoire { display: block; max-width: 420px; margin: 3rem auto 0; }

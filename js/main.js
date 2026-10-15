@@ -130,6 +130,8 @@ if (navToggle && navLinks) {
   }
   // Fiches, anciennes pages de catégorie et « mémoire » → « Nos chevaux »
   if (/\/(reproducteurs|poulains)\/|\/(reproducteurs|poulains|memoire)\.html$/.test(path)) activateCategory('nos-chevaux.html');
+  // La frise « Notre histoire » fait partie de L'élevage
+  if (/\/frise\.html$/.test(path)) activateCategory('elevage.html');
 
   // Propage l'état actif d'un sous-lien vers son menu déroulant parent
   // ("Nos chevaux" / "Outils"), quel que soit le nombre de dropdowns.

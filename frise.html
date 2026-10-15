@@ -69,38 +69,10 @@
       color: var(--gris);
       margin-top: .4rem;
     }
-    /* Bouton retour : DA du CTA du site (pilule pleine rose-deep, texte blanc,
-       flèche SVG qui suit currentColor), comme sur l'arbre. */
-    .back-btn-frise {
-      position: absolute;
-      top: 50%; left: 1.5rem;
-      transform: translateY(-50%);
-      font-family: var(--font-sans, 'Jost', sans-serif);
-      font-size: .72rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: #fff;
-      text-decoration: none;
-      background: var(--rose-deep);
-      border: 1.5px solid var(--rose-deep);
-      border-radius: 50px;
-      padding: .5rem 1.4rem;
-      display: flex; align-items: center; gap: .4rem;
-      transition: background .18s, border-color .18s, box-shadow .18s;
-      white-space: nowrap;
-    }
-    .back-btn-frise:hover {
-      background: var(--rose-dark); border-color: var(--rose-dark);
-      box-shadow: 0 6px 24px rgba(176,96,112,0.28);
-    }
+    /* La navbar du site est fixe : l'en-tête commence sous elle. */
+    .frise-header { padding-top: calc(var(--nav-h, 80px) + 2.5rem); }
     @media (max-width: 600px) {
-      .frise-header { padding: 1.2rem 1.5rem 1rem; }
-      .back-btn-frise {
-        position: static;
-        transform: none;
-        margin: 0 auto .9rem;
-        width: fit-content;
-      }
+      .frise-header { padding: calc(var(--nav-h, 80px) + 1.8rem) 1.5rem 1rem; }
     }
 
     /* ── Container principal ── */
@@ -205,7 +177,7 @@
       top: 0; right: 0;
       width: clamp(330px, 46vw, 540px);
       height: 100dvh;
-      z-index: 200;
+      z-index: 1100;   /* au-dessus du voile (1050) et de la navbar (1000) */
       transform: translateX(110%);
       transition: transform .42s cubic-bezier(.25,.8,.25,1);
       overflow-y: auto;
@@ -349,7 +321,7 @@
       position: fixed;
       inset: 0;
       background: rgba(40,25,20,.45);
-      z-index: 199;
+      z-index: 1050;   /* au-dessus de la navbar du site (1000) */
       opacity: 0;
       pointer-events: none;
       transition: opacity .35s;
@@ -405,12 +377,30 @@
 </head>
 <body>
 
-<!-- ═══ HEADER ═══ -->
-<header class="frise-header">
-  <a href="index.html" class="back-btn-frise">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Retour au site
+<!-- @partial:header -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
+    <div class="nav-logo-text">
+      Humming Cob
+      <span>Élevage Irish Cob · Gard</span>
+    </div>
   </a>
+  <ul class="nav-links">
+    <li><a href="elevage.html">L'élevage</a></li>
+    <li><a href="nos-chevaux.html">Nos chevaux</a></li>
+    <li><a href="arbre-genealogique.html">Généalogie</a></li>
+    <li><a href="accouplement.html">Accouplements</a></li>
+    <li><a href="contact.html" class="nav-contact">Contact</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<!-- @end:header -->
+
+<!-- ═══ EN-TÊTE ═══ -->
+<header class="frise-header">
   <h1>Notre <em>histoire</em></h1>
   <p>Cliquez sur les fleurs pour en savoir plus</p>
 </header>
@@ -437,6 +427,26 @@
     <p class="panel-placeholder-note" id="panelNote" style="display:none">⚑ Prochaine graine à semer - 2026 ? 2027 ?</p>
   </div>
 </aside>
+
+<!-- ====== FOOTER ====== -->
+<!-- @partial:footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Humming <span>Cob</span></div>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/people/Humming-Cob/61590861954436/" aria-label="Facebook" target="_blank" rel="noopener">f</a>
+      <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
+      <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
+    <ul class="footer-legal">
+      <li><a href="livre-dor.html">Livre d'or</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
+  </div>
+</footer>
+<!-- @end:footer -->
 
 <script>
 /* ═══════════════════════════════════════════════════════
