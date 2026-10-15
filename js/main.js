@@ -128,8 +128,8 @@ if (navToggle && navLinks) {
       if (href === matchHref) a.classList.add('nav-active');
     });
   }
-  if (path.indexOf('/reproducteurs/') !== -1) activateCategory('reproducteurs.html');
-  if (path.indexOf('/poulains/') !== -1) activateCategory('poulains.html');
+  // Fiches, anciennes pages de catégorie et « mémoire » → « Nos chevaux »
+  if (/\/(reproducteurs|poulains)\/|\/(reproducteurs|poulains|memoire)\.html$/.test(path)) activateCategory('nos-chevaux.html');
 
   // Propage l'état actif d'un sous-lien vers son menu déroulant parent
   // ("Nos chevaux" / "Outils"), quel que soit le nombre de dropdowns.
