@@ -53,9 +53,8 @@
       min-height: 100vh;
       min-height: 100dvh;
       line-height: normal;
-      /* ESSAI de fond nuancé (crème → rosé très léger), limité à cette page en
-         attendant la refonte des fonds du site. Retirer cette ligne pour revenir au crème uni. */
-      background: linear-gradient(180deg, #FEFBF6 0%, #FDF7F3 55%, #FAF0EE 100%) fixed;   /* style.css met 1.7 : on garde le rendu d'origine */
+      /* Fond : celui du site (body.fond-taches, css/style.css) depuis le 15/10 ;
+         l'essai de fond nuancé propre à cette page est retiré. */
     }
 
     .header {
@@ -558,7 +557,7 @@
     .fx-accueil .ap-vide-sous { margin: 1rem 0 .7rem; text-align: left; font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gris); }
   </style>
 </head>
-<body>
+<body class="fond-taches">
 
 <!-- @partial:header -->
 <nav class="navbar" id="navbar">
