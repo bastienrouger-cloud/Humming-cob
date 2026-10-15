@@ -3187,6 +3187,9 @@ body .ped-label--mere { color: var(--femelle); }
 #reproducteurs { background: linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-light) 100%); }
 #poulains      { background: linear-gradient(180deg, var(--bg-light) 0%, #F7F1EC 70%, #F3EEEA 100%); }
 #memoire       { background: linear-gradient(180deg, #F3EEEA 0%, #ECE6E1 100%); padding-bottom: 4.5rem; }
+/* Fond à taches (15/10) : les sections au-dessus sont transparentes ; le gris
+   du mémorial arrive par un fondu depuis la transparence (pas d'arête). */
+body.fond-taches #memoire { background: linear-gradient(180deg, rgba(243, 238, 234, 0) 0%, #F3EEEA 11rem, #ECE6E1 100%); }
 .troupeau-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.4rem; }
 .troupeau-titre { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.75rem, 3.6vw, 2.4rem); line-height: 1.15; color: var(--noir); }
 .troupeau-titre em { color: var(--rose-deep); }
