@@ -1162,6 +1162,13 @@ footer {
   margin-bottom: 1.1rem;
 }
 .horse-hero-name em { font-style: italic; color: var(--rose-deep); }
+/* Nom complet (affixe + nom) toujours sur une ligne (15/10). Sur mobile, la
+   taille suit la largeur de l'écran : le plus long (« San Cler Avantgarde »,
+   ≈ 7,8 fois la taille du texte) tient encore sur un téléphone de 360 px. */
+.horse-hero-name .nc { white-space: nowrap; }
+@media (max-width: 700px) {
+  .horse-hero-name { font-size: clamp(2.2rem, 10.4vw, 3rem); }
+}
 
 .horse-specs {
   display: grid;
@@ -3096,11 +3103,13 @@ footer {
 .nc--femelle .nc-n { color: var(--femelle-deep); }
 .nc-a {
   font-family: var(--font-sans); font-style: normal; font-weight: 400;
-  font-size: .42em; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--gris); vertical-align: .32em; white-space: nowrap;
+  /* Rapport unique affixe / nom (15/10) : 0,6 du nom partout, avec un plancher
+     de lisibilité pour les petits contextes (cases de pédigrée, listes). Plus
+     d'exception par contexte. */
+  font-size: max(.6em, .56rem); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--gris); vertical-align: .18em; white-space: nowrap;
 }
 .nc-p { font-size: .62em; font-style: normal; color: var(--gris); }
-.horse-hero-name .nc-a { font-size: .3em; vertical-align: .55em; letter-spacing: .2em; }
 
 /* ═══════════════════════════════════════════════════════════
    THÈMES DE PAGE — <body class="… theme-male | theme-femelle">
