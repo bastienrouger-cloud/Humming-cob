@@ -54,6 +54,10 @@ Au lieu d'une liste, on peut demander une section entière, triée :
     poulains       nos poulains — à vendre, réservés, gardés, vendus, puis par âge
     memoire        nos chevaux disparus — par âge
     a-vendre       nos poulains à vendre — par âge (bas des fiches poulains)
+    poulains-presents  nos poulains encore à l'élevage (pas les vendus) — même tri que poulains
+
+« format=mini » : petites cartes photo (nom + sexe/année, badge de vente) au
+lieu des grandes cartes, pour l'accueil. Seulement nos chevaux qui ont une fiche.
 
 « sauf=id » retire un cheval de la sélection (la fiche où l'on se trouve).
 Un nouveau cheval apparaît donc tout seul dans sa section (page nos-chevaux.html).
@@ -343,6 +347,8 @@ SECTIONS = {
                       lambda c: (_ORDRE_STATUT.get(c.get("statut") or "garde", 2), _age(c))),
     "memoire":       (lambda c: _nous(c) and c.get("role") == "memoire", _age),
     "a-vendre":      (lambda c: _nous(c) and c.get("role") == "poulain" and c.get("statut") == "a-vendre", _age),
+    "poulains-presents": (lambda c: _nous(c) and c.get("role") == "poulain" and c.get("statut") != "vendu",
+                          lambda c: (_ORDRE_STATUT.get(c.get("statut") or "garde", 2), _age(c))),
     # Accueil : les chevaux présents (ni vendus ni disparus) — à vendre d'abord,
     # puis étalons, juments, autres poulains.
 }
@@ -440,6 +446,32 @@ def carte_html(c, base, contexte=None, rang=0):
     ] if l)
 
 
+def carte_mini_html(c, base, contexte=None, rang=0):
+    """Petite carte photo (accueil) : photo pleine, nom usuel seul (sans affixe
+    ni date) posé sur un dégradé, filet et ombre bleus/roses selon le sexe,
+    seul badge : « À vendre »."""
+    v = dict(c)
+    v.update((c.get("cartes") or {}).get(contexte or "", {}))
+    sexe = "femelle" if c["sexe"] == "femelle" else "male"
+    photo = v.get("photo") or c.get("photo_arbre")
+    style = ' style="object-position:%s"' % _esc(v["cadrage"]) if v.get("cadrage") else ""
+    b = badge_carte(c)
+    badge = ('<span class="ca-badge ca-badge--%s">%s</span>' % (b[0], _esc(b[1]))
+             if b and b[0] == "vente" else "")
+    # Pas de .reveal sur la carte : son transition-delay retarderait le survol.
+    # L'apparition se fait sur la rangée entière (.ca-rangee.reveal).
+    return "\n".join(l for l in [
+        '<a class="ca ca--%s" href="%s%s" data-cheval="%s">' % (sexe, base, _esc(c["page"]), c["id"]),
+        '  <img src="%s%s" alt="%s" loading="lazy"%s>' % (base, _esc(photo), _esc(c["nom"]), style),
+        ("  " + badge) if badge else "",
+        '  <span class="ca-fleche">%s</span>' % _FLECHE,
+        '  <span class="ca-corps">',
+        '    <span class="ca-nom">%s</span>' % _esc(c.get("nom_usuel") or decouper_nom(c)[1]),
+        "  </span>",
+        "</a>",
+    ] if l)
+
+
 _CARTES = re.compile(r"(<!--\s*@cartes:\s*(.*?)\s*-->)(.*?)(<!--\s*@end:cartes\s*-->)", re.S)
 
 
@@ -452,7 +484,8 @@ def injecter_cartes(html, page, par_id, erreurs):
         ctx = re.search(r"contexte=(\w+)", args)
         sec = re.search(r"section=([\w-]+)", args)
         sauf = set((re.search(r"sauf=([\w,]+)", args) or re.search("()", "")).group(1).split(",")) - {""}
-        ids = [i.strip() for i in re.sub(r"(contexte|section|sauf)=[\w,-]+", "", args).split(",") if i.strip()]
+        mini = re.search(r"format=mini", args) is not None
+        ids = [i.strip() for i in re.sub(r"(contexte|section|sauf|format)=[\w,-]+", "", args).split(",") if i.strip()]
         if sec:
             if sec.group(1) not in SECTIONS:
                 erreurs.append("%s : section inconnue « %s » (permis : %s)"
@@ -467,7 +500,10 @@ def injecter_cartes(html, page, par_id, erreurs):
         # indentation : celle de la ligne du marqueur
         debut = html.rfind("\n", 0, m.start()) + 1
         ind = re.match(r"[ \t]*", html[debut:m.start()]).group(0)
-        corps = "\n".join(carte_html(par_id[i], base, ctx.group(1) if ctx else None, n) for n, i in enumerate(ids))
+        if mini:
+            ids = [i for i in ids if par_id[i].get("page") and (par_id[i].get("photo") or par_id[i].get("photo_arbre"))]
+        faire = carte_mini_html if mini else carte_html
+        corps = "\n".join(faire(par_id[i], base, ctx.group(1) if ctx else None, n) for n, i in enumerate(ids))
         corps = "\n".join((ind + l) if l else l for l in corps.split("\n"))
         return m.group(1) + "\n" + corps + "\n" + ind + m.group(4)
 

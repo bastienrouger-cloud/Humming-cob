@@ -3145,7 +3145,18 @@ body .ped-label--mere { color: var(--femelle); }
 .troupeau-titre { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.75rem, 3.6vw, 2.4rem); line-height: 1.15; color: var(--noir); }
 .troupeau-titre em { color: var(--rose-deep); }
 .troupeau--memoire .troupeau-titre em { color: #7A6868; }
-.troupeau-texte { margin-top: .45rem; max-width: 560px; font-size: .9rem; line-height: 1.6; color: var(--gris); }
+.troupeau-accent { font-style: italic; font-weight: 500; color: var(--rose-deep); }
+/* Citation d'Alice sous les cartes « Ils ont marqué notre histoire » */
+.troupeau-citation {
+  max-width: 640px; margin: 1.6rem auto 0; text-align: center;
+  font-family: var(--font-serif); font-style: italic; font-weight: 400;
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem); line-height: 1.6; color: #7A6868;
+}
+.troupeau-citation::before {
+  content: ""; display: block; width: 48px; height: 1px; margin: 0 auto 1.1rem;
+  background: rgba(122, 104, 104, 0.45);
+}
+.troupeau-texte { margin-top: .45rem; max-width: 680px; font-size: .9rem; line-height: 1.6; color: var(--gris); }
 
 .troupeau-fleches { display: flex; gap: .5rem; flex-shrink: 0; }
 .troupeau-fleches[hidden] { display: none; }
@@ -3275,4 +3286,100 @@ body .ped-label--mere { color: var(--femelle); }
 }
 @media (max-width: 700px) {
   .page-header--photo { --ph-h: clamp(17rem, 46vh, 24rem); }
+}
+
+/* ============================================
+   ACCUEIL — liens dans le texte d'Alice (aucun mot changé, juste un lien posé)
+   ============================================ */
+.lien-texte {
+  color: inherit; text-decoration: underline; text-decoration-thickness: 1px;
+  text-underline-offset: 3px; text-decoration-color: rgba(176, 96, 112, 0.35);
+  transition: color var(--transition), text-decoration-color var(--transition);
+}
+.lien-texte:hover, .lien-texte:focus-visible { color: var(--rose-deep); text-decoration-color: var(--rose-deep); }
+
+/* ============================================
+   ACCUEIL — petites cartes chevaux (.ca, générées par build.py format=mini)
+   Photo pleine, nom posé sur un dégradé sombre, filet bleu/rose en bas qui
+   s'étire au survol, flèche qui apparaît. Deux rangées : poulains, reproducteurs.
+   ============================================ */
+#accueil-chevaux { background: var(--bg-cream); }
+/* largeur = 5 cartes : les en-têtes s'alignent sur les rangées, le tout centré */
+.ca-groupe { --ca-w: 172px; --ca-gap: 1rem; margin: 2.6rem auto 0; max-width: calc(5 * var(--ca-w) + 4 * var(--ca-gap)); }
+@media (min-width: 1100px) { .ca-groupe { --ca-w: 220px; --ca-gap: 1.25rem; } .ca-groupe .ca-nom { font-size: 1.7rem; } }
+.ca-groupe-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.1rem; }
+.ca-groupe-titre { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.45rem, 2.6vw, 1.85rem); line-height: 1.15; color: var(--noir); }
+.ca-groupe-titre em { color: var(--rose-deep); }
+.ca-groupe-texte { margin-top: .35rem; max-width: 560px; font-size: .88rem; line-height: 1.6; color: var(--gris); }
+.ca-groupe-lien {
+  flex-shrink: 0; color: var(--rose-deep); text-decoration: none; white-space: nowrap;
+  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+}
+.ca-rangee {
+  display: flex; gap: var(--ca-gap, 1rem); overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-inline: 1.5rem;
+  /* marges internes assez larges pour l'ombre et le soulèvement au survol :
+     une rangée qui défile coupe tout ce qui dépasse (d'où un « carré » d'ombre) */
+  margin: -1rem -1.5rem -1.4rem; padding: 1rem 1.5rem 2.8rem; scrollbar-width: none;
+}
+.ca-rangee::-webkit-scrollbar { display: none; }
+
+.ca {
+  position: relative; isolation: isolate; overflow: hidden; display: block;
+  flex: 0 0 var(--ca-w, 172px); aspect-ratio: 3 / 4; border-radius: 16px;
+  text-decoration: none; color: #fff; scroll-snap-align: start;
+  background: #2a2522; box-shadow: 0 6px 16px rgba(63, 98, 137, 0.22);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.ca img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  z-index: -2; transition: transform .7s cubic-bezier(.2, .7, .2, 1);
+}
+.ca::after {   /* dégradé de lisibilité */
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to top, rgba(22, 17, 15, .82) 0%, rgba(22, 17, 15, .32) 36%, rgba(22, 17, 15, 0) 62%);
+}
+.ca::before {  /* filet de couleur du sexe */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; z-index: 2;
+  background: var(--male); transform-origin: left; transform: scaleX(.3);
+  transition: transform var(--transition);
+}
+.ca--femelle::before { background: var(--femelle); }
+.ca--femelle { box-shadow: 0 6px 16px rgba(176, 96, 112, 0.24); }
+.ca:hover, .ca:focus-visible { transform: translateY(-5px); box-shadow: 0 12px 22px rgba(63, 98, 137, 0.34); }
+.ca--femelle:hover, .ca--femelle:focus-visible { box-shadow: 0 12px 22px rgba(176, 96, 112, 0.36); }
+.ca:hover img, .ca:focus-visible img { transform: scale(1.07); }
+.ca:hover::before, .ca:focus-visible::before { transform: scaleX(1); }
+.ca:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+
+.ca-corps { position: absolute; left: .9rem; right: .9rem; bottom: 1rem; display: flex; flex-direction: column; gap: .2rem; }
+.ca-nom { font-family: var(--font-serif); font-style: italic; font-size: 1.45rem; line-height: 1.05; color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, .35); }
+
+.ca-badge {
+  position: absolute; top: .7rem; left: .7rem;
+  font-size: .56rem; letter-spacing: .12em; text-transform: uppercase;
+  padding: .32rem .62rem; border-radius: 999px;
+  background: rgba(255, 255, 255, .93); color: var(--rose-deep);
+}
+.ca-badge--garde { color: var(--gris); }
+.ca-fleche {
+  position: absolute; top: .65rem; right: .65rem; width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center; background: rgba(255, 255, 255, .2); color: #fff;
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  opacity: 0; transform: translateX(-6px); transition: opacity var(--transition), transform var(--transition);
+}
+.ca:hover .ca-fleche, .ca:focus-visible .ca-fleche { opacity: 1; transform: none; }
+/* Téléphone / tablette : pas de survol → flèche et filet visibles d'office */
+@media (hover: none) {
+  .ca-fleche { opacity: 1; transform: none; }
+  .ca::before { transform: scaleX(1); }
+}
+@media (max-width: 600px) {
+  .ca-groupe { --ca-w: 142px; }
+  .ca { border-radius: 14px; }
+  .ca-nom { font-size: 1.2rem; }
+  .ca-groupe-tete { flex-direction: column; align-items: flex-start; gap: .6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ca, .ca img, .ca::before, .ca-fleche { transition: none; }
 }
