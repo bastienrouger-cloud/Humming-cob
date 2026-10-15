@@ -35,6 +35,16 @@
   --male-deep:    #2A6A70;
   --male-pale:    #D8EBEA;
 
+  /* Pastilles (15/10) : statuts ni pétrole, ni framboise, ni sakura ; un seul
+     or pour les distinctions ; neutre pour l'information. */
+  --st-vente:     #567548;   /* sauge : à vendre */
+  --st-reserve:   #9A6B1F;   /* ambre : réservé(e) */
+  --st-reste:     #8E5A3C;   /* châtaigne : reste à l'élevage */
+  --st-vendu:     #756C66;   /* taupe : vendu(e) */
+  --st-memoire:   #6E6560;   /* pierre : en mémoire (toujours en contour) */
+  --or:           #8A6A22;   /* distinctions, ancêtre répété */
+  --info:         #5E5652;   /* information neutre */
+
   --font-serif:  'Cormorant Garamond', 'Georgia', serif;
   --font-sans:   'Jost', 'Segoe UI', sans-serif;
 
@@ -2904,24 +2914,38 @@ footer {
 .cc-photo::after {                                   /* liseré bleu / rose sous la photo */
   content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--c);
 }
-.cc-badge {                                         /* verre dépoli teinté + reflet en haut */
-  position: absolute; top: .9rem; left: .9rem; z-index: 1;
-  padding: .36rem .85rem; border-radius: 50px;
-  font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: #fff;
-  background: linear-gradient(135deg, rgba(70, 64, 60, .55), rgba(28, 28, 28, .42));
-  border: 1px solid rgba(255, 255, 255, .22);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, .14), inset 0 1px 0 rgba(255, 255, 255, .22);
-  -webkit-backdrop-filter: blur(10px) saturate(1.4); backdrop-filter: blur(10px) saturate(1.4);
+/* ============================================
+   PASTILLE — composant unique (15/10), trois familles :
+   statut (vente, reserve, reste, vendu, memoire), distinction (or, titre),
+   information (info, hc). Pleine sur les photos ; .pastille--contour dans les
+   panneaux (modale, arbre, en-têtes). Couleurs : variables --st-*, --or, --info.
+   Les classes .cc-badge / .ca-badge ne font plus que la poser sur la photo.
+   ============================================ */
+.pastille {
+  --pc: var(--info);
+  display: inline-flex; align-items: center; gap: .3em; white-space: nowrap;
+  font-family: var(--font-sans); font-weight: 400; font-style: normal;
+  font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; line-height: 1;
+  padding: .42em .9em; border-radius: 999px; border: 1px solid transparent;
+  color: #fff; background: var(--pc);
 }
-.cc-badge--vente { background: linear-gradient(135deg, rgba(86, 160, 118, .86), rgba(44, 104, 72, .86)); }
-.cc-badge--elite { background: linear-gradient(135deg, rgba(222, 186, 106, .9), rgba(158, 120, 44, .9)); }
-.cc-badge--garde { background: linear-gradient(135deg, rgba(222, 150, 168, .88), rgba(168, 88, 106, .88)); }
-/* Autres distinctions (vice-champion, facteur…) : pastille ivoire, lisible sur
-   photo sombre comme claire, et d'un rang visuel sous l'élite (or). */
-.cc-badge--distinction {
-  background: linear-gradient(135deg, rgba(255, 255, 255, .86), rgba(244, 236, 226, .74)); color: var(--noir);
-  border-color: rgba(255, 255, 255, .6);
+.pastille--vente   { --pc: var(--st-vente); }
+.pastille--reserve { --pc: var(--st-reserve); }
+.pastille--reste   { --pc: var(--st-reste); }
+.pastille--vendu   { --pc: var(--st-vendu); }
+.pastille--or      { --pc: var(--or); }
+.pastille--hc      { --pc: var(--rose-deep); }
+/* Toujours en contour : en mémoire (discret), autres titres, information. */
+.pastille--memoire, .pastille--titre, .pastille--info, .pastille--contour {
+  background: rgba(255, 255, 255, .82); color: var(--pc);
+  border-color: color-mix(in srgb, var(--pc) 50%, transparent);
 }
+.pastille--memoire { --pc: var(--st-memoire); }
+.pastille--titre   { --pc: var(--or); }
+.pastille--info    { border-color: rgba(60, 40, 35, .18); }
+
+/* Pastille posée sur la photo d'une carte */
+.cc-badge { position: absolute; top: .9rem; left: .9rem; z-index: 1; box-shadow: 0 2px 10px rgba(0, 0, 0, .18); }
 .cc-nb {
   position: absolute; right: .9rem; bottom: 1rem; z-index: 1;
   display: inline-flex; align-items: center; gap: .35rem;
@@ -3023,9 +3047,7 @@ footer {
   display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: 0 0 .45rem;
   font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct);
 }
-.cm-badge { padding: .18rem .6rem; border-radius: 50px; border: 1px solid currentColor; font-size: .58rem; letter-spacing: .12em; color: var(--gris); }
-.cm-badge--vente { color: #3E7D5A; }
-.cm-badge--garde { color: var(--femelle-deep); }
+.cm-badge { font-size: .58rem; }   /* couleur : .pastille (contour dans la modale) */
 .cm-nom { font-family: var(--font-serif); font-weight: 400; font-size: 2.1rem; line-height: 1.1; margin: 0; color: var(--noir); }
 .cm-nom em { color: var(--ct); }
 .cm-texte { margin: 1.3rem 0 0; font-size: .92rem; line-height: 1.7; color: var(--noir); }
@@ -3412,13 +3434,7 @@ body.fond-taches > section#qui-sommes-nous { background: linear-gradient(180deg,
 .ca-corps { position: absolute; left: .9rem; right: .9rem; bottom: 1rem; display: flex; flex-direction: column; gap: .2rem; }
 .ca-nom { font-family: var(--font-serif); font-style: italic; font-size: 1.45rem; line-height: 1.05; color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, .35); }
 
-.ca-badge {
-  position: absolute; top: .7rem; left: .7rem;
-  font-size: .56rem; letter-spacing: .12em; text-transform: uppercase;
-  padding: .32rem .62rem; border-radius: 999px;
-  background: rgba(255, 255, 255, .93); color: var(--rose-deep);
-}
-.ca-badge--garde { color: var(--gris); }
+.ca-badge { position: absolute; top: .7rem; left: .7rem; font-size: .56rem; box-shadow: 0 2px 10px rgba(0, 0, 0, .18); }   /* couleur : .pastille */
 .ca-fleche {
   position: absolute; top: .65rem; right: .65rem; width: 32px; height: 32px; border-radius: 50%;
   display: grid; place-items: center; background: rgba(255, 255, 255, .2); color: #fff;

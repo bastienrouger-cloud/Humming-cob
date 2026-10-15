@@ -367,6 +367,11 @@ def libelle_sexe(c):
     return "Poulain" if (age is not None and age < 1) else "Entier"
 
 
+# Type de badge (badge_carte) → variante de .pastille (css/style.css).
+PASTILLE = {"vente": "vente", "reserve": "reserve", "vendu": "vendu", "garde": "reste",
+            "memoire": "memoire", "elite": "or", "distinction": "titre"}
+
+
 def badge_carte(c):
     """(classe, texte) du badge posé sur la photo, ou None."""
     e = "e" if c["sexe"] == "femelle" else ""
@@ -410,7 +415,7 @@ def carte_html(c, base, contexte=None, rang=0):
          '<wbr><span class="cc-dates">%s</span>' if i == 3 else '<span>%s</span>') % _esc(t)
         for i, t in enumerate(tags) if t)
     b = badge_carte(c)
-    badge = '<span class="cc-badge cc-badge--%s">%s</span>' % (b[0], _esc(b[1])) if b else ""
+    badge = '<span class="cc-badge pastille pastille--%s">%s</span>' % (PASTILLE[b[0]], _esc(b[1])) if b else ""
     nb = len(v.get("photos") or [])
     delai = " reveal-delay-%d" % (rang % 4 + 1)
 
@@ -456,7 +461,7 @@ def carte_mini_html(c, base, contexte=None, rang=0):
     photo = v.get("photo") or c.get("photo_arbre")
     style = ' style="object-position:%s"' % _esc(v["cadrage"]) if v.get("cadrage") else ""
     b = badge_carte(c)
-    badge = ('<span class="ca-badge ca-badge--%s">%s</span>' % (b[0], _esc(b[1]))
+    badge = ('<span class="ca-badge pastille pastille--%s">%s</span>' % (PASTILLE[b[0]], _esc(b[1]))
              if b and b[0] == "vente" else "")
     # Pas de .reveal sur la carte : son transition-delay retarderait le survol.
     # L'apparition se fait sur la rangée entière (.ca-rangee.reveal).
