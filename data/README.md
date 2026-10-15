@@ -50,6 +50,7 @@ existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
 | `resume` | 2–3 phrases | texte de la carte (coupé à 3 lignes) et de la modale |
 | `description` | texte plus long | facultatif : remplace `resume` dans la modale |
 | `cartes` | `{"suzie": {"photo": …, "resume": …}}` | variantes par page : la clé est l'`id` du cheval dont la fiche affiche la carte ; champs possibles `photo`, `cadrage`, `resume`, `photos` |
+| `entete` | `{"titres": ["Élite grade 1"], "mentions": ["Débourrée montée"], "ligne": "Jument · Bientôt à la retraite"}` | en-tête de la fiche (nos chevaux), généré par build.py entre `<!-- @entete: id -->` et `<!-- @end:entete -->` : pastille de statut (tirée de `statut`), titres en or (« ★ » ajouté pour l'Élite), mentions en neutre, puis la ligne de texte. Textes d'Alice : à recopier tels quels |
 | `caractere` | liste de mots | |
 | `notes` | texte libre | infos de référence (GVHS, taille…), non affichées sur les cartes |
 | `registre` | `GVHS GV13705P · TGCA` | stud-books / numéros d'inscription, affichés dans la modale |

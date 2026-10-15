@@ -628,6 +628,49 @@ def injecter_pedigrees(html, page, par_id, erreurs):
     return _PEDIGREE.sub(remplace, html)
 
 
+# ---------------------------------------------------------------- en-têtes des fiches
+# Fiches cheval : <div class="horse-hero-top"><!-- @entete: id --> … <!-- @end:entete --></div>
+# Pastilles en contour (panneau) : statut (champ « statut », même libellé que
+# les cartes), puis titres (or, « ★ » pour l'Élite) et mentions (neutre), puis
+# la ligne de texte. Textes : champ « entete » du cheval (recopiés à l'identique
+# des anciens en-têtes écrits à la main, voir data/README.md).
+_ENTETE = re.compile(r"(<!--\s*@entete:\s*(\w+)\s*-->)(.*?)(<!--\s*@end:entete\s*-->)", re.S)
+_STATUT_ENTETE = {"a-vendre": "vente", "reserve": "reserve", "vendu": "vendu", "garde": "reste"}
+
+
+def entete_html(c):
+    e = c.get("entete") or {}
+    morceaux = []
+    st = c.get("statut")
+    if st in _STATUT_ENTETE and (st != "garde" or c.get("role") == "poulain"):
+        b = badge_carte(dict(c, vendeur=None))   # pas de « par … » sur sa propre fiche
+        morceaux.append('<span class="pastille pastille--%s pastille--contour">%s</span>' % (_STATUT_ENTETE[st], _esc(b[1])))
+    for t in e.get("titres", []):
+        if "Élite" in t:
+            morceaux.append('<span class="pastille pastille--or pastille--contour">★ %s</span>' % _esc(t))
+        else:
+            morceaux.append('<span class="pastille pastille--titre">%s</span>' % _esc(t))
+    for t in e.get("mentions", []):
+        morceaux.append('<span class="pastille pastille--info">%s</span>' % _esc(t))
+    if e.get("ligne"):
+        morceaux.append('<p class="horse-hero-race">%s</p>' % _esc(e["ligne"]))
+    return morceaux
+
+
+def injecter_entetes(html, page, par_id, erreurs):
+    def remplace(m):
+        c = par_id.get(m.group(2))
+        if not c:
+            erreurs.append("%s : en-tête inconnu « %s »" % (page.relative_to(ROOT).as_posix(), m.group(2)))
+            return m.group(0)
+        debut = html.rfind("\n", 0, m.start()) + 1
+        ind = re.match(r"[ \t]*", html[debut:m.start()]).group(0)
+        corps = "\n".join(ind + l for l in entete_html(c))
+        return m.group(1) + "\n" + corps + "\n" + ind + m.group(4)
+
+    return _ENTETE.sub(remplace, html)
+
+
 # ---------------------------------------------------------------- sujets du formulaire
 # contact.html : <!-- @sujets --> … <!-- @end:sujets --> = options du menu « Sujet »,
 # tirées des données (poulains à vendre ou réservés, étalons). Une fiche peut
@@ -814,6 +857,7 @@ def main():
         html = injecter_cartes(html, page, par_id, erreurs_cartes)
         html = injecter_noms(html, page, par_id, erreurs_cartes)
         html = injecter_pedigrees(html, page, par_id, erreurs_cartes)
+        html = injecter_entetes(html, page, par_id, erreurs_cartes)
         html = injecter_sujets(html)
         html = injecter_livre_dor(html, page, par_id, messages)
 

@@ -32,5 +32,14 @@
     }
   },
   "notes": "Sœur complète de Ruby Jane.",
-  "source": "site hummingcob.fr"
+  "source": "site hummingcob.fr",
+  "entete": {
+    "titres": [
+      "Élite grade 1"
+    ],
+    "mentions": [
+      "Débourrée montée"
+    ],
+    "ligne": "Jument · Actuellement en confiage en Drôme"
+  }
 }

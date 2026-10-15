@@ -29,5 +29,11 @@
   "photo_arbre": "img/tree/avantgarde.jpg",
   "resume": "Né au Pays de Galles, il arrive en France en 2023. Vice-Champion de France 2025 des étalons à 3 ans. Bai double pearl, ses premiers poulains naissent en 2026.",
   "notes": "Gypsy Vanner Bay Pearl, né en GBR.",
-  "source": "site hummingcob.fr"
+  "source": "site hummingcob.fr",
+  "entete": {
+    "titres": [
+      "Vice-Champion de France 2025"
+    ],
+    "ligne": "Étalon · Ouvert aux saillies"
+  }
 }

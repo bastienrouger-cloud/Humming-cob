@@ -32,5 +32,11 @@
     }
   },
   "notes": "Sœur complète de Sakura. Débourrée montée.",
-  "source": "site hummingcob.fr"
+  "source": "site hummingcob.fr",
+  "entete": {
+    "titres": [
+      "Élite grade 1"
+    ],
+    "ligne": "Jument · Actuellement en confiage en Bretagne"
+  }
 }

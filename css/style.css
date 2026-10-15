@@ -1105,6 +1105,7 @@ footer {
   gap: .5rem 1.1rem;
 }
 .horse-hero-top .horse-hero-race { margin: 0; }
+.horse-hero-top .pastille { font-size: .62rem; }   /* en-tête généré par build.py (@entete) */
 
 .horse-hero {
   min-height: 70vh;

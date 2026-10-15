@@ -40,5 +40,8 @@
     "Présent"
   ],
   "notes": "Robe Grullo Silver rarissime. Intelligent, polyvalent.",
-  "source": "site hummingcob.fr"
+  "source": "site hummingcob.fr",
+  "entete": {
+    "ligne": "Entier · OC 75 % Irish Cob · Grullo Silver"
+  }
 }

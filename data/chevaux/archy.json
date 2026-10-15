@@ -28,5 +28,12 @@
   "photo_arbre": "img/tree/archy.jpg",
   "resume": "Né en Irlande, il arrive en France à ses 9 mois. Lignée Cairnview reconnue pour sa morphologie taillant grand et ses utilisations polyvalentes. 5 poulains à son actif.",
   "notes": "Étalon irlandais, lignée Cairnview. Champion de France loisir junior.",
-  "source": "site hummingcob.fr"
+  "source": "site hummingcob.fr",
+  "entete": {
+    "titres": [
+      "Élite grade 1",
+      "Champion France Qualification Loisirs"
+    ],
+    "ligne": "Étalon · Ouvert aux saillies"
+  }
 }
