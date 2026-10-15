@@ -3136,11 +3136,19 @@ body:is(.theme-male, .theme-femelle, .fond-taches) {
   background-repeat: repeat-y;
 }
 /* Pages neutres à taches : les sections laissent voir le fond de la page (fin
-   des bandes alternées crème / crème clair). Exceptions voulues : en-têtes
-   photo, hero de l'accueil, section grise des chevaux disparus. */
-body.fond-taches > section:not(.page-header--photo):not(#hero):not(.troupeau--memoire),
-body.fond-taches > header.page-header:not(.page-header--photo) {
+   des bandes alternées crème / crème clair). Exceptions voulues : hero de
+   l'accueil, section grise des chevaux disparus. */
+body.fond-taches > section:not(#hero):not(.troupeau--memoire),
+body.fond-taches > header.page-header {
   background: transparent !important;
+}
+/* En-têtes photo sur fond à taches : la photo se fond dans le fond de la page
+   par un masque (au lieu d'un voile crème opaque qui coupait les taches sous
+   la photo). Mêmes paliers que le voile d'origine. */
+body.fond-taches .page-header--photo::before { display: none; }
+body.fond-taches .page-header-photo {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, rgba(0,0,0,.28) 70%, rgba(0,0,0,.06) 86%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 40%, rgba(0,0,0,.28) 70%, rgba(0,0,0,.06) 86%, transparent 100%);
 }
 /* Sur les pages à thème, les sections laissent voir le dégradé de la page. */
 body:is(.theme-male, .theme-femelle) :is(.horse-hero-top, .horse-hero-img-wrap, .horse-hero-info, .horse-pedigree) {
