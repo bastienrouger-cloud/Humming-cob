@@ -49,8 +49,8 @@
     --strain-hc:var(--rose-deep);
     --strain-autre:#d98a4a;
     --strain-inconnue:#c7bca8;
-    --sex-stallion:#3F6289;
-    --sex-mare:var(--rose-deep);
+    --sex-stallion:var(--male-deep);
+    --sex-mare:var(--femelle-deep);
   }
   *{box-sizing:border-box;}
   body{
@@ -291,14 +291,14 @@
     --c:var(--male); --ct:var(--male-deep);
     display:flex;flex-direction:column;gap:.7rem;width:min(380px,100%);min-height:158px;
     margin:0;padding:1rem 1.1rem;text-align:left;font-weight:400;color:var(--noir);cursor:pointer;
-    border-radius:20px;border:1px solid rgba(60,40,35,.08);
-    background:linear-gradient(180deg,color-mix(in srgb,var(--c) 26%,#FFFEFA) 0%,color-mix(in srgb,var(--c) 10%,#FFFEFA) 22%,#FFFEFA 60%,#F8F3E9 100%);
+    /* même dégradé que les cartes du site (.cc-corps) : foncé → clair, sans crème */
+    border-radius:20px;border:1px solid color-mix(in srgb,var(--c) 16%,transparent);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--c) 30%,#FFFEFA) 0%,color-mix(in srgb,var(--c) 13%,#FFFEFA) 28%,color-mix(in srgb,var(--c) 6%,#FFFEFA) 100%);
     box-shadow:0 1px 2px color-mix(in srgb,var(--c) 10%,transparent),0 10px 28px color-mix(in srgb,var(--c) 15%,transparent);
     transition:transform .3s ease,box-shadow .3s ease,background .3s ease;
   }
   .ac-parent--femelle{
     --c:var(--femelle); --ct:var(--femelle-deep);
-    background:linear-gradient(180deg,color-mix(in srgb,var(--c) 30%,#FFFCFB) 0%,color-mix(in srgb,var(--c) 12%,#FFFCFB) 22%,#FFFAF9 60%,#FAEEEC 100%);
   }
   .ac-parent:hover{transform:translateY(-3px);box-shadow:0 2px 4px color-mix(in srgb,var(--c) 12%,transparent),0 18px 40px color-mix(in srgb,var(--c) 24%,transparent);}
   .ac-parent:focus-visible{outline:2px solid var(--c);outline-offset:3px;}
@@ -508,11 +508,11 @@
   .cp-carte{
     --c:var(--male);
     display:flex;flex-direction:column;padding:0;overflow:hidden;text-align:left;font-weight:400;color:var(--noir);
-    border-radius:16px;border:1px solid rgba(60,40,35,.07);
-    background:linear-gradient(180deg,color-mix(in srgb,var(--c) 22%,#FFFEFA) 0%,#FFFEFA 55%,#F8F3E9 100%);
+    border-radius:16px;border:1px solid color-mix(in srgb,var(--c) 16%,transparent);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--c) 30%,#FFFEFA) 0%,color-mix(in srgb,var(--c) 13%,#FFFEFA) 28%,color-mix(in srgb,var(--c) 6%,#FFFEFA) 100%);
     box-shadow:0 6px 18px color-mix(in srgb,var(--c) 14%,transparent);transition:transform .25s ease,box-shadow .25s ease;
   }
-  .cp-carte--femelle{--c:var(--femelle);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 24%,#FFFCFB) 0%,#FFFAF9 55%,#FAEEEC 100%);}
+  .cp-carte--femelle{--c:var(--femelle);}
   .cp-carte:hover,.cp-carte:focus-visible{transform:translateY(-3px);box-shadow:0 12px 26px color-mix(in srgb,var(--c) 24%,transparent);outline:none;}
   .cp-carte-photo{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#F3EEE6;}
   .cp-carte-nom{padding:.6rem .8rem 0;font-family:var(--font-serif);font-size:1.15rem;line-height:1.2;}

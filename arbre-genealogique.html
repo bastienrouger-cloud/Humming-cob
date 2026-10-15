@@ -35,10 +35,8 @@
   <style>
     :root {
       --cream:     #FEFBF6;
-      --rose:      #D4899A;
-      --rose-deep: #B06070;
-      --bleu:      #5B7FA6;
-      --bleu-pale: #C8DCE6;
+      /* Rose de la marque et couleurs des sexes : celles de css/style.css
+         (plus de copie locale depuis le 15/10). */
       --or:        #C0A050;
       --noir:      #1C1C1C;
       --gris:      #6A6A6A;
@@ -401,7 +399,7 @@
     .ap-vide .ap-vide-sous { color: var(--rose-deep); }
 
     /* Légende : mini-photo et étoile */
-    .leg-photo { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; border: 1.5px solid #D4899A; flex-shrink: 0; }
+    .leg-photo { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--rose); flex-shrink: 0; }
     .leg-star { width: 14px; text-align: center; color: #C0A050; font-size: 12px; flex-shrink: 0; }
 
     /* Interrupteur « Chevaux extérieurs » (posé sur l'arbre, hors de la zone
@@ -619,14 +617,14 @@
 </label>
 
 <div class="legend">
-  <div class="leg"><div class="leg-dot" style="background:#EEF3F7;border-color:#5B7FA6;"></div>Mâle</div>
-  <div class="leg"><div class="leg-dot" style="background:#FFF0F4;border-color:#D4899A;"></div>Femelle</div>
+  <div class="leg"><div class="leg-dot" style="background:color-mix(in srgb, var(--male) 14%, #fff);border-color:var(--male);"></div>Mâle</div>
+  <div class="leg"><div class="leg-dot" style="background:color-mix(in srgb, var(--femelle) 12%, #fff);border-color:var(--femelle);"></div>Femelle</div>
   <div class="leg"><img class="leg-photo" src="img/placeholders/jument.jpg" alt="">Nos chevaux</div>
   <div class="leg"><div class="leg-dot" style="background:#F6F3EE;border-color:#9A9290;border-style:dashed;opacity:.7;"></div>Extérieur à l'élevage</div>
   <div class="leg"><span class="leg-star">★</span>Élite grade 1</div>
   <div class="leg"><div class="leg-cross">†</div>En mémoire</div>
-  <div class="leg"><div class="leg-line" style="background:#5B7FA6;"></div>Ligne paternelle</div>
-  <div class="leg"><div class="leg-line" style="background:#D4899A;"></div>Ligne maternelle</div>
+  <div class="leg"><div class="leg-line" style="background:var(--male);"></div>Ligne paternelle</div>
+  <div class="leg"><div class="leg-line" style="background:var(--femelle);"></div>Ligne maternelle</div>
 </div>
 </div><!-- /.arbre-cadre -->
 
@@ -668,6 +666,16 @@
 <script src="js/main.js"></script>
 <script src="js/chevaux.js"></script>
 <script>
+// ── COULEURS : lues dans css/style.css (:root), pour que l'arbre suive la
+// palette du site. Le SVG n'accepte pas var() dans ses attributs : on lit
+// donc les valeurs une fois, et on calcule les teintes claires des nœuds.
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const eclaircir = (hex, part) => {          // part = proportion de la couleur (0…1), le reste en blanc
+  const n = parseInt(hex.replace('#', ''), 16), m = c => Math.round(c * part + 255 * (1 - part));
+  return '#' + [n >> 16 & 255, n >> 8 & 255, n & 255].map(c => m(c).toString(16).padStart(2, '0')).join('');
+};
+const C_MALE = cssVar('--male') || '#4E8F94', C_FEMELLE = cssVar('--femelle') || '#D2557A', C_MARQUE_FONCE = cssVar('--rose-deep') || '#AB5667';
+
 // ── RADII
 const R          = 12;
 const R_ACTIVE   = 52;
@@ -765,7 +773,7 @@ svg.appendChild(defs);
 // Dégradé des lignes de génération : transparent → rosé → transparent
 const genFade = el('linearGradient', { id: 'genFade', gradientUnits: 'userSpaceOnUse', x1: -150, y1: 0, x2: 2050, y2: 0 });
 [['0', 0], ['0.12', .28], ['0.88', .28], ['1', 0]].forEach(([o, a]) =>
-  genFade.appendChild(el('stop', { offset: o, 'stop-color': '#B06070', 'stop-opacity': a })));
+  genFade.appendChild(el('stop', { offset: o, 'stop-color': C_MARQUE_FONCE, 'stop-opacity': a })));
 defs.appendChild(genFade);
 
 // ── VIEWPORT GROUP (pan/zoom target)
@@ -816,8 +824,8 @@ RELS.forEach(r => {
     path.classList.add('rel-path');
     pathLayer.appendChild(path);
   }
-  drawPath(r.p1, r.c, '#5B7FA6'); // père → bleu
-  drawPath(r.p2, r.c, '#D4899A'); // mère → rose
+  drawPath(r.p1, r.c, C_MALE);    // père → couleur des mâles
+  drawPath(r.p2, r.c, C_FEMELLE); // mère → couleur des femelles
 });
 
 // ── PANNEAU : carte du cheval ─────────────────────────────────────────────
@@ -825,8 +833,9 @@ RELS.forEach(r => {
 // Tous les chevaux des données ont une carte, même ceux absents de l'arbre.
 const panneau   = document.getElementById('panneau');
 const apContenu = document.getElementById('apContenu');
-const COUL       = { male: '#5B7FA6', hongre: '#5B7FA6', femelle: '#D4899A' };
-const COUL_TEXTE = { male: '#3F6289', hongre: '#3F6289', femelle: '#B06070' };
+// Utilisées dans des style="--c:…" : var() fonctionne, l'arbre suit style.css.
+const COUL       = { male: 'var(--male)', hongre: 'var(--male)', femelle: 'var(--femelle)' };
+const COUL_TEXTE = { male: 'var(--male-deep)', hongre: 'var(--male-deep)', femelle: 'var(--femelle-deep)' };
 const PLACEHOLDER = { male: 'img/placeholders/etalon.jpg', hongre: 'img/placeholders/etalon.jpg', femelle: 'img/placeholders/jument.jpg' };
 const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
 
@@ -1092,12 +1101,12 @@ DATA.forEach(h => {
 
   // Couleurs selon sexe / catégorie
   let fill, stroke;
-  // Code couleur du site : bleu = mâle, rose = femelle (poulains compris).
+  // Code couleur du site : pétrole = mâle, framboise = femelle (poulains compris).
   // Seuls les chevaux en mémoire gardent un gris. Les extérieurs se
   // distinguent par le pointillé et l'estompage, pas par la couleur.
   if(h.memorial)      { fill = '#EDE8E4'; stroke = '#9A8A84'; }
-  else if(h.sex==='s'){ fill = '#EEF3F7'; stroke = '#5B7FA6'; }
-  else                { fill = '#FFF0F4'; stroke = '#D4899A'; }
+  else if(h.sex==='s'){ fill = eclaircir(C_MALE, .12);    stroke = C_MALE; }
+  else                { fill = eclaircir(C_FEMELLE, .10); stroke = C_FEMELLE; }
   const rRepos = h.notre ? R_NOTRE : R;
 
   // Halo crème sous le liseré : sépare le nœud replié des lignes de filiation
