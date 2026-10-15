@@ -291,7 +291,7 @@
     }
     .ap-suggestions li.sel, .ap-suggestions li:hover { background: #FBF3E7; }
     .ap-suggestions .pt { width: 8px; height: 8px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
-    .ap-suggestions .hc { margin-left: auto; font-size: .6rem; letter-spacing: .12em; color: var(--rose-deep); }
+    .ap-suggestions .hc { margin-left: auto; font-size: .5rem; }   /* .pastille--hc */
     .ap-suggestions li.vide { color: var(--gris); cursor: default; background: none; }
 
     /* Panneau */
@@ -326,13 +326,7 @@
       font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct);
       margin-bottom: .3rem;
     }
-    .ap-badge {
-      font-size: .58rem; letter-spacing: .1em; padding: .12rem .55rem;
-      border-radius: 20px; border: 1px solid currentColor; color: var(--gris);
-    }
-    .ap-badge--vente { color: #3E7D5A; }
-    .ap-badge--memoire { color: #9A8A84; }
-    .ap-badge--garde { color: var(--rose-deep); }
+    .ap-badge { font-size: .56rem; }   /* couleur : .pastille de css/style.css (contour dans le panneau) */
     .ap-nom { font-family: var(--serif); font-weight: 400; font-size: 1.75rem; line-height: 1.15; color: var(--noir); }
     .ap-nom em { color: var(--ct); font-style: italic; }
     .ap-sous { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); margin-top: .3rem; }
@@ -385,7 +379,7 @@
     .ap-med:hover .ap-med-img { transform: translateY(-2px) scale(1.06); box-shadow: 0 0 0 3px #FEFBF6, 0 6px 16px rgba(60,40,35,.18); }
     .ap-med-nom { font-family: var(--serif); font-size: .98rem; line-height: 1.1; text-align: center; }
     .ap-med-note { font-size: .56rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); margin-top: -.15rem; }
-    .ap-med-note.is-vente { color: #3E7D5A; }
+    .ap-med-note.is-vente { color: var(--st-vente); }
     /* Élite : même code que l'arbre — étoile dorée + anneau doré en pointillés */
     .ap-med { position: relative; }
     .ap-med.is-elite .ap-med-img { outline: 1.5px dashed rgba(192, 160, 80, .75); outline-offset: 4px; }
@@ -858,11 +852,13 @@ function libelleSexe(c) {
 }
 function badgeStatut(c) {
   const e = c.sexe === 'femelle' ? 'e' : '';
-  if (c.role === 'memoire')    return '<span class="ap-badge ap-badge--memoire">En mémoire</span>';
-  if (c.statut === 'a-vendre') return '<span class="ap-badge ap-badge--vente">À vendre</span>';
-  if (c.statut === 'reserve')  return `<span class="ap-badge">Réservé${e}</span>`;
-  if (c.statut === 'vendu')    return `<span class="ap-badge">Vendu${e}</span>`;
-  if (c.statut === 'garde' && c.role === 'poulain') return '<span class="ap-badge ap-badge--garde">Reste à l\'élevage</span>';
+  // Pastilles du site (css/style.css), en contour dans le panneau.
+  const p = v => `ap-badge pastille pastille--${v} pastille--contour`;
+  if (c.role === 'memoire')    return '<span class="ap-badge pastille pastille--memoire">En mémoire</span>';
+  if (c.statut === 'a-vendre') return `<span class="${p('vente')}">À vendre</span>`;
+  if (c.statut === 'reserve')  return `<span class="${p('reserve')}">Réservé${e}</span>`;
+  if (c.statut === 'vendu')    return `<span class="${p('vendu')}">Vendu${e}</span>`;
+  if (c.statut === 'garde' && c.role === 'poulain') return `<span class="${p('reste')}">Reste à l'élevage</span>`;
   return '';
 }
 function lienCheval(id) {
@@ -1615,7 +1611,7 @@ function dessinerSuggestions() {
   suggestions.innerHTML = resultats.length
     ? resultats.map((c, i) => `<li role="option" data-id="${c.id}" class="${i === choixIdx ? 'sel' : ''}"
         aria-selected="${i === choixIdx}" style="--c:${COUL[c.sexe]}"><span class="pt"></span>${esc(nomCourt(c))}${
-        c.famille === 'humming' ? '<span class="hc">HC</span>' : ''}</li>`).join('')
+        c.famille === 'humming' ? '<span class="hc pastille pastille--hc pastille--contour">HC</span>' : ''}</li>`).join('')
     : '<li class="vide">Aucun cheval trouvé</li>';
   suggestions.hidden = false;
   const sel = suggestions.querySelector('.sel');

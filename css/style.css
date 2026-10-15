@@ -2843,7 +2843,7 @@ footer {
 .pg-repete {                                           /* « 2× » à côté du nom : la carte ne grandit pas */
   display: inline-block; margin-left: .4rem; padding: .05rem .42rem; vertical-align: .12em;
   font-family: var(--font-sans); font-style: normal; font-weight: 500; font-size: .56rem; letter-spacing: .04em;
-  color: #8a6a2f; background: rgba(201, 162, 39, 0.12); border: 1px solid rgba(201, 162, 39, 0.35); border-radius: 20px;
+  color: var(--or); background: rgba(255, 255, 255, .82); border: 1px solid color-mix(in srgb, var(--or) 50%, transparent); border-radius: 20px;   /* = .pastille--titre */
 }
 /* Rien à ouvrir (ni fiche ni photo) : case atténuée, pas d'effet au survol.
    Les cases cliquables portent une icône : flèche (fiche) ou photos (modale). */
@@ -2851,7 +2851,7 @@ footer {
 .pg-node--simple .pg-nom { opacity: .78; }
 .pg-node--simple .pg-meta { color: #9A928D; }
 .pg-node--modale .pg-fleche { display: inline-flex; }
-.pg-node--repete { box-shadow: inset 0 0 0 1px rgba(201, 162, 39, 0.35); }
+.pg-node--repete { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--or) 40%, transparent); }
 .pg-node--inconnu { background: transparent; border-style: dashed; border-left-style: dashed; }
 .pg-node--inconnu .pg-nom { font-family: var(--font-sans); font-weight: 400; font-size: .74rem; font-style: italic; color: var(--gris); }
 /* Fond teinté (15/10), comme les cartes : la couleur du cheval près du
