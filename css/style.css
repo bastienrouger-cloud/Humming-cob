@@ -3122,8 +3122,10 @@ body.theme-femelle {
    page, pour que les taches accompagnent la lecture jusqu'en bas.
    Tailles en px (même forme sur ordi et mobile). Chaque tache reste
    ENTIÈREMENT dans le motif (centre ± 70 % du rayon vertical entre 0 et
-   1 600 px), sinon elle est coupée net au raccord entre deux motifs. */
-body:is(.theme-male, .theme-femelle) {
+   1 600 px), sinon elle est coupée net au raccord entre deux motifs.
+   Pages neutres : classe .fond-taches sur <body> (taches au rose sakura de la
+   marque), posée page par page. */
+body:is(.theme-male, .theme-femelle, .fond-taches) {
   background-color: var(--bg-cream);
   background-image:
     radial-gradient(620px 380px at 92% 300px,  color-mix(in srgb, var(--rose) 15%, transparent), transparent 70%),
@@ -3132,6 +3134,13 @@ body:is(.theme-male, .theme-femelle) {
     radial-gradient(420px 300px at 14% 1360px, color-mix(in srgb, var(--rose) 8%, transparent), transparent 70%);
   background-size: 100% 1600px;
   background-repeat: repeat-y;
+}
+/* Pages neutres à taches : les sections laissent voir le fond de la page (fin
+   des bandes alternées crème / crème clair). Exceptions voulues : en-têtes
+   photo, hero de l'accueil, section grise des chevaux disparus. */
+body.fond-taches > section:not(.page-header--photo):not(#hero):not(.troupeau--memoire),
+body.fond-taches > header.page-header:not(.page-header--photo) {
+  background: transparent !important;
 }
 /* Sur les pages à thème, les sections laissent voir le dégradé de la page. */
 body:is(.theme-male, .theme-femelle) :is(.horse-hero-top, .horse-hero-img-wrap, .horse-hero-info, .horse-pedigree) {
