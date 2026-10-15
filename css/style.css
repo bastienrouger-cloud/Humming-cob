@@ -14,10 +14,10 @@
   --bg-card:     #FFFCF8;
   --rose-pale:   #F5DDE4;
   --rose:        #D4899A;
-  --rose-deep:   #B06070;
+  --rose-deep:   #AB5667;   /* foncé de #B06070 le 15/10 : texte ≥ 4,5:1 sur crème */
   --rose-dark:   #8B4A5C;
-  --bleu:        #5B7FA6;
-  --bleu-deep:   #3F6289;
+  --bleu:        var(--male);        /* alias historique : le bleu = la couleur des mâles */
+  --bleu-deep:   var(--male-deep);
   --noir:        #1C1C1C;
   --gris:        #6A6A6A;
   --gris-clair:  #C8C0BC;
@@ -26,10 +26,14 @@
 
   /* Code couleur des chevaux : FIXE, ne suit pas le thème de la page
      (une jument reste rose sur la fiche d'un étalon). */
-  --femelle:      #D4899A;
-  --femelle-deep: #B06070;
-  --male:         #5B7FA6;
-  --male-deep:    #3F6289;
+  /* Palette du 15/10 : framboise (femelles) et pétrole (mâles), distinctes
+     du rose sakura de la marque. */
+  --femelle:      #D2557A;
+  --femelle-deep: #A3304F;
+  --femelle-pale: #F8DCE3;
+  --male:         #4E8F94;
+  --male-deep:    #2A6A70;
+  --male-pale:    #D8EBEA;
 
   --font-serif:  'Cormorant Garamond', 'Georgia', serif;
   --font-sans:   'Jost', 'Segoe UI', sans-serif;
@@ -3070,8 +3074,12 @@ footer {
 
 /* ═══════════════════════════════════════════════════════════
    THÈMES DE PAGE — <body class="… theme-male | theme-femelle">
-   Pages neutres : rien à ajouter (crème, accents rose HC).
-   Fiche d'un mâle : nuances crème/bleu ; d'une femelle : crème/rosé.
+   Pages neutres : rien à ajouter (crème, accents rose sakura de la marque).
+   Fiche d'un mâle : accents pétrole ; d'une femelle : accents framboise
+   (palette du 15/10, voir --male / --femelle dans :root).
+   NB : les variables --rose… servent ici de « couleur d'accent du thème »
+   (un mâle a donc du pétrole dans --rose). Renommage en --accent… prévu
+   au ménage CSS, en une seule passe.
    Le thème redéfinit les variables d'accent (--rose…) et de fond
    (--bg-…) pour tout le contenu ; les « îlots d'identité » (nav,
    pied de page) gardent le rose de la marque ; les boutons d'action
@@ -3079,15 +3087,15 @@ footer {
    Les couleurs de sexe (--male / --femelle) ne bougent jamais.
    ═══════════════════════════════════════════════════════════ */
 body.theme-male {
-  /* Fonds : nuances de crème seules (ivoire / sable), sans bleu ni rosé.
-     Accents (textes, boutons) en bleu. */
+  /* Fonds : nuances de crème seules (ivoire / sable).
+     Accents (textes, boutons) en pétrole. */
   --bg-cream:  #FDFBF6;
   --bg-light:  #F9F5EC;
   --bg-card:   #FFFEFA;
-  --rose-pale: #E6DED0;
-  --rose:      #8EA8C5;
+  --rose-pale: var(--male-pale);
+  --rose:      var(--male);
   --rose-deep: var(--male-deep);
-  --rose-dark: #2E4B6B;
+  --rose-dark: #1F5257;
   --border:    rgba(140, 115, 75, 0.16);
   --shadow:      0 4px 32px rgba(120, 95, 60, 0.08);
   --shadow-hover:0 8px 48px rgba(120, 95, 60, 0.14);
@@ -3100,7 +3108,10 @@ body.theme-femelle {
   --bg-cream:  #FEF9F7;
   --bg-light:  #FBF0EF;
   --bg-card:   #FFFCFB;
-  --rose-pale: #F3D8E0;
+  --rose-pale: var(--femelle-pale);
+  --rose:      var(--femelle);
+  --rose-deep: var(--femelle-deep);
+  --rose-dark: #7E2440;
   background:
     radial-gradient(ellipse 55% 35% at 88% 6%, rgba(212, 137, 154, 0.05), transparent 70%),
     radial-gradient(ellipse 50% 30% at 8% 62%, rgba(212, 137, 154, 0.04), transparent 70%),
@@ -3112,7 +3123,7 @@ body:is(.theme-male, .theme-femelle) :is(.horse-hero-top, .horse-hero-img-wrap, 
 }
 /* Îlots d'identité : la marque reste rose quel que soit le thème. */
 body:is(.theme-male, .theme-femelle) :is(.navbar, footer) {
-  --rose-pale: #F5DDE4; --rose: #D4899A; --rose-deep: #B06070; --rose-dark: #8B4A5C;
+  --rose-pale: #F5DDE4; --rose: #D4899A; --rose-deep: #AB5667; --rose-dark: #8B4A5C;
   --border: rgba(176, 96, 112, 0.15);
 }
 /* Pédigrées (styles encore recopiés dans les fiches) : la mère reste rose. */
