@@ -249,8 +249,19 @@
       <div class="section-divider" style="margin:1.5rem auto;"></div>
     </div>
 
-    <div class="showcase-grid" style="margin-top:2.5rem;">
-      <a href="arbre-genealogique.html" class="showcase-card reveal reveal-delay-1">
+    <!-- 3 cartes : côte à côte sur grand écran, l'une sous l'autre en bandeaux
+         sur écran moyen (jamais 2 + 1), empilées sur téléphone -->
+    <div class="showcase-grid showcase-grid--trio" style="margin-top:2.5rem;">
+      <a href="elevage.html" class="showcase-card reveal reveal-delay-1">
+        <img src="img/explore-elevage.jpg" alt="Notre élevage" class="showcase-card-img">
+        <div class="showcase-card-content">
+          <span class="showcase-card-tag">L'élevage · Notre philosophie</span>
+          <h3 class="showcase-card-title">Notre élevage</h3>
+          <p class="showcase-card-desc">Notre philosophie, nos valeurs et le quotidien auprès des chevaux.</p>
+          <span class="showcase-card-cta">Découvrir <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a href="arbre-genealogique.html" class="showcase-card reveal reveal-delay-2">
         <img src="img/explore-arbre-genealogique.jpg" alt="Arbre généalogique" class="showcase-card-img">
         <div class="showcase-card-content">
           <span class="showcase-card-tag">Généalogie · Nos lignées</span>
@@ -259,7 +270,7 @@
           <span class="showcase-card-cta">Explorer <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
-      <a href="accouplement.html" class="showcase-card reveal reveal-delay-2">
+      <a href="accouplement.html" class="showcase-card reveal reveal-delay-3">
         <img src="img/explore-accouplement.jpg" alt="Testez un accouplement" class="showcase-card-img">
         <div class="showcase-card-content">
           <span class="showcase-card-tag">Accouplements · Outil en ligne</span>
@@ -272,97 +283,35 @@
   </div>
 </section>
 
-<!-- ====== CONTACT ====== -->
-<section id="contact">
+<!-- ====== LIVRE D'OR (sélection « accueil » de data/livre-dor.json,
+     cachée tant qu'il n'y a pas au moins 2 messages « accueil »). Accroche en BROUILLON, à relire par Alice. ====== -->
+<section id="livre-dor" class="livre-dor-accueil" data-si-livre-dor="accueil" hidden>
   <div class="section-inner">
-    <div class="contact-wrap">
-      <div class="reveal">
-        <span class="section-badge">Nous écrire</span>
-        <h2 class="section-title">Nous <em>contacter</em></h2>
-        <div class="section-divider"></div>
-        <p class="section-text">Une question sur nos poulains ou reproducteurs ? Une visite à l'élevage ? Nous vous répondrons dans les meilleurs délais.</p>
-        <div class="contact-info">
-          <div class="contact-item">
-            <div class="contact-item-icon">📍</div>
-            <div class="contact-item-text">
-              <span class="contact-item-label">Localisation</span>
-              Gard (30) — France<br>
-              <small>Visites sur rendez-vous uniquement</small>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">📸</div>
-            <div class="contact-item-text">
-              <span class="contact-item-label">Réseaux sociaux</span>
-              Suivez l'élevage sur Facebook &amp; Instagram<br>
-              <small>@HummingCob</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="contact-form reveal reveal-delay-2">
-        <form action="https://api.web3forms.com/submit" method="POST" id="contact-form">
-          <input type="hidden" name="access_key" value="9a89ceda-b130-4159-b7fb-965cef9103db">
-          <input type="hidden" name="subject" value="Nouveau message — Humming Cob">
-          <input type="checkbox" name="botcheck" style="display:none;">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="prenom">Prénom</label>
-              <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
-            </div>
-            <div class="form-group">
-              <label for="nom">Nom</label>
-              <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="votre@email.fr" required>
-          </div>
-          <div class="form-group">
-            <label for="sujet">Sujet</label>
-            <select id="sujet" name="sujet">
-              <option value="">Sélectionner un sujet</option>
-              <option value="nashi">Poulain Nashi</option>
-              <option value="orion">Poulain Orion</option>
-              <option value="kaeru">Poulain Quercus Kaeru (à suivre)</option>
-              <option value="visite">Demande de visite</option>
-              <option value="reproducteurs">Nos reproducteurs</option>
-              <option value="autre">Autre</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" placeholder="Votre message..." required></textarea>
-          </div>
-          <button type="submit" class="form-submit">Envoyer le message</button>
-          <p id="form-result" style="display:none;margin-top:1rem;text-align:center;font-size:.85rem;"></p>
-        </form>
-        <script>
-        document.getElementById('contact-form').addEventListener('submit', async function(e) {
-          e.preventDefault();
-          const btn = this.querySelector('button[type=submit]');
-          const result = document.getElementById('form-result');
-          btn.disabled = true;
-          btn.textContent = 'Envoi en cours…';
-          const res = await fetch('https://api.web3forms.com/submit', { method:'POST', body: new FormData(this) });
-          const json = await res.json();
-          result.style.display = 'block';
-          if (json.success) {
-            result.style.color = 'var(--rose-deep, #8B5A6B)';
-            result.textContent = 'Message envoyé ! Nous vous répondrons dans les meilleurs délais.';
-            this.reset();
-          } else {
-            result.style.color = '#c0392b';
-            result.textContent = 'Une erreur est survenue, veuillez réessayer.';
-          }
-          btn.disabled = false;
-          btn.textContent = 'Envoyer le message';
-        });
-        </script>
-      </div>
+    <div class="reveal" style="text-align:center;max-width:580px;margin:0 auto;">
+      <span class="section-badge">Livre d'or</span>
+      <h2 class="section-title">Ils nous ont <em>écrit</em></h2>
+      <div class="section-divider" style="margin:1.5rem auto;"></div>
     </div>
+    <div class="lo-mots lo-mots--accueil">
+      <!-- @livre-dor: accueil -->
+      <!-- @end:livre-dor -->
+    </div>
+    <div class="lo-liens reveal">
+      <a href="livre-dor.html" class="btn btn-outline">Lire le livre d'or</a>
+      <a href="livre-dor.html#laisser-un-mot" class="btn btn-primary">Laisser un mot</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONTACT (appel vers contact.html, où vit le formulaire) ====== -->
+<section id="contact" class="contact-appel">
+  <div class="section-inner reveal">
+    <span class="section-badge">Nous écrire</span>
+    <h2 class="section-title">Nous <em>contacter</em></h2>
+    <div class="section-divider" style="margin:1.5rem auto;"></div>
+    <p class="section-text">Une question sur nos poulains ou reproducteurs&nbsp;? Une visite à l'élevage&nbsp;? Nous vous répondrons dans les meilleurs délais.</p>
+    <a href="contact.html" class="btn btn-primary">Nous écrire</a>
+    <p class="contact-appel-lieu">Gard (30) — France · Visites sur rendez-vous uniquement</p>
   </div>
 </section>
 
@@ -377,6 +326,7 @@
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
     <ul class="footer-legal">
+      <li><a href="livre-dor.html">Livre d'or</a></li>
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Politique de confidentialité</a></li>
     </ul>

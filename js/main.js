@@ -524,37 +524,17 @@ if (shareBtn) {
   document.addEventListener('keydown', e => { if (ov.style.display !== 'none' && e.key === 'Escape') close(); });
 })();
 
-// Formulaire de contact (contact.html) — envoi Web3Forms sans quitter la page.
-// ?sujet=<valeur> présélectionne le sujet (liens des fiches : ?sujet=nashi,
+// Formulaires envoyés par Web3Forms sans quitter la page : contact.html et
+// livre-dor.html (attribut data-envoi="main.js").
+// Contact : ?sujet=<valeur> présélectionne le sujet (liens des fiches : ?sujet=nashi,
 // ?sujet=saillie-archy) ; le sujet choisi est repris dans l'objet du mail.
-// Formulaire contact de l'accueil — feedback visuel simple (l'envoi est fait par
-// le script en ligne d'index.html).
-const form = document.querySelector('.contact-form form');
-if (form && !form.dataset.envoi) {
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const btn = form.querySelector('.form-submit');
-    btn.textContent = 'Message envoyé ✦';
-    btn.style.background = '#7A9E7E';
-    btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'Envoyer';
-      btn.style.background = '';
-      btn.disabled = false;
-      form.reset();
-    }, 3500);
-  });
-}
-
-(function () {
-  // Seulement pour contact.html (data-envoi="main.js") : le formulaire de
-  // l'accueil a son propre script d'envoi — ne pas envoyer deux fois.
-  const form = document.querySelector('form#contact-form[data-envoi="main.js"]');
-  if (!form) return;
+// Textes de réussite / d'échec : data-ok et data-erreur sur le <form> (sinon ceux du contact).
+document.querySelectorAll('form[data-envoi="main.js"]').forEach(form => {
   const select = form.querySelector('#sujet');
   const objet = form.querySelector('input[name="subject"]');
   const majObjet = () => {
-    const opt = select && select.selectedOptions[0];
+    if (!select || !objet) return;
+    const opt = select.selectedOptions[0];
     objet.value = 'Humming Cob — ' + (opt && opt.value ? opt.textContent.trim() : 'nouveau message');
   };
   if (select) {
@@ -565,8 +545,10 @@ if (form && !form.dataset.envoi) {
   majObjet();
 
   const btn = form.querySelector('button[type=submit]');
-  const result = document.getElementById('form-result');
+  const result = form.querySelector('.form-result');
   const libelle = btn.textContent;
+  const texteOk = form.dataset.ok || 'Message envoyé ! Nous vous répondrons dans les meilleurs délais.';
+  const texteErreur = form.dataset.erreur || "Le message n'est pas parti. Réessayez, ou écrivez-nous à contact@hummingcob.fr.";
   form.addEventListener('submit', async e => {
     e.preventDefault();
     btn.disabled = true;
@@ -578,14 +560,12 @@ if (form && !form.dataset.envoi) {
     } catch (_) { ok = false; }
     result.hidden = false;
     result.classList.toggle('is-erreur', !ok);
-    result.textContent = ok
-      ? 'Message envoyé ! Nous vous répondrons dans les meilleurs délais.'
-      : "Le message n'est pas parti. Réessayez, ou écrivez-nous à contact@hummingcob.fr.";
+    result.textContent = ok ? texteOk : texteErreur;
     if (ok) { form.reset(); majObjet(); }
     btn.disabled = false;
     btn.textContent = libelle;
   });
-})();
+});
 
 /* ============================================
    NAV2 — navigation secondaire des fiches chevaux

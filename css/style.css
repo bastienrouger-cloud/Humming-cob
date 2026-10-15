@@ -3383,3 +3383,91 @@ body .ped-label--mere { color: var(--femelle); }
 @media (prefers-reduced-motion: reduce) {
   .ca, .ca img, .ca::before, .ca-fleche { transition: none; }
 }
+
+/* ============================================
+   ACCUEIL — appel vers la page contact (le formulaire vit dans contact.html)
+   ============================================ */
+.contact-appel { text-align: center; }
+.contact-appel .section-text { max-width: 540px; margin: 0 auto 2rem; }
+.contact-appel-lieu { margin-top: 1.4rem; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
+
+/* ============================================
+   ACCUEIL — « Explorez notre univers » : 3 grandes cartes (.showcase-grid--trio)
+   Grand écran : 3 côte à côte. Écran moyen : 3 bandeaux larges empilés
+   (jamais 2 + 1, pas de carrousel). Téléphone : 3 cartes empilées.
+   ============================================ */
+.showcase-grid--trio { grid-template-columns: repeat(3, 1fr); }
+.showcase-grid--trio .showcase-card { aspect-ratio: 5 / 6; }
+@media (max-width: 1100px) {
+  .showcase-grid--trio { grid-template-columns: 1fr; gap: 1.25rem; }
+  .showcase-grid--trio .showcase-card { aspect-ratio: 3 / 1; }
+  .showcase-grid--trio .showcase-card-desc { display: block; }
+  /* bandeau : texte centré verticalement à gauche, dégradé de gauche à droite,
+     l'image reste lisible sur la moitié droite */
+  .showcase-grid--trio .showcase-card-content {
+    top: 0; right: auto; width: 58%;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  }
+  .showcase-grid--trio .showcase-card::after {
+    background: linear-gradient(to right, rgba(28,20,15,.92) 0%, rgba(28,20,15,.72) 40%, rgba(28,20,15,.1) 72%, rgba(28,20,15,0) 88%);
+  }
+  .showcase-grid--trio .showcase-card:hover::after,
+  .showcase-grid--trio .showcase-card:focus-visible::after {
+    background: linear-gradient(to right, rgba(139,74,92,.94) 0%, rgba(28,20,15,.7) 42%, rgba(28,20,15,.1) 74%, rgba(28,20,15,0) 90%);
+  }
+}
+@media (max-width: 760px) {
+  .showcase-grid--trio .showcase-card { aspect-ratio: 4 / 3; }
+  .showcase-grid--trio .showcase-card-desc { display: none; }
+  .showcase-grid--trio .showcase-card-content { top: auto; right: 0; width: auto; display: block; }
+  .showcase-grid--trio .showcase-card::after {
+    background: linear-gradient(to top, rgba(28,20,15,.92) 0%, rgba(28,20,15,.62) 32%, rgba(28,20,15,.05) 62%, rgba(28,20,15,0) 80%);
+  }
+  .showcase-grid--trio .showcase-card:hover::after,
+  .showcase-grid--trio .showcase-card:focus-visible::after {
+    background: linear-gradient(to top, rgba(139,74,92,.94) 0%, rgba(28,20,15,.6) 34%, rgba(28,20,15,.05) 64%, rgba(28,20,15,0) 82%);
+  }
+}
+
+/* ============================================
+   LIVRE D'OR — messages (.lo-mot, générés par build.py) et formulaire
+   Page livre-dor.html + sélection sur l'accueil. Tout ce qui porte
+   data-si-livre-dor reste caché (hidden) tant que data/livre-dor.json est vide.
+   ============================================ */
+[data-si-livre-dor][hidden] { display: none !important; }
+
+.lo-mots { columns: 3 300px; column-gap: 1.5rem; max-width: 1150px; margin: 0 auto; }
+/* Accueil : 3 messages au plus → rangée centrée (pas de colonne vide à droite) */
+.lo-mots--accueil { columns: auto; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 1.5rem; margin: 2.5rem auto 2rem; }
+.lo-mots--accueil .lo-mot { flex: 0 1 350px; margin: 0; }
+.lo-mot {
+  position: relative; break-inside: avoid; margin: 0 0 1.5rem;
+  padding: 2.4rem 1.8rem 1.5rem; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.lo-mot::before {   /* guillemet décoratif */
+  content: "\201C"; position: absolute; top: .9rem; left: 1.3rem;
+  font-family: var(--font-serif); font-size: 3.2rem; line-height: 1; color: var(--rose); opacity: .55;
+}
+.lo-texte { margin: 0; padding-top: .6rem; font-family: var(--font-serif); font-style: italic; font-size: 1.12rem; line-height: 1.65; color: var(--noir); }
+.lo-texte p + p { margin-top: .7rem; }
+.lo-signature { display: flex; flex-direction: column; gap: .25rem; margin-top: 1.1rem; }
+.lo-nom { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--rose-deep); }
+.lo-detail { font-size: .8rem; color: var(--gris); }
+.lo-detail a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(176, 96, 112, 0.35); }
+.lo-detail a:hover { color: var(--rose-deep); }
+.lo-liens { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 1rem; }
+
+.livre-dor-accueil { background: var(--bg-light); }
+.livre-dor-page { padding-top: 1rem; }
+.livre-dor-form { background: var(--bg-light); }
+.livre-dor-carte { max-width: 680px; margin: 0 auto; }
+.form-group label small { text-transform: none; letter-spacing: 0; color: var(--gris); font-size: .9em; }
+.form-accord {
+  display: flex; align-items: flex-start; gap: .7rem; margin: .4rem 0 1.4rem;
+  font-size: .85rem; line-height: 1.55; color: var(--gris); cursor: pointer;
+}
+.form-accord input { flex-shrink: 0; width: 1.05rem; height: 1.05rem; margin-top: .18rem; accent-color: var(--rose-deep); }
+@media (max-width: 600px) {
+  .lo-mot { padding: 2.2rem 1.4rem 1.3rem; }
+}

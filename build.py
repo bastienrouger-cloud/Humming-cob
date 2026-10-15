@@ -661,6 +661,118 @@ def injecter_sujets(html):
     return _SUJETS.sub(remplace, html)
 
 
+# ---------------------------------------------------------------- livre d'or
+# data/livre-dor.json : liste des messages publiés, ajoutés à la main après lecture.
+#   { "nom": "Ludivine — Le Cros de l'Oume",   nom tel que la personne veut le voir
+#     "message": "…",                           paragraphes séparés par une ligne vide
+#     "date": "2026-10-20",                     date de réception (AAAA-MM-JJ)
+#     "cheval": "sakura",                       facultatif : un de nos chevaux
+#     "accueil": true }                         facultatif : montré sur l'accueil (3 max)
+# Pages :
+#   <!-- @livre-dor: tous --> … <!-- @end:livre-dor -->     tous les messages, du plus récent
+#   <!-- @livre-dor: accueil --> … <!-- @end:livre-dor -->  ceux marqués accueil (3 max)
+#   <!-- @chevaux-livre-dor --> … <!-- @end:chevaux-livre-dor -->  options « votre cheval »
+# data-si-livre-dor : « hidden » tant que la liste est vide (liste de la page).
+# data-si-livre-dor="accueil" : « hidden » tant qu'il y a moins de SEUIL_ACCUEIL
+# messages marqués accueil (section de l'accueil). Le lien du pied de page est
+# toujours visible : la page sert aussi à laisser un mot.
+
+LIVRE_DOR = ROOT / "data" / "livre-dor.json"
+SEUIL_ACCUEIL = 2   # section de l'accueil affichée à partir de 2 messages marqués « accueil »
+_MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
+         "septembre", "octobre", "novembre", "décembre"]
+
+
+def lire_livre_dor(par_id, erreurs):
+    if not LIVRE_DOR.exists():
+        return []
+    try:
+        data = _json.loads(LIVRE_DOR.read_text(encoding="utf-8"))
+    except ValueError as e:
+        erreurs.append("data/livre-dor.json illisible : %s" % e)
+        return []
+    if not isinstance(data, list):
+        erreurs.append("data/livre-dor.json doit contenir une liste [ … ]")
+        return []
+    for n, m in enumerate(data, 1):
+        ou = "data/livre-dor.json, message %d" % n
+        if not (m.get("nom") or "").strip():
+            erreurs.append(ou + " : « nom » manquant")
+        if not (m.get("message") or "").strip():
+            erreurs.append(ou + " : « message » manquant")
+        if not re.match(r"^\d{4}-\d\d-\d\d$", m.get("date") or ""):
+            erreurs.append(ou + " : « date » au format AAAA-MM-JJ")
+        if m.get("cheval") and m["cheval"] not in par_id:
+            erreurs.append(ou + " : cheval inconnu « %s »" % m["cheval"])
+    return sorted(data, key=lambda m: m.get("date") or "", reverse=True)
+
+
+def message_html(m, base, par_id):
+    paras = [p.strip() for p in re.split(r"\n\s*\n", m["message"].strip()) if p.strip()]
+    texte = "".join("<p>%s</p>" % _esc(p).replace("\n", "<br>") for p in paras)
+    details = []
+    c = par_id.get(m.get("cheval") or "")
+    if c:
+        nom = _esc(c.get("nom_usuel") or decouper_nom(c)[1])
+        details.append("À propos de " + ('<a href="%s%s">%s</a>' % (base, _esc(c["page"]), nom) if c.get("page") else nom))
+    a, mo = int(m["date"][:4]), int(m["date"][5:7])
+    details.append("%s %d" % (_MOIS[mo - 1], a))
+    return "\n".join([
+        '<figure class="lo-mot">',
+        '  <blockquote class="lo-texte">%s</blockquote>' % texte,
+        '  <figcaption class="lo-signature"><span class="lo-nom">%s</span>'
+        '<span class="lo-detail">%s</span></figcaption>' % (_esc(m["nom"]), " · ".join(details)),
+        "</figure>",
+    ])
+
+
+_LIVRE = re.compile(r"(<!--\s*@livre-dor:\s*(\w+)\s*-->)(.*?)(<!--\s*@end:livre-dor\s*-->)", re.S)
+_CHX_LIVRE = re.compile(r"(<!--\s*@chevaux-livre-dor\s*-->)(.*?)(<!--\s*@end:chevaux-livre-dor\s*-->)", re.S)
+
+
+def injecter_livre_dor(html, page, par_id, messages):
+    base = "../" * (len(page.relative_to(ROOT).parts) - 1)
+
+    def ind_de(m):
+        debut = html.rfind("\n", 0, m.start()) + 1
+        return re.match(r"[ \t]*", html[debut:m.start()]).group(0)
+
+    def remplace(m):
+        choix = messages if m.group(2) != "accueil" else [x for x in messages if x.get("accueil")][:3]
+        ind = ind_de(m)
+        corps = "\n".join(message_html(x, base, par_id) for x in choix)
+        corps = "\n".join(ind + l for l in corps.split("\n")) if corps else ""
+        return m.group(1) + ("\n" + corps if corps else "") + "\n" + ind + m.group(4)
+
+    def options(m):
+        nous = [c for c in _CHEVAUX_LUS if c.get("famille") == "humming"]
+        nom = lambda c: c.get("nom_usuel") or decouper_nom(c)[1]
+        groupes = [("Reproducteurs", [c for c in nous if c.get("role") in ("etalon", "jument")]),
+                   ("Poulains", [c for c in nous if c.get("role") == "poulain"]),
+                   ("En mémoire", [c for c in nous if c.get("role") == "memoire"])]
+        ind = ind_de(m)
+        lignes = []
+        for titre, liste in groupes:
+            if not liste:
+                continue
+            lignes.append('<optgroup label="%s">' % titre)
+            lignes += ['  <option value="%s">%s</option>' % (_esc(c["id"]), _esc(nom(c)))
+                       for c in sorted(liste, key=lambda c: (c["sexe"] == "femelle", _age(c)))]
+            lignes.append("</optgroup>")
+        return m.group(1) + "\n" + "\n".join(ind + l for l in lignes) + "\n" + ind + m.group(3)
+
+    html = _LIVRE.sub(remplace, html)
+    html = _CHX_LIVRE.sub(options, html)
+    # data-si-livre-dor : visible dès le 1er message (liste de la page) ;
+    # data-si-livre-dor="accueil" : visible à partir de SEUIL_ACCUEIL messages « accueil ».
+    nb_accueil = len([x for x in messages if x.get("accueil")])
+
+    def bascule(x):
+        visible = nb_accueil >= SEUIL_ACCUEIL if x.group(2) else bool(messages)
+        return x.group(1) + ("" if visible else " hidden")
+    return re.sub(r'(\sdata-si-livre-dor(="accueil")?)(?: hidden)?(?=[\s>])', bascule, html)
+
+
 def main():
     check_only = "--check" in sys.argv
 
@@ -684,6 +796,7 @@ def main():
     changed, skipped, stale = [], [], []
     par_id = {c["id"]: c for c in _CHEVAUX_LUS}
     erreurs_cartes = []
+    messages = lire_livre_dor(par_id, erreurs_cartes)
 
     for page in pages:
         original = page.read_text(encoding="utf-8")
@@ -697,6 +810,7 @@ def main():
         html = injecter_noms(html, page, par_id, erreurs_cartes)
         html = injecter_pedigrees(html, page, par_id, erreurs_cartes)
         html = injecter_sujets(html)
+        html = injecter_livre_dor(html, page, par_id, messages)
 
         rel = page.relative_to(ROOT).as_posix()
 

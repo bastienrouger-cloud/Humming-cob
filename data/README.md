@@ -112,3 +112,33 @@ Le texte d'introduction et la « Note sur les origines » restent écrits à la 
 Dans `contact.html`, `<!-- @sujets --><!-- @end:sujets -->` est rempli avec les poulains à vendre ou
 réservés et les étalons (saillies). Une fiche présélectionne le sujet par l'adresse :
 `contact.html?sujet=nashi`, `contact.html?sujet=saillie-archy`.
+
+## Livre d'or
+
+`livre-dor.json` contient les messages **publiés**, ajoutés à la main après lecture des mails
+« Livre d'or — Humming Cob » (formulaire de `livre-dor.html`, même clé Web3Forms que le contact).
+
+```json
+[
+  {
+    "nom": "Ludivine — Le Cros de l'Oume",
+    "message": "Premier paragraphe…\n\nSecond paragraphe…",
+    "date": "2026-10-20",
+    "cheval": "sakura",
+    "accueil": true
+  }
+]
+```
+
+- `nom` : tel que la personne l'a écrit dans « Votre nom, tel qu'il apparaîtra ».
+- `message` : paragraphes séparés par une ligne vide (`\n\n`).
+- `date` : date de réception, AAAA-MM-JJ (seul le mois est affiché).
+- `cheval` (facultatif) : l'id du cheval choisi dans le formulaire (le mail donne l'id).
+- `accueil` (facultatif) : `true` pour le montrer sur l'accueil (3 au plus, les plus récents).
+
+Ne publier que si la case « J'accepte que ce message… soit publié » est cochée dans le mail
+(`accord_publication: oui`). Tant que la liste est vide (`[]`), la liste de la page reste cachée ;
+la section de l'accueil n'apparaît qu'à partir de 2 messages marqués `accueil` (réglage
+`SEUIL_ACCUEIL` dans build.py). Le lien du pied de page et le formulaire sont toujours là
+(c'est le lien à envoyer aux amis pour les premiers messages). Messages non publiés : à
+supprimer de la boîte mail au plus tard un an après réception (politique de confidentialité).
