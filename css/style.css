@@ -3202,11 +3202,11 @@ body .ped-label--mere { color: var(--femelle); }
   mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
 }
 
-/* ── DA des cartes (validée le 14/10, tout le site) ──
-   Fond teinté comme les fiches — crème pour les mâles, crème rosé pour les
-   femelles, gris chaud pour les chevaux disparus. */
-.cc { background: linear-gradient(180deg, #FFFEFA 0%, #F8F3E9 100%); border-color: rgba(140, 115, 75, .13); }
-.cc--femelle { background: linear-gradient(180deg, #FFFCFB 0%, #FAEEEC 100%); border-color: rgba(176, 96, 112, .13); }
+/* ── DA des cartes (14/10, revue le 15/10 avec la palette framboise/pétrole) ──
+   Même règle pour les deux sexes, tirée de --c (couleur du cheval) : du
+   foncé sous la photo vers le clair en bas de carte, sans passer par le
+   crème. Gris chaud pour les chevaux disparus. */
+.cc { background: color-mix(in srgb, var(--c) 6%, #FFFEFA); border-color: color-mix(in srgb, var(--c) 16%, transparent); }
 .cc--memoire { background: #F7F2EA; border-color: rgba(90, 80, 75, .12); }
 /* Texte complet : Alice a écrit ses textes pour être lus en entier. Dans une
    rangée, les cartes s'alignent d'elles-mêmes sur la plus haute (flex), et
@@ -3217,11 +3217,14 @@ body .ped-label--mere { color: var(--femelle); }
 .cc:hover { box-shadow: 0 2px 4px color-mix(in srgb, var(--ombre) 12%, transparent), 0 20px 44px color-mix(in srgb, var(--ombre) 24%, transparent); }
 .cc--memoire { --ombre: #8A7D77; }
 /* Fond du corps de carte : le liseré est fondu dans le dégradé — la couleur
-   du cheval est la plus soutenue sous la photo puis se fond vers le crème
-   (rosé pour les femelles, gris chaud pour les disparus). Pas de trait net. */
+   du cheval est la plus soutenue sous la photo puis s'éclaircit jusqu'en bas
+   (même couleur, plus claire). Pas de trait net. Même dégradé dans la modale
+   (.cm-infos). NB : écrit sur les éléments eux-mêmes, pas dans une variable
+   de :root, sinon var(--c) y serait résolu avant d'être défini. */
 .cc-photo::after { display: none; }
-.cc-corps { background: linear-gradient(180deg, color-mix(in srgb, var(--male) 34%, #FFFEFA) 0%, color-mix(in srgb, var(--male) 14%, #FFFEFA) 14%, #FFFEFA 50%, #F8F3E9 100%); }
-.cc--femelle .cc-corps { background: linear-gradient(180deg, color-mix(in srgb, var(--femelle) 38%, #FFFCFB) 0%, color-mix(in srgb, var(--femelle) 17%, #FFFCFB) 14%, #FFFAF9 50%, #FAEEEC 100%); }
+.cc-corps, .cm-infos { background: linear-gradient(180deg, color-mix(in srgb, var(--c) 30%, #FFFEFA) 0%, color-mix(in srgb, var(--c) 13%, #FFFEFA) 28%, color-mix(in srgb, var(--c) 6%, #FFFEFA) 100%); }
+/* La modale suit la carte : plus de trait vertical, le dégradé suffit. */
+.cm-infos::before { display: none; }
 /* Disparus : sans couleur de sexe, un gris chaud qui se fond vers le crème. */
 .cc--memoire .cc-corps { background: linear-gradient(180deg, #DDD7D3 0%, #EAE6E2 14%, #F5F2EE 50%, #F7F2EA 100%); }
 /* Disparus : le texte d'Alice en italique, comme sur la page mémoire. */
@@ -3341,7 +3344,7 @@ body .ped-label--mere { color: var(--femelle); }
   position: relative; isolation: isolate; overflow: hidden; display: block;
   flex: 0 0 var(--ca-w, 172px); aspect-ratio: 3 / 4; border-radius: 16px;
   text-decoration: none; color: #fff; scroll-snap-align: start;
-  background: #2a2522; box-shadow: 0 6px 16px rgba(63, 98, 137, 0.22);
+  background: #2a2522; box-shadow: 0 6px 16px color-mix(in srgb, var(--male) 24%, transparent);
   transition: transform var(--transition), box-shadow var(--transition);
 }
 .ca img {
@@ -3358,8 +3361,10 @@ body .ped-label--mere { color: var(--femelle); }
   transition: transform var(--transition);
 }
 .ca--femelle::before { background: var(--femelle); }
+.ca--femelle { box-shadow: 0 6px 16px color-mix(in srgb, var(--femelle) 24%, transparent); }
 .ca--femelle { box-shadow: 0 6px 16px rgba(176, 96, 112, 0.24); }
-.ca:hover, .ca:focus-visible { transform: translateY(-5px); box-shadow: 0 12px 22px rgba(63, 98, 137, 0.34); }
+.ca:hover, .ca:focus-visible { transform: translateY(-5px); box-shadow: 0 12px 22px color-mix(in srgb, var(--male) 36%, transparent); }
+.ca--femelle:hover, .ca--femelle:focus-visible { box-shadow: 0 12px 22px color-mix(in srgb, var(--femelle) 36%, transparent); }
 .ca--femelle:hover, .ca--femelle:focus-visible { box-shadow: 0 12px 22px rgba(176, 96, 112, 0.36); }
 .ca:hover img, .ca:focus-visible img { transform: scale(1.07); }
 .ca:hover::before, .ca:focus-visible::before { transform: scaleX(1); }
