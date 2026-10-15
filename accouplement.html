@@ -622,6 +622,7 @@
     <div id="acCommuns"></div>
     <div id="acGenetique"></div>
     <div class="ac-pedigrees" id="acPedigrees"></div>
+    <div id="acSaillie"></div>
     <p class="ac-fiabilite">
       <strong>À lire comme une estimation.</strong> Le pourcentage ne tient compte que des ancêtres
       renseignés dans l'outil&nbsp;: un pédigrée incomplet peut masquer une consanguinité réelle plus
@@ -881,7 +882,7 @@ function updateXResult(){
   if(!leftH || !rightH || leftH.sex === rightH.sex){
     box.hidden = false;
     document.getElementById('resultValue').textContent = '—';
-    ['resultBadge', 'acJauge', 'acCommuns', 'acGenetique', 'acPedigrees'].forEach(k => { document.getElementById(k).innerHTML = ''; });
+    ['resultBadge', 'acJauge', 'acCommuns', 'acGenetique', 'acPedigrees', 'acSaillie'].forEach(k => { document.getElementById(k).innerHTML = ''; });
     document.getElementById('resultHint').textContent = 'Il faut un étalon et une jument pour calculer une descendance hypothétique.';
     return;
   }
@@ -1017,6 +1018,11 @@ function renderMatchResult(sireId, damId){
     `<div class="ac-jauge-barre"><span class="ac-jauge-curseur" style="left:${positionJauge(pct)}%"></span></div>`
     + `<div class="ac-jauge-reperes"><span style="left:25%">3,125</span><span style="left:50%">6,25</span><span style="left:75%">12,5 %</span></div>`;
   const sireH = byId(sireId), damH = byId(damId);
+  // Étalon de l'élevage : lien direct vers la demande de saillie (sujet prérempli)
+  const sireC = CH_PAR_ID[sireId];
+  document.getElementById('acSaillie').innerHTML = (sireC && sireC.famille === 'humming' && sireC.role === 'etalon')
+    ? `<div class="ac-saillie"><a class="btn btn-primary" href="contact.html?sujet=saillie-${echap(sireId)}">Demander les conditions de saillie avec ${echap(sireC.nom_usuel || sireC.nom)}</a></div>`
+    : '';
   const estim = (sireH.source === 'estimation' || damH.source === 'estimation')
     ? ' Attention : au moins un des deux chevaux a une ascendance estimée (intermédiaires non documentés) — ce résultat est une valeur plancher.' : '';
   document.getElementById('resultHint').textContent = niv.note + estim;
@@ -2229,6 +2235,14 @@ if(startupValidation.rejected.length > 0 || startupValidation.warnings.length > 
   );
 }
 
+// Préremplissage depuis une fiche étalon : accouplement.html?etalon=archy
+// (et/ou &jument=suzie). Un id inconnu ou du mauvais sexe est ignoré.
+(function(){
+  const q = new URLSearchParams(location.search);
+  const e = byId(q.get('etalon') || ''), j = byId(q.get('jument') || '');
+  if(e && e.sex === 'stallion') testState.leftId = e.id;
+  if(j && j.sex === 'mare') testState.rightId = j.id;
+})();
 render();
 </script>
 </body>

@@ -2356,6 +2356,8 @@ footer {
 .cta-anchor--center {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: .8rem;   /* fiches étalons : « Conditions de saillie » + « Tester avec ma jument » */
 }
 
 /* --- Fiches poulains : tempérament + prix ---------------------------------
@@ -3474,3 +3476,7 @@ body .ped-label--mere { color: var(--femelle); }
 
 /* L'élevage : carte « Notre histoire » centrée sous les 6 cartes */
 .elevage-histoire { display: block; max-width: 420px; margin: 3rem auto 0; }
+
+/* Fiches étalons, bas de page mobile : les deux boutons empilés */
+.cta-end-inner .btn + .btn { margin-top: .7rem; }
+.ac-saillie { display: flex; justify-content: center; margin: 1.6rem 0 .4rem; }
