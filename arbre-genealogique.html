@@ -301,16 +301,24 @@
       overflow-y: auto; overscroll-behavior: contain;
       padding-bottom: 1rem;
     }
+    /* Carte du cheval : habillage des cartes du site (.cc / modale .cm, 16/10) —
+       pas de liseré (abandonné le 15/10), corps en dégradé foncé → clair, boutons du site
+       aux couleurs du sexe (les --rose-* sont redéfinis sur la carte). */
+    .ap-carte, .fx-centre {
+      --rose: var(--c); --rose-deep: var(--ct);
+      --rose-dark: color-mix(in srgb, var(--ct) 78%, #000);
+      --rose-pale: color-mix(in srgb, var(--c) 18%, #fff);
+    }
     .ap-carte {
       position: relative; background: #fff;
-      border: 1.5px solid var(--c); border-radius: 18px; overflow: hidden;
-      box-shadow: 0 10px 30px rgba(60,40,35,.08);
+      border: 1px solid rgba(60,40,35,.07); border-radius: 20px; overflow: hidden;
+      box-shadow: 0 1px 2px rgba(60,40,35,.04), 0 10px 30px rgba(60,40,35,.08);
       animation: ap-in .3s ease;
     }
-    .ap-carte.is-ext { border-style: dashed; }
+    .ap-carte.is-ext { border: 1px dashed color-mix(in srgb, var(--c) 40%, transparent); }
     @keyframes ap-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
     .ap-photo {
-      display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; border: 0;
+      position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; border: 0;
       background: #F3EEE6; cursor: zoom-in;
     }
     .ap-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -321,7 +329,12 @@
       background: rgba(255,255,255,.9); color: var(--noir); font-size: 1rem; line-height: 1;
       box-shadow: 0 2px 6px rgba(0,0,0,.12);
     }
-    .ap-corps { padding: 1.1rem 1.25rem 1.3rem; }
+    .ap-corps {
+      padding: 1.15rem 1.3rem 1.4rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--c) 30%, #FFFEFA) 0%, color-mix(in srgb, var(--c) 13%, #FFFEFA) 28%, color-mix(in srgb, var(--c) 6%, #FFFEFA) 100%);
+    }
+    .ap-carte.is-memoire .ap-corps { background: linear-gradient(180deg, #DDD7D3 0%, #EAE6E2 14%, #F5F2EE 50%, #F7F2EA 100%); }
+    .ap-carte.is-memoire .ap-photo img { filter: grayscale(.85); }
     .ap-genre {
       display: flex; align-items: center; flex-wrap: wrap; gap: .5rem;
       font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct);
@@ -332,7 +345,8 @@
     .ap-nom em { color: var(--ct); font-style: italic; }
     .ap-sous { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); margin-top: .3rem; }
     .ap-infos {
-      margin: 1rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: .5rem .9rem;
+      margin: 1rem 0 0; padding-top: 1rem; border-top: 1px solid rgba(60,40,35,.08);
+      display: grid; grid-template-columns: auto 1fr; gap: .5rem .9rem;
       font-size: .82rem; align-items: baseline;
     }
     .ap-infos dt { color: var(--gris); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; }
@@ -342,19 +356,13 @@
       display: inline-flex; align-items: center; gap: .4rem;
       font: inherit; font-size: .78rem; color: var(--noir);
       padding: .22rem .7rem .22rem .55rem; border-radius: 20px;
-      border: 1px solid var(--c); background: #fff; cursor: pointer;
+      border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); background: rgba(255,255,255,.8); cursor: pointer;
       transition: background .15s;
     }
     .ap-lien::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
     .ap-lien:hover { background: #FBF3E7; }
     .ap-resume { margin-top: 1rem; font-size: .85rem; line-height: 1.6; color: var(--noir); }
-    .ap-cta {
-      margin-top: 1.1rem; display: inline-flex; align-items: center; gap: .45rem;
-      font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
-      color: var(--ct); border: 1.5px solid var(--ct); border-radius: 50px; padding: .55rem 1.2rem;
-      transition: background .15s, color .15s;
-    }
-    .ap-cta:hover { background: var(--ct); color: #fff; }
+    .ap-cta { margin-top: 1.2rem; padding: .65rem 1.6rem; font-size: .7rem; }   /* .btn .btn-primary du site */
     .ap-note { margin-top: 1rem; font-size: .75rem; color: var(--gris); font-style: italic; }
     .ap-vide {
       padding: 1.25rem; border: 1px solid rgba(176,96,112,.16); border-radius: 18px;
@@ -533,12 +541,9 @@
     .fx-nom { margin: .1rem 0 0; font-family: var(--serif); font-weight: 400; font-size: 1.75rem; line-height: 1.1; }
     .fx-meta { margin: .15rem 0 0; font-size: .78rem; color: var(--gris); }
     .fx-actions { display: flex; gap: .5rem; margin-top: .8rem; flex-wrap: wrap; justify-content: center; }
-    .fx-bouton {
-      display: inline-flex; align-items: center; gap: .35rem; padding: .5rem 1rem; border-radius: 50px;
-      border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); background: #fff; color: var(--ct);
-      font: inherit; font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; cursor: pointer;
-    }
-    .fx-bouton--plein { background: var(--ct); border-color: var(--ct); color: #fff; }
+    /* boutons du site (.btn-primary / .btn-outline), en plus petit */
+    .fx-actions .btn { padding: .6rem 1.3rem; font-size: .66rem; font-family: inherit; cursor: pointer; }
+    .fx-actions .btn-outline { padding-left: 1.1rem; padding-right: 2.2rem; }
     .fx-rangee {
       display: flex; gap: .4rem; max-width: 100%; overflow-x: auto; padding: .3rem .2rem .6rem;
       scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
@@ -878,7 +883,7 @@ function carteHTML(c) {
     `<span class="ap-liens">${enfants.map(e => lienCheval(e.id)).join('')}</span>`]);
 
   return `
-  <article class="ap-carte${c.famille === 'externe' ? ' is-ext' : ''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
+  <article class="ap-carte${c.famille === 'externe' ? ' is-ext' : ''}${c.role === 'memoire' ? ' is-memoire' : ''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
     <button type="button" class="ap-fermer" aria-label="Fermer">✕</button>
     <button type="button" class="ap-photo${vraiePhoto ? '' : ' is-vide'}" ${vraiePhoto ? `data-photo="${esc(photo)}" aria-label="Agrandir la photo"` : 'tabindex="-1" aria-hidden="true"'}>
       <img src="${esc(photo)}" alt="${vraiePhoto ? esc(c.nom) : ''}" loading="lazy"${c.photo && c.cadrage ? ` style="object-position:${esc(c.cadrage)}"` : ''}>
@@ -889,8 +894,7 @@ function carteHTML(c) {
       ${sous ? `<p class="ap-sous">${esc(sous)}</p>` : ''}
       <dl class="ap-infos">${infos.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
       ${c.resume ? `<p class="ap-resume">${esc(c.resume)}</p>` : ''}
-      ${c.page ? `<a class="ap-cta" href="${esc(c.page)}">Voir la fiche
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>` : ''}
+      ${c.page ? `<a class="btn btn-primary ap-cta" href="${esc(c.page)}">Voir la fiche</a>` : ''}
       ${POSITIONS_ARBRE[c.id] ? '' : '<p class="ap-note">Ce cheval n’est pas placé dans l’arbre.</p>'}
     </div>
   </article>`;
@@ -1495,8 +1499,8 @@ function afficherFocus(id) {
         <h2 class="fx-nom">${nomChevalHTML(c)}</h2>
         ${meta ? `<p class="fx-meta">${esc(meta)}</p>` : ''}
         <div class="fx-actions">
-          <button type="button" class="fx-bouton" data-carte>Sa carte</button>
-          ${c.page ? `<a class="fx-bouton fx-bouton--plein" href="${esc(c.page)}">Voir la fiche</a>` : ''}
+          <button type="button" class="btn btn-outline" data-carte>Sa carte</button>
+          ${c.page ? `<a class="btn btn-primary" href="${esc(c.page)}">Voir la fiche</a>` : ''}
         </div>
       </div>
       <span class="fx-trait" aria-hidden="true"></span>

@@ -106,10 +106,17 @@ a { color: inherit; text-decoration: none; }
      la hauteur dépend du chargement du logo et le calage devient aléatoire. */
   height: 80px;
   padding: 0 3rem;
-  background: rgba(254, 251, 246, 0.85);
+  /* DA nav (16/10, planche « Nav Humming Cob ») : fond « plan de travail » repris du
+     cadre de l'arbre (clair au centre, rosé vers les bords) + pétales posés façon
+     frise (gouttes immobiles en deux couches, dessinées une fois en SVG, rien
+     n'est animé). Les pétales évitent la zone du logo (x < 430 dans le motif de
+     1 600 px) ; sur mobile le motif est calé à droite pour rester visible. */
+  background:
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='80' viewBox='0 0 1600 80'><path d='M0 -6.8C9.6 -2.7 9.6 4.8 0 6.8C-9.6 4.8 -9.6 -2.7 0 -6.8Z' fill='%23EF9FB4' opacity='0.12' transform='translate(775 47) rotate(231)'/><path d='M0 -6.6C10.6 -2.6 10.6 4.6 0 6.6C-10.6 4.6 -10.6 -2.6 0 -6.6Z' fill='%23E687A3' opacity='0.14' transform='translate(462 66) rotate(171)'/><path d='M0 -8.1C12.4 -3.3 12.4 5.7 0 8.1C-12.4 5.7 -12.4 -3.3 0 -8.1Z' fill='%23F3BFCE' opacity='0.19' transform='translate(704 50) rotate(97)'/><path d='M0 -6.9C11.2 -2.8 11.2 4.9 0 6.9C-11.2 4.9 -11.2 -2.8 0 -6.9Z' fill='%23E9ACC0' opacity='0.18' transform='translate(1106 54) rotate(261)'/><path d='M0 -5.9C11.1 -2.3 11.1 4.1 0 5.9C-11.1 4.1 -11.1 -2.3 0 -5.9Z' fill='%23D88AA0' opacity='0.17' transform='translate(1478 22) rotate(99)'/><path d='M0 -5.5C10.3 -2.2 10.3 3.9 0 5.5C-10.3 3.9 -10.3 -2.2 0 -5.5Z' fill='%23EF9FB4' opacity='0.13' transform='translate(510 41) rotate(8)'/><path d='M0 -6.3C11.5 -2.5 11.5 4.4 0 6.3C-11.5 4.4 -11.5 -2.5 0 -6.3Z' fill='%23E687A3' opacity='0.18' transform='translate(1263 46) rotate(240)'/><path d='M0 -3.7C5.2 -1.5 5.2 2.6 0 3.7C-5.2 2.6 -5.2 -1.5 0 -3.7Z' fill='%23EF9FB4' opacity='0.33' transform='translate(1465 39) rotate(305)'/><path d='M0 -4.2C6.1 -1.7 6.1 3.0 0 4.2C-6.1 3.0 -6.1 -1.7 0 -4.2Z' fill='%23E687A3' opacity='0.48' transform='translate(1190 37) rotate(294)'/><path d='M0 -2.3C4.5 -0.9 4.5 1.6 0 2.3C-4.5 1.6 -4.5 -0.9 0 -2.3Z' fill='%23F3BFCE' opacity='0.34' transform='translate(647 20) rotate(348)'/><path d='M0 -2.2C4.1 -0.9 4.1 1.5 0 2.2C-4.1 1.5 -4.1 -0.9 0 -2.2Z' fill='%23E9ACC0' opacity='0.47' transform='translate(1218 10) rotate(318)'/><path d='M0 -2.9C5.2 -1.1 5.2 2.0 0 2.9C-5.2 2.0 -5.2 -1.1 0 -2.9Z' fill='%23D88AA0' opacity='0.39' transform='translate(843 21) rotate(39)'/><path d='M0 -2.6C4.2 -1.0 4.2 1.8 0 2.6C-4.2 1.8 -4.2 -1.0 0 -2.6Z' fill='%23EF9FB4' opacity='0.43' transform='translate(539 61) rotate(228)'/><path d='M0 -3.4C5.5 -1.4 5.5 2.4 0 3.4C-5.5 2.4 -5.5 -1.4 0 -3.4Z' fill='%23E687A3' opacity='0.49' transform='translate(1125 60) rotate(94)'/><path d='M0 -3.5C4.9 -1.4 4.9 2.4 0 3.5C-4.9 2.4 -4.9 -1.4 0 -3.5Z' fill='%23F3BFCE' opacity='0.33' transform='translate(886 42) rotate(65)'/><path d='M0 -3.1C4.9 -1.2 4.9 2.1 0 3.1C-4.9 2.1 -4.9 -1.2 0 -3.1Z' fill='%23E9ACC0' opacity='0.40' transform='translate(1082 31) rotate(129)'/><path d='M0 -2.1C3.6 -0.8 3.6 1.5 0 2.1C-3.6 1.5 -3.6 -0.8 0 -2.1Z' fill='%23D88AA0' opacity='0.32' transform='translate(1286 47) rotate(12)'/><path d='M0 -2.8C5.3 -1.1 5.3 2.0 0 2.8C-5.3 2.0 -5.3 -1.1 0 -2.8Z' fill='%23EF9FB4' opacity='0.38' transform='translate(1506 69) rotate(147)'/><path d='M0 -2.3C4.4 -0.9 4.4 1.6 0 2.3C-4.4 1.6 -4.4 -0.9 0 -2.3Z' fill='%23E687A3' opacity='0.35' transform='translate(952 37) rotate(297)'/><path d='M0 -3.0C4.5 -1.2 4.5 2.1 0 3.0C-4.5 2.1 -4.5 -1.2 0 -3.0Z' fill='%23F3BFCE' opacity='0.32' transform='translate(1253 10) rotate(331)'/><path d='M0 -3.2C6.0 -1.3 6.0 2.3 0 3.2C-6.0 2.3 -6.0 -1.3 0 -3.2Z' fill='%23E9ACC0' opacity='0.41' transform='translate(1188 38) rotate(267)'/><path d='M0 -3.5C6.0 -1.4 6.0 2.5 0 3.5C-6.0 2.5 -6.0 -1.4 0 -3.5Z' fill='%23D88AA0' opacity='0.30' transform='translate(1578 35) rotate(155)'/><path d='M0 -2.9C5.5 -1.2 5.5 2.0 0 2.9C-5.5 2.0 -5.5 -1.2 0 -2.9Z' fill='%23EF9FB4' opacity='0.43' transform='translate(1115 36) rotate(1)'/><path d='M0 -2.6C4.4 -1.0 4.4 1.8 0 2.6C-4.4 1.8 -4.4 -1.0 0 -2.6Z' fill='%23E687A3' opacity='0.48' transform='translate(1151 43) rotate(99)'/><path d='M0 -2.6C5.1 -1.1 5.1 1.8 0 2.6C-5.1 1.8 -5.1 -1.1 0 -2.6Z' fill='%23F3BFCE' opacity='0.44' transform='translate(1412 32) rotate(183)'/><path d='M0 -2.3C3.8 -0.9 3.8 1.6 0 2.3C-3.8 1.6 -3.8 -0.9 0 -2.3Z' fill='%23E9ACC0' opacity='0.30' transform='translate(554 9) rotate(58)'/><path d='M0 -1.9C3.7 -0.8 3.7 1.4 0 1.9C-3.7 1.4 -3.7 -0.8 0 -1.9Z' fill='%23D88AA0' opacity='0.28' transform='translate(919 60) rotate(254)'/></svg>") left top / 1600px 80px repeat-x,
+    radial-gradient(ellipse 70% 160% at 50% 20%, rgba(255,254,251,.94) 0%, rgba(252,246,241,.9) 60%, rgba(247,232,233,.92) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(176, 96, 112, 0.18);
   transition: box-shadow var(--transition), transform 0.35s ease;
 }
 .navbar.scrolled { box-shadow: 0 2px 20px rgba(176, 96, 112, 0.12); }
@@ -1676,7 +1683,7 @@ footer {
    RESPONSIVE
    ============================================ */
 @media (max-width: 900px) {
-  .navbar { padding: 0 1.5rem; }
+  .navbar { padding: 0 1.5rem; background-position: right top, center; }
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
   .nav-dropdown {
@@ -1710,11 +1717,15 @@ footer {
     flex-direction: column;
     position: absolute;
     top: 100%; left: 0; right: 0;
-    background: rgba(254,251,246,0.97);
+    /* même DA que la nav (16/10) : « plan de travail » + pétales posés façon frise */
+    background:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='640' viewBox='0 0 420 640'><path d='M0 -7.2C11.4 -2.9 11.4 5.0 0 7.2C-11.4 5.0 -11.4 -2.9 0 -7.2Z' fill='%23EF9FB4' opacity='0.12' transform='translate(383 360) rotate(248)'/><path d='M0 -7.4C14.1 -3.0 14.1 5.2 0 7.4C-14.1 5.2 -14.1 -3.0 0 -7.4Z' fill='%23E687A3' opacity='0.18' transform='translate(284 615) rotate(212)'/><path d='M0 -5.6C10.2 -2.2 10.2 3.9 0 5.6C-10.2 3.9 -10.2 -2.2 0 -5.6Z' fill='%23F3BFCE' opacity='0.15' transform='translate(117 59) rotate(35)'/><path d='M0 -5.5C10.5 -2.2 10.5 3.9 0 5.5C-10.5 3.9 -10.5 -2.2 0 -5.5Z' fill='%23E9ACC0' opacity='0.14' transform='translate(184 92) rotate(164)'/><path d='M0 -6.7C10.9 -2.7 10.9 4.7 0 6.7C-10.9 4.7 -10.9 -2.7 0 -6.7Z' fill='%23D88AA0' opacity='0.17' transform='translate(372 227) rotate(124)'/><path d='M0 -7.3C10.8 -2.9 10.8 5.1 0 7.3C-10.8 5.1 -10.8 -2.9 0 -7.3Z' fill='%23EF9FB4' opacity='0.10' transform='translate(365 204) rotate(126)'/><path d='M0 -3.3C4.8 -1.3 4.8 2.3 0 3.3C-4.8 2.3 -4.8 -1.3 0 -3.3Z' fill='%23EF9FB4' opacity='0.32' transform='translate(117 254) rotate(82)'/><path d='M0 -3.2C6.0 -1.3 6.0 2.2 0 3.2C-6.0 2.2 -6.0 -1.3 0 -3.2Z' fill='%23E687A3' opacity='0.43' transform='translate(370 348) rotate(101)'/><path d='M0 -3.1C5.0 -1.2 5.0 2.2 0 3.1C-5.0 2.2 -5.0 -1.2 0 -3.1Z' fill='%23F3BFCE' opacity='0.26' transform='translate(387 213) rotate(25)'/><path d='M0 -2.9C5.5 -1.2 5.5 2.1 0 2.9C-5.5 2.1 -5.5 -1.2 0 -2.9Z' fill='%23E9ACC0' opacity='0.26' transform='translate(22 303) rotate(115)'/><path d='M0 -3.1C4.4 -1.3 4.4 2.2 0 3.1C-4.4 2.2 -4.4 -1.3 0 -3.1Z' fill='%23D88AA0' opacity='0.29' transform='translate(277 611) rotate(131)'/><path d='M0 -3.1C5.7 -1.2 5.7 2.2 0 3.1C-5.7 2.2 -5.7 -1.2 0 -3.1Z' fill='%23EF9FB4' opacity='0.38' transform='translate(29 414) rotate(337)'/><path d='M0 -1.9C3.6 -0.8 3.6 1.3 0 1.9C-3.6 1.3 -3.6 -0.8 0 -1.9Z' fill='%23E687A3' opacity='0.39' transform='translate(242 55) rotate(115)'/><path d='M0 -3.1C4.4 -1.2 4.4 2.2 0 3.1C-4.4 2.2 -4.4 -1.2 0 -3.1Z' fill='%23F3BFCE' opacity='0.28' transform='translate(115 217) rotate(302)'/><path d='M0 -4.1C6.1 -1.7 6.1 2.9 0 4.1C-6.1 2.9 -6.1 -1.7 0 -4.1Z' fill='%23E9ACC0' opacity='0.27' transform='translate(332 108) rotate(354)'/><path d='M0 -3.2C5.3 -1.3 5.3 2.2 0 3.2C-5.3 2.2 -5.3 -1.3 0 -3.2Z' fill='%23D88AA0' opacity='0.42' transform='translate(337 537) rotate(320)'/><path d='M0 -3.3C4.8 -1.3 4.8 2.3 0 3.3C-4.8 2.3 -4.8 -1.3 0 -3.3Z' fill='%23EF9FB4' opacity='0.40' transform='translate(35 596) rotate(242)'/><path d='M0 -3.7C5.4 -1.5 5.4 2.6 0 3.7C-5.4 2.6 -5.4 -1.5 0 -3.7Z' fill='%23E687A3' opacity='0.42' transform='translate(382 172) rotate(80)'/><path d='M0 -2.0C3.6 -0.8 3.6 1.4 0 2.0C-3.6 1.4 -3.6 -0.8 0 -2.0Z' fill='%23F3BFCE' opacity='0.25' transform='translate(227 101) rotate(214)'/><path d='M0 -3.0C5.4 -1.2 5.4 2.1 0 3.0C-5.4 2.1 -5.4 -1.2 0 -3.0Z' fill='%23E9ACC0' opacity='0.37' transform='translate(230 543) rotate(26)'/><path d='M0 -1.9C3.8 -0.8 3.8 1.4 0 1.9C-3.8 1.4 -3.8 -0.8 0 -1.9Z' fill='%23D88AA0' opacity='0.34' transform='translate(299 581) rotate(106)'/><path d='M0 -3.2C5.6 -1.3 5.6 2.2 0 3.2C-5.6 2.2 -5.6 -1.3 0 -3.2Z' fill='%23EF9FB4' opacity='0.38' transform='translate(39 545) rotate(264)'/></svg>") right top / 420px 640px repeat,
+      radial-gradient(ellipse 120% 90% at 50% 0%, #FFFEFB 0%, #FCF6F1 60%, #F7E8E9 100%);   /* opaque : la page ne doit pas transparaître sous les liens */
     backdrop-filter: blur(16px);
     padding: 2rem;
     gap: 1.5rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(176, 96, 112, 0.18);
+    box-shadow: 0 14px 30px rgba(176, 96, 112, 0.10);
   }
 
   .qsn-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -2931,7 +2942,8 @@ footer {
 /* ============================================
    CARTES CHEVAUX — générées par build.py (<!-- @cartes: … -->)
    Nos chevaux : lien vers la fiche. Chevaux extérieurs : ouvrent la modale.
-   Code couleur : bleu = mâle, rose = femelle (liseré, sexe, action).
+   Code couleur : pétrole = mâle, framboise = femelle (dégradé du corps, sexe, action).
+   Plus de liseré sous la photo depuis le 15/10 : le dégradé le remplace.
    ============================================ */
 .cc {
   --c: var(--male); --ct: var(--male-deep);
@@ -2952,9 +2964,6 @@ footer {
   transition: transform .8s cubic-bezier(.2, .8, .2, 1);
 }
 .cc:hover .cc-photo img { transform: scale(1.05); }
-.cc-photo::after {                                   /* liseré bleu / rose sous la photo */
-  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--c);
-}
 /* ============================================
    PASTILLE — composant unique (15/10), trois familles :
    statut (vente, reserve, reste, vendu, memoire), distinction (or, titre),
@@ -3262,6 +3271,15 @@ body.fond-taches #hero::after { background: linear-gradient(to bottom, rgba(254,
 /* :not(.troupeau--memoire) : même priorité CSS que la règle générale des sections
    transparentes (qui contient :not(#hero)), sinon celle-ci gagnait. */
 body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background: linear-gradient(180deg, var(--bg-cream) 0, rgba(254, 251, 246, 0) 14rem) !important; }
+/* Accueil, téléphone et tablette (16/10) : « Nos chevaux » remonte juste sous le hero,
+   « Qui sommes-nous » passe après (le défilement était trop long avant les chevaux).
+   Le raccord crème sous le hero suit la section qui vient en premier. */
+@media (max-width: 900px) {
+  body > #hero { order: -2; }
+  body > #accueil-chevaux { order: -1; }
+  body.fond-taches > section#accueil-chevaux:not(.troupeau--memoire) { background: linear-gradient(180deg, var(--bg-cream) 0, rgba(254, 251, 246, 0) 14rem) !important; }
+  body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background: transparent !important; }
+}
 .troupeau-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.4rem; }
 .troupeau-titre { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.75rem, 3.6vw, 2.4rem); line-height: 1.15; color: var(--noir); }
 .troupeau-titre em { color: var(--rose-deep); }
@@ -3329,7 +3347,6 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
    (même couleur, plus claire). Pas de trait net. Même dégradé dans la modale
    (.cm-infos). NB : écrit sur les éléments eux-mêmes, pas dans une variable
    de :root, sinon var(--c) y serait résolu avant d'être défini. */
-.cc-photo::after { display: none; }
 .cc-corps, .cm-infos { background: linear-gradient(180deg, color-mix(in srgb, var(--c) 30%, #FFFEFA) 0%, color-mix(in srgb, var(--c) 13%, #FFFEFA) 28%, color-mix(in srgb, var(--c) 6%, #FFFEFA) 100%); }
 /* La modale suit la carte : plus de trait vertical, le dégradé suffit. */
 .cm-infos::before { display: none; }
@@ -3521,6 +3538,9 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 }
 @media (max-width: 600px) {
   .ca-groupe { --ca-w: 142px; }
+  /* la marge latérale de la page n'est que de 1rem sur téléphone : la rangée
+     débordait de 1,5rem et élargissait la page de 8 px (corrigé le 16/10) */
+  .ca-rangee { margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; scroll-padding-inline: 1rem; }
   .ca { border-radius: 14px; }
   .ca-nom { font-size: 1.2rem; }
   .ca-groupe-tete { flex-direction: column; align-items: flex-start; gap: .6rem; }

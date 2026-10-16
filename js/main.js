@@ -2,8 +2,10 @@
    HUMMING COB — Scripts principaux
    ============================================ */
 
-// Navbar scroll effect : ombre au scroll + masquage auto (scroll bas = cache, scroll haut = revient)
+// Navbar scroll effect : ombre au scroll + masquage auto (scroll bas = cache, scroll haut = revient).
+// Pages avec <body class="nav-fixe"> (l'accueil, 16/10) : la nav reste toujours visible.
 const navbar = document.querySelector('.navbar');
+const navFixe = document.body.classList.contains('nav-fixe');
 if (navbar) {
   let lastScrollY = window.scrollY;
   let ticking = false;
@@ -17,7 +19,7 @@ if (navbar) {
       navbar.classList.toggle('scrolled', currentScrollY > 40);
 
       const mobileMenuOpen = document.querySelector('.nav-links')?.classList.contains('open');
-      if (!mobileMenuOpen) {
+      if (!mobileMenuOpen && !navFixe) {
         const scrollingDown = currentScrollY > lastScrollY;
         if (scrollingDown && currentScrollY > HIDE_THRESHOLD) {
           navbar.classList.add('nav-hidden');
