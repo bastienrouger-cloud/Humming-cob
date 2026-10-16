@@ -51,7 +51,13 @@
     --strain-inconnue:#c7bca8;
     --sex-stallion:var(--male-deep);
     --sex-mare:var(--femelle-deep);
+    /* Niveaux du résultat (16/10) : aplats de la famille des pastilles de statut,
+       texte blanc ≥ 4,5:1 (sauge, ambre, terre cuite, brique, taupe). */
+    --niv-faible:#567548; --niv-modere:#9A6B1F; --niv-eleve:#A4552F; --niv-tres-eleve:#8C2F2B; --niv-inconnu:#756C66;
   }
+  /* Fenêtres de choix et d'ajout : couleur du sexe à la place du rose (recherche, boutons, titre) */
+  .cp--male{--rose-pale:var(--male-pale);--rose:var(--male);--rose-deep:var(--male-deep);--rose-dark:#1F5257;}
+  .cp--femelle{--rose-pale:var(--femelle-pale);--rose:var(--femelle);--rose-deep:var(--femelle-deep);--rose-dark:#7E2440;}
   *{box-sizing:border-box;}
   body{
     margin:0;
@@ -140,22 +146,9 @@
     cursor:pointer;
     font-size:0.85rem;
   }
-  .btn-primary{
-    background:var(--rose-deep);color:#fff;margin-top:14px;
-    border-radius:50px;padding:11px 22px;font-size:0.78rem;
-    letter-spacing:0.08em;text-transform:uppercase;
-    transition:background .2s ease, transform .2s ease;
-  }
-  .btn-primary:hover{background:var(--rose-dark);transform:translateY(-1px);}
-  .btn-secondary{
-    /* Aligné sur .btn-outline du site : même pilule, même graisse de trait,
-       mêmes capitales espacées. */
-    background:transparent;border:1.5px solid var(--rose-deep);color:var(--rose-deep);
-    border-radius:50px;padding:0.75rem 2rem;font-size:0.78rem;
-    letter-spacing:0.12em;text-transform:uppercase;text-transform:uppercase;
-    transition:background .2s ease, color .2s ease, transform .2s ease;
-  }
-  .btn-secondary:hover{background:var(--rose-deep);color:#fff;transform:translateY(-1px);}
+  /* Boutons : ceux du site (.btn .btn-primary / .btn-outline, DA du 16/10).
+     Les anciennes copies locales (.btn-primary plein, .btn-secondary contour) sont retirées. */
+  .btn{font-weight:400;}
   .row-actions{display:flex;gap:14px;margin-top:16px;justify-content:center;flex-wrap:wrap;}
   .hint{font-size:0.78rem;color:#8a7d6d;margin-top:10px;line-height:1.5;}
   #fileInput{display:none;}
@@ -168,15 +161,31 @@
   .calc-info summary::before{content:'▸ ';}
   .calc-info[open] summary::before{content:'▾ ';}
 
-  /* --- Section "Sauvegarder mes chevaux" --- */
-  .save-note{
-    margin:14px 0 4px;padding:12px 18px;
-    border-left:3px solid var(--rose);border-radius:var(--radius);
-    background:color-mix(in srgb, var(--rose) 8%, var(--bg-card));
-    font-size:0.85rem;line-height:1.5;color:var(--ink);
-    font-style:italic;
+  /* --- Section "Sauvegarder mes chevaux" (habillage 16/10, DA du site) --- */
+  .panel{
+    padding:2rem clamp(1.1rem,3vw,2.2rem) 2.2rem;border-radius:24px;text-align:center;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--rose) 10%,#FFFEFB) 0%,#FFFEFB 55%);
+    border:1px solid color-mix(in srgb,var(--rose) 18%,transparent);
+    box-shadow:0 10px 30px color-mix(in srgb,var(--rose-deep) 7%,transparent);
   }
-  .save-note strong{font-style:normal;color:var(--rose-dark);}
+  .panel h2{
+    margin:0 0 .6rem;padding:0;border:0;
+    font-family:var(--font-serif);font-weight:400;font-size:clamp(1.5rem,2.6vw,1.85rem);color:var(--noir);
+  }
+  .panel h2 em{color:var(--rose-deep);}
+  .panel .hint{max-width:640px;margin:0 auto;font-size:.86rem;line-height:1.6;color:var(--gris);}
+  .panel .hint strong{color:var(--noir);font-weight:500;}
+  .save-note{
+    position:relative;max-width:680px;margin:1.2rem auto 0;padding:1rem 1.2rem 1rem 3.1rem;
+    border-radius:16px;background:rgba(255,255,255,.75);border:1px solid color-mix(in srgb,var(--rose) 22%,transparent);
+    font-size:.84rem;line-height:1.6;color:var(--gris);text-align:left;
+  }
+  .save-note::before{
+    content:'i';position:absolute;left:1.1rem;top:1.05rem;display:grid;place-items:center;width:1.5rem;height:1.5rem;border-radius:50%;
+    background:var(--rose-pale);color:var(--rose-deep);font-family:var(--font-serif);font-style:italic;font-weight:600;font-size:.95rem;
+  }
+  .save-note strong{color:var(--noir);font-weight:500;}
+  .panel .row-actions{margin-top:1.4rem !important;}
 
   /* --- Modale de l'éditeur (refonte du 14/10) --- */
   .modal-overlay{
@@ -195,7 +204,7 @@
   .modal-intro{margin:0;padding:.3rem 1.6rem .4rem;font-size:.84rem;line-height:1.55;color:var(--gris);}
   .modal-corps{overflow-y:auto;padding:.4rem 1.6rem 1.4rem;}
   .modal-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;padding:1rem 1.6rem 1.2rem;border-top:1px solid rgba(60,40,35,.07);background:#FBF7F2;}
-  .modal-actions .btn-primary,.modal-actions .btn-secondary{margin-top:0;}
+  .modal-actions .btn{margin-top:0;}
 
   .ed-actions-gauche{display:flex;gap:1rem;align-items:center;}
   .modal-actions [hidden]{display:none;}
@@ -321,44 +330,73 @@
   .ac-inconnu{color:var(--gris-clair);}
 
   /* Résultat */
+  /* Présentation (planche « Résultat du calculateur », 16/10) :
+     ordinateur = C, chaque partie est une carte de verre posée sur le fond à taches ;
+     téléphone / tablette = B, une seule carte qui part du pétrole (étalon) et finit
+     framboise (jument), parties séparées par un filet, bandeau du couple en tête. */
   .ac-resultat{
-    width:100%;max-width:1240px;margin:0 auto;padding:2.3rem clamp(1rem,3vw,2.2rem) 2rem;text-align:center;
-    background:#fff;border-radius:24px;border:1px solid rgba(60,40,35,.07);box-shadow:0 10px 30px rgba(60,40,35,.06);
-    scroll-margin-top:100px;
+    width:100%;max-width:1240px;margin:0 auto;text-align:center;scroll-margin-top:100px;
+    display:flex;flex-direction:column;gap:1.4rem;
   }
+  .ac-res-bloc:empty{display:none;}
+  .ac-res-bloc{padding:1.9rem clamp(1rem,3vw,2.2rem);border-radius:26px;
+    background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.85);box-shadow:0 10px 34px rgba(60,40,35,.07);}
+  .ac-res-bloc > .ac-sous-titre:first-child{margin-top:0;}
+  .ac-res-bloc.ac-pedigrees{margin-top:0;}
+  .ac-res-fin{padding:.4rem clamp(1rem,3vw,2.2rem) 0;}
+  .ac-couple{display:none;}
+  @media (max-width:900px){
+    .ac-resultat{
+      gap:0;padding:1.4rem clamp(1rem,4vw,1.6rem) 1.8rem;border-radius:26px;
+      background:linear-gradient(100deg,color-mix(in srgb,var(--male) 11%,#FFFEFB) 0%,#FFFEFB 32%,#FFFEFB 68%,color-mix(in srgb,var(--femelle) 10%,#FFFEFB) 100%);
+      border:1px solid rgba(60,40,35,.07);box-shadow:0 14px 40px rgba(60,40,35,.07);
+    }
+    .ac-res-bloc{padding:1.8rem 0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;box-shadow:none;}
+    .ac-res-bloc + .ac-res-bloc{border-top:1px solid rgba(60,40,35,.07);}
+    .ac-res-tete{padding-top:0;}
+    .ac-res-fin{padding:1.4rem 0 0;border-top:1px solid rgba(60,40,35,.07);}
+    .ac-couple{display:flex;align-items:center;justify-content:center;gap:.7rem;padding-bottom:1.2rem;margin-bottom:1.4rem;border-bottom:1px solid rgba(60,40,35,.07);}
+  }
+  .ac-cp{--c:var(--male);display:flex;align-items:center;gap:.55rem;min-width:0;text-align:left;}
+  .ac-cp--femelle{--c:var(--femelle);flex-direction:row-reverse;text-align:right;}
+  .ac-cp-photo{width:52px;height:52px;flex-shrink:0;border-radius:50%;object-fit:cover;border:2.5px solid var(--c);box-shadow:0 0 0 3px #FEFBF6,0 4px 12px rgba(60,40,35,.15);background:#F3EEE6;}
+  .ac-cp-role{display:block;font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);}
+  .ac-cp-nom{display:block;font-family:var(--font-serif);font-size:1.15rem;line-height:1.15;overflow-wrap:anywhere;}
+  .ac-cp-x{font-family:var(--font-serif);font-size:1.6rem;color:var(--gris-clair);}
   .ac-resultat[hidden]{display:none;}
   .ac-res-label{margin:0;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris);}
   .ac-res-valeur{margin:.25rem 0 .5rem;font-family:var(--font-serif);font-size:clamp(3rem,8vw,4.3rem);line-height:1.05;color:var(--noir);}
   .ac-niveau{
     display:inline-block;padding:.36rem 1rem;border-radius:50px;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;
-    border:1px solid rgba(255,255,255,.25);box-shadow:0 2px 10px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.25);
+    background:var(--niv-inconnu);box-shadow:0 2px 10px rgba(0,0,0,.12);
   }
-  .ac-niveau--faible{background:linear-gradient(135deg,#93A887,#6E8462);}
-  .ac-niveau--modere{background:linear-gradient(135deg,#DDB070,#B9864A);}
-  .ac-niveau--eleve{background:linear-gradient(135deg,#CF7F76,#A9564F);}
-  .ac-niveau--tres-eleve{background:linear-gradient(135deg,#A9564F,#7A332E);}
+  .ac-niveau--faible{background:var(--niv-faible);}
+  .ac-niveau--modere{background:var(--niv-modere);}
+  .ac-niveau--eleve{background:var(--niv-eleve);}
+  .ac-niveau--tres-eleve{background:var(--niv-tres-eleve);}
   .ac-equiv{display:block;margin-top:.5rem;font-family:var(--font-serif);font-style:italic;font-size:1rem;color:var(--gris);}
   .ac-jauge{max-width:520px;margin:1.7rem auto .2rem;}
-  .ac-jauge-barre{position:relative;height:8px;border-radius:8px;background:linear-gradient(90deg,#BCCBB2 0 25%,#EBD3AA 25% 50%,#E6B7B0 50% 75%,#CC8F89 75% 100%);}
-  .ac-jauge-curseur{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--noir);transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(0,0,0,.2);transition:left .6s cubic-bezier(.2,.8,.2,1);}
+  .ac-jauge-barre{position:relative;height:8px;border-radius:8px;background:linear-gradient(90deg,#C6D2BC 0%,#E2CFA4 36%,#DDB39B 63%,#C98C86 100%);}
+  .ac-jauge-curseur{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--nvc,var(--noir));transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(0,0,0,.2);transition:left .6s cubic-bezier(.2,.8,.2,1);}
   .ac-jauge-reperes{position:relative;height:1.3rem;margin-top:.45rem;font-size:.64rem;color:var(--gris);}
   .ac-jauge-reperes span{position:absolute;transform:translateX(-50%);white-space:nowrap;}
   .ac-res-note{max-width:560px;margin:.9rem auto 0;font-size:.9rem;line-height:1.6;color:var(--gris);}
 
   .ac-sous-titre{margin:2.3rem 0 .3rem;font-family:var(--font-serif);font-weight:400;font-size:1.55rem;color:var(--noir);border:0;padding:0;}
-  .ac-sous-titre em{color:#A07A30;}
+  .ac-sous-titre em{color:var(--rose-deep);}
   .ac-intro{max-width:580px;margin:0 auto 1rem;font-size:.82rem;line-height:1.55;color:var(--gris);}
   .ac-liste{display:flex;flex-direction:column;gap:.5rem;max-width:660px;margin:0 auto;padding:0;list-style:none;text-align:left;}
   .ac-liste li{
     display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.15rem .85rem;padding:.7rem 1rem;
-    border-radius:14px;background:#FBF6EC;border:1px solid rgba(176,140,60,.2);transition:background .2s,box-shadow .2s;
+    border-radius:14px;background:color-mix(in srgb,var(--or) 6%,#FFFEFB);border:1px solid color-mix(in srgb,var(--or) 22%,transparent);transition:background .2s,box-shadow .2s;
   }
   .ac-liste li:focus-visible{outline:none;}
-  .ac-liste li.is-survol{background:#F5E8CC;box-shadow:0 0 0 2px #D9B76E;}
+  .ac-liste li.is-survol{background:color-mix(in srgb,var(--or) 14%,#FFFEFB);box-shadow:0 0 0 2px color-mix(in srgb,var(--or) 55%,transparent);}
   .ac-liste .ac-num{grid-row:1 / span 2;}
   .ac-anc-nom{font-family:var(--font-serif);font-size:1.15rem;line-height:1.2;}
   .ac-anc-ou{grid-column:2;font-size:.72rem;color:var(--gris);}
-  .ac-anc-part{grid-row:1 / span 2;grid-column:3;font-size:.86rem;font-weight:500;color:#8A6A2C;white-space:nowrap;}
+  .ac-anc-part{grid-row:1 / span 2;grid-column:3;font-size:.86rem;font-weight:500;color:var(--or);white-space:nowrap;font-variant-numeric:tabular-nums;}
   .ac-num{
     display:inline-grid;place-items:center;flex-shrink:0;min-width:1.45rem;height:1.45rem;padding:0 .3rem;border-radius:50px;
     background:var(--or);color:#fff;font-size:.68rem;font-weight:600;font-style:normal;   /* un seul or (pastilles, 15/10) */
@@ -414,8 +452,8 @@
   .ac-ped-case--femelle{background:color-mix(in srgb,var(--femelle) 11%,#fff);border-color:color-mix(in srgb,var(--femelle) 24%,transparent);}
   .ac-ped-vide{justify-content:center;color:#C9C0BA;font-style:italic;font-size:.66rem;}
   .ac-ped-case .ac-num{min-width:1.1rem;height:1.1rem;padding:0 .2rem;font-size:.56rem;}
-  .ac-commun{background:#FBF1DC !important;border-color:rgba(176,140,60,.45) !important;}
-  .ac-commun.is-survol{box-shadow:0 0 0 2px #D9B76E;}
+  .ac-commun{background:color-mix(in srgb,var(--or) 12%,#FFFEFB) !important;border-color:color-mix(in srgb,var(--or) 45%,transparent) !important;}
+  .ac-commun.is-survol{box-shadow:0 0 0 2px color-mix(in srgb,var(--or) 55%,transparent);}
 
   .ac-fiabilite{max-width:640px;margin:2.2rem auto 0;font-size:.78rem;line-height:1.65;color:var(--gris);}
   .ac-fiabilite strong{color:var(--noir);font-weight:500;}
@@ -432,10 +470,10 @@
   }
 
   /* Génétique du poulain (js/genetique.js) */
-  .ac-niveau--inconnu{background:linear-gradient(135deg,#BDB5AF,#8F8781);}
+  .ac-niveau--inconnu{background:var(--niv-inconnu);}
   .ag{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:1.1rem;max-width:1040px;margin:0 auto;text-align:left;}
   .ag-sante{display:flex;flex-direction:column;gap:1.1rem;}
-  .ag-maladie,.ag-robe{padding:1.05rem 1.2rem;border-radius:18px;background:#FBF8F3;border:1px solid rgba(60,40,35,.07);}
+  .ag-maladie,.ag-robe{padding:1.05rem 1.2rem;border-radius:18px;background:rgba(255,255,255,.72);border:1px solid rgba(60,40,35,.08);}
   .ag-mal-tete{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;}
   .ag-mal-titre,.ag-titre{font-family:var(--font-serif);font-weight:400;font-size:1.3rem;color:var(--noir);}
   .ag-maladie .ac-niveau{padding:.3rem .8rem;font-size:.56rem;}
@@ -452,9 +490,9 @@
   .ag-ligne--sous .ag-nom{padding-left:1.4rem;}
   .ag-barre{position:relative;display:block;height:7px;border-radius:7px;background:rgba(60,40,35,.07);overflow:hidden;}
   .ag-barre-max,.ag-barre-min{position:absolute;inset:0 auto 0 0;border-radius:7px;}
-  .ag-barre-max{background:repeating-linear-gradient(135deg,#E6D0A0 0 4px,#F5EAD2 4px 8px);}
-  .ag-barre-min{background:linear-gradient(90deg,#DDBC72,#B08B3B);}
-  .ag-pct{text-align:right;white-space:nowrap;font-size:.8rem;font-weight:500;color:#8A6A2C;}
+  .ag-barre-max{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--or) 30%,transparent) 0 4px,color-mix(in srgb,var(--or) 10%,transparent) 4px 8px);}
+  .ag-barre-min{background:linear-gradient(90deg,#B8954A,var(--or));}
+  .ag-pct{text-align:right;white-space:nowrap;font-size:.8rem;font-weight:500;color:var(--or);font-variant-numeric:tabular-nums;}
   .ag-vide{margin:0;font-family:var(--font-serif);font-style:italic;color:var(--gris);}
   .ag-legende,.ag-np{margin:1rem 0 0;font-size:.74rem;line-height:1.55;color:var(--gris);}
   .ag-legende{display:flex;align-items:center;gap:.6rem;}
@@ -504,19 +542,11 @@
   .cp-fermer{width:38px;height:38px;padding:0;border-radius:50%;background:#F3EEE8;color:var(--noir);font-size:.95rem;font-weight:400;}
   .cp-corps{overflow-y:auto;padding:.3rem 1.6rem 1.4rem;}
   .cp-groupe{margin:1.1rem 0 .6rem;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);}
-  .cp-cartes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem;}
-  .cp-carte{
-    --c:var(--male);
-    display:flex;flex-direction:column;padding:0;overflow:hidden;text-align:left;font-weight:400;color:var(--noir);
-    border-radius:16px;border:1px solid color-mix(in srgb,var(--c) 16%,transparent);
-    background:linear-gradient(180deg,color-mix(in srgb,var(--c) 30%,#FFFEFA) 0%,color-mix(in srgb,var(--c) 13%,#FFFEFA) 28%,color-mix(in srgb,var(--c) 6%,#FFFEFA) 100%);
-    box-shadow:0 6px 18px color-mix(in srgb,var(--c) 14%,transparent);transition:transform .25s ease,box-shadow .25s ease;
-  }
-  .cp-carte--femelle{--c:var(--femelle);}
-  .cp-carte:hover,.cp-carte:focus-visible{transform:translateY(-3px);box-shadow:0 12px 26px color-mix(in srgb,var(--c) 24%,transparent);outline:none;}
-  .cp-carte-photo{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#F3EEE6;}
-  .cp-carte-nom{padding:.6rem .8rem 0;font-family:var(--font-serif);font-size:1.15rem;line-height:1.2;}
-  .cp-carte-meta{padding:.15rem .8rem .75rem;font-size:.66rem;color:var(--gris);}
+  .cp-cartes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem;}
+  /* .ca (cartes de l'accueil) posée dans une grille, en <button> */
+  .cp-cartes .ca{width:auto;padding:0;border:0;border-radius:16px;font:inherit;text-align:left;cursor:pointer;}
+  .cp-ca-meta{font-size:.62rem;line-height:1.35;color:rgba(255,255,255,.85);letter-spacing:.02em;}
+  .cp-cartes .ca .ac-sans-photo{position:absolute;inset:0;z-index:-2;font-size:3rem;}
   .cp-recherche{width:100%;padding:.8rem 1.1rem;border-radius:50px;border:1px solid rgba(60,40,35,.14);background:#fff;font-size:.9rem;}
   .cp-recherche:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 3px var(--rose-pale);}
   .cp-liste{display:flex;flex-direction:column;gap:.3rem;margin-top:.5rem;}
@@ -539,12 +569,18 @@
 
   /* Pied de la modale « Ajouter » : une seule ligne sur ordinateur */
   .modal-actions{flex-wrap:nowrap;}
-  .modal-actions .btn-primary,.modal-actions .btn-secondary{padding:.72rem 1.1rem;letter-spacing:.06em;white-space:nowrap;}
+  .modal-actions .btn{padding:.72rem 1.1rem;letter-spacing:.06em;white-space:nowrap;}
+  .modal-actions .btn-outline{padding-left:1rem;padding-right:1.7rem;}
+  .modal-actions .btn-outline::after{margin-left:.4em;}
+  .ed-recommencer{white-space:nowrap;}
+  .modal-actions{gap:.6rem;}
+  .modal-actions .btn{letter-spacing:.04em;}
+  .modal-actions .ed-annuler{padding-left:.6rem;padding-right:.6rem;}
   @media (max-width:700px){
     /* Mobile : l'action principale en premier, pleine largeur */
     .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .6rem;}
     .modal-actions .ed-actions-gauche,.modal-actions .ed-actions-droite{display:contents;}
-    .modal-actions .btn-primary,.modal-actions .btn-secondary{padding:.7rem .6rem;}
+    .modal-actions .btn{padding:.7rem .6rem;}
     .modal-actions #saveTreeBtn{grid-column:1 / -1;order:-3;}
     .modal-actions #dlTreeBtn{order:-2;}
     .modal-actions #modalImport{order:-1;}
@@ -580,7 +616,7 @@
 <!-- @end:header -->
 
 <!-- ====== EN-TÊTE ====== -->
-<section id="page-header" class="page-header page-header--compact fade-to-cream">
+<section id="page-header" class="page-header page-header--compact page-header--hc">
   <div class="section-inner">
     <span class="section-badge">Calculateur</span>
     <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Testez un <em>accouplement</em></h1>
@@ -614,14 +650,18 @@
   <!-- Résultat : chiffre, niveau, jauge, ancêtres communs et les deux pédigrées
        où ils sont surlignés. Les mises en garde sont ici, là où elles servent. -->
   <section class="ac-resultat" id="resultBox" hidden aria-live="polite">
+    <div class="ac-res-bloc ac-res-tete">
+    <div class="ac-couple" id="acCouple"></div>
     <p class="ac-res-label">Consanguinité estimée du poulain</p>
     <p class="ac-res-valeur" id="resultValue">—</p>
     <div id="resultBadge"></div>
     <div class="ac-jauge" id="acJauge"></div>
     <p class="ac-res-note" id="resultHint"></p>
-    <div id="acCommuns"></div>
-    <div id="acGenetique"></div>
-    <div class="ac-pedigrees" id="acPedigrees"></div>
+    </div>
+    <div class="ac-res-bloc" id="acCommuns"></div>
+    <div class="ac-res-bloc" id="acGenetique"></div>
+    <div class="ac-res-bloc ac-pedigrees" id="acPedigrees"></div>
+    <div class="ac-res-fin">
     <div id="acSaillie"></div>
     <p class="ac-fiabilite">
       <strong>À lire comme une estimation.</strong> Le pourcentage ne tient compte que des ancêtres
@@ -637,15 +677,16 @@
       <p class="hint">Les niveaux affichés avec le résultat (Faible / Modéré / Élevé / Très élevé) sont des repères indicatifs de génétique des populations — <strong>pas une classification officielle de l'IFCE</strong> — correspondant aux degrés de parenté usuels : Modéré ≈ cousins issus de germains (3,125 %), Élevé ≈ cousins germains (6,25 %), Très élevé ≈ demi-frères/sœurs ou plus proche (12,5 % et au-delà). Le seuil « Élevé » (6,25 %) est très proche du seuil de vigilance publié par l'IFCE (6 %).</p>
       <p class="hint" style="font-size:0.68rem;color:#a99d8c;">Source : dépliant « Génétique », IFCE / Haras nationaux.</p>
     </details>
+    </div><!-- /.ac-res-fin -->
   </section>
 
   <div class="panel">
-    <h2>Sauvegarder mes chevaux</h2>
-    <p class="hint" style="margin-top:0;"><strong>Comment ajouter un cheval :</strong> cliquez sur « Choisir un étalon » ou « Choisir une jument », puis sur « Ajouter mon étalon » ou « Ajouter ma jument » en bas de la liste. Renseignez son pédigrée, puis cliquez sur « Sauvegarder mon cheval ».</p>
+    <h2>Sauvegarder <em>mes chevaux</em></h2>
+    <p class="hint" style="margin-top:0;"><strong>Comment ajouter un cheval :</strong> cliquez sur « Choisir un étalon » ou « Choisir une jument », puis sur « Ajouter mon étalon » ou « Ajouter ma jument » en bas de la liste. Renseignez son pédigrée, puis cliquez sur « Ajouter et tester ».</p>
     <div class="save-note"><strong>Important :</strong> rien de ce que vous ajoutez n'est enregistré de façon permanente par l'outil — tout disparaît si vous rafraîchissez ou fermez la page. Pour garder une trace (et nous transmettre les informations), téléchargez le fichier ci-dessous et envoyez-le nous. Le téléchargement ne contient que les chevaux que vous avez vous-même ajoutés dans cette session, pas toute la base.</div>
     <div class="row-actions" style="margin-top:0;">
-      <button class="btn-secondary" onclick="exportJSON()">Télécharger mes ajouts</button>
-      <button class="btn-secondary" onclick="document.getElementById('fileInput').click()">Recharger un fichier</button>
+      <button class="btn btn-outline" onclick="exportJSON()">Télécharger mes ajouts</button>
+      <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">Recharger un fichier</button>
       <input type="file" id="fileInput" accept="application/json" onchange="importJSON(event)">
     </div>
   </div>
@@ -663,14 +704,14 @@
     <div class="modal-corps"><div class="ed" id="treeContainer"></div></div>
     <div class="modal-actions">
       <div class="ed-actions-gauche">
-        <button type="button" class="btn-secondary" id="modalImport" onclick="document.getElementById('fileInputModal').click()" title="Reprendre un cheval déjà enregistré sur votre ordinateur (fichier .json téléchargé ici)">Importer un fichier</button>
+        <button type="button" class="btn btn-outline" id="modalImport" onclick="document.getElementById('fileInputModal').click()" title="Reprendre un cheval déjà enregistré sur votre ordinateur (fichier .json téléchargé ici)">Importer un fichier</button>
         <input type="file" id="fileInputModal" accept="application/json,.json" hidden onchange="importJSON(event, draft.context)">
         <button type="button" class="ed-recommencer" id="resetTreeBtn" onclick="resetTreeForm()">Tout effacer</button>
       </div>
       <div class="ed-actions-droite">
         <button type="button" class="ed-annuler" onclick="closeModal()">Annuler</button>
-        <button type="button" class="btn-secondary" id="dlTreeBtn" onclick="saveTreeHorse(true)" title="Ajoute le cheval et télécharge sa fiche sur votre ordinateur (avec les ancêtres saisis), pour la réimporter plus tard ou nous l'envoyer">Télécharger</button>
-        <button type="button" class="btn-primary" id="saveTreeBtn" onclick="saveTreeHorse()">Ajouter et tester</button>
+        <button type="button" class="btn btn-outline" id="dlTreeBtn" onclick="saveTreeHorse(true)" title="Ajoute le cheval et télécharge sa fiche sur votre ordinateur (avec les ancêtres saisis), pour la réimporter plus tard ou nous l'envoyer">Télécharger</button>
+        <button type="button" class="btn btn-primary" id="saveTreeBtn" onclick="saveTreeHorse()">Ajouter et tester</button>
       </div>
     </div>
   </div>
@@ -830,17 +871,15 @@ function strainBgKey(key){
 let testState = { leftId: '', rightId: '' };
 
 // ═══ Affichage des chevaux, à la DA du site (refonte du 14/10) ═══════════════
-// Le code couleur par lignée ne colore plus les cases : seul le mot de l'élevage
-// d'origine (l'affixe : Cairnview, SD, San Cler, HC…) prend sa couleur. Le bleu /
-// rose reste réservé au sexe, comme partout sur le site.
+// Noms : comme partout sur le site (nomChevalHTML) — nom en italique de la couleur du
+// sexe, affixe en petites capitales grises. Plus de couleur par élevage d'origine
+// (16/10 : trop proche du pétrole / framboise).
 const CH_PAR_ID = Object.fromEntries(CHEVAUX.map(c => [c.id, c]));
-const COULEUR_ELEVAGE = { sancler: '#A8893C', sd: '#A8434A', cairnview: '#3B827D', hc: 'var(--rose-deep)', autre: '#B97A48' };
 function echap(s){ return String(s ?? '').replace(/[&<>"']/g, x => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x])); }
-function couleurElevage(h){ return COULEUR_ELEVAGE[(CH_PAR_ID[h.id] || {}).souche || h.strain] || ''; }
-function nomCalc(h, couleur = true){
+function nomCalc(h){
   if(!h) return '<span class="ac-inconnu">—</span>';
-  const c = CH_PAR_ID[h.id], col = couleur ? couleurElevage(h) : '';
-  if(c) return nomChevalHTML(c).replace(/class="nc-a"/g, 'class="nc-a"' + (col ? ` style="color:${col}"` : ''));
+  const c = CH_PAR_ID[h.id];
+  if(c) return nomChevalHTML(c);
   return `<span class="nc nc--${h.sex === 'mare' ? 'femelle' : 'male'}"><em class="nc-n">${echap(h.name)}</em></span>`;
 }
 function infosCalc(h){
@@ -882,7 +921,7 @@ function updateXResult(){
   if(!leftH || !rightH || leftH.sex === rightH.sex){
     box.hidden = false;
     document.getElementById('resultValue').textContent = '—';
-    ['resultBadge', 'acJauge', 'acCommuns', 'acGenetique', 'acPedigrees', 'acSaillie'].forEach(k => { document.getElementById(k).innerHTML = ''; });
+    ['acCouple', 'resultBadge', 'acJauge', 'acCommuns', 'acGenetique', 'acPedigrees', 'acSaillie'].forEach(k => { document.getElementById(k).innerHTML = ''; });
     document.getElementById('resultHint').textContent = 'Il faut un étalon et une jument pour calculer une descendance hypothétique.';
     return;
   }
@@ -1015,9 +1054,14 @@ function renderMatchResult(sireId, damId){
   document.getElementById('resultBadge').innerHTML = `<span class="ac-niveau ac-niveau--${niv.cls}">${niv.label}</span>`
     + (niv.equiv ? `<span class="ac-equiv">${niv.equiv}</span>` : '');
   document.getElementById('acJauge').innerHTML =
-    `<div class="ac-jauge-barre"><span class="ac-jauge-curseur" style="left:${positionJauge(pct)}%"></span></div>`
+    `<div class="ac-jauge-barre"><span class="ac-jauge-curseur" style="left:${positionJauge(pct)}%;--nvc:var(--niv-${niv.cls})"></span></div>`
     + `<div class="ac-jauge-reperes"><span style="left:25%">3,125</span><span style="left:50%">6,25</span><span style="left:75%">12,5 %</span></div>`;
   const sireH = byId(sireId), damH = byId(damId);
+  // Bandeau du couple (téléphone : rappel du couple testé en tête du résultat)
+  const membre = (h, role, sexe) => `<div class="ac-cp ac-cp--${sexe}">${vignetteCalc(h, 'ac-cp-photo')}`
+    + `<div><span class="ac-cp-role">${role}</span><span class="ac-cp-nom">${nomCalc(h)}</span></div></div>`;
+  document.getElementById('acCouple').innerHTML = membre(sireH, 'Étalon', 'male')
+    + '<span class="ac-cp-x" aria-hidden="true">×</span>' + membre(damH, 'Jument', 'femelle');
   // Étalon de l'élevage : lien direct vers la demande de saillie (sujet prérempli)
   const sireC = CH_PAR_ID[sireId];
   document.getElementById('acSaillie').innerHTML = (sireC && sireC.famille === 'humming' && sireC.role === 'etalon')
@@ -1145,7 +1189,7 @@ document.body.insertAdjacentHTML('beforeend', `
     <div class="cp-boite" role="dialog" aria-modal="true" aria-labelledby="cpTitre">
       <div class="cp-tete"><h2 id="cpTitre"></h2><button type="button" class="cp-fermer" data-fermer aria-label="Fermer">✕</button></div>
       <div class="cp-corps" id="cpCorps"></div>
-      <div class="cp-pied"><p id="cpPiedTexte"></p><button type="button" class="btn-primary cp-ajouter" id="cpAjouter"></button></div>
+      <div class="cp-pied"><p id="cpPiedTexte"></p><button type="button" class="btn btn-primary cp-ajouter" id="cpAjouter"></button></div>
     </div>
   </div>`);
 const cpEl = document.getElementById('cp');
@@ -1157,10 +1201,13 @@ function cpLigne(h){
   return `<button type="button" class="cp-ligne" data-choisir="${echap(h.id)}">${vignetteCalc(h, 'cp-ligne-photo')}`
     + `<span><span class="cp-ligne-nom">${nomCalc(h)}</span><span class="cp-ligne-meta">${echap(infosCalc(h))}</span></span></button>`;
 }
+// Carte de choix = petite carte photo de l'accueil (.ca, css/style.css) : photo pleine
+// avec son cadrage, nom usuel, race · robe · année ; filet et ombre du sexe.
 function cpCarte(h){
-  return `<button type="button" class="cp-carte cp-carte--${h.sex === 'mare' ? 'femelle' : 'male'}" data-choisir="${echap(h.id)}">`
-    + `${vignetteCalc(h, 'cp-carte-photo')}<span class="cp-carte-nom">${nomCalc(h)}</span>`
-    + `<span class="cp-carte-meta">${echap(infosCalc(h))}</span></button>`;
+  const c = CH_PAR_ID[h.id] || {};
+  return `<button type="button" class="ca ca--${h.sex === 'mare' ? 'femelle' : 'male'} cp-ca" data-choisir="${echap(h.id)}">`
+    + `${vignetteCalc(h, 'cp-ca-photo')}<span class="ca-corps"><span class="ca-nom">${echap(c.nom_usuel || h.name)}</span>`
+    + `<span class="cp-ca-meta">${echap(infosCalc(h))}</span></span></button>`;
 }
 // Tri alphabétique sur le nom affiché (sans l'affixe : « Cairnview Archy » → Archy)
 function nomTri(h){ const c = CH_PAR_ID[h.id]; return sansAccents(c && c.affixe ? c.nom.replace(c.affixe, '') : h.name).trim(); }
@@ -1199,6 +1246,7 @@ function cpRechercher(q){
 function ouvrirSelecteur(side){
   cpCote = side;
   const male = side === 'left';
+  cpEl.classList.toggle('cp--male', male); cpEl.classList.toggle('cp--femelle', !male);
   const nos = cpCandidats().filter(h => { const c = CH_PAR_ID[h.id]; return c && c.famille === 'humming' && (c.role === 'etalon' || c.role === 'jument'); });
   const vos = cpCandidats().filter(h => h.source === 'saisie manuelle' || h.source === 'importé');
   document.getElementById('cpTitre').innerHTML = male ? 'Choisir un <em>étalon</em>' : 'Choisir une <em>jument</em>';
@@ -1378,9 +1426,8 @@ function strainSelectHTML(currentKey, onChangeExpr){
   const optionsHTML = Object.keys(all).map(key =>
     `<option value="${key}" ${currentKey === key ? 'selected' : ''}>${escapeAttr(all[key].label)}</option>`
   ).join('') + `<option value="__new__">+ Nouvelle lignée…</option>`;
-  const color = strainColor(currentKey);
   return `<div class="strain-caption">Lignée d'origine</div>` +
-    `<select class="strain-select" style="border-left:4px solid ${color};background:color-mix(in srgb, ${color} 18%, #fff);" onchange="${onChangeExpr}(this.value)">${optionsHTML}</select>`;
+    `<select class="strain-select" onchange="${onChangeExpr}(this.value)">${optionsHTML}</select>`;
 }
 
 function normalizeSearch(s){
@@ -1627,6 +1674,8 @@ function renderTree(){
   if(saveBtn) saveBtn.textContent = existant ? 'Utiliser ce cheval' : (requiredSex ? 'Ajouter et tester' : 'Enregistrer ce cheval');
   const titre = document.getElementById('modalTitle');
   if(titre) titre.innerHTML = requiredSex ? (male ? 'Ajouter mon <em>étalon</em>' : 'Ajouter ma <em>jument</em>') : 'Ajouter un <em>cheval</em>';
+  const fenetre = document.getElementById('modalOverlay');   // couleur du sexe (recherche, boutons, titre)
+  if(fenetre){ fenetre.classList.toggle('cp--male', !!requiredSex && male); fenetre.classList.toggle('cp--femelle', !!requiredSex && !male); }
 }
 
 // Étape 3 (facultative) : tests génétiques du cheval saisi.

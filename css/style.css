@@ -3413,6 +3413,33 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 }
 
 /* ============================================
+   EN-TÊTE « HC » (.page-header--hc) — pages classiques (16/10)
+   L'image du hero de l'accueil avec le même voile, sans pétales ni logo.
+   Elle se fond vers le bas dans le fond à taches de la page (masque), et
+   déborde un peu sous la section suivante pour éviter toute arête.
+   Posé sur : L'élevage, Nos chevaux, Contact, Livre d'or, Acheter.
+   Pas sur : fiches chevaux, frise, arbre (ni pages légales / 404, qui ont leur style).
+   ============================================ */
+.page-header--hc { position: relative; isolation: isolate; }
+.page-header--hc::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: -4rem;
+  z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(160deg, rgba(255,248,240,0.82) 0%, rgba(254,243,245,0.8) 50%, rgba(254,251,246,0.88) 100%),
+    url('../img/heroHCwp.jpg') center 60% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0,0,0,.45) 75%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0,0,0,.45) 75%, transparent 100%);
+}
+/* Mobile : le texte passe sur le cerisier, voile plus épais pour la lisibilité (retour 16/10). */
+@media (max-width: 700px) {
+  .page-header--hc::before {
+    background:
+      linear-gradient(160deg, rgba(255,250,244,0.9) 0%, rgba(254,246,247,0.89) 50%, rgba(254,251,246,0.93) 100%),
+      url('../img/heroHCwp.jpg') center 60% / cover no-repeat;
+  }
+}
+
+/* ============================================
    ACCUEIL — liens dans le texte d'Alice (aucun mot changé, juste un lien posé)
    ============================================ */
 .lien-texte {
