@@ -412,25 +412,56 @@ a { color: inherit; text-decoration: none; }
   transition: var(--transition);
   cursor: pointer;
 }
+/* DA étape 2 (16/10, planche « Boutons Humming Cob ») : principal B + secondaire C.
+   Les couleurs suivent le thème de la page (--rose-* = marque, pétrole ou framboise). */
+
+/* Principal « dégradé » : du plus foncé vers l'accent, le dégradé glisse au survol.
+   Texte blanc sur la partie --rose-deep / --rose-dark (≥ 4,5:1). */
 .btn-primary {
-  background: var(--rose-deep);
   color: #fff;
-  border: 1.5px solid var(--rose-deep);
+  border: 1.5px solid transparent;
+  background-color: var(--rose-deep);   /* repli sans color-mix */
+  background-image: linear-gradient(115deg, var(--rose-dark) 0%, var(--rose-deep) 45%, color-mix(in srgb, var(--rose-deep) 85%, var(--rose)) 100%);
+  background-size: 180% 100%;
+  background-position: 0 0;
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--rose-deep) 22%, transparent);
+  transition: background-position .5s, box-shadow var(--transition), transform var(--transition);
 }
 .btn-primary:hover {
-  background: var(--rose-dark);
-  border-color: var(--rose-dark);
+  background-position: 100% 0;
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(176,96,112,0.28);
+  box-shadow: 0 8px 26px color-mix(in srgb, var(--rose-deep) 32%, transparent);
 }
+
+/* Secondaire « fondu » : voile de l'accent qui s'efface vers la droite, sans
+   liseré, flèche ajoutée en CSS (sauf si le bouton porte déjà une icône svg). */
 .btn-outline {
-  background: transparent;
   color: var(--rose-deep);
-  border: 1.5px solid var(--rose-deep);
+  border: 1.5px solid transparent;
+  padding-left: 1.7rem;
+  padding-right: 3.6rem;
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--rose) 26%, transparent) 0%, color-mix(in srgb, var(--rose) 0%, transparent) 100%);
+  background-origin: border-box;     /* sinon le dégradé se répète sous la bordure */
+  background-repeat: no-repeat;      /* transparente : trait vertical au bord droit */
+  transition: background-color var(--transition), transform var(--transition);
 }
+.btn-outline:not(:has(svg))::after {
+  content: '→';
+  display: inline-block;
+  margin-left: .6em;
+  transition: transform var(--transition);
+}
+.btn-outline svg { transition: transform var(--transition); }
 .btn-outline:hover {
-  background: var(--rose-pale);
-  transform: translateY(-2px);
+  background-color: transparent;
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--rose) 40%, transparent) 0%, color-mix(in srgb, var(--rose) 0%, transparent) 100%);
+}
+.btn-outline:hover::after,
+.btn-outline:hover svg { transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary, .btn-outline, .btn-outline::after, .btn-outline svg { transition: none; }
 }
 
 /* Variante sur fond sombre (sections "Aussi disponibles", galeries).
@@ -2516,6 +2547,8 @@ footer {
     padding: 0.9rem 1.2rem;
     font-size: 0.76rem;
   }
+  /* secondaire fondu en pleine largeur : marges égales, le texte reste centré */
+  .cta-end .btn-outline { padding-left: 3rem; padding-right: 3rem; }
 }
 
 /* ============================================
