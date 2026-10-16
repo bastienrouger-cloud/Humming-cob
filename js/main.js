@@ -755,3 +755,58 @@ document.querySelectorAll('.troupeau').forEach(section => {
   else window.addEventListener('resize', maj);
   maj();
 });
+
+/* ============================================
+   CARROUSEL « QUI SOMMES-NOUS » (accueil)
+   ============================================
+   Déplacé depuis un script écrit dans index.html (16/10), sans changement.
+   Fondu entre les photos toutes les 5 s, flèches, glisser au doigt ;
+   pause au survol. Ne fait rien hors de l'accueil (#qsnSlides absent).
+*/
+(function(){
+  var wrap = document.getElementById('qsnSlides');
+  if (!wrap) return;
+  var slides  = Array.from(wrap.querySelectorAll('.qsn-slide'));
+  var counter = document.getElementById('qsnCounter');
+  if(!slides.length) return;
+
+  var cur = 0, timer;
+
+  slides.forEach(function(s){
+    s.style.position   = 'absolute';
+    s.style.inset      = '0';
+    s.style.display    = 'block';
+    s.style.opacity    = '0';
+    s.style.transition = 'opacity .6s ease';
+  });
+  wrap.style.position = 'relative';
+
+  function goTo(n){
+    slides[cur].style.opacity = '0';
+    slides[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].style.opacity = '1';
+    slides[cur].classList.add('active');
+    if(counter) counter.textContent = (cur+1)+' ⁄ '+slides.length;
+  }
+
+  function resetTimer(){ clearInterval(timer); timer = setInterval(function(){ goTo(cur+1); }, 5000); }
+
+  goTo(0);
+  resetTimer();
+
+  var btnPrev = wrap.querySelector('.qsn-prev');
+  var btnNext = wrap.querySelector('.qsn-next');
+  if(btnPrev) btnPrev.addEventListener('click', function(e){ e.preventDefault(); goTo(cur-1); resetTimer(); });
+  if(btnNext) btnNext.addEventListener('click', function(e){ e.preventDefault(); goTo(cur+1); resetTimer(); });
+
+  wrap.addEventListener('mouseenter', function(){ clearInterval(timer); });
+  wrap.addEventListener('mouseleave', resetTimer);
+
+  var tx = 0;
+  wrap.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+  wrap.addEventListener('touchend',   function(e){
+    var dx = e.changedTouches[0].clientX - tx;
+    if(Math.abs(dx) > 40){ goTo(cur + (dx < 0 ? 1 : -1)); resetTimer(); }
+  }, {passive:true});
+})();

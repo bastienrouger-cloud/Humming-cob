@@ -12,10 +12,19 @@
   --bg-cream:    #FEFBF6;
   --bg-light:    #FFF8F2;
   --bg-card:     #FFFCF8;
-  --rose-pale:   #F5DDE4;
-  --rose:        #D4899A;
-  --rose-deep:   #AB5667;   /* foncé de #B06070 le 15/10 : texte ≥ 4,5:1 sur crème */
-  --rose-dark:   #8B4A5C;
+  /* Marque : rose sakura de l'élevage. Constantes, jamais redéfinies. */
+  --marque-pale:   #F5DDE4;
+  --marque:        #D4899A;
+  --marque-deep:   #AB5667;   /* foncé de #B06070 le 15/10 : texte ≥ 4,5:1 sur crème */
+  --marque-dark:   #8B4A5C;
+  /* Accent : couleur du thème de la page (marque sur les pages neutres,
+     pétrole / framboise sur les fiches). Redéfini par .theme-male / .theme-femelle
+     et par les blocs aux couleurs d'un sexe (arbre, calculateur). Renommé
+     depuis --rose… le 16/10. */
+  --accent-pale:   var(--marque-pale);
+  --accent:        var(--marque);
+  --accent-deep:   var(--marque-deep);
+  --accent-dark:   var(--marque-dark);
   --bleu:        var(--male);        /* alias historique : le bleu = la couleur des mâles */
   --bleu-deep:   var(--male-deep);
   --noir:        #1C1C1C;
@@ -146,7 +155,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 300;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
 }
 
 .nav-links {
@@ -169,18 +178,18 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
   bottom: -3px; left: 0;
   width: 0; height: 1px;
-  background: var(--rose);
+  background: var(--accent);
   transition: width var(--transition);
 }
 .nav-links a:hover,
-.nav-links a.nav-active { color: var(--rose-deep); }
+.nav-links a.nav-active { color: var(--accent-deep); }
 .nav-links a:hover::after,
 .nav-links a.nav-active::after { width: 100%; }
 
 /* Nav à plat : « Contact » en pastille sur ordinateur */
 @media (min-width: 901px) {
   .nav-links a.nav-contact {
-    padding: .55rem 1.2rem; border-radius: 999px; color: var(--rose-deep);
+    padding: .55rem 1.2rem; border-radius: 999px; color: var(--accent-deep);
     border: 1px solid rgba(176, 96, 112, 0.35);
     background: linear-gradient(135deg, rgba(212, 137, 154, 0.14), rgba(212, 137, 154, 0));
     transition: background var(--transition), border-color var(--transition), color var(--transition);
@@ -188,7 +197,7 @@ a { color: inherit; text-decoration: none; }
   .nav-links a.nav-contact::after { display: none; }
   .nav-links a.nav-contact:hover,
   .nav-links a.nav-contact.nav-active {
-    border-color: var(--rose-deep);
+    border-color: var(--accent-deep);
     background: linear-gradient(135deg, rgba(212, 137, 154, 0.28), rgba(212, 137, 154, 0.06));
   }
 }
@@ -270,7 +279,7 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-title em {
   font-style: italic;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
 }
 
 .hero-subtitle {
@@ -279,7 +288,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 300;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--accent);
 }
 
 .hero-tagline {
@@ -314,36 +323,36 @@ a { color: inherit; text-decoration: none; }
   cursor: pointer;
 }
 /* DA étape 2 (16/10, planche « Boutons Humming Cob ») : principal B + secondaire C.
-   Les couleurs suivent le thème de la page (--rose-* = marque, pétrole ou framboise). */
+   Les couleurs suivent le thème de la page (--accent-* = marque, pétrole ou framboise). */
 
 /* Principal « dégradé » : du plus foncé vers l'accent, le dégradé glisse au survol.
-   Texte blanc sur la partie --rose-deep / --rose-dark (≥ 4,5:1). */
+   Texte blanc sur la partie --accent-deep / --accent-dark (≥ 4,5:1). */
 .btn-primary {
   color: #fff;
   border: 1.5px solid transparent;
-  background-color: var(--rose-deep);   /* repli sans color-mix */
-  background-image: linear-gradient(115deg, var(--rose-dark) 0%, var(--rose-deep) 45%, color-mix(in srgb, var(--rose-deep) 85%, var(--rose)) 100%);
+  background-color: var(--accent-deep);   /* repli sans color-mix */
+  background-image: linear-gradient(115deg, var(--accent-dark) 0%, var(--accent-deep) 45%, color-mix(in srgb, var(--accent-deep) 85%, var(--accent)) 100%);
   background-size: 180% 100%;
   background-position: 0 0;
   background-origin: border-box;
   background-repeat: no-repeat;
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--rose-deep) 22%, transparent);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent-deep) 22%, transparent);
   transition: background-position .5s, box-shadow var(--transition), transform var(--transition);
 }
 .btn-primary:hover {
   background-position: 100% 0;
   transform: translateY(-2px);
-  box-shadow: 0 8px 26px color-mix(in srgb, var(--rose-deep) 32%, transparent);
+  box-shadow: 0 8px 26px color-mix(in srgb, var(--accent-deep) 32%, transparent);
 }
 
 /* Secondaire « fondu » : voile de l'accent qui s'efface vers la droite, sans
    liseré, flèche ajoutée en CSS (sauf si le bouton porte déjà une icône svg). */
 .btn-outline {
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   border: 1.5px solid transparent;
   padding-left: 1.7rem;
   padding-right: 3.6rem;
-  background-image: linear-gradient(90deg, color-mix(in srgb, var(--rose) 26%, transparent) 0%, color-mix(in srgb, var(--rose) 0%, transparent) 100%);
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--accent) 26%, transparent) 0%, color-mix(in srgb, var(--accent) 0%, transparent) 100%);
   background-origin: border-box;     /* sinon le dégradé se répète sous la bordure */
   background-repeat: no-repeat;      /* transparente : trait vertical au bord droit */
   transition: background-color var(--transition), transform var(--transition);
@@ -357,12 +366,27 @@ a { color: inherit; text-decoration: none; }
 .btn-outline svg { transition: transform var(--transition); }
 .btn-outline:hover {
   background-color: transparent;
-  background-image: linear-gradient(90deg, color-mix(in srgb, var(--rose) 40%, transparent) 0%, color-mix(in srgb, var(--rose) 0%, transparent) 100%);
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--accent) 40%, transparent) 0%, color-mix(in srgb, var(--accent) 0%, transparent) 100%);
 }
 .btn-outline:hover::after,
 .btn-outline:hover svg { transform: translateX(4px); }
 @media (prefers-reduced-motion: reduce) {
   .btn-primary, .btn-outline, .btn-outline::after, .btn-outline svg { transition: none; }
+}
+/* Téléphone (16/10) : tous les boutons d'appel à la même largeur, texte centré
+   (le secondaire fondu perd sa marge droite asymétrique). Les petits boutons
+   des outils (arbre, fenêtres du calculateur, nav2) gardent leur taille. */
+@media (max-width: 600px) {
+  .btn:not(.nav2-cta) {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    width: 100%; max-width: 21rem; margin-left: auto; margin-right: auto;
+    padding-left: 1.2rem; padding-right: 1.2rem; letter-spacing: .08em;   /* « Demander les conditions de saillie » tient sur une ligne */
+  }
+  :is(.fx-actions, .modal-actions, .cp-pied, .ap-corps) .btn { width: auto; max-width: none; margin-left: 0; margin-right: 0; }
+}
+/* petits téléphones (≤ 380px) : un cran plus serré pour garder les libellés longs sur une ligne */
+@media (max-width: 380px) {
+  .btn:not(.nav2-cta) { font-size: .7rem; letter-spacing: .05em; padding-left: .9rem; padding-right: .9rem; }
 }
 
 .scroll-hint {
@@ -385,7 +409,7 @@ a { color: inherit; text-decoration: none; }
   display: block;
   width: 1px;
   height: 40px;
-  background: linear-gradient(to bottom, var(--rose), transparent);
+  background: linear-gradient(to bottom, var(--accent), transparent);
   animation: scrollLine 2s ease-in-out infinite;
 }
 @keyframes scrollLine {
@@ -411,7 +435,7 @@ section { padding: 4.5rem 1.5rem; }
   font-weight: 400;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--accent);
   margin-bottom: 0.8rem;
 }
 
@@ -422,11 +446,11 @@ section { padding: 4.5rem 1.5rem; }
   line-height: 1.15;
   color: var(--noir);
 }
-.section-title em { font-style: italic; color: var(--rose-deep); }
+.section-title em { font-style: italic; color: var(--accent-deep); }
 
 .section-divider {
   width: 60px; height: 1px;
-  background: linear-gradient(to right, var(--rose), transparent);
+  background: linear-gradient(to right, var(--accent), transparent);
   margin: 1.5rem 0;
 }
 
@@ -463,7 +487,7 @@ section { padding: 4.5rem 1.5rem; }
   position: absolute;
   top: -16px; left: -16px;
   right: 16px; bottom: 16px;
-  border: 1px solid var(--rose-pale);
+  border: 1px solid var(--accent-pale);
   border-radius: var(--radius);
   z-index: 0;
 }
@@ -502,7 +526,7 @@ section { padding: 4.5rem 1.5rem; }
 }
 .values-list li::before {
   content: '✦';
-  color: var(--rose);
+  color: var(--accent);
   font-size: 0.6rem;
   margin-top: 0.4rem;
   flex-shrink: 0;
@@ -551,7 +575,7 @@ section { padding: 4.5rem 1.5rem; }
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 3px;
-  background: linear-gradient(to right, var(--rose-pale), var(--rose));
+  background: linear-gradient(to right, var(--accent-pale), var(--accent));
   transform: scaleX(0);
   transform-origin: left;
   transition: var(--transition);
@@ -643,12 +667,12 @@ section { padding: 4.5rem 1.5rem; }
 }
 .contact-item-icon {
   width: 40px; height: 40px;
-  background: var(--rose-pale);
+  background: var(--accent-pale);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   font-size: 1rem;
   flex-shrink: 0;
 }
@@ -663,7 +687,7 @@ section { padding: 4.5rem 1.5rem; }
   font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   margin-bottom: 0.2rem;
 }
 
@@ -687,7 +711,7 @@ section { padding: 4.5rem 1.5rem; }
   font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   margin-bottom: 0.5rem;
 }
 .form-group input,
@@ -708,7 +732,7 @@ section { padding: 4.5rem 1.5rem; }
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: var(--rose);
+  border-color: var(--accent);
   background: #fff;
 }
 .form-group select {
@@ -718,7 +742,7 @@ section { padding: 4.5rem 1.5rem; }
 .form-submit {
   width: 100%;
   padding: 0.9rem;
-  background: var(--rose-deep);
+  background: var(--accent-deep);
   color: #fff;
   border: none;
   border-radius: 50px;
@@ -731,7 +755,7 @@ section { padding: 4.5rem 1.5rem; }
   transition: var(--transition);
 }
 .form-submit:hover {
-  background: var(--rose-dark);
+  background: var(--accent-dark);
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(176,96,112,0.28);
 }
@@ -763,7 +787,7 @@ footer {
   letter-spacing: 0.06em;
 }
 .footer-logo span {
-  color: var(--rose);
+  color: var(--accent);
   font-style: italic;
 }
 
@@ -793,8 +817,8 @@ footer {
 }
 .footer-social a:hover,
 .footer-social button:hover {
-  border-color: var(--rose);
-  color: var(--rose);
+  border-color: var(--accent);
+  color: var(--accent);
   background: rgba(212,137,154,0.1);
 }
 
@@ -858,7 +882,7 @@ footer {
   font-weight: 400;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--accent);
   margin-bottom: 0.6rem;
 }
 .horse-hero-name {
@@ -869,7 +893,7 @@ footer {
   color: var(--noir);
   margin-bottom: 1.1rem;
 }
-.horse-hero-name em { font-style: italic; color: var(--rose-deep); }
+.horse-hero-name em { font-style: italic; color: var(--accent-deep); }
 /* Nom complet (affixe + nom) toujours sur une ligne (15/10). Sur mobile, la
    taille suit la largeur de l'écran : le plus long (« San Cler Avantgarde »,
    ≈ 7,8 fois la taille du texte) tient encore sur un téléphone de 360 px. */
@@ -895,7 +919,7 @@ footer {
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--accent);
   margin-bottom: 0.3rem;
 }
 .horse-spec-value {
@@ -933,14 +957,14 @@ footer {
   padding: 1rem 1.2rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--rose-deep);
+  border-left: 3px solid var(--accent-deep);
   border-radius: var(--radius);
 }
 .palmares-year {
   font-family: var(--font-serif);
   font-size: 1.3rem;
   font-weight: 500;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   min-width: 48px;
 }
 .palmares-detail {
@@ -1080,27 +1104,12 @@ footer {
 
 }
 
-/* ============================================
-   TRANSITIONS DOUCES ENTRE SECTIONS
-   ============================================
-   Deux mécanismes, selon l'écart de couleur.
+/* Transitions entre sections : depuis le fond à taches (15/10), les sections
+   des pages neutres et des fiches sont transparentes et laissent voir le fond
+   de la page ; les anciennes classes .fade-to-* / .fade-bottom ont été retirées
+   (16/10). Les raccords vers une section SOMBRE (footer, citation) restent
+   volontairement francs. */
 
-   1. .fade-to-* — pour deux teintes crème voisines (--bg-light ↔ --bg-cream).
-      Un simple dégradé sur toute la hauteur de la section suffit : il part de
-      sa propre couleur et arrive sur celle de la suivante, donc le raccord se
-      fait sans arête. Même principe que #aller-plus-loin sur l'accueil.
-
-   2. .fade-bottom — pour une section dont le fond est un dégradé DIAGONAL
-      (les 160deg du site), suivie d'une section de couleur unie. Voir le
-      détail sur la règle elle-même.
-
-   Note : les raccords vers une section SOMBRE (footer, "Aussi disponibles"
-   des fiches poulains, citation de memoire.html) sont volontairement francs.
-   Un fondu y avait été essayé puis retiré — l'arête nette est assumée.
-   ============================================ */
-
-.fade-to-cream { background: linear-gradient(to bottom, var(--bg-light) 0%, var(--bg-cream) 100%) !important; }
-.fade-to-light { background: linear-gradient(to bottom, var(--bg-cream) 0%, var(--bg-light) 100%) !important; }
 
 /* ============================================
    SHOWCASE CARDS — cartes cinématiques plein cadre
@@ -1173,7 +1182,7 @@ footer {
   font-weight: 400;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--rose-pale);
+  color: var(--accent-pale);
   margin-bottom: .6rem;
 }
 .showcase-card-title {
@@ -1236,7 +1245,7 @@ footer {
   display: flex;
   flex-direction: column;
   background: transparent;
-  border: 1.5px solid var(--rose-deep);
+  border: 1.5px solid var(--accent-deep);
   border-radius: 26px;
   padding: 1.7rem 1.5rem;
   text-decoration: none;
@@ -1245,10 +1254,10 @@ footer {
 }
 .explore-card:hover,
 .explore-card:focus-visible {
-  background: var(--rose-pale);
+  background: var(--accent-pale);
   transform: translateY(-2px);   /* le lift discret du bouton */
   box-shadow: none;
-  border-color: var(--rose-deep);
+  border-color: var(--accent-deep);
 }
 
 /* Titre en deux colonnes : l'émoji d'un côté, le libellé de l'autre. En flex,
@@ -1262,7 +1271,7 @@ footer {
   font-family: var(--font-serif);
   font-size: 1.25rem;
   font-weight: 500;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   margin-bottom: 0.6rem;
 }
 /* Émoji réduit et en police neutre : sinon il domine le serif, et le serif
@@ -1286,7 +1295,7 @@ footer {
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
 }
 
 /* "Notre histoire" (Qui sommes-nous) n'a plus de style propre : l'habillage
@@ -1398,7 +1407,7 @@ footer {
   font-size: clamp(4.5rem, 14vw, 7rem);
   font-weight: 300;
   line-height: 1;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   opacity: 0.85;
   margin-bottom: 0.5rem;
 }
@@ -1423,7 +1432,7 @@ footer {
   font-size: 0.82rem;
   color: var(--gris);
 }
-.error-links a { color: var(--rose-deep); }
+.error-links a { color: var(--accent-deep); }
 .error-links a:hover { text-decoration: underline; }
 .legal-inner .section-divider { margin: 1.5rem auto 3rem; }
 
@@ -1434,7 +1443,7 @@ footer {
   line-height: 1.9;
   color: var(--noir);
   background: var(--bg-light);
-  border-left: 2px solid var(--rose);
+  border-left: 2px solid var(--accent);
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: 1.6rem 1.8rem;
   margin-bottom: 3rem;
@@ -1443,7 +1452,7 @@ footer {
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: 1.5rem;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   margin: 3rem 0 1rem;
 }
 .legal-inner h2:first-of-type { margin-top: 0; }
@@ -1467,13 +1476,13 @@ footer {
    la 404 — texte rose sur fond rose, illisible. Un bouton gère sa propre
    couleur. */
 .legal-inner a:not(.btn) {
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   transition: color var(--transition);
 }
-.legal-inner a:not(.btn):hover { color: var(--rose-dark); }
+.legal-inner a:not(.btn):hover { color: var(--accent-dark); }
 
 .legal-note {
   font-style: italic;
@@ -1564,11 +1573,11 @@ footer {
   position: absolute;
   left: 0; right: 0; bottom: 0;
   height: 2px;
-  background: var(--rose);
+  background: var(--accent);
   transform: scaleX(0);
   transition: transform var(--transition);
 }
-.nav2-links a:hover { color: var(--rose-deep); }
+.nav2-links a:hover { color: var(--accent-deep); }
 .nav2-links a.is-active { color: var(--noir); }
 .nav2-links a.is-active::after { transform: scaleX(1); }
 /* Libellé long / court (mobile) d'un même lien */
@@ -1604,8 +1613,8 @@ footer {
   margin: .8rem 0 1.2rem;
 }
 .horse-tag {
-  background: var(--rose-pale);
-  color: var(--rose-dark);
+  background: var(--accent-pale);
+  color: var(--accent-dark);
   font-size: .7rem;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -1632,7 +1641,7 @@ footer {
   color: var(--gris);
   font-style: italic;
 }
-.horse-sold-note em { color: var(--rose-deep); font-weight: 600; font-style: italic; }
+.horse-sold-note em { color: var(--accent-deep); font-weight: 600; font-style: italic; }
 
 .horse-price-row {
   display: flex;
@@ -1648,7 +1657,7 @@ footer {
   font-family: var(--font-serif);
   font-size: 2rem;
   font-weight: 500;
-  color: var(--rose-dark);
+  color: var(--accent-dark);
 }
 .horse-price-note {
   font-size: .72rem;
@@ -1761,7 +1770,7 @@ footer {
   position: absolute;
   top: -16px; left: -16px;
   right: 16px; bottom: 16px;
-  border: 1px solid var(--rose-pale);
+  border: 1px solid var(--accent-pale);
   border-radius: var(--radius);
   z-index: 0;
   pointer-events: none;
@@ -1774,7 +1783,7 @@ footer {
   flex: 1;
   overflow: hidden;
   border-radius: var(--radius);
-  background: var(--rose-pale);
+  background: var(--accent-pale);
   cursor: zoom-in;
   box-shadow: 0 4px 20px rgba(92, 62, 52, 0.10);
 }
@@ -1859,7 +1868,7 @@ footer {
 }
 .hero-slides:hover .hero-nav,
 .hero-nav:focus-visible { opacity: 1; }
-.hero-nav:hover { background: color-mix(in srgb, var(--rose-deep) 85%, transparent); }   /* accent du thème (pétrole / framboise / sakura) */
+.hero-nav:hover { background: color-mix(in srgb, var(--accent-deep) 85%, transparent); }   /* accent du thème (pétrole / framboise / sakura) */
 .hero-prev { left: 0.7rem; }
 .hero-next { right: 0.7rem; }
 
@@ -1878,7 +1887,7 @@ footer {
   pointer-events: none;
   transition: background var(--transition);
 }
-.hero-slides:hover .hero-expand { background: color-mix(in srgb, var(--rose-deep) 85%, transparent); }
+.hero-slides:hover .hero-expand { background: color-mix(in srgb, var(--accent-deep) 85%, transparent); }
 
 /* --- Légende de la photo courante --- */
 .hero-cap {
@@ -1910,11 +1919,11 @@ footer {
   width: 7px;
   height: 7px;
   border-radius: 4px;
-  background: var(--rose-pale);
+  background: var(--accent-pale);
   overflow: hidden;
   transition: width var(--transition), background var(--transition);
 }
-.hero-dot.done { background: var(--rose); }
+.hero-dot.done { background: var(--accent); }
 /* Pastille active : s'allonge en gélule et se colorise au rythme du minuteur */
 .hero-dot.running { width: 34px; }
 .hero-dot i {
@@ -1922,7 +1931,7 @@ footer {
   height: 100%;
   width: 0;
   border-radius: 4px;
-  background: var(--rose-deep);
+  background: var(--accent-deep);
 }
 .hero-dot.running i { animation: heroTimerFill var(--hero-delay, 5s) linear forwards; }
 /* Défilement en pause (survol) : la gélule se fige où elle en est */
@@ -2071,10 +2080,10 @@ footer {
 /* Couleurs du thème de la page (crème / bleu sur un mâle, rosé sur une femelle),
    et non plus un bleu fixe hérité des anciens styles des fiches. */
 .ped-note {
-  margin-top: 2rem; background: color-mix(in srgb, var(--rose-pale) 32%, transparent); border: 1px solid var(--border);
+  margin-top: 2rem; background: color-mix(in srgb, var(--accent-pale) 32%, transparent); border: 1px solid var(--border);
   border-radius: 12px; padding: 1.25rem 1.5rem; font-size: .8rem; line-height: 1.65; color: var(--noir);
 }
-.ped-note strong { color: var(--rose-deep); }
+.ped-note strong { color: var(--accent-deep); }
 
 /* ============================================
    CARTES CHEVAUX — générées par build.py (<!-- @cartes: … -->)
@@ -2121,7 +2130,7 @@ footer {
 .pastille--reste   { --pc: var(--st-reste); }
 .pastille--vendu   { --pc: var(--st-vendu); }
 .pastille--or      { --pc: var(--or); }
-.pastille--hc      { --pc: var(--rose-deep); }
+.pastille--hc      { --pc: var(--accent-deep); }
 /* Toujours en contour : en mémoire (discret), autres titres, information. */
 .pastille--memoire, .pastille--titre, .pastille--info, .pastille--contour {
   background: rgba(255, 255, 255, .82); color: var(--pc);
@@ -2295,10 +2304,9 @@ footer {
    Pages neutres : rien à ajouter (crème, accents rose sakura de la marque).
    Fiche d'un mâle : accents pétrole ; d'une femelle : accents framboise
    (palette du 15/10, voir --male / --femelle dans :root).
-   NB : les variables --rose… servent ici de « couleur d'accent du thème »
-   (un mâle a donc du pétrole dans --rose). Renommage en --accent… prévu
-   au ménage CSS, en une seule passe.
-   Le thème redéfinit les variables d'accent (--rose…) et de fond
+   --accent… = couleur d'accent du thème (un mâle a du pétrole dans --accent) ;
+   --marque… = rose sakura de l'élevage, constant (renommage du 16/10).
+   Le thème redéfinit les variables d'accent (--accent…) et de fond
    (--bg-…) pour tout le contenu ; les « îlots d'identité » (nav,
    pied de page) gardent le rose de la marque ; les boutons d'action
    de la fiche suivent le thème.
@@ -2310,10 +2318,10 @@ body.theme-male {
   --bg-cream:  #FDFBF6;
   --bg-light:  #F9F5EC;
   --bg-card:   #FFFEFA;
-  --rose-pale: var(--male-pale);
-  --rose:      var(--male);
-  --rose-deep: var(--male-deep);
-  --rose-dark: #1F5257;
+  --accent-pale: var(--male-pale);
+  --accent:      var(--male);
+  --accent-deep: var(--male-deep);
+  --accent-dark: #1F5257;
   --border:    rgba(140, 115, 75, 0.16);
   --shadow:      0 4px 32px rgba(120, 95, 60, 0.08);
   --shadow-hover:0 8px 48px rgba(120, 95, 60, 0.14);
@@ -2323,10 +2331,10 @@ body.theme-femelle {
   --bg-cream:  #FDFBF6;
   --bg-light:  #F9F5EC;
   --bg-card:   #FFFEFA;
-  --rose-pale: var(--femelle-pale);
-  --rose:      var(--femelle);
-  --rose-deep: var(--femelle-deep);
-  --rose-dark: #7E2440;
+  --accent-pale: var(--femelle-pale);
+  --accent:      var(--femelle);
+  --accent-deep: var(--femelle-deep);
+  --accent-dark: #7E2440;
 }
 /* Fond à taches (15/10) : crème + taches floues de la couleur d'accent
    (sexe sur les fiches). Motif de 1 600 px répété sur toute la hauteur de la
@@ -2339,10 +2347,10 @@ body.theme-femelle {
 body:is(.theme-male, .theme-femelle, .fond-taches) {
   background-color: var(--bg-cream);
   background-image:
-    radial-gradient(620px 380px at 92% 300px,  color-mix(in srgb, var(--rose) 15%, transparent), transparent 70%),
-    radial-gradient(480px 320px at 4% 680px,   color-mix(in srgb, var(--rose) 11%, transparent), transparent 70%),
-    radial-gradient(560px 340px at 76% 1060px, color-mix(in srgb, var(--rose) 10%, transparent), transparent 70%),
-    radial-gradient(420px 300px at 14% 1360px, color-mix(in srgb, var(--rose) 8%, transparent), transparent 70%);
+    radial-gradient(620px 380px at 92% 300px,  color-mix(in srgb, var(--accent) 15%, transparent), transparent 70%),
+    radial-gradient(480px 320px at 4% 680px,   color-mix(in srgb, var(--accent) 11%, transparent), transparent 70%),
+    radial-gradient(560px 340px at 76% 1060px, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
+    radial-gradient(420px 300px at 14% 1360px, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%);
   background-size: 100% 1600px;
   background-repeat: repeat-y;
 }
@@ -2360,7 +2368,7 @@ body:is(.theme-male, .theme-femelle) :is(.horse-hero-top, .horse-hero-img-wrap, 
 }
 /* Îlots d'identité : la marque reste rose quel que soit le thème. */
 body:is(.theme-male, .theme-femelle) :is(.navbar, footer) {
-  --rose-pale: #F5DDE4; --rose: #D4899A; --rose-deep: #AB5667; --rose-dark: #8B4A5C;
+  --accent-pale: var(--marque-pale); --accent: var(--marque); --accent-deep: var(--marque-deep); --accent-dark: var(--marque-dark);
   --border: rgba(176, 96, 112, 0.15);
 }
 
@@ -2410,9 +2418,9 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 }
 .troupeau-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.4rem; }
 .troupeau-titre { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.75rem, 3.6vw, 2.4rem); line-height: 1.15; color: var(--noir); }
-.troupeau-titre em { color: var(--rose-deep); }
+.troupeau-titre em { color: var(--accent-deep); }
 .troupeau--memoire .troupeau-titre em { color: #7A6868; }
-.troupeau-accent { font-style: italic; font-weight: 500; color: var(--rose-deep); }
+.troupeau-accent { font-style: italic; font-weight: 500; color: var(--accent-deep); }
 /* Citation d'Alice sous les cartes « Ils ont marqué notre histoire » */
 .troupeau-citation {
   max-width: 640px; margin: 1.6rem auto 0; text-align: center;
@@ -2429,22 +2437,23 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 .troupeau-fleches[hidden] { display: none; }
 .rangee-btn {
   display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
-  border: 1px solid var(--border); background: #fff; color: var(--rose-deep); cursor: pointer;
+  border: 1px solid var(--border); background: #fff; color: var(--accent-deep); cursor: pointer;
   transition: background var(--transition), opacity var(--transition);
 }
-.rangee-btn:hover:not(:disabled) { background: var(--rose-pale); }
+.rangee-btn:hover:not(:disabled) { background: var(--accent-pale); }
 .rangee-btn:disabled { opacity: .35; cursor: default; }
 
 .rangee {
   display: flex; gap: 1.75rem;
   overflow-x: auto; overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory; scroll-behavior: smooth; scroll-padding-inline: 1rem;
-  /* marges internes : place pour le soulèvement et l'ombre des cartes au survol */
-  margin: -.75rem -1rem 0; padding: .75rem 1rem 2.25rem;
+  scroll-snap-type: x mandatory; scroll-behavior: smooth; scroll-padding-inline: 2.5rem;
+  /* marges internes : place pour le soulèvement et l'ombre des cartes au survol
+     (ombre de 40px de flou : 1rem sur les côtés la coupait net, 16/10) */
+  margin: -.75rem -2.5rem -1.5rem; padding: .75rem 2.5rem 3.75rem;
   scrollbar-width: none;
 }
 .rangee::-webkit-scrollbar { display: none; }
-.rangee:focus-visible { outline: 2px solid var(--rose); outline-offset: -2px; border-radius: 12px; }
+.rangee:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 12px; }
 /* largeur : 5 cartes tiennent sur un grand écran (pas de défilement inutile),
    jamais moins de 250px ni plus de 290px, comme les grilles du reste du site */
 .rangee > .cc { flex: 0 0 clamp(250px, calc((100% - 4 * 1.75rem) / 5), 290px); height: auto; scroll-snap-align: start; }
@@ -2486,7 +2495,7 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 
 .troupeau-lien {
   display: inline-flex; align-items: center; gap: .6rem; margin-top: .25rem;
-  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--rose-deep); text-decoration: none;
+  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); text-decoration: none;
   transition: gap var(--transition);
 }
 .troupeau-lien:hover { gap: .9rem; }
@@ -2510,7 +2519,7 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
   background: linear-gradient(to bottom, var(--bg-cream) 0%, #FDF5F7 45%, var(--bg-light) 100%);
 }
 .contact-cote { display: flex; flex-direction: column; gap: 2rem; }
-.contact-item-text a { color: var(--rose-deep); text-decoration: none; border-bottom: 1px solid var(--border); }
+.contact-item-text a { color: var(--accent-deep); text-decoration: none; border-bottom: 1px solid var(--border); }
 .contact-item-text a:hover { border-bottom-color: currentColor; }
 .contact-encart {
   display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; text-align: left;
@@ -2522,11 +2531,11 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 .contact-encart-texte { font-size: .85rem; color: var(--gris); line-height: 1.6; }
 .contact-encart-lien {
   display: inline-flex; align-items: center; gap: .4rem; margin-top: .3rem;
-  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--rose-deep);
+  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep);
 }
 .form-rgpd { margin-top: .9rem; font-size: .72rem; color: var(--gris); text-align: center; line-height: 1.6; }
 .form-rgpd a { color: inherit; }
-.form-result { margin-top: 1rem; text-align: center; font-size: .85rem; color: var(--rose-deep); }
+.form-result { margin-top: 1rem; text-align: center; font-size: .85rem; color: var(--accent-deep); }
 .form-result.is-erreur { color: #b03a2e; }
 
 /* ============================================
@@ -2564,7 +2573,7 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
   text-underline-offset: 3px; text-decoration-color: rgba(176, 96, 112, 0.35);
   transition: color var(--transition), text-decoration-color var(--transition);
 }
-.lien-texte:hover, .lien-texte:focus-visible { color: var(--rose-deep); text-decoration-color: var(--rose-deep); }
+.lien-texte:hover, .lien-texte:focus-visible { color: var(--accent-deep); text-decoration-color: var(--accent-deep); }
 
 /* ============================================
    ACCUEIL — petites cartes chevaux (.ca, générées par build.py format=mini)
@@ -2577,10 +2586,10 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 @media (min-width: 1100px) { .ca-groupe { --ca-w: 220px; --ca-gap: 1.25rem; } .ca-groupe .ca-nom { font-size: 1.7rem; } }
 .ca-groupe-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.1rem; }
 .ca-groupe-titre { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.45rem, 2.6vw, 1.85rem); line-height: 1.15; color: var(--noir); }
-.ca-groupe-titre em { color: var(--rose-deep); }
+.ca-groupe-titre em { color: var(--accent-deep); }
 .ca-groupe-texte { margin-top: .35rem; max-width: 560px; font-size: .88rem; line-height: 1.6; color: var(--gris); }
 .ca-groupe-lien {
-  flex-shrink: 0; color: var(--rose-deep); text-decoration: none; white-space: nowrap;
+  flex-shrink: 0; color: var(--accent-deep); text-decoration: none; white-space: nowrap;
   font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
 }
 .ca-rangee {
@@ -2618,7 +2627,7 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 .ca--femelle:hover, .ca--femelle:focus-visible { box-shadow: 0 12px 22px color-mix(in srgb, var(--femelle) 36%, transparent); }
 .ca:hover img, .ca:focus-visible img { transform: scale(1.07); }
 .ca:hover::before, .ca:focus-visible::before { transform: scaleX(1); }
-.ca:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+.ca:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .ca-corps { position: absolute; left: .9rem; right: .9rem; bottom: 1rem; display: flex; flex-direction: column; gap: .2rem; }
 .ca-nom { font-family: var(--font-serif); font-style: italic; font-size: 1.45rem; line-height: 1.05; color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, .35); }
@@ -2712,15 +2721,15 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 }
 .lo-mot::before {   /* guillemet décoratif */
   content: "\201C"; position: absolute; top: .9rem; left: 1.3rem;
-  font-family: var(--font-serif); font-size: 3.2rem; line-height: 1; color: var(--rose); opacity: .55;
+  font-family: var(--font-serif); font-size: 3.2rem; line-height: 1; color: var(--accent); opacity: .55;
 }
 .lo-texte { margin: 0; padding-top: .6rem; font-family: var(--font-serif); font-style: italic; font-size: 1.12rem; line-height: 1.65; color: var(--noir); }
 .lo-texte p + p { margin-top: .7rem; }
 .lo-signature { display: flex; flex-direction: column; gap: .25rem; margin-top: 1.1rem; }
-.lo-nom { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--rose-deep); }
+.lo-nom { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); }
 .lo-detail { font-size: .8rem; color: var(--gris); }
 .lo-detail a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(176, 96, 112, 0.35); }
-.lo-detail a:hover { color: var(--rose-deep); }
+.lo-detail a:hover { color: var(--accent-deep); }
 .lo-liens { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 1rem; }
 
 .livre-dor-accueil { background: var(--bg-light); }
@@ -2732,7 +2741,7 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
   display: flex; align-items: flex-start; gap: .7rem; margin: .4rem 0 1.4rem;
   font-size: .85rem; line-height: 1.55; color: var(--gris); cursor: pointer;
 }
-.form-accord input { flex-shrink: 0; width: 1.05rem; height: 1.05rem; margin-top: .18rem; accent-color: var(--rose-deep); }
+.form-accord input { flex-shrink: 0; width: 1.05rem; height: 1.05rem; margin-top: .18rem; accent-color: var(--accent-deep); }
 @media (max-width: 600px) {
   .lo-mot { padding: 2.2rem 1.4rem 1.3rem; }
 }

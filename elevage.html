@@ -65,7 +65,7 @@
       Un bruit presque imperceptible, mais une énergie bien réelle. 
     </p>
     <p class="section-text" style="max-width:580px;margin:0 auto;">
-      <em style="color:var(--rose-deep);font-weight:600;">Humming Cob est né de cette rencontre entre le vombrissement du colibri et la puissance tranquille des chevaux.</em>
+      <em style="color:var(--accent-deep);font-weight:600;">Humming Cob est né de cette rencontre entre le vombrissement du colibri et la puissance tranquille des chevaux.</em>
     </p>
   </div>
   <div class="section-inner">
@@ -81,7 +81,7 @@
 </section>
 
 <!-- ====== NOTRE ÉLEVAGE — 6 CARDS ====== -->
-<section id="notre-elevage" class="fade-to-light" style="padding:4rem 0;">
+<section id="notre-elevage" style="padding:4rem 0;">
   <div class="section-inner">
     <div class="elevage-grid">
       <div class="elevage-card elevage-card--clickable reveal reveal-delay-1" data-elevage="irish-cob">
@@ -297,8 +297,8 @@
     .partner-group--pro    { grid-template-columns: repeat(4, 110px); }
     .partner-group--eleveur { grid-template-columns: repeat(2, 110px); }
     /* Pros : anneau rose (défaut) */
-    .partner-group--pro .partner-ring { border-color: var(--rose); }
-    .partner-group--pro .partner-node:hover .partner-ring { border-color: var(--rose-deep); }
+    .partner-group--pro .partner-ring { border-color: var(--accent); }
+    .partner-group--pro .partner-node:hover .partner-ring { border-color: var(--accent-deep); }
     /* Éleveurs : anneau bleu */
     .partner-group--eleveur .partner-ring { border-color: var(--bleu); }
     .partner-group--eleveur .partner-node:hover .partner-ring { border-color: #1cacac; }
@@ -317,7 +317,7 @@
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      border: 2.5px solid var(--rose);
+      border: 2.5px solid var(--accent);
       overflow: hidden;
       background: var(--cream);
       transition: border-color .2s, transform .2s;
@@ -392,7 +392,7 @@
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 1rem;
       font-weight: 600;
-      color: var(--rose-deep);
+      color: var(--accent-deep);
       margin-bottom: .4rem;
     }
     .partner-popup p {
@@ -482,7 +482,7 @@
   font-size: .7rem;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--accent);
   font-family: 'Jost', sans-serif;
   font-weight: 500;
   opacity: 0;
@@ -599,7 +599,7 @@
 #elev-text:only-child { grid-column: 1 / -1; }
 .elev-divider {
   width: 60px; height: 1px;
-  background: linear-gradient(to right, var(--rose), transparent);
+  background: linear-gradient(to right, var(--accent), transparent);
   margin: .6rem 0 1.2rem;
 }
 
@@ -633,7 +633,7 @@
   color: var(--noir);
   transition: border-color .15s;
 }
-.elev-carousel-btn:hover { border-color: var(--rose); color: var(--rose); }
+.elev-carousel-btn:hover { border-color: var(--accent); color: var(--accent); }
 .elev-carousel-counter {
   font-size: .75rem;
   color: var(--gris);
@@ -701,7 +701,7 @@
   font-family: 'Jost', sans-serif;
 }
 #elev-text strong { color: var(--noir); font-weight: 500; }
-#elev-text em { color: var(--rose-deep); font-style: italic; }
+#elev-text em { color: var(--accent-deep); font-style: italic; }
 
 /* ---- Responsive ---- */
 @media (max-width: 640px) {
@@ -722,8 +722,8 @@
       title: '🐴 Irish Cob / Gypsy Cob',
       images: ['img/elevage/Schema-Conformation-IC-GC.png'],
       html: `
-        <p><em style="color:var(--rose-deep);font-weight:600;">Une même race, deux noms, deux studbooks.</em> L'Irish Cob et le Gypsy Cob désignent la même race de cheval — selon qu'on se réfère au studbook français (France Irish Cob) ou au studbook d'origine britannique (TGCA). Cette dualité reflète l'histoire de la race, mais le but recherché est le même : tendre vers le même modèle.</p>
-        <p>La race se distingue par ses <em style="color:var(--rose-deep);font-weight:600;">aplombs solides</em>, son abondance de crin et de fanons, et surtout par son <em style="color:var(--rose-deep);font-weight:600;">tempérament exceptionnel</em> : calme, polyvalent, proche de l'humain. C'est ce mélange de puissance et de douceur qui en fait une race adaptée à tous les publics.</p>
+        <p><em style="color:var(--accent-deep);font-weight:600;">Une même race, deux noms, deux studbooks.</em> L'Irish Cob et le Gypsy Cob désignent la même race de cheval — selon qu'on se réfère au studbook français (France Irish Cob) ou au studbook d'origine britannique (TGCA). Cette dualité reflète l'histoire de la race, mais le but recherché est le même : tendre vers le même modèle.</p>
+        <p>La race se distingue par ses <em style="color:var(--accent-deep);font-weight:600;">aplombs solides</em>, son abondance de crin et de fanons, et surtout par son <em style="color:var(--accent-deep);font-weight:600;">tempérament exceptionnel</em> : calme, polyvalent, proche de l'humain. C'est ce mélange de puissance et de douceur qui en fait une race adaptée à tous les publics.</p>
         <img src="img/elevage/SD-Red-Gambler-2025-01.jpg"
            alt="Schéma de conformation Irish Cob"
            style="max-width:100%; height:auto;">
@@ -735,15 +735,15 @@
       images: [
         { src: 'img/elevage/Les-3-F.jpg', caption: '' }
       ],
-      leftNote: `<p>L'Irish Cob, comme tout cheval, est un animal qui a besoin de <em style="color:var(--rose-deep);font-weight:600;">vivre en troupeau</em>. Pour qu'il s'épanouisse pleinement, nous faisons de notre mieux pour répondre à ses besoins.</p>
-        <p><em style="color:var(--rose-deep);font-weight:600;">Les 3F "Friends / Freedom / Forage"</em> (Amitié/Liberté/Fourage) — issus des recherches en bien-être équin — garantissent l'accès permanent à la vie en groupe, à la liberté de mouvement et au fourrage H24/J7.</p>
+      leftNote: `<p>L'Irish Cob, comme tout cheval, est un animal qui a besoin de <em style="color:var(--accent-deep);font-weight:600;">vivre en troupeau</em>. Pour qu'il s'épanouisse pleinement, nous faisons de notre mieux pour répondre à ses besoins.</p>
+        <p><em style="color:var(--accent-deep);font-weight:600;">Les 3F "Friends / Freedom / Forage"</em> (Amitié/Liberté/Fourage) — issus des recherches en bien-être équin — garantissent l'accès permanent à la vie en groupe, à la liberté de mouvement et au fourrage H24/J7.</p>
 `,
       html: `
         <img src="img/elevage/Les-6-Besoins-fondamentaux.jpg"
            alt="Schéma de conformation Irish Cob"
            style="max-width:100%; height:auto;"> 
-        <p><em style="color:var(--rose-deep);font-weight:600;">Les besoins fondamentaux</em>, au nombre de 6, guident notre quotidien : Respirer, Boire, Dormir, Manger, Bouger, Communiquer.</p>
-           <p>Un cheval bien dans ses besoins fondamentaux est un cheval <em style="color:var(--rose-deep);font-weight:600;">équilibré, confiant et facile</em> — c'est la base de tout ce que nous transmettons à nos poulains.</p>
+        <p><em style="color:var(--accent-deep);font-weight:600;">Les besoins fondamentaux</em>, au nombre de 6, guident notre quotidien : Respirer, Boire, Dormir, Manger, Bouger, Communiquer.</p>
+           <p>Un cheval bien dans ses besoins fondamentaux est un cheval <em style="color:var(--accent-deep);font-weight:600;">équilibré, confiant et facile</em> — c'est la base de tout ce que nous transmettons à nos poulains.</p>
       `
     },
     'lignes': {
@@ -757,9 +757,9 @@
 </p>`, 
       html: `
         <img src="img/elevage/sdfarmfam02.jpg" alt="SD Farm" style="width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:8px;display:block;">
-        <p><em style="color:var(--rose-deep);font-weight:600;">SD Farm</em> (Oxfordshire, Angleterre) — c'est avant tout une histoire de famille ! Sur cette photo, <em style="color:var(--rose-deep);font-weight:600;">Steve Down</em> (SD), le patriarche, est accompagné d'une partie de ses petits-enfants. Sa fille, Janey, est à l'origine de l'arrivée de Suzie et de ses filles. Leur élevage perpétue de grande lignée.</p>
+        <p><em style="color:var(--accent-deep);font-weight:600;">SD Farm</em> (Oxfordshire, Angleterre) — c'est avant tout une histoire de famille ! Sur cette photo, <em style="color:var(--accent-deep);font-weight:600;">Steve Down</em> (SD), le patriarche, est accompagné d'une partie de ses petits-enfants. Sa fille, Janey, est à l'origine de l'arrivée de Suzie et de ses filles. Leur élevage perpétue de grande lignée.</p>
         <img src="img/elevage/Clive-SC.jpg" alt="San Cler Stud" style="width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:8px;margin:.5rem 0;">
-        <p><em style="color:var(--rose-deep);font-weight:600;">San Cler Stud</em> (St Clears, Pays de Galles) — Ici, <em style="color:var(--rose-deep);font-weight:600;">Clive Hussell</em> (avec un étalon, Hermits Starburst), connu pour la qualité morphologique de ses reproducteurs et l'attention portée à la génétique des robes. J'ai découvert Avantgarde grâce à lui.</p>
+        <p><em style="color:var(--accent-deep);font-weight:600;">San Cler Stud</em> (St Clears, Pays de Galles) — Ici, <em style="color:var(--accent-deep);font-weight:600;">Clive Hussell</em> (avec un étalon, Hermits Starburst), connu pour la qualité morphologique de ses reproducteurs et l'attention portée à la génétique des robes. J'ai découvert Avantgarde grâce à lui.</p>
       `
     },
     'poulains': {
@@ -777,7 +777,7 @@
           <li>Donner les quatre pieds au pareur</li>
           <li>Tolérer les soins vétérinaires de base</li>
         </ul>
-        <p><em style="color:var(--rose-deep);font-weight:600;">Un poulain bien démarré, c'est un cheval facile pour toute sa vie.</em></br>
+        <p><em style="color:var(--accent-deep);font-weight:600;">Un poulain bien démarré, c'est un cheval facile pour toute sa vie.</em></br>
         Parce que le mental ne fait pas tout, nous accordons également une grande importance à son développement physique. 
         Chaque étape est abordée lorsque son corps est prêt à le supporter.
         Nous respectons sa croissance osseuse : <strong>vous ne trouverez pas chez Humming Cob de jeune cheval débourré précocement.</strong></p>
@@ -790,8 +790,8 @@
       title: '📋 Transparence totale',
       images: ['img/elevage/pssm.jpg'],
       html: `
-        <p>Acheter un cheval chez Humming Cob, c'est recevoir un <em style="color:var(--rose-deep);font-weight:600;">dossier complet et honnête</em>. Pas de surprises, pas d'omissions.</p>
-        <p><em style="color:var(--rose-deep);font-weight:600;">Ce dossier comprend :</em></p>
+        <p>Acheter un cheval chez Humming Cob, c'est recevoir un <em style="color:var(--accent-deep);font-weight:600;">dossier complet et honnête</em>. Pas de surprises, pas d'omissions.</p>
+        <p><em style="color:var(--accent-deep);font-weight:600;">Ce dossier comprend :</em></p>
         <ul>
           <li>Contrat de vente détaillé</li>
           <li>Carnet IFCE</li>
@@ -803,7 +803,7 @@
            alt="Schéma de conformation Irish Cob"
            style="max-width:100%; height:auto;"> 
 
-        <p>Nous restons <em style="color:var(--rose-deep);font-weight:600;">disponibles après la vente</em> pour répondre à vos questions, vous aider dans les démarches ou vous guider vers le bon professionnel.</p>
+        <p>Nous restons <em style="color:var(--accent-deep);font-weight:600;">disponibles après la vente</em> pour répondre à vos questions, vous aider dans les démarches ou vous guider vers le bon professionnel.</p>
       `
     },
     'gard': {
@@ -811,10 +811,10 @@
       title: '📍 Élevage du Gard',
       images: ['img/elevage/Cartes-France.jpg'],
       html: `
-        <p>Nous sommes installés dans le <em style="color:var(--rose-deep);font-weight:600;">Gard (30)</em>, au cœur de la garrigue cévenole — un territoire de collines, de chênes verts et de lumière, qui façonne le quotidien de nos chevaux autant que le nôtre.</p>
+        <p>Nous sommes installés dans le <em style="color:var(--accent-deep);font-weight:600;">Gard (30)</em>, au cœur de la garrigue cévenole — un territoire de collines, de chênes verts et de lumière, qui façonne le quotidien de nos chevaux autant que le nôtre.</p>
         <p>Nos chevaux vivent dehors toute l'année, dans un environnement qui nous apprend chaque jour l'adaptation. Ici, les étés sont longs, la terre souvent sèche et le foin reste indispensable une grande partie de l'année.</p>
         <p>Cette réalité nourrit aujourd'hui notre prochain projet : trouver le lieu où Humming Cob pourra planter durablement ses racines.</p>
-        <p>Les visites sont possibles <em style="color:var(--rose-deep);font-weight:600;">sur rendez-vous</em>. Nous vous accueillerons avec plaisir pour vous présenter nos chevaux dans leur environnement — c'est toujours la meilleure façon de les découvrir. Une chambre est même mise à disposition pour les visiteurs venant de loin et souhaitant rester plus d'une journée.</p>
+        <p>Les visites sont possibles <em style="color:var(--accent-deep);font-weight:600;">sur rendez-vous</em>. Nous vous accueillerons avec plaisir pour vous présenter nos chevaux dans leur environnement — c'est toujours la meilleure façon de les découvrir. Une chambre est même mise à disposition pour les visiteurs venant de loin et souhaitant rester plus d'une journée.</p>
       `
     }
   };

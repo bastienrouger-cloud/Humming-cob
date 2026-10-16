@@ -65,7 +65,7 @@
       margin-bottom: 0;
     }
     .header h1 { font-family: var(--serif); font-size: 2.2rem; font-weight: 400; }
-    .header h1 em { color: var(--rose-deep); font-style: italic; }
+    .header h1 em { color: var(--accent-deep); font-style: italic; }
     .header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris); margin-top: 0.4rem; }
 
     .tree-outer {
@@ -145,8 +145,8 @@
       /* Fond neutre très clair : la robe donne la couleur du texte et du liseré
          (inline, voir robeToColor), le fond reste lisible quelle que soit la robe. */
       background: rgba(0,0,0,0.03);
-      border: 1px solid var(--rose);   /* écrasé en inline par la couleur de robe */
-      color: var(--rose-deep);          /* idem */
+      border: 1px solid var(--accent);   /* écrasé en inline par la couleur de robe */
+      color: var(--accent-deep);          /* idem */
       border-radius: 20px;
       padding: .18rem .65rem;
       font-size: .67rem;
@@ -170,7 +170,7 @@
       display: inline-flex; align-items: center; gap: .45rem;
       font-family: var(--sans); font-size: .55rem; font-weight: 500;
       letter-spacing: .15em; text-transform: uppercase; white-space: nowrap;
-      color: var(--rose-deep);
+      color: var(--accent-deep);
       background: rgba(255, 255, 255, .78);
       -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
       padding: .26rem .7rem .26rem .55rem; border-radius: 50px;
@@ -258,7 +258,7 @@
       outline: none; transition: border-color .15s, box-shadow .15s;
       -webkit-appearance: none; appearance: none;
     }
-    .ap-recherche input:focus { border-color: var(--rose); box-shadow: 0 0 0 3px rgba(212,137,154,.18); }
+    .ap-recherche input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(212,137,154,.18); }
     .ap-suggestions {
       position: absolute; left: 0; right: 0; top: calc(100% - .3rem);
       list-style: none; margin: 0; padding: .35rem;
@@ -283,11 +283,11 @@
     }
     /* Carte du cheval : habillage des cartes du site (.cc / modale .cm, 16/10) —
        pas de liseré (abandonné le 15/10), corps en dégradé foncé → clair, boutons du site
-       aux couleurs du sexe (les --rose-* sont redéfinis sur la carte). */
+       aux couleurs du sexe (les --accent-* sont redéfinis sur la carte). */
     .ap-carte, .fx-centre {
-      --rose: var(--c); --rose-deep: var(--ct);
-      --rose-dark: color-mix(in srgb, var(--ct) 78%, #000);
-      --rose-pale: color-mix(in srgb, var(--c) 18%, #fff);
+      --accent: var(--c); --accent-deep: var(--ct);
+      --accent-dark: color-mix(in srgb, var(--ct) 78%, #000);
+      --accent-pale: color-mix(in srgb, var(--c) 18%, #fff);
     }
     .ap-carte {
       position: relative; background: #fff;
@@ -378,10 +378,10 @@
       text-shadow: 0 0 3px #FEFBF6, 0 0 3px #FEFBF6;
     }
     .ap-med.is-memoire .ap-med-img { filter: grayscale(.85); opacity: .85; border-style: dashed; }
-    .ap-vide .ap-vide-sous { color: var(--rose-deep); }
+    .ap-vide .ap-vide-sous { color: var(--accent-deep); }
 
     /* Légende : mini-photo et étoile */
-    .leg-photo { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--rose); flex-shrink: 0; }
+    .leg-photo { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--accent); flex-shrink: 0; }
     .leg-star { width: 14px; text-align: center; color: #C0A050; font-size: 12px; flex-shrink: 0; }
 
     /* Interrupteur « Chevaux extérieurs » (posé sur l'arbre, hors de la zone
@@ -404,9 +404,9 @@
       content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px;
       border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform .2s;
     }
-    .arbre-switch input:checked + .arbre-switch-piste { background: var(--rose-deep); }
+    .arbre-switch input:checked + .arbre-switch-piste { background: var(--accent-deep); }
     .arbre-switch input:checked + .arbre-switch-piste::after { transform: translateX(12px); }
-    .arbre-switch input:focus-visible + .arbre-switch-piste { outline: 2px solid var(--rose); outline-offset: 2px; }
+    .arbre-switch input:focus-visible + .arbre-switch-piste { outline: 2px solid var(--accent); outline-offset: 2px; }
     @media (max-width: 900px) { .arbre-switch { top: 3.6rem; left: .6rem; } }
 
     /* Sous-titre adapté : souris ou doigt */
@@ -421,7 +421,9 @@
       .legend { gap: .45rem 1.1rem; padding: .65rem .9rem; }
       .leg { font-size: .66rem; }
       .ap-recherche { position: absolute; top: .65rem; left: 1.2rem; right: 1.2rem; padding: 0; }   /* dans le cadre (marge .6rem) */
-      .ap-recherche input { box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+      /* 16px : en dessous, iOS zoome tout seul quand on touche le champ (et le
+         pincement étant bloqué, on ne pouvait plus dézoomer) */
+      .ap-recherche input { box-shadow: 0 2px 10px rgba(0,0,0,.08); font-size: 16px; }
       .mobile-hint { top: auto; bottom: .7rem; left: .75rem; transform: none; }
       .arbre-panneau {
         position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
@@ -444,16 +446,25 @@
        Toucher un cheval le met au centre. Seule vue sur téléphone et tablette
        (≤ 900px) depuis le 16/10 : la vue Arbre y était cassée et peu pratique. */
     .focus { display: none; }
+    /* Téléphone / tablette : pas de zoom du navigateur sur l'arbre (16/10). En
+       voulant faire défiler, on zoomait sans le vouloir et la croix du volet
+       sortait de l'écran. Seuls le défilement et le glissement restent permis
+       (bloque aussi le zoom au double toucher). Complété en JS pour iOS. */
+    @media (max-width: 900px) {
+      html, body { touch-action: pan-x pan-y; }
+    }
     @media (max-width: 900px) {
       .arbre-zone.vue-focus .tree-outer,
       .arbre-zone.vue-focus .legend,
       .arbre-zone.vue-focus .arbre-switch { display: none; }
-      /* la zone Famille défile dans le cadre, sous la recherche qui reste en place */
+      /* La vue Famille s'écoule dans la page (16/10) : plus de zone qui défile
+         à l'intérieur du cadre, c'est la page qui défile (avant, il fallait
+         « forcer » pour atteindre la descendance). */
       .arbre-zone.vue-focus .focus {
-        display: block; position: absolute; inset: 3.9rem 0 0; overflow-y: auto;
-        padding: .5rem 1rem 1.6rem; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+        display: block; position: static; overflow: visible;
+        padding: 3.9rem 1rem 1.6rem;
       }
-      .arbre-zone.vue-focus .arbre-cadre { min-height: 70vh; }
+      .arbre-zone.vue-focus .arbre-cadre { min-height: 0; overflow: visible; }
     }
     .fx { display: flex; flex-direction: column; align-items: center; text-align: center; }
     .fx.fx-entre { animation: fxEntre .32s ease both; }
@@ -502,7 +513,7 @@
       background: transparent; color: #C9C0BA; font-family: var(--serif); font-size: 1.4rem;
     }
     .fx-med.is-inconnu .fx-med-nom { color: #B4AAA4; font-style: italic; font-size: .85rem; }
-    .fx-trait { width: 1.5px; height: 1.4rem; margin: .5rem 0; background: linear-gradient(var(--rose), rgba(212,137,154,.25)); }
+    .fx-trait { width: 1.5px; height: 1.4rem; margin: .5rem 0; background: linear-gradient(var(--accent), rgba(212,137,154,.25)); }
     .fx-centre {
       display: flex; flex-direction: column; align-items: center; gap: .2rem;
       width: 100%; max-width: 360px; padding: 1.1rem 1rem 1.2rem; border-radius: 22px;
@@ -638,7 +649,7 @@ const eclaircir = (hex, part) => {          // part = proportion de la couleur (
   const n = parseInt(hex.replace('#', ''), 16), m = c => Math.round(c * part + 255 * (1 - part));
   return '#' + [n >> 16 & 255, n >> 8 & 255, n & 255].map(c => m(c).toString(16).padStart(2, '0')).join('');
 };
-const C_MALE = cssVar('--male') || '#4E8F94', C_FEMELLE = cssVar('--femelle') || '#D2557A', C_MARQUE_FONCE = cssVar('--rose-deep') || '#AB5667';
+const C_MALE = cssVar('--male') || '#4E8F94', C_FEMELLE = cssVar('--femelle') || '#D2557A', C_MARQUE_FONCE = cssVar('--marque-deep') || '#AB5667';
 
 // ── RADII
 const R          = 12;
@@ -1429,6 +1440,10 @@ const focusEl = document.getElementById('focus');
 const MOBILE  = window.matchMedia('(max-width: 900px)');
 let focusId = null;
 const vueFocus = () => MOBILE.matches;   // ≤ 900px : toujours la vue « Famille »
+// Pas de zoom au pincement sur mobile (voir le CSS : touch-action) ; Safari / iOS
+// déclenche aussi des événements « gesture » propres, qu'on neutralise.
+['gesturestart', 'gesturechange'].forEach(t => document.addEventListener(t, e => { if (MOBILE.matches) e.preventDefault(); }, { passive: false }));
+document.addEventListener('touchmove', e => { if (MOBILE.matches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
 const annee = c => ((c.naissance || '').match(/\d{4}/) || [''])[0];
 
 function medFocus(c, note, role, petit = false) {
@@ -1544,7 +1559,10 @@ function selectionner(id, { centrer = false } = {}) {
     fermerCarte();
     afficherFocus(id);
     if (location.hash.slice(1) !== id) history.pushState(null, '', '#' + id);   // « retour » = cheval précédent
-    focusEl.scrollTop = 0;
+    // nouveau cheval : on remonte en haut de la vue Famille si on l'avait quittée
+    const navH = (document.querySelector('.navbar') || {}).offsetHeight || 0;
+    const haut = zone.getBoundingClientRect().top - navH - 8;   // la nav fixe ne doit pas cacher la recherche
+    if (haut < 0) window.scrollBy({ top: haut, behavior: 'smooth' });
     return;
   }
   const d = DATA.find(x => x.id === id);
