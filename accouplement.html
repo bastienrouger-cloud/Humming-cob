@@ -82,14 +82,7 @@
     margin-left:auto;
     margin-right:auto;
   }
-  .subtitle{
-    color:#7a6f62;
-    margin:0 0 16px;
-    font-size:0.95rem;
-    max-width:var(--page-w);
-    margin-left:auto;
-    margin-right:auto;
-  }
+
   .page{max-width:var(--page-w);margin:0 auto;display:flex;flex-direction:column;gap:24px;}
   .panel{
     background:var(--bg-card);
@@ -110,22 +103,14 @@
   th{color:#8a7d6d;font-weight:500;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;padding-bottom:12px;}
   tbody tr{transition:filter .12s ease;}
   tbody tr:not(.group-head):hover{filter:brightness(0.96);}
-  .tag{
-    display:inline-block;
-    font-size:0.66rem;
-    padding:2px 8px;
-    border-radius:20px;
-    background:var(--rose);
-    color:#fff;
-    letter-spacing:.02em;
-  }
-  .tag.sex{background:var(--line);color:var(--ink);}
-  .name-stallion{color:var(--sex-stallion);font-weight:500;}
-  .name-mare{color:var(--sex-mare);font-weight:500;}
-  .tag.synth{background:#b9ab94;}
-  .tag.estim{background:var(--warn);}
-  .tag.hc{background:var(--rose-deep);margin-right:4px;}
-  .tag.imported{background:var(--rose-deep);margin-right:4px;}
+
+
+
+
+
+
+
+
   label{display:block;font-size:0.78rem;color:#7a6f62;margin:10px 0 4px;}
   input,select{
     width:100%;
@@ -152,7 +137,7 @@
   .row-actions{display:flex;gap:14px;margin-top:16px;justify-content:center;flex-wrap:wrap;}
   .hint{font-size:0.78rem;color:#8a7d6d;margin-top:10px;line-height:1.5;}
   #fileInput{display:none;}
-  .small{font-size:0.72rem;color:#a99d8c;margin-top:16px;}
+
 
   /* --- Note explicative repliable (méthode de calcul) --- */
   .calc-info{margin-top:14px;}
@@ -258,11 +243,11 @@
   .ed-recherche .ed-input{margin-top:0;}
   .ed-resultats{position:absolute;left:0;right:0;top:calc(100% + .3rem);z-index:5;max-height:300px;overflow-y:auto;padding:.3rem;border-radius:12px;background:#fff;border:1px solid rgba(60,40,35,.1);box-shadow:0 12px 30px rgba(60,40,35,.15);}
   .ed-resultats[hidden]{display:none;}
-  .ed-res{display:flex;align-items:center;gap:.6rem;width:100%;padding:.4rem .5rem;border-radius:9px;background:transparent;text-align:left;font-weight:400;color:var(--noir);}
-  .ed-res:hover,.ed-res:focus-visible{background:#F6F1EA;outline:none;}
-  .ed-res-photo{width:34px;height:34px;flex-shrink:0;border-radius:8px;object-fit:cover;background:#F3EEE6;font-size:.95rem;}
-  .ed-res-nom{display:block;font-family:var(--font-serif);font-size:1rem;}
-  .ed-vide{margin:.4rem .5rem;font-size:.76rem;color:var(--gris);}
+
+
+
+
+
   .ed-lien{margin-top:.45rem;padding:0;background:none;color:var(--rose-deep);font-size:.72rem;font-weight:400;text-decoration:underline;}
   .ed-choisi{display:flex;align-items:center;gap:.65rem;}
   .ed-choisi-photo{width:46px;height:46px;flex-shrink:0;border-radius:10px;object-fit:cover;background:#F3EEE6;font-size:1.2rem;}
@@ -555,7 +540,7 @@
   .cp-ligne-photo{width:44px;height:44px;flex-shrink:0;border-radius:10px;object-fit:cover;background:#F3EEE6;font-size:1.15rem;}
   .cp-ligne-nom{display:block;font-family:var(--font-serif);font-size:1.08rem;}
   .cp-ligne-meta{display:block;font-size:.68rem;color:var(--gris);}
-  .cp-vide{margin:.6rem .2rem;font-size:.8rem;color:var(--gris);}
+
   .cp-pied{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem 1rem;padding:1rem 1.6rem 1.3rem;border-top:1px solid rgba(60,40,35,.07);background:#FBF7F2;}
   .cp-pied p{margin:0;font-size:.84rem;color:var(--gris);}
   .cp-ajouter{margin-top:0 !important;}
@@ -802,71 +787,17 @@ function allStrains(){ return { ...STRAINS, ...customStrains }; }
 
 let horses = HORSES_BASE.map(h => ({...h}));
 
-const horseTable = document.getElementById('horseTable');
-const horseCountEl = document.getElementById('horseCount');
 const treeContainer = document.getElementById('treeContainer');
-const legendEl = document.getElementById('legend');
 
 let idSeq = 1000;
 function nextId(){ let id; do id = 'h' + (idSeq++); while(horses.some(h => h.id === id)); return id; }   // jamais un id déjà importé
 
 function byId(id){ return horses.find(h => h.id === id); }
-function nameOf(id){
-  if(!id) return '—';
-  const h = byId(id);
-  return h ? nameHTML(h) : '?';
-}
 function escapeAttr(s){
   return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-function strainColor(key){ return (allStrains()[key] || STRAINS.inconnue).color; }
 function strainLabel(key){ return (allStrains()[key] || STRAINS.inconnue).label; }
-
-function strainVisual(h){
-  const sireS = h.sire ? ((byId(h.sire) || {}).strain || 'inconnue') : null;
-  const damS  = h.dam  ? ((byId(h.dam)  || {}).strain || 'inconnue') : null;
-  if(sireS && damS) return { a: sireS, b: damS };
-  if(sireS) return { a: sireS, b: sireS };
-  if(damS) return { a: damS, b: damS };
-  return { a: h.strain || 'inconnue', b: h.strain || 'inconnue' };
-}
-function swatchHTML(h, size){
-  size = size || 16;
-  const v = strainVisual(h);
-  const bg = (v.a === v.b) ? strainColor(v.a) : `linear-gradient(90deg, ${strainColor(v.a)} 50%, ${strainColor(v.b)} 50%)`;
-  const title = (v.a === v.b) ? strainLabel(v.a) : `${strainLabel(v.a)} × ${strainLabel(v.b)}`;
-  return `<span class="swatch" style="width:${size}px;height:${size}px;background:${bg}" title="${title}"></span>`;
-}
-function strainRowLabel(h){
-  const v = strainVisual(h);
-  return (v.a === v.b) ? strainLabel(v.a) : `${strainLabel(v.a)} × ${strainLabel(v.b)}`;
-}
-function renderLegend(){
-  if(!legendEl) return;                                    // (légende retirée de la page le 14/10)
-  legendEl.innerHTML = `<span class="legend-title">Lignées</span>` +
-    Object.keys(allStrains()).map(key =>
-      `<span class="legend-item"><span class="swatch" style="width:14px;height:14px;background:${strainColor(key)}"></span>${strainLabel(key)}</span>`
-    ).join('') +
-    `<span class="legend-caption">La couleur indique l'élevage d'origine de chaque cheval (là où il a été acheté ou élevé) — utile pour repérer d'un coup d'œil la diversité des lignées d'un accouplement. <strong>Elle n'indique pas une parenté</strong> : deux chevaux de même couleur ne sont pas forcément apparentés — seule l'ascendance père/mère affichée dans le pedigree fait foi.</span>`;
-}
-
-function sexClass(h){ return h.sex === 'mare' ? 'name-mare' : 'name-stallion'; }
-function nameHTML(h){
-  return `<span class="${sexClass(h)} name-link" onclick="openPedigreeView('${h.id}')" role="button" tabindex="0" title="Voir le pedigree de ${escapeAttr(h.name)}">${h.name}</span>`;
-}
-function strainBgFromColors(colorA, colorB){
-  return (colorA === colorB)
-    ? `color-mix(in srgb, ${colorA} 20%, var(--bg-card))`
-    : `linear-gradient(90deg, color-mix(in srgb, ${colorA} 20%, var(--bg-card)) 50%, color-mix(in srgb, ${colorB} 20%, var(--bg-card)) 50%)`;
-}
-function strainBg(h){
-  const v = strainVisual(h);
-  return strainBgFromColors(strainColor(v.a), strainColor(v.b));
-}
-function strainBgKey(key){
-  return strainBgFromColors(strainColor(key), strainColor(key));
-}
 
 let testState = { leftId: '', rightId: '' };
 
@@ -1421,15 +1352,6 @@ function expandNode(path){
   renderTree();
 }
 
-function strainSelectHTML(currentKey, onChangeExpr){
-  const all = allStrains();
-  const optionsHTML = Object.keys(all).map(key =>
-    `<option value="${key}" ${currentKey === key ? 'selected' : ''}>${escapeAttr(all[key].label)}</option>`
-  ).join('') + `<option value="__new__">+ Nouvelle lignée…</option>`;
-  return `<div class="strain-caption">Lignée d'origine</div>` +
-    `<select class="strain-select" onchange="${onChangeExpr}(this.value)">${optionsHTML}</select>`;
-}
-
 function normalizeSearch(s){
   return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 }
@@ -1438,127 +1360,13 @@ function poolForPath(path){
   const wantSex = role === 'sire' ? 'stallion' : 'mare';
   return horses.filter(h => !h.synthetic && h.sex === wantSex);
 }
-function dropdownGroupLabel(h){
-  return h.source === 'importé' ? 'Importés' : strainLabel(h.strain);
-}
-function sortedGrouped(list){
-  return [...list].sort((a, b) => {
-    const sa = dropdownGroupLabel(a), sb = dropdownGroupLabel(b);
-    return sa !== sb ? sa.localeCompare(sb) : a.name.localeCompare(b.name);
-  });
-}
 function comboListId(path){ return 'combo-' + path.replace(/\./g, '-'); }
-function comboFilter(path, text){
-  const el = document.getElementById(comboListId(path));
-  if(!el) return;
-  const q = normalizeSearch(text);
-  let pool = poolForPath(path);
-  if(q) pool = pool.filter(h => normalizeSearch(h.name).includes(q));
-  pool = sortedGrouped(pool);
-  if(pool.length === 0){
-    el.innerHTML = `<div class="combo-empty">Aucun résultat dans la base.</div>`;
-    el.style.display = 'block';
-    return;
-  }
-  let lastGroup = null, html = '';
-  pool.slice(0, 40).forEach(h => {
-    const g = dropdownGroupLabel(h);
-    if(g !== lastGroup){
-      html += `<div class="combo-group">${g}</div>`;
-      lastGroup = g;
-    }
-    html += `<div class="combo-item" onmousedown="pickCombo('${path}','${h.id}')">${swatchHTML(h, 11)}<span class="${sexClass(h)}">${h.name}</span></div>`;
-  });
-  el.innerHTML = html;
-  el.style.display = 'block';
-}
 function pickCombo(path, horseId){
   setSlotMode(path, horseId);
 }
-function comboBlur(path){
-  const el = document.getElementById(comboListId(path));
-  setTimeout(() => { if(el) el.style.display = 'none'; }, 150);
-}
-function comboWidgetHTML(path){
-  return `
-    <div class="combo" data-path="${path}">
-      <input type="text" class="combo-input" placeholder="Rechercher un cheval…" autocomplete="off"
-        oninput="comboFilter('${path}', this.value)"
-        onfocus="comboFilter('${path}', this.value)"
-        onblur="comboBlur('${path}')">
-      <div class="combo-list" id="${comboListId(path)}"></div>
-    </div>
-    <button type="button" class="link-btn" onclick="setSlotMode('${path}','__new__')">+ Cheval hors base</button>`;
-}
-
-function onRootExistingSelect(value){
-  if(value === ''){
-    draft.root.mode = 'new';
-    draft.root.existingId = '';
-    draft.root.name = '';
-    draft.root.naissance = draft.root.robe = draft.root.race = '';
-    draft.root.strain = 'inconnue';
-    draft.root.sex = forcedSexFor(draft.context) || 'stallion';
-    clearDescendants('sire'); clearDescendants('dam');
-    delete draft.nodes['sire']; delete draft.nodes['dam'];
-    renderTree();
-    return;
-  }
-  const h = byId(value);
-  if(!h) return;
-  draft.root.mode = 'existing';
-  draft.root.existingId = value;
-  draft.root.name = h.name;
-  draft.root.sex = h.sex;
-  draft.root.naissance = h.naissance || ''; draft.root.robe = h.robe || ''; draft.root.race = h.race || '';
-  draft.root.strain = h.strain || 'inconnue';
-  cascadeRootExisting(value);
-  renderTree();
-}
-function cascadeRootExisting(horseId){
-  clearDescendants('sire'); clearDescendants('dam');
-  const h = byId(horseId);
-  const sireNode = getNode('sire');
-  if(h && h.sire){ sireNode.mode = 'existing'; sireNode.existingId = h.sire; sireNode.expanded = false; cascadeExisting('sire', h.sire, 1); }
-  else { sireNode.mode = 'empty'; sireNode.existingId = ''; sireNode.expanded = false; }
-  const damNode = getNode('dam');
-  if(h && h.dam){ damNode.mode = 'existing'; damNode.existingId = h.dam; damNode.expanded = false; cascadeExisting('dam', h.dam, 1); }
-  else { damNode.mode = 'empty'; damNode.existingId = ''; damNode.expanded = false; }
-}
-function toggleRootShowAll(){
-  draft.rootShowAll = true;
-  renderTree();
-}
-
-function openPedigreeView(horseId){
-  const h = byId(horseId);
-  if(!h) return;
-  resetDraft();
-  draft.context = 'view';
-  draft.root.mode = 'existing';
-  draft.root.existingId = horseId;
-  draft.root.name = h.name;
-  draft.root.sex = h.sex;
-  draft.root.naissance = h.naissance || ''; draft.root.robe = h.robe || ''; draft.root.race = h.race || '';
-  draft.root.strain = h.strain || 'inconnue';
-  cascadeRootExisting(horseId);
-  document.getElementById('modalOverlay').classList.add('open');
-  renderTree();
-}
-
 function isOwnHorseSource(source){
   return source === 'saisie manuelle' || source === 'importé';
 }
-function isViewGapEditable(path){
-  const parts = path.split('.');
-  const parentNode = parts.length === 1
-    ? { mode: 'existing', existingId: draft.root.existingId }
-    : draft.nodes[parts.slice(0, -1).join('.')];
-  if(!parentNode || parentNode.mode !== 'existing') return true;
-  const owner = byId(parentNode.existingId);
-  return !!owner && isOwnHorseSource(owner.source);
-}
-
 // ═══ Éditeur « Ajouter mon étalon / ma jument » (refonte du 14/10) ══════════
 // On lit de haut en bas : le cheval, puis ses parents, puis — seulement si on
 // le demande — les parents de chaque parent saisi à la main, aussi loin qu'on
@@ -1887,66 +1695,10 @@ function saveTreeHorse(telecharger){
   if(telecharger) telechargerChevaux(avecAscendanceSaisie(newHorseId), (slugId(name) || 'mon-cheval') + '.json');
 }
 
-function horseRowHTML(h){
-  let originTag;
-  if(h.synthetic) originTag = '<span class="tag synth">Maillon estimé</span>';
-  else if(h.source === 'estimation') originTag = '<span class="tag estim">Ascendance estimée</span>';
-  else originTag = '<span class="tag" style="background:var(--ok);">Confirmé</span>';
-  const hcTag = h.owned ? '<span class="tag hc">HC</span>' : '';
-  const importedTag = h.source === 'importé' ? '<span class="tag imported">Importé</span>' : '';
-  return `
-    <tr style="background:${strainBg(h)}">
-      <td>${hcTag}${importedTag}${nameHTML(h)}</td>
-      <td><span class="tag sex">${h.sex === 'mare' ? '♀ Jument' : '♂ Étalon'}</span></td>
-      <td>${nameOf(h.sire)}</td>
-      <td>${nameOf(h.dam)}</td>
-      <td style="display:flex;align-items:center;gap:6px;">${swatchHTML(h, 13)}<span>${strainRowLabel(h)}</span></td>
-      <td>${originTag}</td>
-    </tr>`;
-}
-function sectionDividerHTML(label, count, swatchColorValue){
-  const dot = swatchColorValue ? `<span class="swatch" style="width:9px;height:9px;background:${swatchColorValue}"></span>` : '';
-  return `<tr class="group-head"><td colspan="6"><div class="divider-line"><span class="divider-content">${dot}${label} (${count})</span></div></td></tr>`;
-}
 function render(){
-  const refHorses = horses.filter(h => h.source !== 'saisie manuelle' && h.source !== 'importé');
-  const addedHorses = horses.filter(h => h.source === 'saisie manuelle' || h.source === 'importé');
-
-  const ownedRef = refHorses.filter(h => h.owned);
-  const restRef = refHorses.filter(h => !h.owned);
-  const originOrder = ['sancler', 'sd', 'cairnview', 'hc', 'autre', 'inconnue'];
-
-  let rowsHTML = '';
-  if(ownedRef.length > 0){
-    rowsHTML += sectionDividerHTML('Élevage Humming Cob', ownedRef.length);
-    rowsHTML += ownedRef.map(horseRowHTML).join('');
-  }
-  originOrder.forEach(key => {
-    const group = restRef.filter(h => (h.strain || 'inconnue') === key);
-    if(group.length === 0) return;
-    rowsHTML += sectionDividerHTML(strainLabel(key), group.length, strainColor(key));
-    rowsHTML += group.map(horseRowHTML).join('');
-  });
-
-  if(addedHorses.length > 0){
-    const importedRows = addedHorses.filter(h => h.source === 'importé');
-    const manualRows = addedHorses.filter(h => h.source !== 'importé');
-    if(importedRows.length > 0){
-      rowsHTML += sectionDividerHTML('Importés via JSON', importedRows.length);
-      rowsHTML += importedRows.map(horseRowHTML).join('');
-    }
-    if(manualRows.length > 0){
-      rowsHTML += sectionDividerHTML('Ajoutés manuellement', manualRows.length);
-      rowsHTML += manualRows.map(horseRowHTML).join('');
-    }
-  }
-  if(horseTable) horseTable.innerHTML = rowsHTML;          // (tableau retiré de la page le 14/10)
-  if(horseCountEl) horseCountEl.textContent = horses.length;
-
   renderMatchBox('left');
   renderMatchBox('right');
   updateXResult();
-  renderLegend();
   renderTree();
 }
 

@@ -91,7 +91,6 @@ body {
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 
-
 /* ============================================
    NAVIGATION
    ============================================ */
@@ -208,78 +207,6 @@ a { color: inherit; text-decoration: none; }
   transition: var(--transition);
 }
 
-/* --- Dropdown nav --- */
-.has-dropdown { position: relative; }
-.has-dropdown > a { display: inline-flex; align-items: center; }
-
-.nav-caret {
-  display: inline-flex;
-  align-items: center;
-  margin-left: .3rem;
-  margin-bottom: 3px;
-  opacity: .55;
-  transition: transform var(--transition);
-}
-.has-dropdown:hover .nav-caret { transform: rotate(180deg); }
-
-.nav-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(6px);
-  padding-top: 14px;
-  background: rgba(254,251,246,0.97);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding-bottom: .45rem;
-  list-style: none;
-  min-width: 175px;
-  box-shadow: var(--shadow);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .22s ease, transform .22s ease;
-  z-index: 200;
-}
-.nav-dropdown::before {
-  content: '';
-  position: absolute;
-  top: 9px; left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 8px; height: 8px;
-  background: rgba(254,251,246,0.97);
-  border-top: 1px solid var(--border);
-  border-left: 1px solid var(--border);
-}
-.has-dropdown:hover .nav-dropdown {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
-}
-.nav-dropdown li { display: block; }
-.nav-dropdown a {
-  display: block;
-  padding: .52rem 1.3rem;
-  font-size: .72rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--gris);
-  font-weight: 300;
-  white-space: nowrap;
-  transition: color var(--transition), background var(--transition);
-}
-.nav-dropdown a::after { display: none !important; }
-.nav-dropdown a:hover { color: var(--rose-deep); background: rgba(176, 96, 112, 0.10); }
-.nav-dropdown a.nav-etalon:hover { color: var(--bleu-deep); background: rgba(63, 98, 137, 0.08); }
-.dropdown-sold {
-  font-size: .62rem;
-  color: rgba(60,160,160,0.75);
-  margin-left: .4rem;
-  letter-spacing: .05em;
-  vertical-align: middle;
-}
-
 /* ============================================
    HERO
    ============================================ */
@@ -312,39 +239,6 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   pointer-events: none;
   z-index: 3;
-}
-
-/* Arbres cerisiers décoratifs */
-.hero-branch {
-  position: absolute;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.92;
-  transition: left 0.3s ease;
-}
-/* Par défaut : grands écrans > 16:9 */
-.hero-branch-left {
-  left: -60px;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  width: auto;
-}
-/* ~19:9 → début du décalage vers la gauche */
-@media (max-aspect-ratio: 19/9) {
-  .hero-branch-left { left: -150px; }
-}
-/* 16:9 → bien décalé */
-@media (max-aspect-ratio: 16/9) {
-  .hero-branch-left { left: -280px; }
-}
-/* 4:3 */
-@media (max-aspect-ratio: 4/3) {
-  .hero-branch-left { left: -420px; }
-}
-/* Portrait / mobile */
-@media (max-aspect-ratio: 1/1) {
-  .hero-branch-left { left: -650px; }
 }
 
 .hero-content {
@@ -471,20 +365,6 @@ a { color: inherit; text-decoration: none; }
   .btn-primary, .btn-outline, .btn-outline::after, .btn-outline svg { transition: none; }
 }
 
-/* Variante sur fond sombre (sections "Aussi disponibles", galeries).
-   Le :hover par défaut passe en --rose-pale : sur fond noir le libellé est
-   blanc, et blanc sur rose pâle devient illisible. Ici on remplit en
-   --rose-deep, qui garde le blanc lisible. */
-.btn-on-dark {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.35);
-}
-.btn-on-dark:hover {
-  background: var(--rose-deep);
-  border-color: var(--rose-deep);
-  color: #fff;
-}
-
 .scroll-hint {
   position: absolute;
   bottom: 2.5rem;
@@ -586,36 +466,6 @@ section { padding: 4.5rem 1.5rem; }
   border: 1px solid var(--rose-pale);
   border-radius: var(--radius);
   z-index: 0;
-}
-.qsn-image {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  aspect-ratio: 4/5;
-  object-fit: cover;
-  border-radius: var(--radius);
-  background: var(--rose-pale);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 320px;
-}
-.qsn-image-placeholder {
-  width: 100%;
-  aspect-ratio: 4/5;
-  background: linear-gradient(135deg, var(--rose-pale), var(--or-pale));
-  border-radius: var(--radius);
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.5rem;
-  color: var(--rose);
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
 }
 
 .values-list {
@@ -741,136 +591,19 @@ section { padding: 4.5rem 1.5rem; }
   gap: 2rem;
   margin-top: 2rem;
 }
-.horses-grid--2 {
-  grid-template-columns: repeat(2, minmax(280px, 400px));
-  justify-content: center;
-}
+
 .horses-grid--3 {
   grid-template-columns: repeat(3, minmax(280px, 1fr));
 }
-.reproducteurs-category {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--rose-deep);
-  margin-top: 3rem;
-  margin-bottom: 0;
-  letter-spacing: 0.04em;
-}
+
 @media (max-width: 900px) {
-  .horses-grid--2,
+  
   .horses-grid--3 { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px) {
-  .horses-grid--2,
+  
   .horses-grid--3 { grid-template-columns: 1fr; }
 }
-
-.horse-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: var(--transition);
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-.horse-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-hover);
-}
-
-.horse-card-img {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  background: linear-gradient(160deg, var(--rose-pale), var(--or-pale));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.4rem;
-  color: var(--rose-deep);
-  font-size: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-.horse-card-img-placeholder {
-  width: 100%;
-  aspect-ratio: 3/4;
-  background: linear-gradient(160deg, var(--rose-pale) 0%, var(--or-pale) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.6rem;
-  transition: var(--transition);
-}
-.horse-card-img-placeholder svg {
-  opacity: 0.35;
-}
-.horse-card-img-placeholder span {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--rose-deep);
-  opacity: 0.6;
-}
-.horse-card:hover .horse-card-img-placeholder {
-  background: linear-gradient(160deg, #F0D0D9 0%, #EDD8C0 100%);
-}
-
-.horse-card-body {
-  padding: 1.4rem 1.6rem 1.8rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.horse-card-body p:first-of-type {
-  flex-grow: 1;
-}
-.horse-card-tag {
-  display: inline-block;
-  font-size: 0.62rem;
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 0.4rem;
-}
-.horse-card-name {
-  font-family: var(--font-serif);
-  font-size: 1.7rem;
-  font-weight: 400;
-  color: var(--noir);
-  line-height: 1.1;
-  margin-bottom: 0.5rem;
-}
-.horse-card-desc {
-  font-size: 0.82rem;
-  color: var(--gris);
-  line-height: 1.7;
-  margin-bottom: 1.2rem;
-}
-.horse-card-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--rose-deep);
-  transition: gap var(--transition);
-}
-.horse-card-link:hover { gap: 0.9rem; }
-.horse-card-link svg {
-  transition: transform var(--transition);
-}
-.horse-card-link:hover svg { transform: translateX(4px); }
 
 /* Lien avec flèche animée (texte + flèche s'écartent au hover) */
 .link-arrow {
@@ -882,48 +615,6 @@ section { padding: 4.5rem 1.5rem; }
 .link-arrow:hover { gap: 0.9rem; }
 .link-arrow svg { transition: transform var(--transition); }
 .link-arrow:hover svg { transform: translateX(4px); }
-
-/* Badge disponible */
-.badge-available {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  background: var(--rose-deep);
-  color: #fff;
-  font-size: 0.6rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
-  border-radius: 50px;
-}
-.badge-reproducteur {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  background: rgba(254,251,246,0.9);
-  color: var(--rose-deep);
-  font-size: 0.6rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
-  border-radius: 50px;
-  border: 1px solid var(--rose-pale);
-}
-
-/* Stars rating */
-.horse-stars {
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
-  margin-bottom: 0.8rem;
-}
-.horse-stars .star { color: var(--rose); font-size: 0.8rem; }
-.horse-stars .star.empty { color: var(--gris-clair); }
-.horse-stars-label {
-  font-size: 0.7rem;
-  color: var(--gris);
-  margin-left: 0.3rem;
-}
 
 /* ============================================
    CONTACT
@@ -1075,21 +766,7 @@ footer {
   color: var(--rose);
   font-style: italic;
 }
-.footer-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.footer-links a {
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
-  transition: color var(--transition);
-}
-.footer-links a:hover { color: var(--rose); }
+
 .footer-copy {
   font-size: 0.72rem;
   color: rgba(255,255,255,0.25);
@@ -1167,13 +844,6 @@ footer {
   object-fit: cover;
   position: absolute;
   inset: 0;
-}
-.horse-hero-img-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  color: var(--rose-deep);
 }
 
 .horse-hero-info {
@@ -1291,48 +961,6 @@ footer {
   color: var(--noir);
 }
 
-/* Cards statiques (pas de lien) */
-.horse-card--static {
-  cursor: default;
-  pointer-events: none;
-  opacity: 0.82;
-}
-.pedigree-tree {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 2rem;
-  align-items: stretch;
-  max-width: 800px;
-  margin: 3rem auto 0;
-}
-.pedigree-node {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.4rem 1.6rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.pedigree-node-label {
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 0.4rem;
-}
-.pedigree-node-name {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: var(--noir);
-}
-.pedigree-node-sub {
-  font-size: 0.78rem;
-  color: var(--gris);
-  margin-top: 0.3rem;
-}
 .pedigree-node-photo {
   width: 80px;
   height: 80px;
@@ -1349,86 +977,6 @@ footer {
   transform: scale(1.14);
   box-shadow: 0 6px 18px rgba(0,0,0,.18);
 }
-.pedigree-node-link {
-  display: inline-block;
-  margin-top: auto;
-  padding-top: .8rem;
-  font-size: .72rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--rose-deep);
-  text-decoration: none;
-}
-.pedigree-node-link:hover { text-decoration: underline; }
-.pedigree-connector {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  color: var(--gris-clair);
-  font-size: 1.5rem;
-}
-
-.horse-gallery {
-  padding: 5rem 1.5rem;
-  background: var(--bg-cream);
-}
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-top: 3rem;
-}
-.gallery-item {
-  aspect-ratio: 1;
-  background: linear-gradient(135deg, var(--rose-pale), var(--or-pale));
-  border-radius: var(--radius);
-  overflow: hidden;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--rose-deep);
-  opacity: 0.6;
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-.gallery-item img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 1;
-}
-.gallery-item:hover { transform: scale(0.98); }
-
-/* Breadcrumb */
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  color: var(--gris-clair);
-  margin-bottom: 2rem;
-}
-.breadcrumb a { color: var(--rose); transition: color var(--transition); }
-.breadcrumb a:hover { color: var(--rose-dark); }
-.breadcrumb span { color: var(--gris-clair); }
-
-/* Back button */
-.back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gris);
-  margin-bottom: 2rem;
-  transition: var(--transition);
-}
-.back-btn:hover { color: var(--rose-deep); gap: 0.8rem; }
 
 /* ============================================
    REVEAL ANIMATION
@@ -1448,236 +996,18 @@ footer {
 .reveal-delay-4 { transition-delay: 0.4s; }
 
 /* ============================================
-   PAGE MÉMOIRE
-   ============================================ */
-/* Pas d'offset body : le .memorial-hero (padding-top 7rem) passe sous la navbar
-   fixe et l'absorbe, comme les heros .page-header. Un padding-top:80px ici
-   comptait la navbar deux fois → trop d'espace au-dessus du hero. */
-.memorial-page { padding-top: 0; }
-
-.memorial-hero {
-  position: relative;
-  background: linear-gradient(160deg, #F5F0ED 0%, #EDE6E0 50%, #F5F0ED 100%);
-  /* 8rem en haut = même écart navbar→contenu que les heros .page-header (54px). */
-  padding: 8rem 1.5rem 6rem;
-  overflow: hidden;
-}
-
-.memorial-hero-inner {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-}
-
-.memorial-label {
-  display: inline-block;
-  font-size: 0.68rem;
-  font-weight: 400;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gris);
-  margin-bottom: 0.8rem;
-}
-
-.memorial-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2.2rem, 6vw, 3.8rem);
-  font-weight: 300;
-  color: var(--noir);
-  line-height: 1.15;
-}
-.memorial-title em {
-  font-style: italic;
-  color: var(--rose-deep);
-}
-
-.memorial-intro {
-  max-width: 580px;
-  margin: 0 auto;
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--gris);
-  line-height: 2;
-}
-
-.memorial-cards-section {
-  background: var(--bg-light);
-  padding: 6rem 1.5rem;
-}
-
-.memorial-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 3rem;
-  max-width: 840px;
-  margin: 0 auto;
-}
-
-.memorial-card {
-  background: var(--bg-card);
-  border: 1px solid rgba(120, 100, 100, 0.12);
-  border-radius: var(--radius);
-  overflow: hidden;
-  position: relative;
-}
-
-.memorial-card-img-placeholder {
-  width: 100%;
-  aspect-ratio: 4/3;
-  background: linear-gradient(160deg, #EAE4E0 0%, #D8D0CC 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-.memorial-card-img-placeholder svg { opacity: 0.25; }
-.memorial-card-img-placeholder span {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gris);
-  opacity: 0.55;
-}
-
-.memorial-card-img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  filter: grayscale(25%) sepia(15%);
-  display: block;
-}
-
-.memorial-badge {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  background: rgba(255,255,255,0.88);
-  color: var(--gris);
-  font-size: 0.6rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
-  border-radius: 50px;
-  border: 1px solid rgba(120,100,100,0.18);
-}
-
-.memorial-card-body {
-  padding: 1.8rem 2rem 2.2rem;
-}
-.memorial-card-dates {
-  font-size: 0.72rem;
-  color: var(--gris-clair);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-.memorial-card-name {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 400;
-  color: var(--noir);
-  margin-bottom: 1rem;
-}
-.memorial-card-text {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--gris);
-  line-height: 1.9;
-}
-
-.memorial-quote-section {
-  background: var(--noir);
-  padding: 6rem 1.5rem;
-  text-align: center;
-}
-.memorial-quote {
-  max-width: 640px;
-  margin: 0 auto;
-  font-family: var(--font-serif);
-  font-size: clamp(1.2rem, 3vw, 1.6rem);
-  font-weight: 300;
-  font-style: italic;
-  color: rgba(255,255,255,0.7);
-  line-height: 1.8;
-}
-.memorial-quote::before {
-  content: '"';
-  display: block;
-  font-size: 5rem;
-  color: var(--rose);
-  line-height: 0.4;
-  margin-bottom: 2rem;
-  font-style: normal;
-}
-
-/* ============================================
    CAROUSEL CHEVAL
    ============================================ */
-.ar-carousel { position:relative; max-width:900px; margin:0 auto; }
-.ar-slides { position:relative; width:100%; aspect-ratio:4/3; overflow:hidden; border-radius:8px; }
+
 .ar-slide { position:absolute; inset:0; opacity:0; transition:opacity .5s ease; }
 .ar-slide.active { opacity:1; }
 .ar-slide img { width:100%; height:100%; object-fit:cover; }
-.ar-cap-ext { text-align:center; margin-top:.6rem; font-size:.78rem; color:rgba(255,255,255,.55); min-height:1.2em; letter-spacing:.06em; }
-.ar-btn {
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(255,255,255,.15); backdrop-filter:blur(4px);
-  border:none; color:#fff; font-size:1.6rem; width:44px; height:44px;
-  border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
-  transition:background .2s; z-index:2;
-}
-.ar-btn:hover { background:rgba(255,255,255,.3); }
-.ar-prev { left:12px; }
-.ar-next { right:12px; }
-.ar-thumbs { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-top:14px; }
+
 .ar-thumb {
   width:56px; height:42px; object-fit:cover; border-radius:4px;
   cursor:pointer; opacity:.45; transition:opacity .2s; border:2px solid transparent;
 }
 .ar-thumb.active { opacity:1; border-color:#C0A050; }
-
-/* ============================================
-   MODAL DESCENDANTS (foal-card)
-   ============================================ */
-#foal-modal {
-  display:none; position:fixed; inset:0; background:rgba(0,0,0,.85);
-  z-index:1000; align-items:center; justify-content:center; padding:1rem;
-}
-#foal-modal.open { display:flex; }
-#foal-panel {
-  background:#fff; border-radius:12px; overflow:hidden;
-  display:flex; flex-direction:column; max-width:560px; width:100%;
-  max-height:90vh; box-shadow:0 20px 60px rgba(0,0,0,.5);
-}
-#foal-panel-img-wrap { position:relative; background:#111; flex:0 0 auto; }
-#foal-panel-img { display:block; width:100%; max-height:60vh; object-fit:contain; }
-#foal-panel-info { padding:1.4rem 1.6rem 1.8rem; }
-#foal-panel-name { font-size:1.3rem; font-weight:700; margin:0 0 .5rem; color:#1a1a1a; }
-#foal-panel-desc { font-size:.88rem; color:#555; margin:0; line-height:1.6; }
-#foal-panel-counter { font-size:.72rem; color:#aaa; margin-top:.6rem; letter-spacing:.06em; }
-#foal-modal-close {
-  position:absolute; top:10px; right:14px;
-  background:rgba(0,0,0,.5); border:none; color:#fff; font-size:1.2rem;
-  width:32px; height:32px; border-radius:50%; cursor:pointer; z-index:2;
-  display:flex; align-items:center; justify-content:center;
-}
-#foal-modal-close:hover { background:rgba(0,0,0,.8); }
-.foal-nav {
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(0,0,0,.4); backdrop-filter:blur(4px);
-  border:none; color:#fff; font-size:2rem; width:44px; height:44px;
-  border-radius:50%; cursor:pointer; display:flex; align-items:center;
-  justify-content:center; transition:background .2s; z-index:2;
-}
-.foal-nav:hover { background:rgba(0,0,0,.7); }
-#foal-prev { left:10px; }
-#foal-next { right:10px; }
-.foal-nav.hidden { display:none; }
 
 /* ============================================
    RESPONSIVE
@@ -1686,32 +1016,7 @@ footer {
   .navbar { padding: 0 1.5rem; background-position: right top, center; }
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
-  .nav-dropdown {
-    position: static;
-    transform: none;
-    opacity: 1;
-    pointer-events: auto;
-    box-shadow: none;
-    border: none;
-    border-left: 2px solid var(--rose-pale);
-    border-radius: 0;
-    background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    padding: .2rem 0 .2rem 1rem;
-    margin-top: .3rem;
-    min-width: auto;
-    display: none;
-  }
-  .has-dropdown.open .nav-dropdown { display: block; }
-  .has-dropdown.open .nav-caret { transform: rotate(180deg); }
-  /* Un tap déclenche souvent :hover sur mobile — cette règle desktop (plus
-     spécifique que le simple ".nav-dropdown" ci-dessus) repousserait sinon
-     le sous-menu de -50% de sa largeur, hors écran. On la neutralise ici. */
-  .has-dropdown:hover .nav-dropdown { transform: none; }
-  .nav-dropdown::before { display: none; }
-  .nav-caret { display: inline-flex; padding: .5rem; margin: -.5rem; }
-  .nav-dropdown a { padding: .35rem .5rem; }
+
   .nav-links.open {
     display: flex;
     flex-direction: column;
@@ -1763,20 +1068,14 @@ footer {
   }
   .horse-hero-info { padding: 3rem 2rem; }
   .form-row { grid-template-columns: 1fr; }
-  .gallery-grid { grid-template-columns: 1fr 1fr; }
-  .pedigree-tree { grid-template-columns: 1fr; }
-  .pedigree-connector { display: none; }
-}
 
-@media (max-width: 768px) {
-  .hero-branch { display: none; }
 }
 
 @media (max-width: 600px) {
   section { padding: 3.5rem 1rem; }
   .horses-grid { grid-template-columns: 1fr; }
   .horse-specs { grid-template-columns: 1fr; }
-  .gallery-grid { grid-template-columns: 1fr 1fr; }
+
   .scroll-hint { display: none; }
 
 }
@@ -1799,32 +1098,6 @@ footer {
    des fiches poulains, citation de memoire.html) sont volontairement francs.
    Un fondu y avait été essayé puis retiré — l'arête nette est assumée.
    ============================================ */
-/* .fade-bottom — pour une section dont le fond est un dégradé DIAGONAL
-      (les 160deg du site). Sur un bloc large et peu haut, un 160deg est
-      quasiment horizontal : son bord inférieur n'a donc pas une couleur
-      uniforme, il va d'une teinte à gauche à une autre à droite. Le raccord
-      avec la section suivante, elle uniforme, se voit alors comme une
-      diagonale — d'où l'impression que "ça part de gauche à droite".
-      Ce voile vertical au bas de la section rétablit une couleur unique sur
-      la ligne de jonction, sans toucher au dégradé diagonal au-dessus.
-      Couleur d'arrivée réglable par --fade-to (défaut : --bg-cream). */
-/* Le voile est posé en z-index négatif dans un contexte d'empilement isolé
-   (isolation: isolate) : il se peint au-dessus du fond de la section mais sous
-   tout son contenu, sans qu'on ait à toucher au positionnement des enfants.
-   Une première version forçait "position: relative" sur les enfants directs et
-   écrasait le "position: absolute" des SVG .hero-branch de memoire.html, dont
-   le hero passait de 483px à 4881px de haut. Ne pas réintroduire de règle
-   ciblant les enfants. */
-.fade-bottom { position: relative; isolation: isolate; }
-.fade-bottom::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 160px;
-  background: linear-gradient(to bottom, transparent 0%, var(--fade-to, var(--bg-cream)) 100%);
-  pointer-events: none;
-  z-index: -1;
-}
 
 .fade-to-cream { background: linear-gradient(to bottom, var(--bg-light) 0%, var(--bg-cream) 100%) !important; }
 .fade-to-light { background: linear-gradient(to bottom, var(--bg-cream) 0%, var(--bg-light) 100%) !important; }
@@ -1941,101 +1214,19 @@ footer {
 .showcase-card:hover .showcase-card-cta svg,
 .showcase-card:focus-visible .showcase-card-cta svg { transform: translateX(3px); }
 
-/* Variante compacte — section "Aller plus loin" */
-.showcase-grid--compact .showcase-card { aspect-ratio: 16 / 9; }
-.showcase-grid--compact .showcase-card-content { padding: 1.5rem 1.6rem 1.5rem; }
-.showcase-grid--compact .showcase-card-title { font-size: clamp(1.25rem, 2.2vw, 1.6rem); margin-bottom: 0; }
-.showcase-grid--compact .showcase-card-tag { margin-bottom: .4rem; }
-
 @media (max-width: 800px) {
   .showcase-grid { grid-template-columns: 1fr; }
   .showcase-card { aspect-ratio: 4 / 3; }
   .showcase-card-content { padding: 1.6rem 1.6rem 1.5rem; }
   .showcase-card-desc { display: none; }
-  .showcase-grid--compact .showcase-card { aspect-ratio: 16 / 10; }
+
 }
-
-
-/* Réglages spécifiques section "Nos chevaux" — cartes en 4/3, conteneur élargi à l'essai */
-#nos-chevaux .section-inner { max-width: 1850px; }
-#nos-chevaux .showcase-card { aspect-ratio: 1602 / 2048; } /* = ratio des images portrait → image entière, jamais rognée */
-/* Zoom neutralisé sur ces cartes (repos ET survol) : le léger scale grignotait
-   les bords. Le survol garde le lift + le changement de dégradé. */
-#nos-chevaux .showcase-card-img,
-#nos-chevaux .showcase-card:hover .showcase-card-img,
-#nos-chevaux .showcase-card:focus-visible .showcase-card-img { transform: scale(1); }
-#nos-chevaux .showcase-grid { gap: 1.5rem; }
-/* Essai : contenu des cartes centré (tag, titre, description, bouton). */
-#nos-chevaux .showcase-card-content { text-align: center; }
-#nos-chevaux .showcase-card-desc { margin-left: auto; margin-right: auto; }
 
 /* ============================================
    ALLER PLUS LOIN — panneau visuel + 3 cartes-liens
    (inspiré du bloc "New to the 'verse" de RSI,
    adapté à l'identité Humming Cob)
    ============================================ */
-/* Fondu vers #contact : le dégradé colore tout le fond de la section,
-   mais reste invisible derrière le panneau (.explore-panel) qui le recouvre —
-   il n'apparaît que dans les marges haut/bas, exactement là où la transition
-   avec les sections voisines doit se faire. */
-#aller-plus-loin { background: linear-gradient(to bottom, var(--bg-light) 0%, #FDF5F7 100%); }
-#aller-plus-loin .section-inner { max-width: 1850px; }
-
-.explore-panel {
-  display: grid;
-  grid-template-columns: minmax(260px, 38%) 1fr;
-  align-items: stretch;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.explore-visual {
-  position: relative;
-  min-height: 420px;
-  background: linear-gradient(160deg, var(--bg-light) 0%, var(--rose-pale) 100%);
-  overflow: hidden;
-}
-/* Image affichée au survol/focus d'une carte .explore-card[data-visual-bg]
-   (voir js/main.js) — en fondu par-dessus le dégradé par défaut ci-dessus. */
-.explore-visual-img {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.explore-visual-img.active { opacity: 1; }
-.explore-visual::before {
-  content: 'HC';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--font-serif);
-  font-size: 11rem;
-  font-weight: 300;
-  color: rgba(176, 96, 112, 0.16);
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.explore-content {
-  padding: 3.2rem 3.2rem 3.2rem 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.explore-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
-  margin-top: 2.2rem;
-}
 
 /* Habillage repris de .btn-outline : fond transparent, liseré rose-deep,
    coins très arrondis, remplissage rose-pale au survol. Ces cartes ont
@@ -2057,13 +1248,6 @@ footer {
   background: var(--rose-pale);
   transform: translateY(-2px);   /* le lift discret du bouton */
   box-shadow: none;
-  border-color: var(--rose-deep);
-}
-/* Carte sélectionnée (persistante) sur l'index : même éclairage rosé que le
-   survol, mais SANS le lift — une carte surélevée en permanence flotterait.
-   Le survol par-dessus ajoute le lift normalement. */
-.explore-card.is-selected {
-  background: var(--rose-pale);
   border-color: var(--rose-deep);
 }
 
@@ -2096,13 +1280,6 @@ footer {
   flex-grow: 1;
   margin-bottom: 1.2rem;
 }
-/* Carte "Processus d'adoption" (poulains.html). Elle reprend .explore-card mais
-   court sur toute la largeur : elle est seule de sa rangée, une largeur de
-   colonne l'aurait fait paraître orpheline. */
-.adoption-card-wrap { max-width: 720px; margin: 0 auto; }
-.adoption-card .section-badge { align-self: flex-start; margin-bottom: 0.7rem; }
-.adoption-card .explore-card-title { font-size: 1.45rem; }
-.adoption-card .explore-card-desc { margin-bottom: 1rem; }
 
 .explore-card-link {
   font-size: 0.72rem;
@@ -2118,15 +1295,8 @@ footer {
    il vit avec .qsn-values-row. */
 
 @media (max-width: 900px) {
-  .explore-panel { grid-template-columns: 1fr; }
-  .explore-content { padding: 2.4rem 1.8rem; }
-  .explore-cards { grid-template-columns: 1fr; }
 
-  /* Sur tactile, pas de survol : le panneau-image partagé n'a aucun sens (il
-     resterait figé sur élevage, déconnecté des cartes). On le masque et chaque
-     carte devient autonome : sa propre image en tête + son texte dessous. */
-  .explore-visual { display: none; }
-  .explore-card.is-selected { background: transparent; }  /* pas de sélection au tactile */
+  /* pas de sélection au tactile */
   .explore-card[data-visual-bg]::before {
     content: '';
     display: block;
@@ -2773,37 +1943,6 @@ footer {
 /* ============================================
    PÉDIGRÉE REPLIABLE (fiches chevaux)
    ============================================ */
-/* Un repli par parent : le père et la mère se déplient indépendamment.
-   L'état replié est posé en HTML (.is-collapsed) et non en JS, pour éviter
-   que le bloc complet clignote avant de se refermer au premier rendu. */
-.ped-parent.is-collapsed .ped-gp { display: none; }
-
-.ped-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-bottom: 1.2rem;
-  padding: 0.4rem 0.9rem;
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  font-family: var(--font-sans);
-  font-size: 0.62rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background var(--transition), border-color var(--transition);
-}
-/* Chaque bouton reprend la couleur de son parent (bleu père, rose mère),
-   cohérent avec le code couleur déjà utilisé par les cartes du pédigrée. */
-.ped-toggle--pere { color: var(--bleu-deep); border-color: rgba(106, 143, 160, 0.32); }
-.ped-toggle--pere:hover { background: rgba(106, 143, 160, 0.08); border-color: var(--bleu); }
-.ped-toggle--mere { color: var(--femelle-deep); border-color: rgba(212, 137, 154, 0.32); }
-.ped-toggle--mere:hover { background: rgba(212, 137, 154, 0.08); border-color: var(--femelle); }
-
-.ped-toggle svg { transition: transform var(--transition); }
-.ped-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
 
 /* Note de contexte sous le palmarès : explique l'arrêt des concours plutôt
    que de laisser le lecteur interpréter un palmarès qui s'arrête net. */
@@ -2829,7 +1968,6 @@ footer {
    L'adresse #id ouvre l'arbre directement sur le cheval. */
 .voir-arbre { text-align: center; margin-top: 2.2rem; }
 .voir-arbre .btn { display: inline-flex; align-items: center; gap: .5rem; }
-
 
 /* ============================================
    PÉDIGRÉE — généré par build.py (<!-- @pedigree: id -->)
@@ -2937,7 +2075,6 @@ footer {
   border-radius: 12px; padding: 1.25rem 1.5rem; font-size: .8rem; line-height: 1.65; color: var(--noir);
 }
 .ped-note strong { color: var(--rose-deep); }
-
 
 /* ============================================
    CARTES CHEVAUX — générées par build.py (<!-- @cartes: … -->)
@@ -3216,14 +2353,7 @@ body.fond-taches > section:not(#hero):not(.troupeau--memoire),
 body.fond-taches > header.page-header {
   background: transparent !important;
 }
-/* En-têtes photo sur fond à taches : la photo se fond dans le fond de la page
-   par un masque (au lieu d'un voile crème opaque qui coupait les taches sous
-   la photo). Mêmes paliers que le voile d'origine. */
-body.fond-taches .page-header--photo::before { display: none; }
-body.fond-taches .page-header-photo {
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, rgba(0,0,0,.28) 70%, rgba(0,0,0,.06) 86%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 0%, #000 40%, rgba(0,0,0,.28) 70%, rgba(0,0,0,.06) 86%, transparent 100%);
-}
+
 /* Sur les pages à thème, les sections laissent voir le dégradé de la page. */
 body:is(.theme-male, .theme-femelle) :is(.horse-hero-top, .horse-hero-img-wrap, .horse-hero-info, .horse-pedigree) {
   background: transparent !important;
@@ -3233,8 +2363,6 @@ body:is(.theme-male, .theme-femelle) :is(.navbar, footer) {
   --rose-pale: #F5DDE4; --rose: #D4899A; --rose-deep: #AB5667; --rose-dark: #8B4A5C;
   --border: rgba(176, 96, 112, 0.15);
 }
-/* Pédigrées (styles encore recopiés dans les fiches) : la mère reste rose. */
-body .ped-label--mere { color: var(--femelle); }
 
 /* Bas des fiches poulains : « Les autres poulains » en cartes, sur le fond de
    la page (remplace l'ancien bandeau noir). Le passage au footer reste franc. */
@@ -3374,7 +2502,6 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 }
 @media (prefers-reduced-motion: reduce) { .rangee { scroll-behavior: auto; } }
 
-
 /* ============================================
    PAGE CONTACT (contact.html)
    ============================================ */
@@ -3401,33 +2528,6 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 .form-rgpd a { color: inherit; }
 .form-result { margin-top: 1rem; text-align: center; font-size: .85rem; color: var(--rose-deep); }
 .form-result.is-erreur { color: #b03a2e; }
-
-/* ============================================
-   EN-TÊTES AVEC PHOTO (.page-header--photo) — pages intérieures neutres
-   Bandeau photo pleine largeur en haut, qui se fond dans le crème : le titre
-   (sombre) se pose dans la zone fondue, l'intro suit sur le crème.
-   <img class="page-header-photo"> en premier enfant, cadrage via object-position.
-   ============================================ */
-.page-header--photo {
-  --ph-h: clamp(21rem, 58vh, 36rem);
-  position: relative; isolation: isolate; overflow: hidden;
-  padding-top: calc(var(--ph-h) - 7.5rem);
-  background: var(--bg-cream);
-}
-.page-header--photo.page-header--sous-nav2 { padding-top: calc(var(--ph-h) - 7.5rem); }
-.page-header-photo {
-  position: absolute; top: 0; left: 0; z-index: -2;
-  width: 100%; height: var(--ph-h); object-fit: cover;
-}
-.page-header--photo::before {
-  content: ""; position: absolute; top: 0; left: 0; right: 0; height: var(--ph-h); z-index: -1;
-  background: linear-gradient(to bottom,
-    rgba(254, 251, 246, 0) 0%, rgba(254, 251, 246, 0) 40%,
-    rgba(254, 251, 246, 0.72) 70%, rgba(254, 251, 246, 0.94) 86%, var(--bg-cream) 100%);
-}
-@media (max-width: 700px) {
-  .page-header--photo { --ph-h: clamp(17rem, 46vh, 24rem); }
-}
 
 /* ============================================
    EN-TÊTE « HC » (.page-header--hc) — pages classiques (16/10)

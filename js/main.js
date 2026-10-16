@@ -34,36 +34,6 @@ if (navbar) {
   });
 }
 
-// "Aller plus loin" : au survol/focus d'une carte, l'image dédiée remplace
-// le dégradé par défaut dans le panneau de gauche (.explore-visual-img)
-const exploreVisualImg = document.getElementById('exploreVisualImg');
-if (exploreVisualImg) {
-  // Sélection PERSISTANTE : la carte survolée/focus devient la sélection et son
-  // image reste affichée (pas de retour au repos au mouseleave). La carte active
-  // porte .is-selected (éclairage rosé). Au chargement, "Notre élevage" est
-  // sélectionnée par défaut → une vraie photo accueille le visiteur.
-  const exploreCards = document.querySelectorAll('.explore-card[data-visual-bg]');
-  const selectCard = (card) => {
-    const bgUrl = card.getAttribute('data-visual-bg');
-    exploreVisualImg.style.backgroundImage = `url('${bgUrl}')`;
-    exploreVisualImg.classList.add('active');
-    exploreCards.forEach(c => c.classList.toggle('is-selected', c === card));
-  };
-  exploreCards.forEach(card => {
-    // --card-img : image en tête de carte sur mobile (voir style.css). On résout
-    // en URL absolue (via document.baseURI) car un url() relatif dans une variable
-    // CSS serait résolu depuis la feuille (css/) et non depuis la page → 404.
-    const cardImgUrl = new URL(card.getAttribute('data-visual-bg'), document.baseURI).href;
-    card.style.setProperty('--card-img', `url("${cardImgUrl}")`);
-    card.addEventListener('mouseenter', () => selectCard(card));
-    card.addEventListener('focus', () => selectCard(card));
-  });
-  const defaultCard =
-    document.querySelector('.explore-card[data-visual-bg="img/explore-elevage.jpg"]')
-    || exploreCards[0];
-  if (defaultCard) selectCard(defaultCard);
-}
-
 // Menu mobile
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
@@ -75,35 +45,10 @@ if (navToggle && navLinks) {
     spans[0].style.transform = isOpen ? 'rotate(45deg) translate(4.5px, 4.5px)' : '';
     spans[1].style.opacity  = isOpen ? '0' : '1';
     spans[2].style.transform = isOpen ? 'rotate(-45deg) translate(4.5px, -4.5px)' : '';
-    // Fermer les sous-menus au close
-    if (!isOpen) navLinks.querySelectorAll('.has-dropdown.open').forEach(el => el.classList.remove('open'));
   });
-  // Fermer au clic sur un lien
+  // Fermer le menu au clic sur un lien
   navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', e => {
-      const parentDropdown = a.parentElement.classList.contains('has-dropdown') ? a.parentElement : null;
-      // Lien "Nos chevaux" / "Outils" : pas de destination propre (href="#") —
-      // on empêche TOUJOURS le saut vers "#" (qui remonte sinon la page en
-      // haut), pas seulement quand le menu mobile est ouvert. Sur desktop le
-      // survol suffit à afficher le sous-menu, ce clic ne doit rien faire
-      // d'autre que (éventuellement) toggle l'état pour le mobile.
-      const isPureToggle = a.getAttribute('href') === '#';
-      if (isPureToggle) e.preventDefault();
-
-      if (parentDropdown && navLinks.classList.contains('open')) {
-        const caret = a.querySelector('.nav-caret');
-        if (isPureToggle || (caret && caret.contains(e.target))) {
-          const isOpen = parentDropdown.classList.toggle('open');
-          a.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        } else {
-          // Clic sur le texte d'un lien avec vraie destination → naviguer + fermer le menu
-          navLinks.classList.remove('open');
-          navLinks.querySelectorAll('.has-dropdown.open').forEach(el => el.classList.remove('open'));
-        }
-      } else {
-        navLinks.classList.remove('open');
-      }
-    });
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
   });
 }
 
@@ -113,8 +58,7 @@ if (navToggle && navLinks) {
   if (!links.length) return;
   const path = location.pathname.toLowerCase();
 
-  // Correspondance exacte (pages avec un vrai lien dans la nav, y compris
-  // dans les sous-menus déroulants "Nos chevaux" / "Outils").
+  // Correspondance exacte (pages avec un vrai lien dans la nav).
   links.forEach(a => {
     const href = a.getAttribute('href');
     if (!href || href === '#' || href.indexOf('#') !== -1) return;
@@ -134,15 +78,6 @@ if (navToggle && navLinks) {
   if (/\/(reproducteurs|poulains)\/|\/(reproducteurs|poulains|memoire)\.html$/.test(path)) activateCategory('nos-chevaux.html');
   // La frise « Notre histoire » fait partie de L'élevage
   if (/\/frise\.html$/.test(path)) activateCategory('elevage.html');
-
-  // Propage l'état actif d'un sous-lien vers son menu déroulant parent
-  // ("Nos chevaux" / "Outils"), quel que soit le nombre de dropdowns.
-  document.querySelectorAll('.nav-links .has-dropdown').forEach(dropdown => {
-    if (dropdown.querySelector('.nav-dropdown a.nav-active')) {
-      const parentLink = dropdown.querySelector(':scope > a');
-      if (parentLink) parentLink.classList.add('nav-active');
-    }
-  });
 
 })();
 
@@ -782,24 +717,6 @@ if (nav2) {
     if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
   }, { passive: true });
 })();
-
-/* ============================================
-   PÉDIGRÉE REPLIABLE (fiches chevaux)
-   ============================================
-   Un bouton par parent : chacun ne déplie que sa propre branche.
-   L'état replié vient du HTML, ce script ne fait que le basculer.
-*/
-document.querySelectorAll('.ped-toggle').forEach(btn => {
-  const parent = btn.closest('.ped-parent');
-  if (!parent) return;
-  const label = btn.querySelector('.ped-toggle-label');
-
-  btn.addEventListener('click', () => {
-    const open = parent.classList.toggle('is-collapsed') === false;
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (label) label.textContent = open ? 'Masquer les ascendants' : 'Voir les ascendants';
-  });
-});
 
 /* ============================================
    RANGÉES DE CARTES DÉFILANTES (nos-chevaux.html)
