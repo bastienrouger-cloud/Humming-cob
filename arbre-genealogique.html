@@ -284,6 +284,7 @@
       list-style: none; margin: 0; padding: .35rem;
       background: #fff; border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.14);
       max-height: 320px; overflow-y: auto;
+      overscroll-behavior: contain; -webkit-overflow-scrolling: touch;   /* la page ne défile pas avec la liste */
     }
     .ap-suggestions li {
       display: flex; align-items: center; gap: .55rem;
@@ -425,8 +426,7 @@
     @media (hover: none) { .sur-souris { display: none; } .sur-tactile { display: inline; } }
 
     @media (max-width: 900px) {
-      /* flex 1 0 auto : la zone grandit avec le cadre (70vh en vue Famille) au lieu
-         de déborder sur le pied de page */
+      /* flex 1 0 auto : la zone grandit avec le cadre (70vh en vue Famille) */
       .arbre-zone { display: flex; flex-direction: column; padding: 0 0 .9rem; min-height: 60vh; flex: 1 0 auto; }
       .arbre-cadre { flex: 1 1 auto; margin: 0 .6rem; border-radius: 18px; }
       .arbre-cadre .tree-outer { min-height: 55vh; }
@@ -453,28 +453,16 @@
 
     /* ── MODE FOCUS (mobile) ─────────────────────────────────────────────
        Un cheval au centre, ses parents au-dessus, sa descendance en dessous.
-       Toucher un cheval le met au centre. Bascule « Famille / Arbre ». */
-    .focus, .vue-bascule, .sw-court { display: none; }
+       Toucher un cheval le met au centre. Seule vue sur téléphone et tablette
+       (≤ 900px) depuis le 16/10 : la vue Arbre y était cassée et peu pratique. */
+    .focus { display: none; }
     @media (max-width: 900px) {
-      .vue-bascule {
-        display: flex; position: absolute; top: 3.6rem; right: .6rem; z-index: 15;
-        padding: 3px; border-radius: 50px; background: rgba(255,255,255,.92);
-        box-shadow: 0 2px 10px rgba(0,0,0,.07);
-      }
-      .vue-bascule button {
-        border: 0; background: none; font: inherit; cursor: pointer;
-        padding: .38rem .85rem; border-radius: 50px;
-        font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gris);
-      }
-      .vue-bascule button.actif { background: var(--rose-deep); color: #fff; }
-      .sw-long { display: none; }
-      .sw-court { display: inline; }   /* place pour la bascule à droite */
       .arbre-zone.vue-focus .tree-outer,
       .arbre-zone.vue-focus .legend,
       .arbre-zone.vue-focus .arbre-switch { display: none; }
       /* la zone Famille défile dans le cadre, sous la recherche qui reste en place */
       .arbre-zone.vue-focus .focus {
-        display: block; position: absolute; inset: 6.4rem 0 0; overflow-y: auto;
+        display: block; position: absolute; inset: 3.9rem 0 0; overflow-y: auto;
         padding: .5rem 1rem 1.6rem; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
       }
       .arbre-zone.vue-focus .arbre-cadre { min-height: 70vh; }
@@ -483,7 +471,28 @@
     .fx.fx-entre { animation: fxEntre .32s ease both; }
     @keyframes fxEntre { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     .fx-titre { margin: 0 0 .55rem; font-size: .58rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gris); }
-    .fx-parents { display: flex; justify-content: center; gap: 1.6rem; }
+    /* Grands-parents et parents sur la même grille à 2 colonnes : chaque paire de
+       grands-parents est centrée au-dessus de son enfant (côté père / côté mère). */
+    .fx-ascendants, .fx-parents {
+      display: grid; grid-template-columns: 1fr 1fr; column-gap: .6rem;
+      justify-items: center; width: 100%; max-width: 340px;
+    }
+    .fx-ascendants { margin-bottom: .5rem; }
+    .fx-branche { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .fx-paire { display: flex; justify-content: center; gap: .25rem; }
+    .fx-crochet {
+      display: block; width: 58%; height: .6rem; margin-top: .3rem;
+      border: 1.5px solid color-mix(in srgb, var(--c) 45%, transparent); border-top: 0;
+      border-radius: 0 0 9px 9px;
+    }
+    .fx-med.fx-med--petit { width: 68px; gap: .2rem; }
+    .fx-med--petit .fx-med-img {
+      width: 42px; height: 42px; border-width: 1.5px;
+      box-shadow: 0 0 0 2px #FEFBF6, 0 2px 6px rgba(60,40,35,.1);
+    }
+    .fx-med--petit .fx-med-nom { font-size: .76rem; line-height: 1.1; }
+    .fx-med--petit.is-inconnu .fx-med-img { font-size: 1rem; }
+    .fx-med--petit.is-inconnu .fx-med-nom { font-size: .68rem; }
     .fx-med {
       display: flex; flex-direction: column; align-items: center; gap: .3rem; width: 96px;
       background: none; border: 0; padding: 0; font: inherit; color: var(--noir); cursor: pointer;
@@ -598,15 +607,11 @@
 
 
 <div class="focus" id="focus" aria-live="polite"></div>
-<div class="vue-bascule" role="group" aria-label="Affichage">
-  <button type="button" data-vue="focus">Famille</button>
-  <button type="button" data-vue="arbre">Arbre</button>
-</div>
 
 <label class="arbre-switch">
   <input type="checkbox" id="voirExt">
   <span class="arbre-switch-piste" aria-hidden="true"></span>
-  <span class="sw-long">Chevaux extérieurs</span><span class="sw-court">Extérieurs</span>
+  <span>Chevaux extérieurs</span>
 </label>
 
 <div class="legend">
@@ -632,26 +637,7 @@
 </aside>
 </div><!-- /.arbre-zone -->
 
-<!-- ====== FOOTER (sous l'arbre : l'arbre garde toute la hauteur de l'écran,
-     le pied de page se découvre en descendant) ====== -->
-<!-- @partial:footer -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-logo">Humming <span>Cob</span></div>
-    <div class="footer-social">
-      <a href="https://www.facebook.com/people/Humming-Cob/61590861954436/" aria-label="Facebook" target="_blank" rel="noopener">f</a>
-      <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
-      <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
-    </div>
-    <ul class="footer-legal">
-      <li><a href="livre-dor.html">Livre d'or</a></li>
-      <li><a href="mentions-legales.html">Mentions légales</a></li>
-      <li><a href="confidentialite.html">Politique de confidentialité</a></li>
-    </ul>
-    <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
-  </div>
-</footer>
-<!-- @end:footer -->
+<!-- Pas de pied de page sur l'arbre (retiré le 16/10 : l'arbre prend tout l'écran). -->
 
 
 
@@ -672,7 +658,8 @@ const C_MALE = cssVar('--male') || '#4E8F94', C_FEMELLE = cssVar('--femelle') ||
 // ── RADII
 const R          = 12;
 const R_ACTIVE   = 52;
-const R_NOTRE    = 24;  // nos chevaux au repos : mini-photo (les extérieurs gardent R)
+const R_NOTRE    = 24;
+const R_MID      = 34;  // ascendants éloignés (grands-parents et au-delà) à la sélection  // nos chevaux au repos : mini-photo (les extérieurs gardent R)
 const R_SELECTED = 64;  // n'est plus utilisé : le nœud sélectionné ne grossit plus, il est identifié par son nom éclairé (voir applyState). Conservé au cas où.
 
 // ── DONNÉES ─────────────────────────────────────────────────────────────
@@ -749,6 +736,8 @@ const nodeStroke = {};   // couleur du cercle par id (= couleur d'éclairage du 
 const nameFill0  = {};   // couleur par défaut du nom par id
 let activeRevealIds    = new Set();
 let activeVisiblePairs = new Set();
+let activeFarIds       = new Set();   // ascendants au-delà des parents : taille moyenne
+let activeFarPairs     = new Set();   // et traits plus fins
 let activeNode         = null;  // nœud actuellement mis en avant
 
 // ── SVG
@@ -967,7 +956,23 @@ function computeReveal(hid) {
       ids.add(r.c);
     }
   });
-  return { ids, pairs };
+  // Lignée : on remonte tous les ascendants (grands-parents, arrière-grands-parents…).
+  // Pas les frères et sœurs. Les liens directs gardent leur taille, le reste est
+  // en taille moyenne avec des traits plus fins (voir applyState).
+  const farIds = new Set(), farPairs = new Set();
+  let gen = [hid], profondeur = 0;
+  const vus = new Set([hid]);
+  while (gen.length) {
+    const suivante = [];
+    gen.forEach(id => RELS.filter(r => r.c === id).forEach(r => [r.p1, r.p2].forEach(p => {
+      if (!p) return;
+      if (profondeur > 0) { farPairs.add(p + ',' + id); if (!ids.has(p)) farIds.add(p); }
+      if (!vus.has(p)) { vus.add(p); suivante.push(p); }
+    })));
+    gen = suivante; profondeur++;
+  }
+  farIds.delete(hid);
+  return { ids, pairs, farIds, farPairs };
 }
 
 // Applique l'état courant (activeRevealIds / activeVisiblePairs) au SVG
@@ -975,13 +980,16 @@ function applyState() {
   // Chemins
   document.querySelectorAll('.rel-path').forEach(path => {
     const key = path.getAttribute('data-nodes') || '';
-    path.style.opacity = activeVisiblePairs.has(key) ? '0.75' : '0';
+    const direct = activeVisiblePairs.has(key), loin = !direct && activeFarPairs.has(key);
+    path.style.opacity = direct ? '0.75' : loin ? '0.5' : '0';
+    path.setAttribute('stroke-width', loin ? '1.25' : '2');
   });
 
   // Nœuds
   DATA.forEach(d => {
     if(!nodeGroups[d.id]) return;
-    const revealed = activeRevealIds.has(d.id);
+    const loin = activeFarIds.has(d.id);
+    const revealed = activeRevealIds.has(d.id) || loin;
 
     // Extérieurs : estompés au repos (noms encore lisibles), masqués si
     // l'interrupteur est coupé, sauf s'ils sont liés au cheval sélectionné.
@@ -992,7 +1000,7 @@ function applyState() {
       nodeGroups[d.id].style.opacity = revealed ? '1' : '0.6';
     }
     const rRepos = d.notre ? R_NOTRE : R;
-    const rNow   = revealed ? R_ACTIVE : rRepos;
+    const rNow   = loin ? R_MID : revealed ? R_ACTIVE : rRepos;
 
     // Taille du cercle : le nœud sélectionné ne grossit plus (il débordait sur
     // son nom et l'effet ne marchait pas au tap). Il est désormais identifié par
@@ -1435,19 +1443,35 @@ document.getElementById('zoomReset').addEventListener('click', () => {
 const zone    = document.querySelector('.arbre-zone');
 const focusEl = document.getElementById('focus');
 const MOBILE  = window.matchMedia('(max-width: 900px)');
-let vue = 'focus', focusId = null;
-try { vue = localStorage.getItem('arbre-vue') || 'focus'; } catch (e) {}
-const vueFocus = () => MOBILE.matches && vue === 'focus';
+let focusId = null;
+const vueFocus = () => MOBILE.matches;   // ≤ 900px : toujours la vue « Famille »
 const annee = c => ((c.naissance || '').match(/\d{4}/) || [''])[0];
 
-function medFocus(c, note, role) {
-  if (!c) return `<span class="fx-med is-inconnu"><span class="fx-med-img">?</span><span class="fx-med-nom">${role} inconnu${role === 'Mère' ? 'e' : ''}</span></span>`;
+function medFocus(c, note, role, petit = false) {
+  const p = petit ? ' fx-med--petit' : '';
+  if (!c) return `<span class="fx-med is-inconnu${p}"><span class="fx-med-img">?</span><span class="fx-med-nom">${petit ? 'Inconnu' + (role === 'Mère' ? 'e' : '') : role + ' inconnu' + (role === 'Mère' ? 'e' : '')}</span></span>`;
   const img = c.photo_arbre || c.photo || PLACEHOLDER[c.sexe];
-  const cls = (c.famille === 'externe' ? ' is-ext' : '') + (c.role === 'memoire' ? ' is-memoire' : '');
+  const cls = p + (c.famille === 'externe' ? ' is-ext' : '') + (c.role === 'memoire' ? ' is-memoire' : '');
   return `<button type="button" class="fx-med${cls}" data-id="${c.id}" style="--c:${COUL[c.sexe]}">
       <span class="fx-med-img"><img src="${esc(img)}" alt="" loading="lazy"></span>
       <span class="fx-med-nom">${esc(c.nom_usuel || nomCourt(c))}</span>
       ${note ? `<span class="fx-med-note">${note}</span>` : ''}</button>`;
+}
+// Grands-parents : une paire en petit au-dessus de chaque parent (colonnes alignées).
+// Rien au-dessus d'un parent inconnu, ni d'un parent dont on ne connaît aucun parent.
+const BRANCHE_VIDE = '<div class="fx-branche"></div>';
+function brancheGP(parent) {
+  if (!parent) return BRANCHE_VIDE;
+  const gp = PAR_ID[parent.pere], gm = PAR_ID[parent.mere];
+  if (!gp && !gm) return BRANCHE_VIDE;
+  return `<div class="fx-branche" style="--c:${COUL[parent.sexe]}">
+      <div class="fx-paire">${medFocus(gp, '', 'Père', true)}${medFocus(gm, '', 'Mère', true)}</div>
+      <span class="fx-crochet" aria-hidden="true"></span></div>`;
+}
+function grandsParentsHTML(pere, mere) {
+  const b = [brancheGP(pere), brancheGP(mere)];
+  if (b.every(x => x === BRANCHE_VIDE)) return '';
+  return `<p class="fx-titre">Grands-parents</p><div class="fx-ascendants">${b.join('')}</div>`;
 }
 function afficherFocus(id) {
   const c = PAR_ID[id];
@@ -1461,6 +1485,7 @@ function afficherFocus(id) {
   const avec = e => { const autre = PAR_ID[e.pere === id ? e.mere : e.pere]; return [annee(e), autre ? 'avec ' + esc(autre.nom_usuel || nomCourt(autre)) : ''].filter(Boolean).join('<br>'); };
   focusEl.innerHTML = `
     <div class="fx fx-entre">
+      ${grandsParentsHTML(pere, mere)}
       <p class="fx-titre">Parents</p>
       <div class="fx-parents">${medFocus(pere, '', 'Père')}${medFocus(mere, '', 'Mère')}</div>
       <span class="fx-trait" aria-hidden="true"></span>
@@ -1517,22 +1542,14 @@ function allerA(id) {
   if (location.hash.slice(1) === id) { selectionner(id); return; }
   location.hash = id;                     // → hashchange → suivreAdresse → selectionner
 }
-function appliquerVue() {
-  zone.classList.toggle('vue-focus', vue === 'focus');
-  document.querySelectorAll('.vue-bascule button').forEach(b => b.classList.toggle('actif', b.dataset.vue === vue));
-}
-document.querySelector('.vue-bascule').addEventListener('click', e => {
-  const b = e.target.closest('button[data-vue]');
-  if (!b || b.dataset.vue === vue) return;
-  const courant = vue === 'focus' ? focusId : (activeNode && activeNode.id);
-  vue = b.dataset.vue;
-  try { localStorage.setItem('arbre-vue', vue); } catch (err) {}
-  appliquerVue();
+zone.classList.add('vue-focus');   // n'a d'effet qu'en ≤ 900px (CSS)
+// Passage ordinateur ↔ tablette (rotation, fenêtre redimensionnée) : on garde le cheval affiché.
+MOBILE.addEventListener('change', () => {
+  const id = decodeURIComponent(location.hash.slice(1));
   fermerCarte();
-  if (courant) selectionner(courant, { centrer: true });
-  else if (vue === 'focus') accueilFocus();
+  if (!MOBILE.matches) { activeNode = null; activeRevealIds = new Set(); activeVisiblePairs = new Set(); activeFarIds = new Set(); activeFarPairs = new Set(); applyState(); }
+  if (PAR_ID[id]) selectionner(id, { centrer: true }); else if (MOBILE.matches) accueilFocus();
 });
-appliquerVue();
 accueilFocus();
 
 // Point d'entrée unique : clic, tap, recherche, liens de la carte, adresse #id.
@@ -1548,11 +1565,13 @@ function selectionner(id, { centrer = false } = {}) {
   }
   const d = DATA.find(x => x.id === id);
   if (d) {
-    const { ids, pairs } = computeReveal(id);
+    const { ids, pairs, farIds, farPairs } = computeReveal(id);
     ids.add(id);
     activeNode = d; activeRevealIds = ids; activeVisiblePairs = pairs;
+    activeFarIds = farIds; activeFarPairs = farPairs;
   } else {
     activeNode = null; activeRevealIds = new Set(); activeVisiblePairs = new Set();
+    activeFarIds = new Set(); activeFarPairs = new Set();
   }
   applyState();
   ouvrirCarte(c);
@@ -1562,6 +1581,7 @@ function selectionner(id, { centrer = false } = {}) {
 function deselectionner() {
   if (vueFocus()) { fermerCarte(); return; }   // vue « Famille » : on ferme juste la carte
   activeNode = null; activeRevealIds = new Set(); activeVisiblePairs = new Set();
+  activeFarIds = new Set(); activeFarPairs = new Set();
   applyState();
   fermerCarte();
   history.replaceState(null, '', location.pathname + location.search);
@@ -1639,9 +1659,12 @@ recherche.addEventListener('keydown', e => {
     recherche.value = ''; suggestions.hidden = true;
   }
 });
-suggestions.addEventListener('pointerdown', e => {
+// Choix au « click » (pas au pointerdown) : sur téléphone, poser le doigt pour faire
+// défiler la liste ne sélectionne plus de cheval ; seul un vrai toucher bref choisit.
+suggestions.addEventListener('mousedown', e => e.preventDefault());   // ordinateur : garder le focus le temps du clic
+suggestions.addEventListener('click', e => {
   const li = e.target.closest('li[data-id]');
-  if (li) { e.preventDefault(); choisir(li.dataset.id); }
+  if (li) choisir(li.dataset.id);
 });
 recherche.addEventListener('blur', () => setTimeout(() => { suggestions.hidden = true; }, 150));
 
