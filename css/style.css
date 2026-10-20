@@ -1686,6 +1686,13 @@ footer {
    Déclaré AVANT la media query qui le passe en display:block — à spécificité
    égale c'est l'ordre du fichier qui tranche. Placée après, cette règle
    l'emportait partout et le bouton n'apparaissait jamais. */
+/* Bloc d'actions « Notre façon de vendre » (fiches poulains) : primaire + secondaire.
+   Sur mobile, le « Nous contacter » est masqué — le CTA flottant (.cta-end) le double. */
+.adoption-actions {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.5rem; margin: 2.2rem 0 0; flex-wrap: wrap; max-width: 620px;
+}
+
 .cta-end { display: none; }
 
 @media (max-width: 768px) {
@@ -1727,6 +1734,7 @@ footer {
      paraît ainsi se poser à cet endroit plutôt que de rester collée à l'écran.
      Masqué au-dessus de 768px, où le CTA vit dans la nav2. */
   .cta-end { display: block; }
+  .adoption-actions .btn-primary { display: none; }
   .cta-end-inner {
     padding: 0 1.5rem 3rem;
     text-align: center;
@@ -2176,7 +2184,18 @@ footer {
    ont la même taille, quelle que soit la grille qui les accueille. */
 .horses-grid:has(> .cc) { grid-template-columns: repeat(auto-fill, minmax(250px, 290px)); justify-content: start; gap: 1.75rem; }
 @media (max-width: 600px) {
-  .horses-grid:has(> .cc) { grid-template-columns: minmax(0, 340px); justify-content: center; }
+  /* Mobile : les grilles de cartes des fiches défilent à l'horizontale (comme .rangee)
+     au lieu d'empiler — carrousel natif au doigt, cartes côte à côte. */
+  .horses-grid:has(> .cc) {
+    display: flex; gap: 1rem; align-items: stretch;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    justify-content: flex-start; padding-bottom: 1.25rem; scrollbar-width: none;
+  }
+  .horses-grid:has(> .cc)::-webkit-scrollbar { display: none; }
+  /* height:auto : en flex (hauteur de conteneur indéfinie), le height:100% des cartes
+     retomberait sur la hauteur du contenu → cartes inégales. auto + stretch = hauteurs égales. */
+  .horses-grid:has(> .cc) > .cc { flex: 0 0 min(80vw, 300px); height: auto; align-self: stretch; scroll-snap-align: start; }
 }
 
 /* ── Modale des chevaux extérieurs (js/main.js) ── */

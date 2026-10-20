@@ -513,7 +513,7 @@
       background: transparent; color: #C9C0BA; font-family: var(--serif); font-size: 1.4rem;
     }
     .fx-med.is-inconnu .fx-med-nom { color: #B4AAA4; font-style: italic; font-size: .85rem; }
-    .fx-trait { width: 1.5px; height: 1.4rem; margin: .5rem 0; background: linear-gradient(var(--accent), rgba(212,137,154,.25)); }
+    .fx-trait { width: 1.5px; height: 1.4rem; margin: .5rem 0; background: linear-gradient(var(--c, var(--accent)), color-mix(in srgb, var(--c, var(--accent)) 25%, transparent)); }
     .fx-centre {
       display: flex; flex-direction: column; align-items: center; gap: .2rem;
       width: 100%; max-width: 360px; padding: 1.1rem 1rem 1.2rem; border-radius: 22px;
@@ -1483,7 +1483,7 @@ function afficherFocus(id) {
   // sous chaque poulain : l'autre parent (« avec Suzie »)
   const avec = e => { const autre = PAR_ID[e.pere === id ? e.mere : e.pere]; return [annee(e), autre ? 'avec ' + esc(autre.nom_usuel || nomCourt(autre)) : ''].filter(Boolean).join('<br>'); };
   focusEl.innerHTML = `
-    <div class="fx fx-entre">
+    <div class="fx fx-entre" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
       ${grandsParentsHTML(pere, mere)}
       <p class="fx-titre">Parents</p>
       <div class="fx-parents">${medFocus(pere, '', 'Père')}${medFocus(mere, '', 'Mère')}</div>
