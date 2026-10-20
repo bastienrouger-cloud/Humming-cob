@@ -171,6 +171,20 @@
   }
   .save-note strong{color:var(--noir);font-weight:500;}
   .panel .row-actions{margin-top:1.4rem !important;}
+  /* Boutons « Télécharger / Recharger » : remplissage plein et symétrique plutôt
+     que le voile « fondu » (qui, centré et en paire, se lit de travers au repos). */
+  .panel .row-actions .btn-outline{
+    padding-right:1.7rem;
+    background-image:none;
+    background-color:color-mix(in srgb,var(--accent) 14%,transparent);
+    transition:background-color var(--transition),transform var(--transition);
+  }
+  .panel .row-actions .btn-outline::after{margin-left:.5em;}
+  .panel .row-actions .btn-outline:hover{
+    background-image:none;
+    background-color:color-mix(in srgb,var(--accent) 24%,transparent);
+    transform:translateY(-1px);
+  }
 
   /* --- Modale de l'éditeur (refonte du 14/10) --- */
   .modal-overlay{
