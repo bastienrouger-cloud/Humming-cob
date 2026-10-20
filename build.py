@@ -821,6 +821,28 @@ def injecter_livre_dor(html, page, par_id, messages):
     return re.sub(r'(\sdata-si-livre-dor(="accueil")?)(?: hidden)?(?=[\s>])', bascule, html)
 
 
+# ---------------------------------------------------------------- tête (<head>)
+# Deux ajouts automatiques, idempotents, dans le <head> de chaque page :
+#   - preconnect vers Google Fonts (si absent) : amorce la connexion au plus tôt.
+#   - canonical : recopié depuis og:url (déjà la bonne URL par page). Évite que les
+#     variantes d'URL (/, index.html, ?sujet=…) soient vues comme des doublons.
+_OGURL = re.compile(r'<meta\s+property="og:url"\s+content="([^"]*)"\s*/?>')
+_CANON = re.compile(r'\s*<link rel="canonical"[^>]*>')
+_CHARSET = re.compile(r'(<meta\s+charset=[^>]*>)', re.I)
+_PRECONNECT = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
+               '    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>')
+
+
+def injecter_tete(html):
+    if 'rel="preconnect"' not in html:
+        html = _CHARSET.sub(lambda m: m.group(1) + "\n    " + _PRECONNECT, html, count=1)
+    m = _OGURL.search(html)
+    if m:
+        html = _CANON.sub("", html)                       # retire un éventuel canonical existant
+        html = html.replace(m.group(0), m.group(0) + '\n    <link rel="canonical" href="%s">' % m.group(1), 1)
+    return html
+
+
 def main():
     check_only = "--check" in sys.argv
 
@@ -860,12 +882,9 @@ def main():
         html = injecter_entetes(html, page, par_id, erreurs_cartes)
         html = injecter_sujets(html)
         html = injecter_livre_dor(html, page, par_id, messages)
+        html = injecter_tete(html)
 
         rel = page.relative_to(ROOT).as_posix()
-
-        if not found_any:
-            skipped.append(rel)
-            continue
 
         if html != original:
             if check_only:
@@ -873,6 +892,8 @@ def main():
             else:
                 page.write_text(html, encoding="utf-8", newline="\n")
                 changed.append(rel)
+        elif not found_any:
+            skipped.append(rel)
 
     if erreurs_cartes:
         print("Erreurs de cartes :")

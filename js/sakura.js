@@ -5,6 +5,8 @@
 (function () {
   const canvas = document.getElementById('sakura-canvas');
   if (!canvas) return;
+  // Mouvement décoratif : on s'abstient si l'utilisateur a demandé moins d'animations.
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const ctx = canvas.getContext('2d');
   let W, H, petals = [], animId;
@@ -120,6 +122,12 @@
     cancelAnimationFrame(animId);
     petals = [];
     init();
+  });
+
+  // Pause quand l'onglet n'est pas visible (économie CPU / batterie).
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(animId);
+    else animId = requestAnimationFrame(update);
   });
 
   // Lancer quand DOM + images chargés
