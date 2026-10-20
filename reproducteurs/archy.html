@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cairnview Archy — Étalon Élite · Humming Cob</title>
   <meta name="description" content="Le premier pilier de Humming Cob. Deux yeux bleus, un tempérament sûr et fiable en extérieur — étalon Irish Cob ouvert aux saillies.">
@@ -9,6 +11,7 @@
   <meta property="og:description" content="Le premier pilier de Humming Cob. Deux yeux bleus, un tempérament sûr et fiable en extérieur — étalon Irish Cob ouvert aux saillies.">
   <meta property="og:image" content="https://hummingcob.fr/img/og/og-archy.jpg">
   <meta property="og:url" content="https://hummingcob.fr/reproducteurs/archy.html">
+    <link rel="canonical" href="https://hummingcob.fr/reproducteurs/archy.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Humming Cob">
   <!-- Teinte de la barre du navigateur : calée sur le header,
@@ -24,7 +27,7 @@
   <link rel="manifest" href="../img/favicon_io/site.webmanifest">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="horse-page">
+<body class="horse-page theme-male">
 
 <!-- @partial:header -->
 <nav class="navbar" id="navbar">
@@ -36,24 +39,11 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="../reproducteurs.html">Reproducteurs</a></li>
-        <li><a href="../poulains.html">Poulains</a></li>
-        <li><a href="../memoire.html">Ils ont marqué notre histoire</a></li>
-      </ul>
-    </li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="../arbre-genealogique.html">Arbre généalogique</a></li>
-        <li><a href="../accouplement.html">Testez un accouplement</a></li>
-      </ul>
-    </li>
-    <li><a href="../index.html#contact">Contact</a></li>
+    <li><a href="../nos-chevaux.html">Nos chevaux</a></li>
+    <li><a href="../arbre-genealogique.html">Généalogie</a></li>
+    <li><a href="../accouplement.html">Accouplements</a></li>
+    <li><a href="../contact.html" class="nav-contact">Contact</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -68,13 +58,16 @@
       <li><a href="#descendance">Poulains</a></li>
       <li><a href="#pedigree">Pedigree</a></li>
     </ul>
-    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Conditions de saillie</a>
+    <a href="../contact.html?sujet=saillie-archy" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Conditions de saillie</a>
   </div>
 </nav>
 
 <div class="horse-hero-top">
-  <span class="badge-reproducteur" style="position:static;display:inline-block;">Étalon · Élite grade 1 · Champion France Qualification Loisirs</span>
-  <p class="horse-hero-race">Ouvert aux saillies</p>
+  <!-- @entete: archy -->
+  <span class="pastille pastille--or pastille--contour">★ Élite grade 1</span>
+  <span class="pastille pastille--titre">Champion France Qualification Loisirs</span>
+  <p class="horse-hero-race">Étalon · Ouvert aux saillies</p>
+  <!-- @end:entete -->
 </div>
 
 <div class="horse-hero">
@@ -128,7 +121,7 @@
   </div>
 
   <div class="horse-hero-info">
-    <h1 class="horse-hero-name">Cairnview <em>Archy</em></h1>
+    <h1 class="horse-hero-name"><!-- @nom: archy --><span class="nc nc--male"><span class="nc-a">Cairnview</span> <em class="nc-n">Archy</em></span><!-- @end:nom --></h1>
 
     <div class="horse-specs">
       <div class="horse-spec"><div class="horse-spec-label">Né le</div><div class="horse-spec-value">01/06/2010</div></div>
@@ -157,7 +150,8 @@
     <!-- Point d'ancrage du bouton : le sentinel sert de repère au script pour
          savoir quand le dupliquer dans nav2 (voir js/main.js, bloc nav2). -->
     <div id="ctaAnchor" class="cta-anchor cta-anchor--center">
-      <a href="../index.html#contact" class="btn btn-primary">Demander les conditions de saillie</a>
+      <a href="../contact.html?sujet=saillie-archy" class="btn btn-primary">Demander les conditions de saillie</a>
+      <a href="../accouplement.html?etalon=archy" class="btn btn-outline">Tester avec ma jument</a>
     </div>
   </div>
 </div>
@@ -210,85 +204,74 @@
 
     <p class="section-text" style="margin-top:2rem;">Élevage Humming Cob</p>
     <div class="horses-grid" style="margin-top:1rem;">
-      <a href="../poulains/nashi.html" class="horse-card">
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/nashi/na-index.jpg" alt="Nashi" style="width:100%;height:100%;object-fit:cover;">
+      <!-- @cartes: nashi contexte=archy -->
+      <a class="cc cc--male reveal reveal-delay-1" href="../poulains/nashi.html" data-cheval="nashi">
+        <div class="cc-photo">
+          <img src="../img/nashi/na-index.jpg" alt="HC Nashi" loading="lazy">
+          <span class="cc-badge pastille pastille--vente">À vendre</span>
         </div>
-        <span class="badge-available"><strong>⭐ Disponible</strong></span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Hongre · Irish Cob · Bai · 2024</span>
-          <h3 class="horse-card-name">HC Nashi</h3>
-          <p class="horse-card-desc">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l'homme. 
-            Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. 
-            Taille estimée ~1m45.</p>
-          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Hongre</span><span>Irish Cob</span><span>Bai</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Nashi</em></span></h3>
+          <p class="cc-texte">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l&#x27;homme. Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. Taille estimée ~1m45.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
+      <!-- @end:cartes -->
     </div>
 
     <p class="section-text" style="margin-top:3rem;">Autres descendants - Naissances extérieures</p>
     <div class="horses-grid" style="margin-top:1rem;">
-
-      <!-- Fleur -->
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Fleur" data-desc="Née au Domaine Du Vallat (13). Facile sous la selle même avec les enfants, elle toise 1m44."
-           data-images='["../img/archy/fleur-01.jpg","../img/archy/Fleur 04.jpg","../img/archy/Fleur 08.jpg","../img/archy/Fleur 05.jpg","../img/archy/Fleur 09.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/archy/fleur-01.jpg" alt="Fleur" style="width:100%;height:100%;object-fit:cover;">
+      <!-- @cartes: fleur, festival, gribouille, inuk contexte=archy -->
+      <article class="cc cc--femelle cc--modale reveal reveal-delay-1" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="fleur" data-contexte="archy">
+        <div class="cc-photo">
+          <img src="../img/archy/fleur-01.jpg" alt="Fleur Du Vallat" loading="lazy">
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 5</span>
         </div>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Jument · Irish Cob · Pie Noir · 2015</span>
-          <h3 class="horse-card-name">Fleur Du Vallat</h3>
-          <p class="horse-card-desc">Née au Domaine Du Vallat (13). Facile sous la selle même avec les enfants, elle toise 1m44.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Irish Cob</span><span>Pie Noir</span><wbr><span class="cc-dates">2015</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><em class="nc-n">Fleur</em> <span class="nc-a">Du Vallat</span></span></h3>
+          <p class="cc-texte">Née au Domaine Du Vallat (13). Facile sous la selle même avec les enfants, elle toise 1m44.</p>
+          <span class="cc-action">Voir les 5 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
-      <!-- Festival -->
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Festival" data-desc="Né dans le Gard (30), il toise 1m40, croisé PFS. Un véritable randonneur."
-           data-images='["../img/archy/festival-01.jpg","../img/archy/festival-02.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/archy/festival-01.jpg" alt="Festival" style="width:100%;height:100%;object-fit:cover;">
+      </article>
+      <article class="cc cc--male cc--modale reveal reveal-delay-2" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="festival" data-contexte="archy">
+        <div class="cc-photo">
+          <img src="../img/archy/festival-01.jpg" alt="Festival De Lohé" loading="lazy">
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 2</span>
         </div>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Hongre · OC · Bai · 2015</span>
-          <h3 class="horse-card-name">Festival De Lohé</h3>
-          <p class="horse-card-desc">Né dans le Gard (30), il toise 1m40, croisé PFS. Un véritable randonneur.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Hongre</span><span>OC</span><span>Bai</span><wbr><span class="cc-dates">2015</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><em class="nc-n">Festival</em> <span class="nc-a">De Lohé</span></span></h3>
+          <p class="cc-texte">Né dans le Gard (30), il toise 1m40, croisé PFS. Un véritable randonneur.</p>
+          <span class="cc-action">Voir les 2 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
-      <!-- Gribaulle -->
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Gribouille" data-desc="Né d'un croisement avec une maman Morgan. Malheureusement décédé en 2018."
-           data-images='["../img/archy/gribouille-01.jpg","../img/archy/gribouille-02.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/archy/gribouille-01.jpg" alt="Gribouille" style="width:100%;height:100%;object-fit:cover;">
+      </article>
+      <article class="cc cc--male cc--modale reveal reveal-delay-3" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="gribouille" data-contexte="archy">
+        <div class="cc-photo">
+          <img src="../img/archy/gribouille-01.jpg" alt="Gribouille" loading="lazy">
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 2</span>
         </div>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Hongre · OC · Noir · 2016-2018</span>
-          <h3 class="horse-card-name">Gribouille</h3>
-          <p class="horse-card-desc">Né d'un croisement avec une maman Morgan. Malheureusement décédé en 2018.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Hongre</span><span>OC</span><span>Noir</span><wbr><span class="cc-dates">2016-2018</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><em class="nc-n">Gribouille</em></span></h3>
+          <p class="cc-texte">Né d&#x27;un croisement avec une maman Morgan. Malheureusement décédé en 2018.</p>
+          <span class="cc-action">Voir les 2 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
-      <!-- Inuk -->
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Inuk" data-desc="Né dans la Drôme, il toise 1m53 à 4 ans et est un maitre d'école pour les enfants."
-           data-images='["../img/archy/inuk-01.jpg","../img/archy/inuk-02.jpg","../img/archy/Inuk 10.jpg","../img/archy/Inuk 12.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/archy/inuk-01.jpg" alt="Inuk" style="width:100%;height:100%;object-fit:cover;">
+      </article>
+      <article class="cc cc--male cc--modale reveal reveal-delay-4" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="inuk" data-contexte="archy">
+        <div class="cc-photo">
+          <img src="../img/archy/inuk-01.jpg" alt="Inuk de L&#x27;Oume" loading="lazy">
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 4</span>
         </div>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Hongre · Irish Cob · Pie Noir · 2018</span>
-          <h3 class="horse-card-name">Inuk De L'Oume</h3>
-          <p class="horse-card-desc">Né dans la Drôme, il toise 1m53 à 4 ans et est un maitre d'école pour les enfants.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Hongre</span><span>Irish Cob</span><span>Pie Noir</span><wbr><span class="cc-dates">2018</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><em class="nc-n">Inuk</em> <span class="nc-a">de L&#x27;Oume</span></span></h3>
+          <p class="cc-texte">Né dans la Drôme, il toise 1m53 à 4 ans et est un maitre d&#x27;école pour les enfants.</p>
+          <span class="cc-action">Voir les 4 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
+      </article>
+      <!-- @end:cartes -->
     </div>
   </div>
 </section>
@@ -305,151 +288,32 @@
       Son père, Llewelyn, est enregistré à l'ICS (Irish Cob Society), descendant de Mr. Morris, étalon élite de la race.
     </p>
 
-    <style>
-      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
-      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
-      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
-      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
-      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
-      .ped-label--pere { color:var(--bleu); }
-      .ped-label--mere { color:var(--rose); }
-      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
-      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
-      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
-      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
-      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
-      .ped-gp-card--unknown { background:rgba(0,0,0,0.02); border-left-color:rgba(0,0,0,0.1); }
-      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
-      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
-      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
-      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
-      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
-      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
-      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
-      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
-      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
-      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
-      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
-      .ped-ancestors { margin-top:.4rem; font-size:.6rem; color:var(--gris); font-style:italic; line-height:1.5; border-top:1px dashed rgba(0,0,0,0.08); padding-top:.35rem; }
-      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
-      .ped-note strong { color:var(--bleu); }
-      @media(max-width:700px) {
-        .ped-tree { grid-template-columns:1fr; }
-        .ped-gp { grid-template-columns:1fr; }
-        .ped-ggp { grid-template-columns:1fr; }
-      }
-    </style>
-
-    <div class="ped-tree">
-
-      <!-- PÈRE -->
-      <div class="ped-parent ped-parent--pere is-collapsed">
-        <div class="ped-label ped-label--pere">Père</div>
-        <div class="ped-name">Cairnview Llewelyn</div>
-        <div class="ped-robe">Noir Tobiano · Irish Tinker · 2004 · 158cm · ICS</div>
-
-        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
-          <span class="ped-toggle-label">Voir les ascendants</span>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--pere">
-            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
-            <div class="ped-gp-name">Mr. Morris</div>
-            <div class="ped-gp-robe">Noir Pinto · Gypsy Vanner · 1996 · IRL</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ped-gp-card ped-gp-card--mere">
-            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère paternelle</div>
-            <div class="ped-gp-name">Carrigburns Lady</div>
-            <div class="ped-gp-robe">Noir Tobiano · Gypsy Vanner · 1998 · 1.6m · IRL</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MÈRE -->
-      <div class="ped-parent ped-parent--mere is-collapsed">
-        <div class="ped-label ped-label--mere">Mère</div>
-        <div class="ped-name">Cairnview Kessia</div>
-        <div class="ped-robe">Irish Tinker · ~2004 · Élevage Cairnview</div>
-
-        <button type="button" class="ped-toggle ped-toggle--mere" aria-expanded="false">
-          <span class="ped-toggle-label">Voir les ascendants</span>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--unknown">
-            <div class="ped-gp-label" style="color:var(--gris);">♂ Grand-père maternel</div>
-            <div class="ped-gp-name">—</div>
-            <div class="ped-gp-robe">Non documenté</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ped-gp-card ped-gp-card--unknown">
-            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère maternelle</div>
-            <div class="ped-gp-name">—</div>
-            <div class="ped-gp-robe">Non documentée</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <!-- @pedigree: archy -->
+    <div class="pg" role="group" aria-label="Pédigrée sur trois générations">
+    <div class="pg-gens" aria-hidden="true"><span>Parents</span><span>Grands-parents</span><span>Arrière-grands-parents</span></div>
+    <div class="pg-arbre">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--male pg-n1 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="llewelyn" title="Voir les photos et les infos"><img class="pg-photo" src="../img/tree/llewewin.jpg" alt="" loading="lazy"><span class="pg-texte"><span class="pg-label">Père</span><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">Cairnview</span> <em class="nc-n">Llewelyn</em></span></span><span class="pg-meta">Tobiano Noir</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c"><div class="pg-branche pg-branche--seule">
+    <div class="pg-node pg-node--male pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="mrmorris" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-père</span><span class="pg-nom"><span class="nc nc--male"><em class="nc-n">Mr. Morris</em></span></span><span class="pg-meta">Noir Pinto</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div></div></div>
+    <div class="pg-c"><div class="pg-branche pg-branche--seule">
+    <div class="pg-node pg-node--femelle pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="carrigburns" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-mère</span><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">Carrigburns</span> <em class="nc-n">Lady</em></span></span><span class="pg-meta">Tobiano Noir</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div></div></div></div></div><div class="pg-branche pg-branche--seule">
+    <div class="pg-node pg-node--femelle pg-n1 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="kessia" title="Voir les photos et les infos"><img class="pg-photo" src="../img/tree/kressa.jpg" alt="" loading="lazy"><span class="pg-texte"><span class="pg-label">Mère</span><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">Cairnview</span> <em class="nc-n">Kessia</em></span></span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div></div></div></div>
+    <!-- @end:pedigree -->
 
     <div class="ped-note">
       <strong>Note sur les origines</strong><br>
       Les origines d'Archy sont partiellement documentées. Son père, Cairnview Llewelyn, est enregistré à l'Irish Cob Society (ICS). 
       Du côté maternel, les informations sont limitées et ses ascendants ne sont pas enregistrés.
     </div>
+
+    <!-- Lien vers l'arbre, ouvert directement sur ce cheval (adresse #id) -->
+    <p class="voir-arbre">
+      <a href="../arbre-genealogique.html#archy" class="btn btn-outline">Voir dans l'arbre généalogique
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </p>
+
 
   </div>
 </section>
@@ -459,7 +323,8 @@
      js/main.js masque la version flottante — voir bloc nav2. -->
 <div class="cta-end" id="ctaEnd" style="background:var(--bg-light);">
   <div class="cta-end-inner">
-    <a href="../index.html#contact" class="btn btn-primary">Conditions de saillie</a>
+    <a href="../contact.html?sujet=saillie-archy" class="btn btn-primary">Conditions de saillie</a>
+    <a href="../accouplement.html?etalon=archy" class="btn btn-outline">Tester avec ma jument</a>
   </div>
 </div>
 
@@ -473,6 +338,7 @@
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
     <ul class="footer-legal">
+      <li><a href="../livre-dor.html">Livre d'or</a></li>
       <li><a href="../mentions-legales.html">Mentions légales</a></li>
       <li><a href="../confidentialite.html">Politique de confidentialité</a></li>
     </ul>
@@ -481,6 +347,7 @@
 </footer>
 <!-- @end:footer -->
 
+<script src="../js/chevaux.js"></script>
 <script src="../js/main.js"></script>
 
 

@@ -1,0 +1,46 @@
+{
+  "id": "nashi",
+  "nom": "HC Nashi",
+  "nom_usuel": "Nashi",
+  "affixe": "HC",
+  "famille": "humming",
+  "role": "poulain",
+  "statut": "a-vendre",
+  "sexe": "hongre",
+  "pere": "archy",
+  "mere": "sakura",
+  "naissance": "2024-01-13",
+  "robe": "Bai Sb1 ou DW20",
+  "robe_courte": "Bai",
+  "race": "Irish Cob",
+  "taille": "1m42 au 01/06/2026",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/_",
+    "A": "A/a"
+  },
+  "genetique_deduit": [
+    "PSSM1",
+    "A"
+  ],
+  "origine": "France · Humming Cob",
+  "papiers": "Plein Papier",
+  "prix": 4000,
+  "souche": "hc",
+  "page": "poulains/nashi.html",
+  "photo": "img/nashi/na-index.jpg",
+  "photo_arbre": "img/tree/nashi.jpg",
+  "resume": "Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l'homme. Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. Taille estimée ~1m45.",
+  "caractere": [
+    "Pétillant",
+    "Crâneur",
+    "Curieux",
+    "Malin",
+    "Intense"
+  ],
+  "notes": "Espiègle, pétillant, proche de l'homme. TAP, TREC, rando.",
+  "source": "site hummingcob.fr",
+  "entete": {
+    "ligne": "Hongre · Irish Cob PP · Bai"
+  }
+}

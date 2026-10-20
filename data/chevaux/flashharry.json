@@ -1,0 +1,26 @@
+{
+  "id": "flashharry",
+  "nom": "SD Flash Harry",
+  "affixe": "SD",
+  "famille": "externe",
+  "sexe": "male",
+  "pere": "sdjim",
+  "mere": "pinkpalomino",
+  "naissance": "2005",
+  "robe": "Bai Sabino",
+  "race": "Gypsy Vanner",
+  "taille": "14 hh",
+  "genetique": {
+    "PSSM1": "N/N",
+    "FIS": "N/N",
+    "E": "E/e",
+    "A": "A/a",
+    "KIT": "Sb1/W20"
+  },
+  "elevage": "SD",
+  "registre": "GVHS GV13705P · TGCA",
+  "souche": "sd",
+  "photo_arbre": "img/tree/flash.jpg",
+  "notes": "Bay Sabino · Gypsy Vanner · 2005 · 14hh · GVHS GV13705P — GVHS GV13705P. 14hh.",
+  "source": "site hummingcob.fr"
+}

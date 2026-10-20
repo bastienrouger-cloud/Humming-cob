@@ -1,0 +1,45 @@
+{
+  "id": "sakura",
+  "nom": "SD Sakura",
+  "nom_usuel": "Sakura",
+  "affixe": "SD",
+  "famille": "humming",
+  "role": "jument",
+  "sexe": "femelle",
+  "pere": "flashharry",
+  "mere": "suzie",
+  "naissance": "2017-04-26",
+  "robe": "Bai Sabino",
+  "race": "Irish Cob",
+  "taille": "1m45",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/e",
+    "A": "A/a",
+    "KIT": "Sb1/W20"
+  },
+  "origine": "Pays de Galles · SD Farm",
+  "distinction": "Élite grade 1",
+  "souche": "sd",
+  "page": "reproducteurs/sakura.html",
+  "photo": "img/sakura/Sakura Portrait 02.jpg",
+  "photo_arbre": "img/tree/sakura.jpg",
+  "resume": "Née au Pays de Galles, fille de SD Flash Harry, arrive en France en 2018. Elle entre au SB et obtient la mention Elite en 2021. Débourrée montée.",
+  "cartes": {
+    "suzie": {
+      "photo": "img/sakura/sa- 02 J15.jpg",
+      "resume": "Actuellement en confiage chez mon amie Ludivine du Cros de L'Oume, elle s'épanouit au rythme de randonnées actives."
+    }
+  },
+  "notes": "Sœur complète de Ruby Jane.",
+  "source": "site hummingcob.fr",
+  "entete": {
+    "titres": [
+      "Élite grade 1"
+    ],
+    "mentions": [
+      "Débourrée montée"
+    ],
+    "ligne": "Jument · Actuellement en confiage en Drôme"
+  }
+}

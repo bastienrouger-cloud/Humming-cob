@@ -1,0 +1,47 @@
+{
+  "id": "orion",
+  "nom": "HC Orion",
+  "nom_usuel": "Orion",
+  "affixe": "HC",
+  "famille": "humming",
+  "role": "poulain",
+  "statut": "a-vendre",
+  "sexe": "male",
+  "pere": "kuarahy",
+  "mere": "rubyjane",
+  "naissance": "2024-04-11",
+  "robe": "Grullo Silver",
+  "race": "OC",
+  "taille": "1m42 au 01/06/2026",
+  "genetique": {
+    "E": "E/_",
+    "A": "a/a",
+    "D": "D/_",
+    "Z": "Z/z"
+  },
+  "origine": "France · Humming Cob",
+  "papiers": "Origines Constatées",
+  "prix": 3500,
+  "souche": "hc",
+  "page": "poulains/orion.html",
+  "photo": "img/orion/or-index.jpg",
+  "photo_arbre": "img/tree/orion.jpg",
+  "resume": "Fin, élégant, sensible — grand amoureux de l'humain. Robe Grullo Silver. Taille estimée ~1m45/1m50 (toisé à 1m42). Plus léger et atlhétique, parfait pour du dressage, du poney game...",
+  "cartes": {
+    "rubyjane": {
+      "resume": "Fin, élégant, sensible — grand amoureux de l'humain. Robe Grullo Silver. Taille est. ~1m45/1m50 (toisé à 1m42). Plus léger et atlhétique, parfait pour du dressage, du poney game..."
+    }
+  },
+  "caractere": [
+    "Sensible",
+    "Curieux",
+    "Élégant",
+    "Vif",
+    "Attachant"
+  ],
+  "notes": "Fin, élégant, sensible. Grand amoureux de l'humain.",
+  "source": "site hummingcob.fr",
+  "entete": {
+    "ligne": "Entier · OC 75 % Irish Cob · Grullo Silver"
+  }
+}

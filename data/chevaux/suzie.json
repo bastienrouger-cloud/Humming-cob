@@ -1,0 +1,36 @@
+{
+  "id": "suzie",
+  "nom": "SD Suzie",
+  "nom_usuel": "Suzie",
+  "affixe": "SD",
+  "famille": "humming",
+  "role": "jument",
+  "sexe": "femelle",
+  "pere": "woollymammoth",
+  "mere": "olivia",
+  "naissance": "2010",
+  "robe": "Noire",
+  "race": "Irish Cob",
+  "taille": "1m4x",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/e",
+    "A": "a/a",
+    "KIT": "Sb1/W20"
+  },
+  "origine": "Royaume-Uni · SD Farm",
+  "distinction": "Facteur Irish Cob",
+  "souche": "sd",
+  "page": "reproducteurs/suzie.html",
+  "photo": "img/suzie/Suzie Portrait.jpg",
+  "photo_arbre": "img/tree/suzie.jpg",
+  "resume": "Née en Angleterre, elle arrive en France en 2018. Fille du mondialement connu SD Woolly Mammoth. Enregistrée au TGCA, elle entre au SB.IC en 2021. Débourrée montée.",
+  "notes": "Débourrée montée. Mère de la lignée Humming Cob.",
+  "source": "site hummingcob.fr",
+  "entete": {
+    "mentions": [
+      "Débourrée montée"
+    ],
+    "ligne": "Jument · Bientôt à la retraite"
+  }
+}

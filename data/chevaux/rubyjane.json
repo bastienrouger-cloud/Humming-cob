@@ -1,0 +1,42 @@
+{
+  "id": "rubyjane",
+  "nom": "SD Ruby Jane",
+  "nom_usuel": "Ruby Jane",
+  "affixe": "SD",
+  "famille": "humming",
+  "role": "jument",
+  "sexe": "femelle",
+  "pere": "flashharry",
+  "mere": "suzie",
+  "naissance": "2018-05-04",
+  "robe": "Bai",
+  "race": "Irish Cob",
+  "taille": "1m45",
+  "genetique": {
+    "PSSM1": "N/N",
+    "FIS": "N/N",
+    "E": "E/E",
+    "A": "A/a"
+  },
+  "origine": "Pays de Galles · SD Farm",
+  "distinction": "Élite grade 1",
+  "souche": "sd",
+  "page": "reproducteurs/ruby-jane.html",
+  "photo": "img/ruby/Ruby Portrait.jpg",
+  "photo_arbre": "img/tree/ruby.jpg",
+  "resume": "Née au Pays de Galles, pleine sœur de Sakura, elle arrive en France avec sa mère au mois de septembre de la même année. Elle entre au SB et obtient la mention Elite, à seulement 3 ans.",
+  "cartes": {
+    "suzie": {
+      "photo": "img/ruby/rj-05.jpg",
+      "resume": "Également en confiage, chez mon amie Julie Berenguer, elle participe à de l'équicie et est maman de nouveau."
+    }
+  },
+  "notes": "Sœur complète de Sakura. Débourrée montée.",
+  "source": "site hummingcob.fr",
+  "entete": {
+    "titres": [
+      "Élite grade 1"
+    ],
+    "ligne": "Jument · Actuellement en confiage en Bretagne"
+  }
+}

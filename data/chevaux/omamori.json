@@ -1,0 +1,47 @@
+{
+  "id": "omamori",
+  "nom": "HC Omamori",
+  "nom_usuel": "Omamori",
+  "affixe": "HC",
+  "famille": "humming",
+  "role": "poulain",
+  "statut": "garde",
+  "sexe": "male",
+  "pere": "kuarahy",
+  "mere": "suzie",
+  "naissance": "2024-04-05",
+  "robe": "Grullo Silver",
+  "race": "OC",
+  "taille": "1m46 au 01/06/2026",
+  "genetique": {
+    "E": "E/_",
+    "A": "a/a",
+    "D": "D/_",
+    "Z": "Z/z"
+  },
+  "origine": "France · Humming Cob",
+  "papiers": "Origines Constatées",
+  "souche": "hc",
+  "page": "poulains/omamori.html",
+  "photo": "img/omamori/om-index.jpg",
+  "cadrage": "center top",
+  "photo_arbre": "img/tree/omamori.jpg",
+  "resume": "Intelligent, réfléchi, polyvalent. De robe Grullo Silver, rare dans la race. Taille estimée ~1m50 (toisé à 1m46 déjà). Super caractère avec l'humain. Il pourra aisément évoluer en TREC, en randonnée ou devenir étalon.",
+  "cartes": {
+    "suzie": {
+      "photo": "img/omamori/Oma.jpg"
+    }
+  },
+  "caractere": [
+    "Lumineux",
+    "Doux",
+    "Intelligent",
+    "Sociable",
+    "Présent"
+  ],
+  "notes": "Robe Grullo Silver rarissime. Intelligent, polyvalent.",
+  "source": "site hummingcob.fr",
+  "entete": {
+    "ligne": "Entier · OC 75 % Irish Cob · Grullo Silver"
+  }
+}

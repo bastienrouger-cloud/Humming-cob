@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livre d'or — Humming Cob</title>
+  <meta name="description" content="Le livre d'or de Humming Cob : les mots de celles et ceux qui ont croisé la route de nos chevaux. Laissez le vôtre.">
+  <meta property="og:title" content="Livre d'or — Humming Cob">
+  <meta property="og:description" content="Le livre d'or de Humming Cob : les mots de celles et ceux qui ont croisé la route de nos chevaux. Laissez le vôtre.">
+  <meta property="og:image" content="https://hummingcob.fr/img/og/og-elevage.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://hummingcob.fr/livre-dor.html">
+    <link rel="canonical" href="https://hummingcob.fr/livre-dor.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Humming Cob">
+  <!-- Teinte de la barre du navigateur : calée sur le header,
+       pour ne pas voir une bande d'une autre couleur au-dessus. -->
+  <meta name="theme-color" content="#FEFBF6">
+  <!-- iOS en mode application : barre d'état claire, comme le header.
+       Le bas est géré par background_color dans le manifest. -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="img/favicon_io/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon_io/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="img/favicon_io/site.webmanifest">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="fond-taches">
+
+<!-- ====== NAVIGATION ====== -->
+<!-- @partial:header -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="img/logo.png" alt="Humming Cob" onerror="this.style.display='none'">
+    <div class="nav-logo-text">
+      Humming Cob
+      <span>Élevage Irish Cob · Gard</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="elevage.html">L'élevage</a></li>
+    <li><a href="nos-chevaux.html">Nos chevaux</a></li>
+    <li><a href="arbre-genealogique.html">Généalogie</a></li>
+    <li><a href="accouplement.html">Accouplements</a></li>
+    <li><a href="contact.html" class="nav-contact">Contact</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<!-- @end:header -->
+
+<!-- ====== EN-TÊTE ======
+     Textes en BROUILLON (Claude, 15/10/2026), à relire et corriger par Alice. -->
+<section id="page-header" class="page-header page-header--compact page-header--hc">
+  <div class="section-inner">
+    <span class="section-badge">Livre d'or</span>
+    <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Ils nous ont <em>écrit</em></h1>
+    <div class="section-divider" style="margin:1.5rem auto;"></div>
+    <p class="section-text" style="max-width:600px;margin:0 auto;">
+      Familles de nos poulains, éleveurs amis, cavaliers de passage&nbsp;: vous avez croisé la route
+      de nos chevaux. Ce livre d'or rassemble vos mots.
+    </p>
+  </div>
+</section>
+
+<!-- ====== MESSAGES (générés par build.py depuis data/livre-dor.json,
+     cachés tant que la liste est vide) ====== -->
+<section id="messages" class="livre-dor-page" data-si-livre-dor hidden>
+  <div class="section-inner">
+    <div class="lo-mots">
+      <!-- @livre-dor: tous -->
+      <!-- @end:livre-dor -->
+    </div>
+  </div>
+</section>
+
+<!-- ====== FORMULAIRE ====== -->
+<section id="laisser-un-mot" class="livre-dor-form">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;max-width:560px;margin:0 auto 2.2rem;">
+      <span class="section-badge">Votre mot</span>
+      <h2 class="section-title">Laisser un <em>mot</em></h2>
+      <div class="section-divider" style="margin:1.5rem auto;"></div>
+      <p class="section-text">Nous lisons chaque message avant de le publier.</p>
+    </div>
+
+    <div class="contact-form livre-dor-carte reveal">
+      <form action="https://api.web3forms.com/submit" method="POST" id="livre-dor-form" data-envoi="main.js"
+            data-ok="Merci&nbsp;! Votre mot nous est bien parvenu&nbsp;: nous le publierons après l'avoir lu."
+            data-erreur="Le message n'est pas parti. Réessayez, ou écrivez-nous à contact@hummingcob.fr.">
+        <input type="hidden" name="access_key" value="9a89ceda-b130-4159-b7fb-965cef9103db">
+        <input type="hidden" name="subject" value="Livre d'or — Humming Cob">
+        <input type="hidden" name="from_name" value="Livre d'or Humming Cob">
+        <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off">
+        <div class="form-group">
+          <label for="lo-nom">Votre nom, tel qu'il apparaîtra</label>
+          <input type="text" id="lo-nom" name="nom_publie" placeholder="Prénom, nom, élevage… comme vous le souhaitez" maxlength="80" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="lo-email">Email <small>(facultatif, jamais publié)</small></label>
+            <input type="email" id="lo-email" name="email" placeholder="votre@email.fr" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="lo-cheval">Un de nos chevaux&nbsp;? <small>(facultatif)</small></label>
+            <select id="lo-cheval" name="cheval">
+              <option value="">Aucun en particulier</option>
+              <!-- @chevaux-livre-dor -->
+              <optgroup label="Reproducteurs">
+                <option value="archy">Archy</option>
+                <option value="avantgarde">Avantgarde</option>
+                <option value="suzie">Suzie</option>
+                <option value="sakura">Sakura</option>
+                <option value="rubyjane">Ruby Jane</option>
+              </optgroup>
+              <optgroup label="Poulains">
+                <option value="nashi">Nashi</option>
+                <option value="omamori">Omamori</option>
+                <option value="orion">Orion</option>
+                <option value="kaeru">Quercus Kaeru</option>
+                <option value="jinba">Jinba Ittaï</option>
+              </optgroup>
+              <optgroup label="En mémoire">
+                <option value="jballar">Jballar</option>
+                <option value="velvet">Red Velvet</option>
+              </optgroup>
+              <!-- @end:chevaux-livre-dor -->
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="lo-message">Votre message</label>
+          <textarea id="lo-message" name="message" rows="6" placeholder="Votre mot…" required></textarea>
+        </div>
+        <label class="form-accord">
+          <input type="checkbox" name="accord_publication" value="oui" required>
+          <span>J'accepte que ce message et le nom indiqué ci-dessus soient publiés sur le site Humming Cob.</span>
+        </label>
+        <button type="submit" class="form-submit">Envoyer mon mot</button>
+        <p class="form-rgpd">Votre email sert uniquement à vous répondre.
+          <a href="confidentialite.html">Politique de confidentialité</a></p>
+        <p class="form-result" role="status" hidden></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<!-- @partial:footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Humming <span>Cob</span></div>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/people/Humming-Cob/61590861954436/" aria-label="Facebook" target="_blank" rel="noopener">f</a>
+      <a href="https://www.instagram.com/humming_cob/" aria-label="Instagram" target="_blank" rel="noopener">◇</a>
+      <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+    </div>
+    <ul class="footer-legal">
+      <li><a href="livre-dor.html">Livre d'or</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Humming Cob · Élevage Irish Cob · Gard, France</p>
+  </div>
+</footer>
+<!-- @end:footer -->
+
+<script src="js/main.js"></script>
+</body>
+</html>

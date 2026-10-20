@@ -1,0 +1,29 @@
+{
+  "id": "onestop",
+  "nom": "SD One Stop The Top",
+  "affixe": "SD",
+  "famille": "externe",
+  "statut": "vendu",
+  "vendeur": "SD",
+  "sexe": "femelle",
+  "pere": "flashharry",
+  "mere": "suzie",
+  "naissance": "2014",
+  "robe": "Bai Sabino",
+  "race": "Gypsy Cob",
+  "elevage": "SD",
+  "souche": "sd",
+  "photo": "img/suzie/ostt-03.jpg",
+  "photo_arbre": "img/tree/onestop.jpg",
+  "photos": [
+    "img/suzie/ostt-01.jpg",
+    "img/suzie/ostt-02.jpg",
+    "img/suzie/ostt-03.jpg",
+    "img/suzie/ostt-04.jpg",
+    "img/suzie/ostt-05.jpg",
+    "img/suzie/ostt-06.jpg",
+    "img/suzie/ostt-07.jpg"
+  ],
+  "resume": "Exportée aux USA, actuellement à la vente suitée. Elle est devenue une magnifique jument et une très bonne mère.",
+  "notes": "Hors élevage."
+}

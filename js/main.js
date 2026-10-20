@@ -2,8 +2,10 @@
    HUMMING COB — Scripts principaux
    ============================================ */
 
-// Navbar scroll effect : ombre au scroll + masquage auto (scroll bas = cache, scroll haut = revient)
+// Navbar scroll effect : ombre au scroll + masquage auto (scroll bas = cache, scroll haut = revient).
+// Pages avec <body class="nav-fixe"> (l'accueil, 16/10) : la nav reste toujours visible.
 const navbar = document.querySelector('.navbar');
+const navFixe = document.body.classList.contains('nav-fixe');
 if (navbar) {
   let lastScrollY = window.scrollY;
   let ticking = false;
@@ -17,7 +19,7 @@ if (navbar) {
       navbar.classList.toggle('scrolled', currentScrollY > 40);
 
       const mobileMenuOpen = document.querySelector('.nav-links')?.classList.contains('open');
-      if (!mobileMenuOpen) {
+      if (!mobileMenuOpen && !navFixe) {
         const scrollingDown = currentScrollY > lastScrollY;
         if (scrollingDown && currentScrollY > HIDE_THRESHOLD) {
           navbar.classList.add('nav-hidden');
@@ -32,36 +34,6 @@ if (navbar) {
   });
 }
 
-// "Aller plus loin" : au survol/focus d'une carte, l'image dédiée remplace
-// le dégradé par défaut dans le panneau de gauche (.explore-visual-img)
-const exploreVisualImg = document.getElementById('exploreVisualImg');
-if (exploreVisualImg) {
-  // Sélection PERSISTANTE : la carte survolée/focus devient la sélection et son
-  // image reste affichée (pas de retour au repos au mouseleave). La carte active
-  // porte .is-selected (éclairage rosé). Au chargement, "Notre élevage" est
-  // sélectionnée par défaut → une vraie photo accueille le visiteur.
-  const exploreCards = document.querySelectorAll('.explore-card[data-visual-bg]');
-  const selectCard = (card) => {
-    const bgUrl = card.getAttribute('data-visual-bg');
-    exploreVisualImg.style.backgroundImage = `url('${bgUrl}')`;
-    exploreVisualImg.classList.add('active');
-    exploreCards.forEach(c => c.classList.toggle('is-selected', c === card));
-  };
-  exploreCards.forEach(card => {
-    // --card-img : image en tête de carte sur mobile (voir style.css). On résout
-    // en URL absolue (via document.baseURI) car un url() relatif dans une variable
-    // CSS serait résolu depuis la feuille (css/) et non depuis la page → 404.
-    const cardImgUrl = new URL(card.getAttribute('data-visual-bg'), document.baseURI).href;
-    card.style.setProperty('--card-img', `url("${cardImgUrl}")`);
-    card.addEventListener('mouseenter', () => selectCard(card));
-    card.addEventListener('focus', () => selectCard(card));
-  });
-  const defaultCard =
-    document.querySelector('.explore-card[data-visual-bg="img/explore-elevage.jpg"]')
-    || exploreCards[0];
-  if (defaultCard) selectCard(defaultCard);
-}
-
 // Menu mobile
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
@@ -73,35 +45,10 @@ if (navToggle && navLinks) {
     spans[0].style.transform = isOpen ? 'rotate(45deg) translate(4.5px, 4.5px)' : '';
     spans[1].style.opacity  = isOpen ? '0' : '1';
     spans[2].style.transform = isOpen ? 'rotate(-45deg) translate(4.5px, -4.5px)' : '';
-    // Fermer les sous-menus au close
-    if (!isOpen) navLinks.querySelectorAll('.has-dropdown.open').forEach(el => el.classList.remove('open'));
   });
-  // Fermer au clic sur un lien
+  // Fermer le menu au clic sur un lien
   navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', e => {
-      const parentDropdown = a.parentElement.classList.contains('has-dropdown') ? a.parentElement : null;
-      // Lien "Nos chevaux" / "Outils" : pas de destination propre (href="#") —
-      // on empêche TOUJOURS le saut vers "#" (qui remonte sinon la page en
-      // haut), pas seulement quand le menu mobile est ouvert. Sur desktop le
-      // survol suffit à afficher le sous-menu, ce clic ne doit rien faire
-      // d'autre que (éventuellement) toggle l'état pour le mobile.
-      const isPureToggle = a.getAttribute('href') === '#';
-      if (isPureToggle) e.preventDefault();
-
-      if (parentDropdown && navLinks.classList.contains('open')) {
-        const caret = a.querySelector('.nav-caret');
-        if (isPureToggle || (caret && caret.contains(e.target))) {
-          const isOpen = parentDropdown.classList.toggle('open');
-          a.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        } else {
-          // Clic sur le texte d'un lien avec vraie destination → naviguer + fermer le menu
-          navLinks.classList.remove('open');
-          navLinks.querySelectorAll('.has-dropdown.open').forEach(el => el.classList.remove('open'));
-        }
-      } else {
-        navLinks.classList.remove('open');
-      }
-    });
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
   });
 }
 
@@ -111,8 +58,7 @@ if (navToggle && navLinks) {
   if (!links.length) return;
   const path = location.pathname.toLowerCase();
 
-  // Correspondance exacte (pages avec un vrai lien dans la nav, y compris
-  // dans les sous-menus déroulants "Nos chevaux" / "Outils").
+  // Correspondance exacte (pages avec un vrai lien dans la nav).
   links.forEach(a => {
     const href = a.getAttribute('href');
     if (!href || href === '#' || href.indexOf('#') !== -1) return;
@@ -128,17 +74,10 @@ if (navToggle && navLinks) {
       if (href === matchHref) a.classList.add('nav-active');
     });
   }
-  if (path.indexOf('/reproducteurs/') !== -1) activateCategory('reproducteurs.html');
-  if (path.indexOf('/poulains/') !== -1) activateCategory('poulains.html');
-
-  // Propage l'état actif d'un sous-lien vers son menu déroulant parent
-  // ("Nos chevaux" / "Outils"), quel que soit le nombre de dropdowns.
-  document.querySelectorAll('.nav-links .has-dropdown').forEach(dropdown => {
-    if (dropdown.querySelector('.nav-dropdown a.nav-active')) {
-      const parentLink = dropdown.querySelector(':scope > a');
-      if (parentLink) parentLink.classList.add('nav-active');
-    }
-  });
+  // Fiches, anciennes pages de catégorie et « mémoire » → « Nos chevaux »
+  if (/\/(reproducteurs|poulains)\/|\/(reproducteurs|poulains|memoire)\.html$/.test(path)) activateCategory('nos-chevaux.html');
+  // La frise « Notre histoire » fait partie de L'élevage
+  if (/\/frise\.html$/.test(path)) activateCategory('elevage.html');
 
 })();
 
@@ -306,72 +245,160 @@ if (revealEls.length) {
   }, {passive:true});
 })();
 
-// ── Modal descendants (foal-card) ──────────────────────────────────────────────
+// ── Cartes chevaux → modale (chevaux extérieurs) ──────────────────────────────
+// Les cartes sont générées par build.py (<!-- @cartes: … -->). Une carte de
+// cheval extérieur (.cc--modale), ou une case de pédigrée (.pg-node--modale), ouvre cette modale, nourrie par js/chevaux.js
+// (CHEVAUX) : carrousel des photos + toutes les données connues. Une donnée
+// absente n'est pas affichée (pas de « mère : inconnue »).
 (function () {
-  if (!document.querySelector('.foal-card')) return;
+  const cartes = document.querySelectorAll('.cc--modale, .pg-node--modale');
+  if (!cartes.length || typeof CHEVAUX === 'undefined') return;
 
-  // Injection HTML (évite de dupliquer dans chaque page)
+  const PAR_ID = Object.fromEntries(CHEVAUX.map(c => [c.id, c]));
+  const scriptMain = document.querySelector('script[src$="js/main.js"]');
+  const BASE = scriptMain ? scriptMain.getAttribute('src').replace(/js\/main\.js$/, '') : '';
+  const url  = p => BASE + p;
+  const esc  = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
+  const MOIS = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  const dateFr = d => { const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(d || ''); return m ? `${+m[3]} ${MOIS[+m[2] - 1]} ${m[1]}` : d; };
+  const annee = c => { const m = /\d{4}/.exec(c.naissance || ''); return m ? +m[0] : null; };
+
+  // Même règle que build.py (libelle_sexe)
+  function libelleSexe(c) {
+    const an = annee(c), age = an ? new Date().getFullYear() - an : null;
+    if (c.sexe === 'hongre') return 'Hongre';
+    if (c.sexe === 'femelle') return (age !== null && age < 3 && c.role !== 'jument') ? 'Pouliche' : 'Jument';
+    if (c.role === 'etalon') return 'Étalon';
+    return (age !== null && age < 1) ? 'Poulain' : 'Entier';
+  }
+  function badge(c) {
+    const e = c.sexe === 'femelle' ? 'e' : '', par = c.vendeur ? ' par ' + c.vendeur : '';
+    // Pastille en contour dans la modale (pleine seulement sur les photos).
+    const p = v => `cm-badge pastille pastille--${v} pastille--contour`;
+    if (c.statut === 'a-vendre') return `<span class="${p('vente')}">À vendre${esc(par)}</span>`;
+    if (c.statut === 'reserve')  return `<span class="${p('reserve')}">Réservé${e}${esc(par)}</span>`;
+    if (c.statut === 'vendu')    return `<span class="${p('vendu')}">Vendu${e}${esc(par)}</span>`;
+    if (c.statut === 'garde' && c.role === 'poulain') return `<span class="${p('reste')}">Reste à l'élevage</span>`;
+    if (c.role === 'memoire')    return '<span class="cm-badge pastille pastille--memoire">En mémoire</span>';
+    return '';
+  }
+  const lienCheval = id => {
+    const c = PAR_ID[id];
+    if (!c) return '';
+    const cl = 'cm-n cm-n--' + (c.sexe === 'femelle' ? 'femelle' : 'male');
+    return c.page ? `<a class="${cl}" href="${esc(url(c.page))}">${esc(c.nom)}</a>` : `<span class="${cl}">${esc(c.nom)}</span>`;
+  };
+
   document.body.insertAdjacentHTML('beforeend', `
-    <div id="foal-modal">
-      <div id="foal-panel">
-        <div id="foal-panel-img-wrap">
-          <button id="foal-modal-close" aria-label="Fermer">✕</button>
-          <button class="foal-nav" id="foal-prev">&#8249;</button>
-          <img id="foal-panel-img" src="" alt="">
-          <button class="foal-nav" id="foal-next">&#8250;</button>
-        </div>
-        <div id="foal-panel-info">
-          <h3 id="foal-panel-name"></h3>
-          <p id="foal-panel-desc"></p>
-          <p id="foal-panel-counter"></p>
-        </div>
+    <div class="cm" id="cm" hidden>
+      <div class="cm-fond" data-fermer></div>
+      <div class="cm-boite" role="dialog" aria-modal="true" aria-labelledby="cmNom">
+        <button type="button" class="cm-fermer" data-fermer aria-label="Fermer">✕</button>
+        <div class="cm-carrousel"></div>
+        <div class="cm-infos"></div>
       </div>
     </div>`);
+  const cm = document.getElementById('cm');
+  const boite = cm.querySelector('.cm-boite');
+  const carrousel = cm.querySelector('.cm-carrousel');
+  const infos = cm.querySelector('.cm-infos');
+  let photos = [], idx = 0, carteOrigine = null;
 
-  const modal  = document.getElementById('foal-modal');
-  const mImg   = document.getElementById('foal-panel-img');
-  const mName  = document.getElementById('foal-panel-name');
-  const mDesc  = document.getElementById('foal-panel-desc');
-  const mCount = document.getElementById('foal-panel-counter');
-  const mPrev  = document.getElementById('foal-prev');
-  const mNext  = document.getElementById('foal-next');
-  let mImgs = [], mIdx = 0;
+  function montrer(n) {
+    if (!photos.length) return;
+    idx = (n + photos.length) % photos.length;
+    carrousel.querySelectorAll('.cm-slide').forEach((s, i) => s.classList.toggle('actif', i === idx));
+    carrousel.querySelectorAll('.cm-points button').forEach((p, i) => p.classList.toggle('actif', i === idx));
+    const cpt = carrousel.querySelector('.cm-compteur');
+    if (cpt) cpt.textContent = `${idx + 1} / ${photos.length}`;
+  }
 
-  function openModal(name, desc, imgs, startIdx) {
-    mImgs = imgs; mIdx = (startIdx >= 0 && startIdx < imgs.length) ? startIdx : 0;
-    mName.textContent = name;
-    mDesc.textContent = desc;
-    update();
-    modal.classList.add('open');
+  function ouvrir(carte) {
+    const c = PAR_ID[carte.dataset.cheval];
+    if (!c) return;
+    const v = Object.assign({}, c, (c.cartes || {})[carte.dataset.contexte || ''] || {});
+    // Une photo = un chemin, ou {src, legende} quand elle a une légende.
+    photos = ((v.photos && v.photos.length) ? v.photos : [v.photo || v.photo_arbre].filter(Boolean))
+      .map(p => typeof p === 'string' ? { src: p } : p);
+    const femelle = c.sexe === 'femelle';
+    boite.classList.toggle('is-femelle', femelle);
+    boite.classList.toggle('is-memoire', c.role === 'memoire');
+
+    carrousel.innerHTML = photos.map((p, i) => `
+      <figure class="cm-slide" style="--bg:url('${esc(url(p.src)).replace(/'/g, '%27')}')">
+        <img src="${esc(url(p.src))}" alt="${esc(p.legende ? c.nom + ' — ' + p.legende : c.nom + ' — photo ' + (i + 1))}"${i ? ' loading="lazy"' : ''}>
+        ${p.legende ? `<figcaption>${esc(p.legende)}</figcaption>` : ''}
+      </figure>`).join('') + (photos.length > 1 ? `
+      <button type="button" class="cm-nav cm-prec" aria-label="Photo précédente">‹</button>
+      <button type="button" class="cm-nav cm-suiv" aria-label="Photo suivante">›</button>
+      <div class="cm-points">${photos.map((_, i) => `<button type="button" aria-label="Photo ${i + 1}"></button>`).join('')}</div>
+      <span class="cm-compteur"></span>` : '');
+
+    const nom = nomChevalHTML(c);   // js/chevaux.js (généré par build.py)
+    const lignes = [];
+    if (c.naissance) lignes.push([c.deces ? 'Vie' : (femelle ? 'Née' : 'Né'), esc(dateFr(c.naissance)) + (c.deces ? ' — ' + esc(c.deces) : '')]);
+    if (c.race)   lignes.push(['Race', esc(c.race)]);
+    if (c.robe)   lignes.push(['Robe', esc(c.robe)]);
+    if (c.taille) lignes.push(['Taille', esc(c.taille)]);
+    if (c.pere && PAR_ID[c.pere]) lignes.push(['Père', lienCheval(c.pere)]);
+    if (c.mere && PAR_ID[c.mere]) lignes.push(['Mère', lienCheval(c.mere)]);
+    if (c.elevage)      lignes.push(['Élevage', esc(c.elevage.replace(/^Élevage\s+/i, ''))]);
+    else if (c.origine) lignes.push(['Origine', esc(c.origine)]);
+    if (c.papiers) lignes.push(['Papiers', esc(c.papiers)]);
+    if (c.registre) lignes.push(['Registre', esc(c.registre)]);
+    if (c.distinction) lignes.push(['Distinction', esc(c.distinction)]);   // n'est plus sur la carte du pédigrée
+    const texte = v.description || v.resume;
+    const arbre = (typeof POSITIONS_ARBRE !== 'undefined' && POSITIONS_ARBRE[c.id])
+      ? `<a class="cm-lien" href="${esc(url('arbre-genealogique.html#' + c.id))}">Voir dans l'arbre généalogique
+           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>` : '';
+
+    infos.innerHTML = `
+      <p class="cm-genre">${libelleSexe(c)}${badge(c)}</p>
+      <h2 class="cm-nom" id="cmNom">${nom}</h2>
+      ${texte ? `<p class="cm-texte">${esc(texte)}</p>` : ''}
+      ${lignes.length ? `<dl>${lignes.map(([k, x]) => `<dt>${k}</dt><dd>${x}</dd>`).join('')}</dl>` : ''}
+      ${arbre ? `<div class="cm-actions">${arbre}</div>` : ''}`;
+    infos.scrollTop = 0;
+    montrer(0);
+    carteOrigine = carte;
+    cm.hidden = false;
     document.body.style.overflow = 'hidden';
+    cm.querySelector('.cm-fermer').focus();
   }
-  function closeModal() {
-    modal.classList.remove('open');
+
+  function fermer() {
+    cm.hidden = true;
     document.body.style.overflow = '';
+    if (carteOrigine) carteOrigine.focus();
   }
-  function update() {
-    mImg.src = mImgs[mIdx];
-    mCount.textContent = mImgs.length > 1 ? (mIdx + 1) + ' / ' + mImgs.length : '';
-    mPrev.classList.toggle('hidden', mImgs.length <= 1);
-    mNext.classList.toggle('hidden', mImgs.length <= 1);
-  }
-  function go(n) { mIdx = (n + mImgs.length) % mImgs.length; update(); }
 
-  document.getElementById('foal-modal-close').addEventListener('click', closeModal);
-  mPrev.addEventListener('click', e => { e.stopPropagation(); go(mIdx - 1); });
-  mNext.addEventListener('click', e => { e.stopPropagation(); go(mIdx + 1); });
-  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-  document.addEventListener('keydown', e => {
-    if (!modal.classList.contains('open')) return;
-    if (e.key === 'Escape')     closeModal();
-    if (e.key === 'ArrowLeft')  go(mIdx - 1);
-    if (e.key === 'ArrowRight') go(mIdx + 1);
+  cm.addEventListener('click', e => { if (e.target.closest('[data-fermer]')) fermer(); });
+  carrousel.addEventListener('click', e => {
+    if (e.target.closest('.cm-prec')) montrer(idx - 1);
+    else if (e.target.closest('.cm-suiv')) montrer(idx + 1);
+    else {
+      const p = e.target.closest('.cm-points button');
+      if (p) montrer([...p.parentNode.children].indexOf(p));
+    }
   });
+  document.addEventListener('keydown', e => {
+    if (cm.hidden) return;
+    if (e.key === 'Escape')     fermer();
+    if (e.key === 'ArrowLeft')  montrer(idx - 1);
+    if (e.key === 'ArrowRight') montrer(idx + 1);
+  });
+  let x0 = null;
+  carrousel.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  carrousel.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) montrer(idx + (dx < 0 ? 1 : -1));
+  }, { passive: true });
 
-  document.querySelectorAll('.foal-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const imgs = JSON.parse(card.dataset.images);
-      openModal(card.dataset.name, card.dataset.desc, imgs, 0);
+  cartes.forEach(carte => {
+    carte.addEventListener('click', () => ouvrir(carte));
+    carte.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ouvrir(carte); }
     });
   });
 })();
@@ -438,23 +465,48 @@ if (shareBtn) {
   document.addEventListener('keydown', e => { if (ov.style.display !== 'none' && e.key === 'Escape') close(); });
 })();
 
-// Formulaire contact — feedback visuel simple
-const form = document.querySelector('.contact-form form');
-if (form) {
-  form.addEventListener('submit', (e) => {
+// Formulaires envoyés par Web3Forms sans quitter la page : contact.html et
+// livre-dor.html (attribut data-envoi="main.js").
+// Contact : ?sujet=<valeur> présélectionne le sujet (liens des fiches : ?sujet=nashi,
+// ?sujet=saillie-archy) ; le sujet choisi est repris dans l'objet du mail.
+// Textes de réussite / d'échec : data-ok et data-erreur sur le <form> (sinon ceux du contact).
+document.querySelectorAll('form[data-envoi="main.js"]').forEach(form => {
+  const select = form.querySelector('#sujet');
+  const objet = form.querySelector('input[name="subject"]');
+  const majObjet = () => {
+    if (!select || !objet) return;
+    const opt = select.selectedOptions[0];
+    objet.value = 'Humming Cob — ' + (opt && opt.value ? opt.textContent.trim() : 'nouveau message');
+  };
+  if (select) {
+    const voulu = new URLSearchParams(location.search).get('sujet');
+    if (voulu && select.querySelector(`option[value="${CSS.escape(voulu)}"]`)) select.value = voulu;
+    select.addEventListener('change', majObjet);
+  }
+  majObjet();
+
+  const btn = form.querySelector('button[type=submit]');
+  const result = form.querySelector('.form-result');
+  const libelle = btn.textContent;
+  const texteOk = form.dataset.ok || 'Message envoyé ! Nous vous répondrons dans les meilleurs délais.';
+  const texteErreur = form.dataset.erreur || "Le message n'est pas parti. Réessayez, ou écrivez-nous à contact@hummingcob.fr.";
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const btn = form.querySelector('.form-submit');
-    btn.textContent = 'Message envoyé ✦';
-    btn.style.background = '#7A9E7E';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'Envoyer';
-      btn.style.background = '';
-      btn.disabled = false;
-      form.reset();
-    }, 3500);
+    btn.textContent = 'Envoi en cours…';
+    let ok = false;
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      ok = (await res.json()).success === true;
+    } catch (_) { ok = false; }
+    result.hidden = false;
+    result.classList.toggle('is-erreur', !ok);
+    result.textContent = ok ? texteOk : texteErreur;
+    if (ok) { form.reset(); majObjet(); }
+    btn.disabled = false;
+    btn.textContent = libelle;
   });
-}
+});
 
 /* ============================================
    NAV2 — navigation secondaire des fiches chevaux
@@ -667,19 +719,94 @@ if (nav2) {
 })();
 
 /* ============================================
-   PÉDIGRÉE REPLIABLE (fiches chevaux)
+   RANGÉES DE CARTES DÉFILANTES (nos-chevaux.html)
    ============================================
-   Un bouton par parent : chacun ne déplie que sa propre branche.
-   L'état replié vient du HTML, ce script ne fait que le basculer.
+   Défilement natif (doigt, trackpad, molette + Maj). Les flèches avancent
+   d'une carte ; elles se cachent si tout tient à l'écran et se grisent en bout
+   de rangée. Les classes peut-gauche / peut-droite posent un fondu sur le bord.
 */
-document.querySelectorAll('.ped-toggle').forEach(btn => {
-  const parent = btn.closest('.ped-parent');
-  if (!parent) return;
-  const label = btn.querySelector('.ped-toggle-label');
+document.querySelectorAll('.troupeau').forEach(section => {
+  const rangee = section.querySelector('.rangee');
+  const fleches = section.querySelector('.troupeau-fleches');
+  if (!rangee || !fleches) return;
+  const [prec, suiv] = fleches.querySelectorAll('button');
 
-  btn.addEventListener('click', () => {
-    const open = parent.classList.toggle('is-collapsed') === false;
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (label) label.textContent = open ? 'Masquer les ascendants' : 'Voir les ascendants';
-  });
+  const pas = () => {
+    const carte = rangee.querySelector('.cc');
+    const gap = parseFloat(getComputedStyle(rangee).columnGap) || 0;
+    return carte ? carte.getBoundingClientRect().width + gap : rangee.clientWidth * 0.8;
+  };
+  const maj = () => {
+    const max = rangee.scrollWidth - rangee.clientWidth;
+    const deborde = max > 2;
+    const g = deborde && rangee.scrollLeft > 2;
+    const d = deborde && rangee.scrollLeft < max - 2;
+    fleches.hidden = !deborde;
+    prec.disabled = !g;
+    suiv.disabled = !d;
+    rangee.classList.toggle('peut-gauche', g);
+    rangee.classList.toggle('peut-droite', d);
+  };
+
+  prec.addEventListener('click', () => rangee.scrollBy({ left: -pas() }));
+  suiv.addEventListener('click', () => rangee.scrollBy({ left: pas() }));
+  rangee.addEventListener('scroll', maj, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(maj).observe(rangee);
+  else window.addEventListener('resize', maj);
+  maj();
 });
+
+/* ============================================
+   CARROUSEL « QUI SOMMES-NOUS » (accueil)
+   ============================================
+   Déplacé depuis un script écrit dans index.html (16/10), sans changement.
+   Fondu entre les photos toutes les 5 s, flèches, glisser au doigt ;
+   pause au survol. Ne fait rien hors de l'accueil (#qsnSlides absent).
+*/
+(function(){
+  var wrap = document.getElementById('qsnSlides');
+  if (!wrap) return;
+  var slides  = Array.from(wrap.querySelectorAll('.qsn-slide'));
+  var counter = document.getElementById('qsnCounter');
+  if(!slides.length) return;
+
+  var cur = 0, timer;
+
+  slides.forEach(function(s){
+    s.style.position   = 'absolute';
+    s.style.inset      = '0';
+    s.style.display    = 'block';
+    s.style.opacity    = '0';
+    s.style.transition = 'opacity .6s ease';
+  });
+  wrap.style.position = 'relative';
+
+  function goTo(n){
+    slides[cur].style.opacity = '0';
+    slides[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].style.opacity = '1';
+    slides[cur].classList.add('active');
+    if(counter) counter.textContent = (cur+1)+' ⁄ '+slides.length;
+  }
+
+  function resetTimer(){ clearInterval(timer); timer = setInterval(function(){ goTo(cur+1); }, 5000); }
+
+  goTo(0);
+  resetTimer();
+
+  var btnPrev = wrap.querySelector('.qsn-prev');
+  var btnNext = wrap.querySelector('.qsn-next');
+  if(btnPrev) btnPrev.addEventListener('click', function(e){ e.preventDefault(); goTo(cur-1); resetTimer(); });
+  if(btnNext) btnNext.addEventListener('click', function(e){ e.preventDefault(); goTo(cur+1); resetTimer(); });
+
+  wrap.addEventListener('mouseenter', function(){ clearInterval(timer); });
+  wrap.addEventListener('mouseleave', resetTimer);
+
+  var tx = 0;
+  wrap.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+  wrap.addEventListener('touchend',   function(e){
+    var dx = e.changedTouches[0].clientX - tx;
+    if(Math.abs(dx) > 40){ goTo(cur + (dx < 0 ? 1 : -1)); resetTimer(); }
+  }, {passive:true});
+})();

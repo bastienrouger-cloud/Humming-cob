@@ -1,0 +1,39 @@
+{
+  "id": "avantgarde",
+  "nom": "San Cler Avantgarde",
+  "nom_usuel": "Avantgarde",
+  "affixe": "San Cler",
+  "famille": "humming",
+  "role": "etalon",
+  "sexe": "male",
+  "pere": "talkofthetown",
+  "mere": "uptowngirl",
+  "naissance": "2022-05-24",
+  "robe": "Bai Double Pearl",
+  "robe_courte": "Bai Pearl",
+  "race": "Irish Cob",
+  "taille": "1m45",
+  "genetique": {
+    "PSSM1": "N/N",
+    "FIS": "N/N",
+    "E": "E/e",
+    "A": "A/a",
+    "prl": "prl/prl"
+  },
+  "origine": "Pays de Galles · San Cler Stud",
+  "distinction": "Vice-Champion de France 2025",
+  "souche": "sancler",
+  "page": "reproducteurs/avantgarde.html",
+  "photo": "img/avantgarde/av-portrait.jpg",
+  "cadrage": "40% top",
+  "photo_arbre": "img/tree/avantgarde.jpg",
+  "resume": "Né au Pays de Galles, il arrive en France en 2023. Vice-Champion de France 2025 des étalons à 3 ans. Bai double pearl, ses premiers poulains naissent en 2026.",
+  "notes": "Gypsy Vanner Bay Pearl, né en GBR.",
+  "source": "site hummingcob.fr",
+  "entete": {
+    "titres": [
+      "Vice-Champion de France 2025"
+    ],
+    "ligne": "Étalon · Ouvert aux saillies"
+  }
+}

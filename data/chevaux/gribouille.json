@@ -1,0 +1,19 @@
+{
+  "id": "gribouille",
+  "nom": "Gribouille",
+  "famille": "externe",
+  "sexe": "hongre",
+  "pere": "archy",
+  "naissance": "2016-2018",
+  "robe": "Noir",
+  "race": "OC",
+  "souche": "autre",
+  "photo": "img/archy/gribouille-01.jpg",
+  "photo_arbre": "img/tree/gribouille.jpg",
+  "photos": [
+    "img/archy/gribouille-01.jpg",
+    "img/archy/gribouille-02.jpg"
+  ],
+  "resume": "Né d'un croisement avec une maman Morgan. Malheureusement décédé en 2018.",
+  "notes": "Hors élevage."
+}

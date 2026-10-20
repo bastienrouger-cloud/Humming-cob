@@ -5,24 +5,54 @@
 /* --- Google Fonts ---
    DOIT précéder toute règle CSS : un @import placé après une règle (:root, body…)
    est invalide et silencieusement ignoré → tout le site retombait sur Times. */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap');
 
 /* --- Variables & Reset --- */
 :root {
   --bg-cream:    #FEFBF6;
   --bg-light:    #FFF8F2;
   --bg-card:     #FFFCF8;
-  --rose-pale:   #F5DDE4;
-  --rose:        #D4899A;
-  --rose-deep:   #B06070;
-  --rose-dark:   #8B4A5C;
-  --bleu:        #5B7FA6;
-  --bleu-deep:   #3F6289;
+  /* Marque : rose sakura de l'élevage. Constantes, jamais redéfinies. */
+  --marque-pale:   #F5DDE4;
+  --marque:        #D4899A;
+  --marque-deep:   #AB5667;   /* foncé de #B06070 le 15/10 : texte ≥ 4,5:1 sur crème */
+  --marque-dark:   #8B4A5C;
+  /* Accent : couleur du thème de la page (marque sur les pages neutres,
+     pétrole / framboise sur les fiches). Redéfini par .theme-male / .theme-femelle
+     et par les blocs aux couleurs d'un sexe (arbre, calculateur). Renommé
+     depuis --rose… le 16/10. */
+  --accent-pale:   var(--marque-pale);
+  --accent:        var(--marque);
+  --accent-deep:   var(--marque-deep);
+  --accent-dark:   var(--marque-dark);
+  --bleu:        var(--male);        /* alias historique : le bleu = la couleur des mâles */
+  --bleu-deep:   var(--male-deep);
   --noir:        #1C1C1C;
   --gris:        #6A6A6A;
   --gris-clair:  #C8C0BC;
   --or-pale:     #EFE0CC;
   --border:      rgba(176, 96, 112, 0.15);
+
+  /* Code couleur des chevaux : FIXE, ne suit pas le thème de la page
+     (une jument reste rose sur la fiche d'un étalon). */
+  /* Palette du 15/10 : framboise (femelles) et pétrole (mâles), distinctes
+     du rose sakura de la marque. */
+  --femelle:      #D2557A;
+  --femelle-deep: #A3304F;
+  --femelle-pale: #F8DCE3;
+  --male:         #4E8F94;
+  --male-deep:    #2A6A70;
+  --male-pale:    #D8EBEA;
+
+  /* Pastilles (15/10) : statuts ni pétrole, ni framboise, ni sakura ; un seul
+     or pour les distinctions ; neutre pour l'information. */
+  --st-vente:     #567548;   /* sauge : à vendre */
+  --st-reserve:   #9A6B1F;   /* ambre : réservé(e) */
+  --st-reste:     #8E5A3C;   /* châtaigne : reste à l'élevage */
+  --st-vendu:     #756C66;   /* taupe : vendu(e) */
+  --st-memoire:   #6E6560;   /* pierre : en mémoire (toujours en contour) */
+  --or:           #8A6A22;   /* distinctions, ancêtre répété */
+  --info:         #5E5652;   /* information neutre */
 
   --font-serif:  'Cormorant Garamond', 'Georgia', serif;
   --font-sans:   'Jost', 'Segoe UI', sans-serif;
@@ -70,7 +100,6 @@ body {
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 
-
 /* ============================================
    NAVIGATION
    ============================================ */
@@ -85,10 +114,17 @@ a { color: inherit; text-decoration: none; }
      la hauteur dépend du chargement du logo et le calage devient aléatoire. */
   height: 80px;
   padding: 0 3rem;
-  background: rgba(254, 251, 246, 0.85);
+  /* DA nav (16/10, planche « Nav Humming Cob ») : fond « plan de travail » repris du
+     cadre de l'arbre (clair au centre, rosé vers les bords) + pétales posés façon
+     frise (gouttes immobiles en deux couches, dessinées une fois en SVG, rien
+     n'est animé). Les pétales évitent la zone du logo (x < 430 dans le motif de
+     1 600 px) ; sur mobile le motif est calé à droite pour rester visible. */
+  background:
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='80' viewBox='0 0 1600 80'><path d='M0 -6.8C9.6 -2.7 9.6 4.8 0 6.8C-9.6 4.8 -9.6 -2.7 0 -6.8Z' fill='%23EF9FB4' opacity='0.12' transform='translate(775 47) rotate(231)'/><path d='M0 -6.6C10.6 -2.6 10.6 4.6 0 6.6C-10.6 4.6 -10.6 -2.6 0 -6.6Z' fill='%23E687A3' opacity='0.14' transform='translate(462 66) rotate(171)'/><path d='M0 -8.1C12.4 -3.3 12.4 5.7 0 8.1C-12.4 5.7 -12.4 -3.3 0 -8.1Z' fill='%23F3BFCE' opacity='0.19' transform='translate(704 50) rotate(97)'/><path d='M0 -6.9C11.2 -2.8 11.2 4.9 0 6.9C-11.2 4.9 -11.2 -2.8 0 -6.9Z' fill='%23E9ACC0' opacity='0.18' transform='translate(1106 54) rotate(261)'/><path d='M0 -5.9C11.1 -2.3 11.1 4.1 0 5.9C-11.1 4.1 -11.1 -2.3 0 -5.9Z' fill='%23D88AA0' opacity='0.17' transform='translate(1478 22) rotate(99)'/><path d='M0 -5.5C10.3 -2.2 10.3 3.9 0 5.5C-10.3 3.9 -10.3 -2.2 0 -5.5Z' fill='%23EF9FB4' opacity='0.13' transform='translate(510 41) rotate(8)'/><path d='M0 -6.3C11.5 -2.5 11.5 4.4 0 6.3C-11.5 4.4 -11.5 -2.5 0 -6.3Z' fill='%23E687A3' opacity='0.18' transform='translate(1263 46) rotate(240)'/><path d='M0 -3.7C5.2 -1.5 5.2 2.6 0 3.7C-5.2 2.6 -5.2 -1.5 0 -3.7Z' fill='%23EF9FB4' opacity='0.33' transform='translate(1465 39) rotate(305)'/><path d='M0 -4.2C6.1 -1.7 6.1 3.0 0 4.2C-6.1 3.0 -6.1 -1.7 0 -4.2Z' fill='%23E687A3' opacity='0.48' transform='translate(1190 37) rotate(294)'/><path d='M0 -2.3C4.5 -0.9 4.5 1.6 0 2.3C-4.5 1.6 -4.5 -0.9 0 -2.3Z' fill='%23F3BFCE' opacity='0.34' transform='translate(647 20) rotate(348)'/><path d='M0 -2.2C4.1 -0.9 4.1 1.5 0 2.2C-4.1 1.5 -4.1 -0.9 0 -2.2Z' fill='%23E9ACC0' opacity='0.47' transform='translate(1218 10) rotate(318)'/><path d='M0 -2.9C5.2 -1.1 5.2 2.0 0 2.9C-5.2 2.0 -5.2 -1.1 0 -2.9Z' fill='%23D88AA0' opacity='0.39' transform='translate(843 21) rotate(39)'/><path d='M0 -2.6C4.2 -1.0 4.2 1.8 0 2.6C-4.2 1.8 -4.2 -1.0 0 -2.6Z' fill='%23EF9FB4' opacity='0.43' transform='translate(539 61) rotate(228)'/><path d='M0 -3.4C5.5 -1.4 5.5 2.4 0 3.4C-5.5 2.4 -5.5 -1.4 0 -3.4Z' fill='%23E687A3' opacity='0.49' transform='translate(1125 60) rotate(94)'/><path d='M0 -3.5C4.9 -1.4 4.9 2.4 0 3.5C-4.9 2.4 -4.9 -1.4 0 -3.5Z' fill='%23F3BFCE' opacity='0.33' transform='translate(886 42) rotate(65)'/><path d='M0 -3.1C4.9 -1.2 4.9 2.1 0 3.1C-4.9 2.1 -4.9 -1.2 0 -3.1Z' fill='%23E9ACC0' opacity='0.40' transform='translate(1082 31) rotate(129)'/><path d='M0 -2.1C3.6 -0.8 3.6 1.5 0 2.1C-3.6 1.5 -3.6 -0.8 0 -2.1Z' fill='%23D88AA0' opacity='0.32' transform='translate(1286 47) rotate(12)'/><path d='M0 -2.8C5.3 -1.1 5.3 2.0 0 2.8C-5.3 2.0 -5.3 -1.1 0 -2.8Z' fill='%23EF9FB4' opacity='0.38' transform='translate(1506 69) rotate(147)'/><path d='M0 -2.3C4.4 -0.9 4.4 1.6 0 2.3C-4.4 1.6 -4.4 -0.9 0 -2.3Z' fill='%23E687A3' opacity='0.35' transform='translate(952 37) rotate(297)'/><path d='M0 -3.0C4.5 -1.2 4.5 2.1 0 3.0C-4.5 2.1 -4.5 -1.2 0 -3.0Z' fill='%23F3BFCE' opacity='0.32' transform='translate(1253 10) rotate(331)'/><path d='M0 -3.2C6.0 -1.3 6.0 2.3 0 3.2C-6.0 2.3 -6.0 -1.3 0 -3.2Z' fill='%23E9ACC0' opacity='0.41' transform='translate(1188 38) rotate(267)'/><path d='M0 -3.5C6.0 -1.4 6.0 2.5 0 3.5C-6.0 2.5 -6.0 -1.4 0 -3.5Z' fill='%23D88AA0' opacity='0.30' transform='translate(1578 35) rotate(155)'/><path d='M0 -2.9C5.5 -1.2 5.5 2.0 0 2.9C-5.5 2.0 -5.5 -1.2 0 -2.9Z' fill='%23EF9FB4' opacity='0.43' transform='translate(1115 36) rotate(1)'/><path d='M0 -2.6C4.4 -1.0 4.4 1.8 0 2.6C-4.4 1.8 -4.4 -1.0 0 -2.6Z' fill='%23E687A3' opacity='0.48' transform='translate(1151 43) rotate(99)'/><path d='M0 -2.6C5.1 -1.1 5.1 1.8 0 2.6C-5.1 1.8 -5.1 -1.1 0 -2.6Z' fill='%23F3BFCE' opacity='0.44' transform='translate(1412 32) rotate(183)'/><path d='M0 -2.3C3.8 -0.9 3.8 1.6 0 2.3C-3.8 1.6 -3.8 -0.9 0 -2.3Z' fill='%23E9ACC0' opacity='0.30' transform='translate(554 9) rotate(58)'/><path d='M0 -1.9C3.7 -0.8 3.7 1.4 0 1.9C-3.7 1.4 -3.7 -0.8 0 -1.9Z' fill='%23D88AA0' opacity='0.28' transform='translate(919 60) rotate(254)'/></svg>") left top / 1600px 80px repeat-x,
+    radial-gradient(ellipse 70% 160% at 50% 20%, rgba(255,254,251,.94) 0%, rgba(252,246,241,.9) 60%, rgba(247,232,233,.92) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(176, 96, 112, 0.18);
   transition: box-shadow var(--transition), transform 0.35s ease;
 }
 .navbar.scrolled { box-shadow: 0 2px 20px rgba(176, 96, 112, 0.12); }
@@ -119,7 +155,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 300;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
 }
 
 .nav-links {
@@ -142,13 +178,29 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
   bottom: -3px; left: 0;
   width: 0; height: 1px;
-  background: var(--rose);
+  background: var(--accent);
   transition: width var(--transition);
 }
 .nav-links a:hover,
-.nav-links a.nav-active { color: var(--rose-deep); }
+.nav-links a.nav-active { color: var(--accent-deep); }
 .nav-links a:hover::after,
 .nav-links a.nav-active::after { width: 100%; }
+
+/* Nav à plat : « Contact » en pastille sur ordinateur */
+@media (min-width: 901px) {
+  .nav-links a.nav-contact {
+    padding: .55rem 1.2rem; border-radius: 999px; color: var(--accent-deep);
+    border: 1px solid rgba(176, 96, 112, 0.35);
+    background: linear-gradient(135deg, rgba(212, 137, 154, 0.14), rgba(212, 137, 154, 0));
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+  }
+  .nav-links a.nav-contact::after { display: none; }
+  .nav-links a.nav-contact:hover,
+  .nav-links a.nav-contact.nav-active {
+    border-color: var(--accent-deep);
+    background: linear-gradient(135deg, rgba(212, 137, 154, 0.28), rgba(212, 137, 154, 0.06));
+  }
+}
 
 .nav-toggle {
   display: none;
@@ -162,78 +214,6 @@ a { color: inherit; text-decoration: none; }
   width: 24px; height: 1.5px;
   background: var(--noir);
   transition: var(--transition);
-}
-
-/* --- Dropdown nav --- */
-.has-dropdown { position: relative; }
-.has-dropdown > a { display: inline-flex; align-items: center; }
-
-.nav-caret {
-  display: inline-flex;
-  align-items: center;
-  margin-left: .3rem;
-  margin-bottom: 3px;
-  opacity: .55;
-  transition: transform var(--transition);
-}
-.has-dropdown:hover .nav-caret { transform: rotate(180deg); }
-
-.nav-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(6px);
-  padding-top: 14px;
-  background: rgba(254,251,246,0.97);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding-bottom: .45rem;
-  list-style: none;
-  min-width: 175px;
-  box-shadow: var(--shadow);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .22s ease, transform .22s ease;
-  z-index: 200;
-}
-.nav-dropdown::before {
-  content: '';
-  position: absolute;
-  top: 9px; left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 8px; height: 8px;
-  background: rgba(254,251,246,0.97);
-  border-top: 1px solid var(--border);
-  border-left: 1px solid var(--border);
-}
-.has-dropdown:hover .nav-dropdown {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
-}
-.nav-dropdown li { display: block; }
-.nav-dropdown a {
-  display: block;
-  padding: .52rem 1.3rem;
-  font-size: .72rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--gris);
-  font-weight: 300;
-  white-space: nowrap;
-  transition: color var(--transition), background var(--transition);
-}
-.nav-dropdown a::after { display: none !important; }
-.nav-dropdown a:hover { color: var(--rose-deep); background: rgba(176, 96, 112, 0.10); }
-.nav-dropdown a.nav-etalon:hover { color: var(--bleu-deep); background: rgba(63, 98, 137, 0.08); }
-.dropdown-sold {
-  font-size: .62rem;
-  color: rgba(60,160,160,0.75);
-  margin-left: .4rem;
-  letter-spacing: .05em;
-  vertical-align: middle;
 }
 
 /* ============================================
@@ -270,39 +250,6 @@ a { color: inherit; text-decoration: none; }
   z-index: 3;
 }
 
-/* Arbres cerisiers décoratifs */
-.hero-branch {
-  position: absolute;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.92;
-  transition: left 0.3s ease;
-}
-/* Par défaut : grands écrans > 16:9 */
-.hero-branch-left {
-  left: -60px;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  width: auto;
-}
-/* ~19:9 → début du décalage vers la gauche */
-@media (max-aspect-ratio: 19/9) {
-  .hero-branch-left { left: -150px; }
-}
-/* 16:9 → bien décalé */
-@media (max-aspect-ratio: 16/9) {
-  .hero-branch-left { left: -280px; }
-}
-/* 4:3 */
-@media (max-aspect-ratio: 4/3) {
-  .hero-branch-left { left: -420px; }
-}
-/* Portrait / mobile */
-@media (max-aspect-ratio: 1/1) {
-  .hero-branch-left { left: -650px; }
-}
-
 .hero-content {
   position: relative;
   z-index: 10;
@@ -332,7 +279,7 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-title em {
   font-style: italic;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
 }
 
 .hero-subtitle {
@@ -341,7 +288,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 300;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--accent);
 }
 
 .hero-tagline {
@@ -375,39 +322,71 @@ a { color: inherit; text-decoration: none; }
   transition: var(--transition);
   cursor: pointer;
 }
+/* DA étape 2 (16/10, planche « Boutons Humming Cob ») : principal B + secondaire C.
+   Les couleurs suivent le thème de la page (--accent-* = marque, pétrole ou framboise). */
+
+/* Principal « dégradé » : du plus foncé vers l'accent, le dégradé glisse au survol.
+   Texte blanc sur la partie --accent-deep / --accent-dark (≥ 4,5:1). */
 .btn-primary {
-  background: var(--rose-deep);
   color: #fff;
-  border: 1.5px solid var(--rose-deep);
+  border: 1.5px solid transparent;
+  background-color: var(--accent-deep);   /* repli sans color-mix */
+  background-image: linear-gradient(115deg, var(--accent-dark) 0%, var(--accent-deep) 45%, color-mix(in srgb, var(--accent-deep) 85%, var(--accent)) 100%);
+  background-size: 180% 100%;
+  background-position: 0 0;
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent-deep) 22%, transparent);
+  transition: background-position .5s, box-shadow var(--transition), transform var(--transition);
 }
 .btn-primary:hover {
-  background: var(--rose-dark);
-  border-color: var(--rose-dark);
+  background-position: 100% 0;
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(176,96,112,0.28);
-}
-.btn-outline {
-  background: transparent;
-  color: var(--rose-deep);
-  border: 1.5px solid var(--rose-deep);
-}
-.btn-outline:hover {
-  background: var(--rose-pale);
-  transform: translateY(-2px);
+  box-shadow: 0 8px 26px color-mix(in srgb, var(--accent-deep) 32%, transparent);
 }
 
-/* Variante sur fond sombre (sections "Aussi disponibles", galeries).
-   Le :hover par défaut passe en --rose-pale : sur fond noir le libellé est
-   blanc, et blanc sur rose pâle devient illisible. Ici on remplit en
-   --rose-deep, qui garde le blanc lisible. */
-.btn-on-dark {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.35);
+/* Secondaire « fondu » : voile de l'accent qui s'efface vers la droite, sans
+   liseré, flèche ajoutée en CSS (sauf si le bouton porte déjà une icône svg). */
+.btn-outline {
+  color: var(--accent-deep);
+  border: 1.5px solid transparent;
+  padding-left: 1.7rem;
+  padding-right: 3.6rem;
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--accent) 26%, transparent) 0%, color-mix(in srgb, var(--accent) 0%, transparent) 100%);
+  background-origin: border-box;     /* sinon le dégradé se répète sous la bordure */
+  background-repeat: no-repeat;      /* transparente : trait vertical au bord droit */
+  transition: background-color var(--transition), transform var(--transition);
 }
-.btn-on-dark:hover {
-  background: var(--rose-deep);
-  border-color: var(--rose-deep);
-  color: #fff;
+.btn-outline:not(:has(svg))::after {
+  content: '→';
+  display: inline-block;
+  margin-left: .6em;
+  transition: transform var(--transition);
+}
+.btn-outline svg { transition: transform var(--transition); }
+.btn-outline:hover {
+  background-color: transparent;
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--accent) 40%, transparent) 0%, color-mix(in srgb, var(--accent) 0%, transparent) 100%);
+}
+.btn-outline:hover::after,
+.btn-outline:hover svg { transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary, .btn-outline, .btn-outline::after, .btn-outline svg { transition: none; }
+}
+/* Téléphone (16/10) : tous les boutons d'appel à la même largeur, texte centré
+   (le secondaire fondu perd sa marge droite asymétrique). Les petits boutons
+   des outils (arbre, fenêtres du calculateur, nav2) gardent leur taille. */
+@media (max-width: 600px) {
+  .btn:not(.nav2-cta) {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    width: 100%; max-width: 21rem; margin-left: auto; margin-right: auto;
+    padding-left: 1.2rem; padding-right: 1.2rem; letter-spacing: .08em;   /* « Demander les conditions de saillie » tient sur une ligne */
+  }
+  :is(.fx-actions, .modal-actions, .cp-pied, .ap-corps) .btn { width: auto; max-width: none; margin-left: 0; margin-right: 0; }
+}
+/* petits téléphones (≤ 380px) : un cran plus serré pour garder les libellés longs sur une ligne */
+@media (max-width: 380px) {
+  .btn:not(.nav2-cta) { font-size: .7rem; letter-spacing: .05em; padding-left: .9rem; padding-right: .9rem; }
 }
 
 .scroll-hint {
@@ -430,7 +409,7 @@ a { color: inherit; text-decoration: none; }
   display: block;
   width: 1px;
   height: 40px;
-  background: linear-gradient(to bottom, var(--rose), transparent);
+  background: linear-gradient(to bottom, var(--accent), transparent);
   animation: scrollLine 2s ease-in-out infinite;
 }
 @keyframes scrollLine {
@@ -456,7 +435,7 @@ section { padding: 4.5rem 1.5rem; }
   font-weight: 400;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--accent);
   margin-bottom: 0.8rem;
 }
 
@@ -467,11 +446,11 @@ section { padding: 4.5rem 1.5rem; }
   line-height: 1.15;
   color: var(--noir);
 }
-.section-title em { font-style: italic; color: var(--rose-deep); }
+.section-title em { font-style: italic; color: var(--accent-deep); }
 
 .section-divider {
   width: 60px; height: 1px;
-  background: linear-gradient(to right, var(--rose), transparent);
+  background: linear-gradient(to right, var(--accent), transparent);
   margin: 1.5rem 0;
 }
 
@@ -508,39 +487,9 @@ section { padding: 4.5rem 1.5rem; }
   position: absolute;
   top: -16px; left: -16px;
   right: 16px; bottom: 16px;
-  border: 1px solid var(--rose-pale);
+  border: 1px solid var(--accent-pale);
   border-radius: var(--radius);
   z-index: 0;
-}
-.qsn-image {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  aspect-ratio: 4/5;
-  object-fit: cover;
-  border-radius: var(--radius);
-  background: var(--rose-pale);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 320px;
-}
-.qsn-image-placeholder {
-  width: 100%;
-  aspect-ratio: 4/5;
-  background: linear-gradient(135deg, var(--rose-pale), var(--or-pale));
-  border-radius: var(--radius);
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.5rem;
-  color: var(--rose);
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
 }
 
 .values-list {
@@ -577,7 +526,7 @@ section { padding: 4.5rem 1.5rem; }
 }
 .values-list li::before {
   content: '✦';
-  color: var(--rose);
+  color: var(--accent);
   font-size: 0.6rem;
   margin-top: 0.4rem;
   flex-shrink: 0;
@@ -626,7 +575,7 @@ section { padding: 4.5rem 1.5rem; }
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 3px;
-  background: linear-gradient(to right, var(--rose-pale), var(--rose));
+  background: linear-gradient(to right, var(--accent-pale), var(--accent));
   transform: scaleX(0);
   transform-origin: left;
   transition: var(--transition);
@@ -666,136 +615,19 @@ section { padding: 4.5rem 1.5rem; }
   gap: 2rem;
   margin-top: 2rem;
 }
-.horses-grid--2 {
-  grid-template-columns: repeat(2, minmax(280px, 400px));
-  justify-content: center;
-}
+
 .horses-grid--3 {
   grid-template-columns: repeat(3, minmax(280px, 1fr));
 }
-.reproducteurs-category {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--rose-deep);
-  margin-top: 3rem;
-  margin-bottom: 0;
-  letter-spacing: 0.04em;
-}
+
 @media (max-width: 900px) {
-  .horses-grid--2,
+  
   .horses-grid--3 { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px) {
-  .horses-grid--2,
+  
   .horses-grid--3 { grid-template-columns: 1fr; }
 }
-
-.horse-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: var(--transition);
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-.horse-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-hover);
-}
-
-.horse-card-img {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  background: linear-gradient(160deg, var(--rose-pale), var(--or-pale));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.4rem;
-  color: var(--rose-deep);
-  font-size: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-.horse-card-img-placeholder {
-  width: 100%;
-  aspect-ratio: 3/4;
-  background: linear-gradient(160deg, var(--rose-pale) 0%, var(--or-pale) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.6rem;
-  transition: var(--transition);
-}
-.horse-card-img-placeholder svg {
-  opacity: 0.35;
-}
-.horse-card-img-placeholder span {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--rose-deep);
-  opacity: 0.6;
-}
-.horse-card:hover .horse-card-img-placeholder {
-  background: linear-gradient(160deg, #F0D0D9 0%, #EDD8C0 100%);
-}
-
-.horse-card-body {
-  padding: 1.4rem 1.6rem 1.8rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.horse-card-body p:first-of-type {
-  flex-grow: 1;
-}
-.horse-card-tag {
-  display: inline-block;
-  font-size: 0.62rem;
-  font-weight: 400;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 0.4rem;
-}
-.horse-card-name {
-  font-family: var(--font-serif);
-  font-size: 1.7rem;
-  font-weight: 400;
-  color: var(--noir);
-  line-height: 1.1;
-  margin-bottom: 0.5rem;
-}
-.horse-card-desc {
-  font-size: 0.82rem;
-  color: var(--gris);
-  line-height: 1.7;
-  margin-bottom: 1.2rem;
-}
-.horse-card-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--rose-deep);
-  transition: gap var(--transition);
-}
-.horse-card-link:hover { gap: 0.9rem; }
-.horse-card-link svg {
-  transition: transform var(--transition);
-}
-.horse-card-link:hover svg { transform: translateX(4px); }
 
 /* Lien avec flèche animée (texte + flèche s'écartent au hover) */
 .link-arrow {
@@ -807,48 +639,6 @@ section { padding: 4.5rem 1.5rem; }
 .link-arrow:hover { gap: 0.9rem; }
 .link-arrow svg { transition: transform var(--transition); }
 .link-arrow:hover svg { transform: translateX(4px); }
-
-/* Badge disponible */
-.badge-available {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  background: var(--rose-deep);
-  color: #fff;
-  font-size: 0.6rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
-  border-radius: 50px;
-}
-.badge-reproducteur {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  background: rgba(254,251,246,0.9);
-  color: var(--rose-deep);
-  font-size: 0.6rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
-  border-radius: 50px;
-  border: 1px solid var(--rose-pale);
-}
-
-/* Stars rating */
-.horse-stars {
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
-  margin-bottom: 0.8rem;
-}
-.horse-stars .star { color: var(--rose); font-size: 0.8rem; }
-.horse-stars .star.empty { color: var(--gris-clair); }
-.horse-stars-label {
-  font-size: 0.7rem;
-  color: var(--gris);
-  margin-left: 0.3rem;
-}
 
 /* ============================================
    CONTACT
@@ -877,12 +667,12 @@ section { padding: 4.5rem 1.5rem; }
 }
 .contact-item-icon {
   width: 40px; height: 40px;
-  background: var(--rose-pale);
+  background: var(--accent-pale);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   font-size: 1rem;
   flex-shrink: 0;
 }
@@ -897,7 +687,7 @@ section { padding: 4.5rem 1.5rem; }
   font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   margin-bottom: 0.2rem;
 }
 
@@ -921,7 +711,7 @@ section { padding: 4.5rem 1.5rem; }
   font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   margin-bottom: 0.5rem;
 }
 .form-group input,
@@ -942,7 +732,7 @@ section { padding: 4.5rem 1.5rem; }
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: var(--rose);
+  border-color: var(--accent);
   background: #fff;
 }
 .form-group select {
@@ -952,7 +742,7 @@ section { padding: 4.5rem 1.5rem; }
 .form-submit {
   width: 100%;
   padding: 0.9rem;
-  background: var(--rose-deep);
+  background: var(--accent-deep);
   color: #fff;
   border: none;
   border-radius: 50px;
@@ -965,7 +755,7 @@ section { padding: 4.5rem 1.5rem; }
   transition: var(--transition);
 }
 .form-submit:hover {
-  background: var(--rose-dark);
+  background: var(--accent-dark);
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(176,96,112,0.28);
 }
@@ -997,24 +787,10 @@ footer {
   letter-spacing: 0.06em;
 }
 .footer-logo span {
-  color: var(--rose);
+  color: var(--accent);
   font-style: italic;
 }
-.footer-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.footer-links a {
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
-  transition: color var(--transition);
-}
-.footer-links a:hover { color: var(--rose); }
+
 .footer-copy {
   font-size: 0.72rem;
   color: rgba(255,255,255,0.25);
@@ -1041,8 +817,8 @@ footer {
 }
 .footer-social a:hover,
 .footer-social button:hover {
-  border-color: var(--rose);
-  color: var(--rose);
+  border-color: var(--accent);
+  color: var(--accent);
   background: rgba(212,137,154,0.1);
 }
 
@@ -1068,6 +844,7 @@ footer {
   gap: .5rem 1.1rem;
 }
 .horse-hero-top .horse-hero-race { margin: 0; }
+.horse-hero-top .pastille { font-size: .62rem; }   /* en-tête généré par build.py (@entete) */
 
 .horse-hero {
   min-height: 70vh;
@@ -1092,13 +869,6 @@ footer {
   position: absolute;
   inset: 0;
 }
-.horse-hero-img-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  color: var(--rose-deep);
-}
 
 .horse-hero-info {
   background: var(--bg-light);
@@ -1112,7 +882,7 @@ footer {
   font-weight: 400;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--accent);
   margin-bottom: 0.6rem;
 }
 .horse-hero-name {
@@ -1123,7 +893,14 @@ footer {
   color: var(--noir);
   margin-bottom: 1.1rem;
 }
-.horse-hero-name em { font-style: italic; color: var(--rose-deep); }
+.horse-hero-name em { font-style: italic; color: var(--accent-deep); }
+/* Nom complet (affixe + nom) toujours sur une ligne (15/10). Sur mobile, la
+   taille suit la largeur de l'écran : le plus long (« San Cler Avantgarde »,
+   ≈ 7,8 fois la taille du texte) tient encore sur un téléphone de 360 px. */
+.horse-hero-name .nc { white-space: nowrap; }
+@media (max-width: 700px) {
+  .horse-hero-name { font-size: clamp(2.2rem, 10.4vw, 3rem); }
+}
 
 .horse-specs {
   display: grid;
@@ -1142,7 +919,7 @@ footer {
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--rose);
+  color: var(--accent);
   margin-bottom: 0.3rem;
 }
 .horse-spec-value {
@@ -1180,14 +957,14 @@ footer {
   padding: 1rem 1.2rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--rose-deep);
+  border-left: 3px solid var(--accent-deep);
   border-radius: var(--radius);
 }
 .palmares-year {
   font-family: var(--font-serif);
   font-size: 1.3rem;
   font-weight: 500;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   min-width: 48px;
 }
 .palmares-detail {
@@ -1208,48 +985,6 @@ footer {
   color: var(--noir);
 }
 
-/* Cards statiques (pas de lien) */
-.horse-card--static {
-  cursor: default;
-  pointer-events: none;
-  opacity: 0.82;
-}
-.pedigree-tree {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 2rem;
-  align-items: stretch;
-  max-width: 800px;
-  margin: 3rem auto 0;
-}
-.pedigree-node {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.4rem 1.6rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.pedigree-node-label {
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 0.4rem;
-}
-.pedigree-node-name {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: var(--noir);
-}
-.pedigree-node-sub {
-  font-size: 0.78rem;
-  color: var(--gris);
-  margin-top: 0.3rem;
-}
 .pedigree-node-photo {
   width: 80px;
   height: 80px;
@@ -1266,86 +1001,6 @@ footer {
   transform: scale(1.14);
   box-shadow: 0 6px 18px rgba(0,0,0,.18);
 }
-.pedigree-node-link {
-  display: inline-block;
-  margin-top: auto;
-  padding-top: .8rem;
-  font-size: .72rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--rose-deep);
-  text-decoration: none;
-}
-.pedigree-node-link:hover { text-decoration: underline; }
-.pedigree-connector {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  color: var(--gris-clair);
-  font-size: 1.5rem;
-}
-
-.horse-gallery {
-  padding: 5rem 1.5rem;
-  background: var(--bg-cream);
-}
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-top: 3rem;
-}
-.gallery-item {
-  aspect-ratio: 1;
-  background: linear-gradient(135deg, var(--rose-pale), var(--or-pale));
-  border-radius: var(--radius);
-  overflow: hidden;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--rose-deep);
-  opacity: 0.6;
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-.gallery-item img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 1;
-}
-.gallery-item:hover { transform: scale(0.98); }
-
-/* Breadcrumb */
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  color: var(--gris-clair);
-  margin-bottom: 2rem;
-}
-.breadcrumb a { color: var(--rose); transition: color var(--transition); }
-.breadcrumb a:hover { color: var(--rose-dark); }
-.breadcrumb span { color: var(--gris-clair); }
-
-/* Back button */
-.back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gris);
-  margin-bottom: 2rem;
-  transition: var(--transition);
-}
-.back-btn:hover { color: var(--rose-deep); gap: 0.8rem; }
 
 /* ============================================
    REVEAL ANIMATION
@@ -1365,193 +1020,13 @@ footer {
 .reveal-delay-4 { transition-delay: 0.4s; }
 
 /* ============================================
-   PAGE MÉMOIRE
-   ============================================ */
-/* Pas d'offset body : le .memorial-hero (padding-top 7rem) passe sous la navbar
-   fixe et l'absorbe, comme les heros .page-header. Un padding-top:80px ici
-   comptait la navbar deux fois → trop d'espace au-dessus du hero. */
-.memorial-page { padding-top: 0; }
-
-.memorial-hero {
-  position: relative;
-  background: linear-gradient(160deg, #F5F0ED 0%, #EDE6E0 50%, #F5F0ED 100%);
-  /* 8rem en haut = même écart navbar→contenu que les heros .page-header (54px). */
-  padding: 8rem 1.5rem 6rem;
-  overflow: hidden;
-}
-
-.memorial-hero-inner {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-}
-
-.memorial-label {
-  display: inline-block;
-  font-size: 0.68rem;
-  font-weight: 400;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gris);
-  margin-bottom: 0.8rem;
-}
-
-.memorial-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2.2rem, 6vw, 3.8rem);
-  font-weight: 300;
-  color: var(--noir);
-  line-height: 1.15;
-}
-.memorial-title em {
-  font-style: italic;
-  color: var(--rose-deep);
-}
-
-.memorial-intro {
-  max-width: 580px;
-  margin: 0 auto;
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--gris);
-  line-height: 2;
-}
-
-.memorial-cards-section {
-  background: var(--bg-light);
-  padding: 6rem 1.5rem;
-}
-
-.memorial-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 3rem;
-  max-width: 840px;
-  margin: 0 auto;
-}
-
-.memorial-card {
-  background: var(--bg-card);
-  border: 1px solid rgba(120, 100, 100, 0.12);
-  border-radius: var(--radius);
-  overflow: hidden;
-  position: relative;
-}
-
-.memorial-card-img-placeholder {
-  width: 100%;
-  aspect-ratio: 4/3;
-  background: linear-gradient(160deg, #EAE4E0 0%, #D8D0CC 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-.memorial-card-img-placeholder svg { opacity: 0.25; }
-.memorial-card-img-placeholder span {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gris);
-  opacity: 0.55;
-}
-
-.memorial-card-img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  filter: grayscale(25%) sepia(15%);
-  display: block;
-}
-
-.memorial-badge {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  background: rgba(255,255,255,0.88);
-  color: var(--gris);
-  font-size: 0.6rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
-  border-radius: 50px;
-  border: 1px solid rgba(120,100,100,0.18);
-}
-
-.memorial-card-body {
-  padding: 1.8rem 2rem 2.2rem;
-}
-.memorial-card-dates {
-  font-size: 0.72rem;
-  color: var(--gris-clair);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-.memorial-card-name {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 400;
-  color: var(--noir);
-  margin-bottom: 1rem;
-}
-.memorial-card-text {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--gris);
-  line-height: 1.9;
-}
-
-.memorial-quote-section {
-  background: var(--noir);
-  padding: 6rem 1.5rem;
-  text-align: center;
-}
-.memorial-quote {
-  max-width: 640px;
-  margin: 0 auto;
-  font-family: var(--font-serif);
-  font-size: clamp(1.2rem, 3vw, 1.6rem);
-  font-weight: 300;
-  font-style: italic;
-  color: rgba(255,255,255,0.7);
-  line-height: 1.8;
-}
-.memorial-quote::before {
-  content: '"';
-  display: block;
-  font-size: 5rem;
-  color: var(--rose);
-  line-height: 0.4;
-  margin-bottom: 2rem;
-  font-style: normal;
-}
-
-/* ============================================
    CAROUSEL CHEVAL
    ============================================ */
-.ar-carousel { position:relative; max-width:900px; margin:0 auto; }
-.ar-slides { position:relative; width:100%; aspect-ratio:4/3; overflow:hidden; border-radius:8px; }
+
 .ar-slide { position:absolute; inset:0; opacity:0; transition:opacity .5s ease; }
 .ar-slide.active { opacity:1; }
 .ar-slide img { width:100%; height:100%; object-fit:cover; }
-.ar-cap-ext { text-align:center; margin-top:.6rem; font-size:.78rem; color:rgba(255,255,255,.55); min-height:1.2em; letter-spacing:.06em; }
-.ar-btn {
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(255,255,255,.15); backdrop-filter:blur(4px);
-  border:none; color:#fff; font-size:1.6rem; width:44px; height:44px;
-  border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
-  transition:background .2s; z-index:2;
-}
-.ar-btn:hover { background:rgba(255,255,255,.3); }
-.ar-prev { left:12px; }
-.ar-next { right:12px; }
-.ar-thumbs { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-top:14px; }
+
 .ar-thumb {
   width:56px; height:42px; object-fit:cover; border-radius:4px;
   cursor:pointer; opacity:.45; transition:opacity .2s; border:2px solid transparent;
@@ -1559,86 +1034,27 @@ footer {
 .ar-thumb.active { opacity:1; border-color:#C0A050; }
 
 /* ============================================
-   MODAL DESCENDANTS (foal-card)
-   ============================================ */
-#foal-modal {
-  display:none; position:fixed; inset:0; background:rgba(0,0,0,.85);
-  z-index:1000; align-items:center; justify-content:center; padding:1rem;
-}
-#foal-modal.open { display:flex; }
-#foal-panel {
-  background:#fff; border-radius:12px; overflow:hidden;
-  display:flex; flex-direction:column; max-width:560px; width:100%;
-  max-height:90vh; box-shadow:0 20px 60px rgba(0,0,0,.5);
-}
-#foal-panel-img-wrap { position:relative; background:#111; flex:0 0 auto; }
-#foal-panel-img { display:block; width:100%; max-height:60vh; object-fit:contain; }
-#foal-panel-info { padding:1.4rem 1.6rem 1.8rem; }
-#foal-panel-name { font-size:1.3rem; font-weight:700; margin:0 0 .5rem; color:#1a1a1a; }
-#foal-panel-desc { font-size:.88rem; color:#555; margin:0; line-height:1.6; }
-#foal-panel-counter { font-size:.72rem; color:#aaa; margin-top:.6rem; letter-spacing:.06em; }
-#foal-modal-close {
-  position:absolute; top:10px; right:14px;
-  background:rgba(0,0,0,.5); border:none; color:#fff; font-size:1.2rem;
-  width:32px; height:32px; border-radius:50%; cursor:pointer; z-index:2;
-  display:flex; align-items:center; justify-content:center;
-}
-#foal-modal-close:hover { background:rgba(0,0,0,.8); }
-.foal-nav {
-  position:absolute; top:50%; transform:translateY(-50%);
-  background:rgba(0,0,0,.4); backdrop-filter:blur(4px);
-  border:none; color:#fff; font-size:2rem; width:44px; height:44px;
-  border-radius:50%; cursor:pointer; display:flex; align-items:center;
-  justify-content:center; transition:background .2s; z-index:2;
-}
-.foal-nav:hover { background:rgba(0,0,0,.7); }
-#foal-prev { left:10px; }
-#foal-next { right:10px; }
-.foal-nav.hidden { display:none; }
-
-/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 900px) {
-  .navbar { padding: 0 1.5rem; }
+  .navbar { padding: 0 1.5rem; background-position: right top, center; }
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
-  .nav-dropdown {
-    position: static;
-    transform: none;
-    opacity: 1;
-    pointer-events: auto;
-    box-shadow: none;
-    border: none;
-    border-left: 2px solid var(--rose-pale);
-    border-radius: 0;
-    background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    padding: .2rem 0 .2rem 1rem;
-    margin-top: .3rem;
-    min-width: auto;
-    display: none;
-  }
-  .has-dropdown.open .nav-dropdown { display: block; }
-  .has-dropdown.open .nav-caret { transform: rotate(180deg); }
-  /* Un tap déclenche souvent :hover sur mobile — cette règle desktop (plus
-     spécifique que le simple ".nav-dropdown" ci-dessus) repousserait sinon
-     le sous-menu de -50% de sa largeur, hors écran. On la neutralise ici. */
-  .has-dropdown:hover .nav-dropdown { transform: none; }
-  .nav-dropdown::before { display: none; }
-  .nav-caret { display: inline-flex; padding: .5rem; margin: -.5rem; }
-  .nav-dropdown a { padding: .35rem .5rem; }
+
   .nav-links.open {
     display: flex;
     flex-direction: column;
     position: absolute;
     top: 100%; left: 0; right: 0;
-    background: rgba(254,251,246,0.97);
+    /* même DA que la nav (16/10) : « plan de travail » + pétales posés façon frise */
+    background:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='640' viewBox='0 0 420 640'><path d='M0 -7.2C11.4 -2.9 11.4 5.0 0 7.2C-11.4 5.0 -11.4 -2.9 0 -7.2Z' fill='%23EF9FB4' opacity='0.12' transform='translate(383 360) rotate(248)'/><path d='M0 -7.4C14.1 -3.0 14.1 5.2 0 7.4C-14.1 5.2 -14.1 -3.0 0 -7.4Z' fill='%23E687A3' opacity='0.18' transform='translate(284 615) rotate(212)'/><path d='M0 -5.6C10.2 -2.2 10.2 3.9 0 5.6C-10.2 3.9 -10.2 -2.2 0 -5.6Z' fill='%23F3BFCE' opacity='0.15' transform='translate(117 59) rotate(35)'/><path d='M0 -5.5C10.5 -2.2 10.5 3.9 0 5.5C-10.5 3.9 -10.5 -2.2 0 -5.5Z' fill='%23E9ACC0' opacity='0.14' transform='translate(184 92) rotate(164)'/><path d='M0 -6.7C10.9 -2.7 10.9 4.7 0 6.7C-10.9 4.7 -10.9 -2.7 0 -6.7Z' fill='%23D88AA0' opacity='0.17' transform='translate(372 227) rotate(124)'/><path d='M0 -7.3C10.8 -2.9 10.8 5.1 0 7.3C-10.8 5.1 -10.8 -2.9 0 -7.3Z' fill='%23EF9FB4' opacity='0.10' transform='translate(365 204) rotate(126)'/><path d='M0 -3.3C4.8 -1.3 4.8 2.3 0 3.3C-4.8 2.3 -4.8 -1.3 0 -3.3Z' fill='%23EF9FB4' opacity='0.32' transform='translate(117 254) rotate(82)'/><path d='M0 -3.2C6.0 -1.3 6.0 2.2 0 3.2C-6.0 2.2 -6.0 -1.3 0 -3.2Z' fill='%23E687A3' opacity='0.43' transform='translate(370 348) rotate(101)'/><path d='M0 -3.1C5.0 -1.2 5.0 2.2 0 3.1C-5.0 2.2 -5.0 -1.2 0 -3.1Z' fill='%23F3BFCE' opacity='0.26' transform='translate(387 213) rotate(25)'/><path d='M0 -2.9C5.5 -1.2 5.5 2.1 0 2.9C-5.5 2.1 -5.5 -1.2 0 -2.9Z' fill='%23E9ACC0' opacity='0.26' transform='translate(22 303) rotate(115)'/><path d='M0 -3.1C4.4 -1.3 4.4 2.2 0 3.1C-4.4 2.2 -4.4 -1.3 0 -3.1Z' fill='%23D88AA0' opacity='0.29' transform='translate(277 611) rotate(131)'/><path d='M0 -3.1C5.7 -1.2 5.7 2.2 0 3.1C-5.7 2.2 -5.7 -1.2 0 -3.1Z' fill='%23EF9FB4' opacity='0.38' transform='translate(29 414) rotate(337)'/><path d='M0 -1.9C3.6 -0.8 3.6 1.3 0 1.9C-3.6 1.3 -3.6 -0.8 0 -1.9Z' fill='%23E687A3' opacity='0.39' transform='translate(242 55) rotate(115)'/><path d='M0 -3.1C4.4 -1.2 4.4 2.2 0 3.1C-4.4 2.2 -4.4 -1.2 0 -3.1Z' fill='%23F3BFCE' opacity='0.28' transform='translate(115 217) rotate(302)'/><path d='M0 -4.1C6.1 -1.7 6.1 2.9 0 4.1C-6.1 2.9 -6.1 -1.7 0 -4.1Z' fill='%23E9ACC0' opacity='0.27' transform='translate(332 108) rotate(354)'/><path d='M0 -3.2C5.3 -1.3 5.3 2.2 0 3.2C-5.3 2.2 -5.3 -1.3 0 -3.2Z' fill='%23D88AA0' opacity='0.42' transform='translate(337 537) rotate(320)'/><path d='M0 -3.3C4.8 -1.3 4.8 2.3 0 3.3C-4.8 2.3 -4.8 -1.3 0 -3.3Z' fill='%23EF9FB4' opacity='0.40' transform='translate(35 596) rotate(242)'/><path d='M0 -3.7C5.4 -1.5 5.4 2.6 0 3.7C-5.4 2.6 -5.4 -1.5 0 -3.7Z' fill='%23E687A3' opacity='0.42' transform='translate(382 172) rotate(80)'/><path d='M0 -2.0C3.6 -0.8 3.6 1.4 0 2.0C-3.6 1.4 -3.6 -0.8 0 -2.0Z' fill='%23F3BFCE' opacity='0.25' transform='translate(227 101) rotate(214)'/><path d='M0 -3.0C5.4 -1.2 5.4 2.1 0 3.0C-5.4 2.1 -5.4 -1.2 0 -3.0Z' fill='%23E9ACC0' opacity='0.37' transform='translate(230 543) rotate(26)'/><path d='M0 -1.9C3.8 -0.8 3.8 1.4 0 1.9C-3.8 1.4 -3.8 -0.8 0 -1.9Z' fill='%23D88AA0' opacity='0.34' transform='translate(299 581) rotate(106)'/><path d='M0 -3.2C5.6 -1.3 5.6 2.2 0 3.2C-5.6 2.2 -5.6 -1.3 0 -3.2Z' fill='%23EF9FB4' opacity='0.38' transform='translate(39 545) rotate(264)'/></svg>") right top / 420px 640px repeat,
+      radial-gradient(ellipse 120% 90% at 50% 0%, #FFFEFB 0%, #FCF6F1 60%, #F7E8E9 100%);   /* opaque : la page ne doit pas transparaître sous les liens */
     backdrop-filter: blur(16px);
     padding: 2rem;
     gap: 1.5rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(176, 96, 112, 0.18);
+    box-shadow: 0 14px 30px rgba(176, 96, 112, 0.10);
   }
 
   .qsn-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -1676,71 +1092,24 @@ footer {
   }
   .horse-hero-info { padding: 3rem 2rem; }
   .form-row { grid-template-columns: 1fr; }
-  .gallery-grid { grid-template-columns: 1fr 1fr; }
-  .pedigree-tree { grid-template-columns: 1fr; }
-  .pedigree-connector { display: none; }
-}
 
-@media (max-width: 768px) {
-  .hero-branch { display: none; }
 }
 
 @media (max-width: 600px) {
   section { padding: 3.5rem 1rem; }
   .horses-grid { grid-template-columns: 1fr; }
   .horse-specs { grid-template-columns: 1fr; }
-  .gallery-grid { grid-template-columns: 1fr 1fr; }
+
   .scroll-hint { display: none; }
 
 }
 
-/* ============================================
-   TRANSITIONS DOUCES ENTRE SECTIONS
-   ============================================
-   Deux mécanismes, selon l'écart de couleur.
+/* Transitions entre sections : depuis le fond à taches (15/10), les sections
+   des pages neutres et des fiches sont transparentes et laissent voir le fond
+   de la page ; les anciennes classes .fade-to-* / .fade-bottom ont été retirées
+   (16/10). Les raccords vers une section SOMBRE (footer, citation) restent
+   volontairement francs. */
 
-   1. .fade-to-* — pour deux teintes crème voisines (--bg-light ↔ --bg-cream).
-      Un simple dégradé sur toute la hauteur de la section suffit : il part de
-      sa propre couleur et arrive sur celle de la suivante, donc le raccord se
-      fait sans arête. Même principe que #aller-plus-loin sur l'accueil.
-
-   2. .fade-bottom — pour une section dont le fond est un dégradé DIAGONAL
-      (les 160deg du site), suivie d'une section de couleur unie. Voir le
-      détail sur la règle elle-même.
-
-   Note : les raccords vers une section SOMBRE (footer, "Aussi disponibles"
-   des fiches poulains, citation de memoire.html) sont volontairement francs.
-   Un fondu y avait été essayé puis retiré — l'arête nette est assumée.
-   ============================================ */
-/* .fade-bottom — pour une section dont le fond est un dégradé DIAGONAL
-      (les 160deg du site). Sur un bloc large et peu haut, un 160deg est
-      quasiment horizontal : son bord inférieur n'a donc pas une couleur
-      uniforme, il va d'une teinte à gauche à une autre à droite. Le raccord
-      avec la section suivante, elle uniforme, se voit alors comme une
-      diagonale — d'où l'impression que "ça part de gauche à droite".
-      Ce voile vertical au bas de la section rétablit une couleur unique sur
-      la ligne de jonction, sans toucher au dégradé diagonal au-dessus.
-      Couleur d'arrivée réglable par --fade-to (défaut : --bg-cream). */
-/* Le voile est posé en z-index négatif dans un contexte d'empilement isolé
-   (isolation: isolate) : il se peint au-dessus du fond de la section mais sous
-   tout son contenu, sans qu'on ait à toucher au positionnement des enfants.
-   Une première version forçait "position: relative" sur les enfants directs et
-   écrasait le "position: absolute" des SVG .hero-branch de memoire.html, dont
-   le hero passait de 483px à 4881px de haut. Ne pas réintroduire de règle
-   ciblant les enfants. */
-.fade-bottom { position: relative; isolation: isolate; }
-.fade-bottom::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 160px;
-  background: linear-gradient(to bottom, transparent 0%, var(--fade-to, var(--bg-cream)) 100%);
-  pointer-events: none;
-  z-index: -1;
-}
-
-.fade-to-cream { background: linear-gradient(to bottom, var(--bg-light) 0%, var(--bg-cream) 100%) !important; }
-.fade-to-light { background: linear-gradient(to bottom, var(--bg-cream) 0%, var(--bg-light) 100%) !important; }
 
 /* ============================================
    SHOWCASE CARDS — cartes cinématiques plein cadre
@@ -1813,7 +1182,7 @@ footer {
   font-weight: 400;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--rose-pale);
+  color: var(--accent-pale);
   margin-bottom: .6rem;
 }
 .showcase-card-title {
@@ -1854,101 +1223,19 @@ footer {
 .showcase-card:hover .showcase-card-cta svg,
 .showcase-card:focus-visible .showcase-card-cta svg { transform: translateX(3px); }
 
-/* Variante compacte — section "Aller plus loin" */
-.showcase-grid--compact .showcase-card { aspect-ratio: 16 / 9; }
-.showcase-grid--compact .showcase-card-content { padding: 1.5rem 1.6rem 1.5rem; }
-.showcase-grid--compact .showcase-card-title { font-size: clamp(1.25rem, 2.2vw, 1.6rem); margin-bottom: 0; }
-.showcase-grid--compact .showcase-card-tag { margin-bottom: .4rem; }
-
 @media (max-width: 800px) {
   .showcase-grid { grid-template-columns: 1fr; }
   .showcase-card { aspect-ratio: 4 / 3; }
   .showcase-card-content { padding: 1.6rem 1.6rem 1.5rem; }
   .showcase-card-desc { display: none; }
-  .showcase-grid--compact .showcase-card { aspect-ratio: 16 / 10; }
+
 }
-
-
-/* Réglages spécifiques section "Nos chevaux" — cartes en 4/3, conteneur élargi à l'essai */
-#nos-chevaux .section-inner { max-width: 1850px; }
-#nos-chevaux .showcase-card { aspect-ratio: 1602 / 2048; } /* = ratio des images portrait → image entière, jamais rognée */
-/* Zoom neutralisé sur ces cartes (repos ET survol) : le léger scale grignotait
-   les bords. Le survol garde le lift + le changement de dégradé. */
-#nos-chevaux .showcase-card-img,
-#nos-chevaux .showcase-card:hover .showcase-card-img,
-#nos-chevaux .showcase-card:focus-visible .showcase-card-img { transform: scale(1); }
-#nos-chevaux .showcase-grid { gap: 1.5rem; }
-/* Essai : contenu des cartes centré (tag, titre, description, bouton). */
-#nos-chevaux .showcase-card-content { text-align: center; }
-#nos-chevaux .showcase-card-desc { margin-left: auto; margin-right: auto; }
 
 /* ============================================
    ALLER PLUS LOIN — panneau visuel + 3 cartes-liens
    (inspiré du bloc "New to the 'verse" de RSI,
    adapté à l'identité Humming Cob)
    ============================================ */
-/* Fondu vers #contact : le dégradé colore tout le fond de la section,
-   mais reste invisible derrière le panneau (.explore-panel) qui le recouvre —
-   il n'apparaît que dans les marges haut/bas, exactement là où la transition
-   avec les sections voisines doit se faire. */
-#aller-plus-loin { background: linear-gradient(to bottom, var(--bg-light) 0%, #FDF5F7 100%); }
-#aller-plus-loin .section-inner { max-width: 1850px; }
-
-.explore-panel {
-  display: grid;
-  grid-template-columns: minmax(260px, 38%) 1fr;
-  align-items: stretch;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.explore-visual {
-  position: relative;
-  min-height: 420px;
-  background: linear-gradient(160deg, var(--bg-light) 0%, var(--rose-pale) 100%);
-  overflow: hidden;
-}
-/* Image affichée au survol/focus d'une carte .explore-card[data-visual-bg]
-   (voir js/main.js) — en fondu par-dessus le dégradé par défaut ci-dessus. */
-.explore-visual-img {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.explore-visual-img.active { opacity: 1; }
-.explore-visual::before {
-  content: 'HC';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--font-serif);
-  font-size: 11rem;
-  font-weight: 300;
-  color: rgba(176, 96, 112, 0.16);
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.explore-content {
-  padding: 3.2rem 3.2rem 3.2rem 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.explore-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
-  margin-top: 2.2rem;
-}
 
 /* Habillage repris de .btn-outline : fond transparent, liseré rose-deep,
    coins très arrondis, remplissage rose-pale au survol. Ces cartes ont
@@ -1958,7 +1245,7 @@ footer {
   display: flex;
   flex-direction: column;
   background: transparent;
-  border: 1.5px solid var(--rose-deep);
+  border: 1.5px solid var(--accent-deep);
   border-radius: 26px;
   padding: 1.7rem 1.5rem;
   text-decoration: none;
@@ -1967,17 +1254,10 @@ footer {
 }
 .explore-card:hover,
 .explore-card:focus-visible {
-  background: var(--rose-pale);
+  background: var(--accent-pale);
   transform: translateY(-2px);   /* le lift discret du bouton */
   box-shadow: none;
-  border-color: var(--rose-deep);
-}
-/* Carte sélectionnée (persistante) sur l'index : même éclairage rosé que le
-   survol, mais SANS le lift — une carte surélevée en permanence flotterait.
-   Le survol par-dessus ajoute le lift normalement. */
-.explore-card.is-selected {
-  background: var(--rose-pale);
-  border-color: var(--rose-deep);
+  border-color: var(--accent-deep);
 }
 
 /* Titre en deux colonnes : l'émoji d'un côté, le libellé de l'autre. En flex,
@@ -1991,7 +1271,7 @@ footer {
   font-family: var(--font-serif);
   font-size: 1.25rem;
   font-weight: 500;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   margin-bottom: 0.6rem;
 }
 /* Émoji réduit et en police neutre : sinon il domine le serif, et le serif
@@ -2009,20 +1289,13 @@ footer {
   flex-grow: 1;
   margin-bottom: 1.2rem;
 }
-/* Carte "Processus d'adoption" (poulains.html). Elle reprend .explore-card mais
-   court sur toute la largeur : elle est seule de sa rangée, une largeur de
-   colonne l'aurait fait paraître orpheline. */
-.adoption-card-wrap { max-width: 720px; margin: 0 auto; }
-.adoption-card .section-badge { align-self: flex-start; margin-bottom: 0.7rem; }
-.adoption-card .explore-card-title { font-size: 1.45rem; }
-.adoption-card .explore-card-desc { margin-bottom: 1rem; }
 
 .explore-card-link {
   font-size: 0.72rem;
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
 }
 
 /* "Notre histoire" (Qui sommes-nous) n'a plus de style propre : l'habillage
@@ -2031,15 +1304,8 @@ footer {
    il vit avec .qsn-values-row. */
 
 @media (max-width: 900px) {
-  .explore-panel { grid-template-columns: 1fr; }
-  .explore-content { padding: 2.4rem 1.8rem; }
-  .explore-cards { grid-template-columns: 1fr; }
 
-  /* Sur tactile, pas de survol : le panneau-image partagé n'a aucun sens (il
-     resterait figé sur élevage, déconnecté des cartes). On le masque et chaque
-     carte devient autonome : sa propre image en tête + son texte dessous. */
-  .explore-visual { display: none; }
-  .explore-card.is-selected { background: transparent; }  /* pas de sélection au tactile */
+  /* pas de sélection au tactile */
   .explore-card[data-visual-bg]::before {
     content: '';
     display: block;
@@ -2141,7 +1407,7 @@ footer {
   font-size: clamp(4.5rem, 14vw, 7rem);
   font-weight: 300;
   line-height: 1;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   opacity: 0.85;
   margin-bottom: 0.5rem;
 }
@@ -2166,7 +1432,7 @@ footer {
   font-size: 0.82rem;
   color: var(--gris);
 }
-.error-links a { color: var(--rose-deep); }
+.error-links a { color: var(--accent-deep); }
 .error-links a:hover { text-decoration: underline; }
 .legal-inner .section-divider { margin: 1.5rem auto 3rem; }
 
@@ -2177,7 +1443,7 @@ footer {
   line-height: 1.9;
   color: var(--noir);
   background: var(--bg-light);
-  border-left: 2px solid var(--rose);
+  border-left: 2px solid var(--accent);
   border-radius: 0 var(--radius) var(--radius) 0;
   padding: 1.6rem 1.8rem;
   margin-bottom: 3rem;
@@ -2186,7 +1452,7 @@ footer {
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: 1.5rem;
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   margin: 3rem 0 1rem;
 }
 .legal-inner h2:first-of-type { margin-top: 0; }
@@ -2210,13 +1476,13 @@ footer {
    la 404 — texte rose sur fond rose, illisible. Un bouton gère sa propre
    couleur. */
 .legal-inner a:not(.btn) {
-  color: var(--rose-deep);
+  color: var(--accent-deep);
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   transition: color var(--transition);
 }
-.legal-inner a:not(.btn):hover { color: var(--rose-dark); }
+.legal-inner a:not(.btn):hover { color: var(--accent-dark); }
 
 .legal-note {
   font-style: italic;
@@ -2307,13 +1573,16 @@ footer {
   position: absolute;
   left: 0; right: 0; bottom: 0;
   height: 2px;
-  background: var(--rose);
+  background: var(--accent);
   transform: scaleX(0);
   transition: transform var(--transition);
 }
-.nav2-links a:hover { color: var(--rose-deep); }
+.nav2-links a:hover { color: var(--accent-deep); }
 .nav2-links a.is-active { color: var(--noir); }
 .nav2-links a.is-active::after { transform: scaleX(1); }
+/* Libellé long / court (mobile) d'un même lien */
+.nav2-court { display: none; }
+@media (max-width: 768px) { .nav2-long { display: none; } .nav2-court { display: inline; } }
 
 /* Cible d'ancrage : compense navbar + nav2 quand on saute à une section */
 #palmares, #descendance, #pedigree,
@@ -2330,6 +1599,8 @@ footer {
 .cta-anchor--center {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: .8rem;   /* fiches étalons : « Conditions de saillie » + « Tester avec ma jument » */
 }
 
 /* --- Fiches poulains : tempérament + prix ---------------------------------
@@ -2342,8 +1613,8 @@ footer {
   margin: .8rem 0 1.2rem;
 }
 .horse-tag {
-  background: var(--rose-pale);
-  color: var(--rose-dark);
+  background: var(--accent-pale);
+  color: var(--accent-dark);
   font-size: .7rem;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -2370,7 +1641,7 @@ footer {
   color: var(--gris);
   font-style: italic;
 }
-.horse-sold-note em { color: var(--rose-deep); font-weight: 600; font-style: italic; }
+.horse-sold-note em { color: var(--accent-deep); font-weight: 600; font-style: italic; }
 
 .horse-price-row {
   display: flex;
@@ -2386,7 +1657,7 @@ footer {
   font-family: var(--font-serif);
   font-size: 2rem;
   font-weight: 500;
-  color: var(--rose-dark);
+  color: var(--accent-dark);
 }
 .horse-price-note {
   font-size: .72rem;
@@ -2415,6 +1686,13 @@ footer {
    Déclaré AVANT la media query qui le passe en display:block — à spécificité
    égale c'est l'ordre du fichier qui tranche. Placée après, cette règle
    l'emportait partout et le bouton n'apparaissait jamais. */
+/* Bloc d'actions « Notre façon de vendre » (fiches poulains) : primaire + secondaire.
+   Sur mobile, le « Nous contacter » est masqué — le CTA flottant (.cta-end) le double. */
+.adoption-actions {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.5rem; margin: 2.2rem 0 0; flex-wrap: wrap; max-width: 620px;
+}
+
 .cta-end { display: none; }
 
 @media (max-width: 768px) {
@@ -2456,6 +1734,7 @@ footer {
      paraît ainsi se poser à cet endroit plutôt que de rester collée à l'écran.
      Masqué au-dessus de 768px, où le CTA vit dans la nav2. */
   .cta-end { display: block; }
+  .adoption-actions .btn-primary { display: none; }
   .cta-end-inner {
     padding: 0 1.5rem 3rem;
     text-align: center;
@@ -2466,6 +1745,8 @@ footer {
     padding: 0.9rem 1.2rem;
     font-size: 0.76rem;
   }
+  /* secondaire fondu en pleine largeur : marges égales, le texte reste centré */
+  .cta-end .btn-outline { padding-left: 3rem; padding-right: 3rem; }
 }
 
 /* ============================================
@@ -2497,7 +1778,7 @@ footer {
   position: absolute;
   top: -16px; left: -16px;
   right: 16px; bottom: 16px;
-  border: 1px solid var(--rose-pale);
+  border: 1px solid var(--accent-pale);
   border-radius: var(--radius);
   z-index: 0;
   pointer-events: none;
@@ -2510,7 +1791,7 @@ footer {
   flex: 1;
   overflow: hidden;
   border-radius: var(--radius);
-  background: var(--rose-pale);
+  background: var(--accent-pale);
   cursor: zoom-in;
   box-shadow: 0 4px 20px rgba(92, 62, 52, 0.10);
 }
@@ -2595,7 +1876,7 @@ footer {
 }
 .hero-slides:hover .hero-nav,
 .hero-nav:focus-visible { opacity: 1; }
-.hero-nav:hover { background: rgba(176, 96, 112, 0.85); }
+.hero-nav:hover { background: color-mix(in srgb, var(--accent-deep) 85%, transparent); }   /* accent du thème (pétrole / framboise / sakura) */
 .hero-prev { left: 0.7rem; }
 .hero-next { right: 0.7rem; }
 
@@ -2614,7 +1895,7 @@ footer {
   pointer-events: none;
   transition: background var(--transition);
 }
-.hero-slides:hover .hero-expand { background: rgba(176, 96, 112, 0.85); }
+.hero-slides:hover .hero-expand { background: color-mix(in srgb, var(--accent-deep) 85%, transparent); }
 
 /* --- Légende de la photo courante --- */
 .hero-cap {
@@ -2646,11 +1927,11 @@ footer {
   width: 7px;
   height: 7px;
   border-radius: 4px;
-  background: var(--rose-pale);
+  background: var(--accent-pale);
   overflow: hidden;
   transition: width var(--transition), background var(--transition);
 }
-.hero-dot.done { background: var(--rose); }
+.hero-dot.done { background: var(--accent); }
 /* Pastille active : s'allonge en gélule et se colorise au rythme du minuteur */
 .hero-dot.running { width: 34px; }
 .hero-dot i {
@@ -2658,7 +1939,7 @@ footer {
   height: 100%;
   width: 0;
   border-radius: 4px;
-  background: var(--rose-deep);
+  background: var(--accent-deep);
 }
 .hero-dot.running i { animation: heroTimerFill var(--hero-delay, 5s) linear forwards; }
 /* Défilement en pause (survol) : la gélule se fige où elle en est */
@@ -2679,37 +1960,6 @@ footer {
 /* ============================================
    PÉDIGRÉE REPLIABLE (fiches chevaux)
    ============================================ */
-/* Un repli par parent : le père et la mère se déplient indépendamment.
-   L'état replié est posé en HTML (.is-collapsed) et non en JS, pour éviter
-   que le bloc complet clignote avant de se refermer au premier rendu. */
-.ped-parent.is-collapsed .ped-gp { display: none; }
-
-.ped-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-bottom: 1.2rem;
-  padding: 0.4rem 0.9rem;
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  font-family: var(--font-sans);
-  font-size: 0.62rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background var(--transition), border-color var(--transition);
-}
-/* Chaque bouton reprend la couleur de son parent (bleu père, rose mère),
-   cohérent avec le code couleur déjà utilisé par les cartes du pédigrée. */
-.ped-toggle--pere { color: var(--bleu-deep); border-color: rgba(106, 143, 160, 0.32); }
-.ped-toggle--pere:hover { background: rgba(106, 143, 160, 0.08); border-color: var(--bleu); }
-.ped-toggle--mere { color: var(--rose-deep); border-color: rgba(212, 137, 154, 0.32); }
-.ped-toggle--mere:hover { background: rgba(212, 137, 154, 0.08); border-color: var(--rose); }
-
-.ped-toggle svg { transition: transform var(--transition); }
-.ped-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
 
 /* Note de contexte sous le palmarès : explique l'arrêt des concours plutôt
    que de laisser le lecteur interpréter un palmarès qui s'arrête net. */
@@ -2730,3 +1980,788 @@ footer {
   color: var(--gris);
   text-align: center;
 }
+
+/* Fiches chevaux : lien « Voir dans l'arbre généalogique » sous le pédigrée.
+   L'adresse #id ouvre l'arbre directement sur le cheval. */
+.voir-arbre { text-align: center; margin-top: 2.2rem; }
+.voir-arbre .btn { display: inline-flex; align-items: center; gap: .5rem; }
+
+/* ============================================
+   PÉDIGRÉE — généré par build.py (<!-- @pedigree: id -->)
+   Ordi : tableau sur 3 générations, père en haut, mère en bas, traits de liaison.
+   Téléphone : liste indentée, arrière-grands-parents par deux.
+   Pétrole = mâle, framboise = femelle (liseré gauche + libellé), tirés de
+   --male / --femelle.
+   ============================================ */
+.pg { --pg-trait: rgba(0, 0, 0, 0.14); --pg-l: 16px; margin-top: .5rem; }
+.pg-gens {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 calc(var(--pg-l) * 2);
+  font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gris);
+  margin-bottom: .9rem;
+}
+.pg-arbre { display: flex; flex-direction: column; gap: 1.4rem; }
+.pg-branche { display: grid; grid-template-columns: 1fr 2fr; align-items: center; }
+.pg-sous .pg-branche { grid-template-columns: 1fr 1fr; }
+.pg-sous { position: relative; padding-left: calc(var(--pg-l) * 2); display: flex; flex-direction: column; }
+.pg-sous::before {                       /* départ du trait depuis la case parente */
+  content: ""; position: absolute; left: 0; top: 50%; width: var(--pg-l);
+  border-top: 1px solid var(--pg-trait);
+}
+.pg-c { position: relative; padding: .3rem 0; }
+.pg-c::before {                          /* trait horizontal vers la case */
+  content: ""; position: absolute; left: calc(var(--pg-l) * -1); top: 50%; width: var(--pg-l);
+  border-top: 1px solid var(--pg-trait);
+}
+.pg-c::after {                           /* trait vertical (accolade) */
+  content: ""; position: absolute; left: calc(var(--pg-l) * -1); border-left: 1px solid var(--pg-trait);
+}
+.pg-c:first-child::after { top: 50%; bottom: 0; }
+.pg-c:last-child::after  { top: 0; bottom: 50%; }
+
+.pg-node {
+  --c: color-mix(in srgb, var(--male) 70%, transparent); --ct: var(--male-deep);
+  display: flex; align-items: center; gap: .75rem; min-width: 0;
+  background: var(--bg-card); color: inherit; text-decoration: none;
+  border: 1px solid var(--border); border-left: 3px solid var(--c); border-radius: 10px;
+  padding: .55rem .75rem;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.pg-node--femelle { --c: color-mix(in srgb, var(--femelle) 75%, transparent); --ct: var(--femelle-deep); }
+.pg-n1 { padding: .8rem 1rem; }
+.pg-texte { display: flex; flex-direction: column; min-width: 0; }
+.pg-label { font-size: .58rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct); margin-bottom: .15rem; }
+.pg-nom { font-family: var(--font-serif); font-weight: 600; font-size: .95rem; line-height: 1.2; }
+.pg-n1 .pg-nom { font-size: 1.2rem; }
+.pg-n3 .pg-nom { font-size: .85rem; }
+.pg-meta  { font-size: .68rem; color: var(--gris); margin-top: .2rem; line-height: 1.4; }
+.pg-extra { font-size: .64rem; color: var(--gris); font-style: italic; line-height: 1.4; }
+.pg-photo {
+  width: 54px; height: 54px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 3px var(--c);
+}
+.pg-fleche { margin-left: auto; padding-left: .4rem; color: var(--ct); opacity: .45; transition: opacity var(--transition), transform var(--transition); }
+.pg-node--lien, .pg-node--modale { cursor: pointer; }
+.pg-node--lien:hover, .pg-node--modale:hover,
+.pg-node--lien:focus-visible, .pg-node--modale:focus-visible {
+  transform: translateY(-1px); box-shadow: var(--shadow); border-color: var(--c);
+}
+.pg-node--lien:hover .pg-fleche { opacity: 1; transform: translateX(3px); }
+.pg-repete {                                           /* « 2× » à côté du nom : la carte ne grandit pas */
+  display: inline-block; margin-left: .4rem; padding: .05rem .42rem; vertical-align: .12em;
+  font-family: var(--font-sans); font-style: normal; font-weight: 500; font-size: .56rem; letter-spacing: .04em;
+  color: var(--or); background: rgba(255, 255, 255, .82); border: 1px solid color-mix(in srgb, var(--or) 50%, transparent); border-radius: 20px;   /* = .pastille--titre */
+}
+/* Rien à ouvrir (ni fiche ni photo) : case atténuée, pas d'effet au survol.
+   Les cases cliquables portent une icône : flèche (fiche) ou photos (modale). */
+.pg-node--simple { background: rgba(255, 255, 255, .35); border-color: rgba(60, 40, 35, .06); }
+.pg-node--simple .pg-nom { opacity: .78; }
+.pg-node--simple .pg-meta { color: #9A928D; }
+.pg-node--modale .pg-fleche { display: inline-flex; }
+.pg-node--repete { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--or) 40%, transparent); }
+.pg-node--inconnu { background: transparent; border-style: dashed; border-left-style: dashed; }
+.pg-node--inconnu .pg-nom { font-family: var(--font-sans); font-weight: 400; font-size: .74rem; font-style: italic; color: var(--gris); }
+/* Fond teinté (15/10), comme les cartes : la couleur du cheval près du
+   liseré, qui s'éclaircit vers la droite. Cases sans fiche ni photo plus
+   pâles ; cases « inconnu » sans fond. */
+.pg-node { background: linear-gradient(90deg, color-mix(in srgb, var(--c) 22%, #FFFEFA) 0%, color-mix(in srgb, var(--c) 6%, #FFFEFA) 70%); }
+.pg-node--simple { background: linear-gradient(90deg, color-mix(in srgb, var(--c) 12%, #FFFEFA) 0%, color-mix(in srgb, var(--c) 3%, #FFFEFA) 70%); }
+.pg-node--inconnu { background: transparent; }
+
+@media (max-width: 760px) {
+  .pg-gens { display: none; }
+  /* Mobile : pédigrée réduit aux deux parents — la lignée complète reste accessible
+     via « Voir dans l'arbre généalogique » sous le pédigrée (l'arbre sur 3 générations
+     n'est pas lisible sur un écran de téléphone). */
+  .pg-arbre { gap: .8rem; }
+  .pg-branche { display: block; }
+  .pg-sous { display: none; }
+  .pg-n1 { padding: .7rem .9rem; }
+}
+
+/* Note sous le pédigrée (texte libre de la fiche) */
+/* Couleurs du thème de la page (crème / bleu sur un mâle, rosé sur une femelle),
+   et non plus un bleu fixe hérité des anciens styles des fiches. */
+.ped-note {
+  margin-top: 2rem; background: color-mix(in srgb, var(--accent-pale) 32%, transparent); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.25rem 1.5rem; font-size: .8rem; line-height: 1.65; color: var(--noir);
+}
+.ped-note strong { color: var(--accent-deep); }
+
+/* ============================================
+   CARTES CHEVAUX — générées par build.py (<!-- @cartes: … -->)
+   Nos chevaux : lien vers la fiche. Chevaux extérieurs : ouvrent la modale.
+   Code couleur : pétrole = mâle, framboise = femelle (dégradé du corps, sexe, action).
+   Plus de liseré sous la photo depuis le 15/10 : le dégradé le remplace.
+   ============================================ */
+.cc {
+  --c: var(--male); --ct: var(--male-deep);
+  position: relative; display: flex; flex-direction: column; height: 100%;
+  background: #fff; color: var(--noir); text-decoration: none;
+  border: 1px solid rgba(60, 40, 35, .07); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 1px 2px rgba(60, 40, 35, .04), 0 8px 24px rgba(60, 40, 35, .06);
+  cursor: pointer;
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease, opacity .7s ease;
+}
+.cc--femelle { --c: var(--femelle); --ct: var(--femelle-deep); }
+.cc:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgba(60, 40, 35, .05), 0 18px 40px rgba(60, 40, 35, .12); }
+.cc:focus-visible { outline: 2px solid var(--c); outline-offset: 3px; }
+
+.cc-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #F3EEE6; }
+.cc-photo img {
+  width: 100%; height: 100%; max-width: none; object-fit: cover;
+  transition: transform .8s cubic-bezier(.2, .8, .2, 1);
+}
+.cc:hover .cc-photo img { transform: scale(1.05); }
+/* ============================================
+   PASTILLE — composant unique (15/10), trois familles :
+   statut (vente, reserve, reste, vendu, memoire), distinction (or, titre),
+   information (info, hc). Pleine sur les photos ; .pastille--contour dans les
+   panneaux (modale, arbre, en-têtes). Couleurs : variables --st-*, --or, --info.
+   Les classes .cc-badge / .ca-badge ne font plus que la poser sur la photo.
+   ============================================ */
+.pastille {
+  --pc: var(--info);
+  display: inline-flex; align-items: center; gap: .3em; white-space: nowrap;
+  font-family: var(--font-sans); font-weight: 400; font-style: normal;
+  font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; line-height: 1;
+  padding: .42em .9em; border-radius: 999px; border: 1px solid transparent;
+  color: #fff; background: var(--pc);
+}
+.pastille--vente   { --pc: var(--st-vente); }
+.pastille--reserve { --pc: var(--st-reserve); }
+.pastille--reste   { --pc: var(--st-reste); }
+.pastille--vendu   { --pc: var(--st-vendu); }
+.pastille--or      { --pc: var(--or); }
+.pastille--hc      { --pc: var(--accent-deep); }
+/* Toujours en contour : en mémoire (discret), autres titres, information. */
+.pastille--memoire, .pastille--titre, .pastille--info, .pastille--contour {
+  background: rgba(255, 255, 255, .82); color: var(--pc);
+  border-color: color-mix(in srgb, var(--pc) 50%, transparent);
+}
+.pastille--memoire { --pc: var(--st-memoire); }
+.pastille--titre   { --pc: var(--or); }
+.pastille--info    { border-color: rgba(60, 40, 35, .18); }
+
+/* Pastille posée sur la photo d'une carte */
+.cc-badge { position: absolute; top: .9rem; left: .9rem; z-index: 1; box-shadow: 0 2px 10px rgba(0, 0, 0, .18); }
+.cc-nb {
+  position: absolute; right: .9rem; bottom: 1rem; z-index: 1;
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .28rem .65rem; border-radius: 50px; font-size: .72rem; color: #fff;
+  background: rgba(28, 28, 28, .45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.cc-corps { display: flex; flex-direction: column; flex: 1; padding: 1.15rem 1.3rem 1.3rem; }
+.cc-tags {                                           /* 2 lignes réservées : hauteur de carte constante, rien de tronqué */
+  margin: 0 0 .45rem; line-height: 1.6; min-height: calc(1.6em * 2);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris);
+}
+.cc-tags span:not(:last-child)::after { content: '·'; margin: 0 .4rem; opacity: .6; }   /* point APRÈS : si les dates passent à la ligne, il reste en fin de ligne */
+.cc-sexe { color: var(--ct); font-weight: 500; }
+.cc-dates { white-space: nowrap; }
+.cc-nom { font-family: var(--font-serif); font-weight: 400; font-size: 1.55rem; line-height: 1.15; margin: 0 0 .55rem; color: var(--noir); }
+.cc-texte {
+  margin: 0 0 1.1rem; font-size: .86rem; line-height: 1.6; color: var(--gris);
+  min-height: calc(1.6em * 3);                       /* hauteur uniforme : 3 lignes */
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.cc-action {
+  margin-top: auto; display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct);
+  transition: gap .3s ease;
+}
+.cc-action svg { transition: transform .3s ease; }
+.cc:hover .cc-action { gap: .8rem; }
+.cc:hover .cc-action svg { transform: translateX(3px); }
+
+/* Grilles de cartes : colonnes de largeur bornée → toutes les cartes du site
+   ont la même taille, quelle que soit la grille qui les accueille. */
+.horses-grid:has(> .cc) { grid-template-columns: repeat(auto-fill, minmax(250px, 290px)); justify-content: start; gap: 1.75rem; }
+@media (max-width: 600px) {
+  /* Mobile : les grilles de cartes des fiches défilent à l'horizontale (comme .rangee)
+     au lieu d'empiler — carrousel natif au doigt, cartes côte à côte. */
+  .horses-grid:has(> .cc) {
+    display: flex; gap: 1rem; align-items: stretch;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    justify-content: flex-start; padding-bottom: 1.25rem; scrollbar-width: none;
+  }
+  .horses-grid:has(> .cc)::-webkit-scrollbar { display: none; }
+  /* height:auto : en flex (hauteur de conteneur indéfinie), le height:100% des cartes
+     retomberait sur la hauteur du contenu → cartes inégales. auto + stretch = hauteurs égales. */
+  .horses-grid:has(> .cc) > .cc { flex: 0 0 min(80vw, 300px); height: auto; align-self: stretch; scroll-snap-align: start; }
+}
+
+/* ── Modale des chevaux extérieurs (js/main.js) ── */
+.cm[hidden] { display: none; }
+.cm { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: 1.5rem; }
+.cm-fond {
+  position: absolute; inset: 0; background: rgba(28, 22, 20, .62);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); animation: cm-fondu .25s ease;
+}
+.cm-boite {
+  --c: var(--male); --ct: var(--male-deep);
+  position: relative; width: min(1040px, 100%); height: min(640px, calc(100vh - 3rem));
+  display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  background: #FFFDFB; border-radius: 24px; overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .35);
+  animation: cm-entree .35s cubic-bezier(.2, .8, .2, 1);
+}
+.cm-boite.is-femelle { --c: var(--femelle); --ct: var(--femelle-deep); }
+.cm-carrousel { position: relative; overflow: hidden; background: #1C1C1C; touch-action: pan-y; }
+.cm-slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .5s ease; }
+.cm-slide.actif { opacity: 1; }
+.cm-slide::before {                                   /* fond flouté de la même photo */
+  content: ''; position: absolute; inset: 0;
+  background: var(--bg) center / cover no-repeat;
+  filter: blur(26px) brightness(.7); transform: scale(1.18);
+}
+.cm-slide img { position: relative; width: 100%; height: 100%; max-width: none; object-fit: contain; }
+.cm-slide figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+  padding: 2.6rem 1.4rem 2.4rem; text-align: center;
+  font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: #fff;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .55));
+}
+.cm-slide figcaption::first-letter { text-transform: uppercase; }
+.cm-boite.is-memoire .cm-infos { background: linear-gradient(180deg, #FAF9F8 0%, #F1EDEA 100%); }
+.cm-nav {
+  position: absolute; top: 50%; z-index: 2; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(255, 255, 255, .85); color: var(--noir); font-size: 1.5rem; line-height: 1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .2); transition: background .2s, transform .2s;
+}
+.cm-nav:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
+.cm-prec { left: 1rem; }
+.cm-suiv { right: 1rem; }
+.cm-points { position: absolute; left: 0; right: 0; bottom: 1rem; z-index: 2; display: flex; justify-content: center; gap: .4rem; }
+.cm-points button {
+  width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+  background: rgba(255, 255, 255, .5); transition: width .25s, background .25s, border-radius .25s;
+}
+.cm-points button.actif { width: 22px; border-radius: 4px; background: #fff; }
+.cm-compteur {
+  position: absolute; top: 1rem; left: 1rem; z-index: 2;
+  padding: .25rem .65rem; border-radius: 50px; font-size: .7rem; color: #fff; background: rgba(0, 0, 0, .35);
+}
+.cm-fermer {
+  position: absolute; top: .9rem; right: .9rem; z-index: 3;
+  width: 38px; height: 38px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(255, 255, 255, .94); color: var(--noir); font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+}
+.cm-infos { position: relative; overflow-y: auto; overscroll-behavior: contain; padding: 2.4rem 2.2rem 2rem; display: flex; flex-direction: column; }
+.cm-infos::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--c); }
+.cm-genre {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: 0 0 .45rem;
+  font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct);
+}
+.cm-badge { font-size: .58rem; }   /* couleur : .pastille (contour dans la modale) */
+.cm-nom { font-family: var(--font-serif); font-weight: 400; font-size: 2.1rem; line-height: 1.1; margin: 0; color: var(--noir); }
+.cm-nom em { color: var(--ct); }
+.cm-texte { margin: 1.3rem 0 0; font-size: .92rem; line-height: 1.7; color: var(--noir); }
+.cm-infos dl {
+  display: grid; grid-template-columns: auto 1fr; gap: .6rem 1.2rem; align-items: baseline;
+  margin: 1.4rem 0 0; padding-top: 1.2rem; border-top: 1px solid rgba(60, 40, 35, .08); font-size: .86rem;
+}
+.cm-infos dt { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
+.cm-infos dd { margin: 0; color: var(--noir); }
+.cm-infos dd a { color: var(--ct); border-bottom: 1px solid currentColor; }
+.cm-infos .cm-n--male { color: var(--male-deep); }
+.cm-infos .cm-n--femelle { color: var(--femelle-deep); }
+.cm-actions { margin-top: auto; padding-top: 1.6rem; display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
+.cm-lien {
+  display: inline-flex; align-items: center; gap: .45rem; padding: .55rem 1.15rem;
+  font-size: .64rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ct); border: 1.5px solid var(--ct); border-radius: 50px; transition: background .2s, color .2s;
+}
+.cm-lien:hover { background: var(--ct); color: #fff; }
+@keyframes cm-entree { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes cm-fondu  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cm-monte  { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+@media (max-width: 800px) {
+  .cm { padding: 0; place-items: end center; }
+  .cm-boite {
+    grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr);
+    width: 100%; height: 92vh; height: 92dvh; border-radius: 22px 22px 0 0; animation-name: cm-monte;
+  }
+  .cm-carrousel { aspect-ratio: 4 / 3; }
+  .cm-infos { padding: 1.5rem 1.3rem calc(1.6rem + env(safe-area-inset-bottom)); }
+  .cm-infos::before { right: 0; bottom: auto; width: auto; height: 3px; }
+  .cm-nav { width: 38px; height: 38px; font-size: 1.3rem; }
+  .cm-nom { font-size: 1.75rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NOMS DES CHEVAUX — générés par build.py (nom_html) ou chevaux.js
+   (nomChevalHTML) : <span class="nc nc--male|femelle">
+     <span class="nc-a">affixe</span> <em class="nc-n">nom</em> …
+   Le nom en italique, couleur du sexe ; l'affixe d'élevage en petites
+   capitales grises, devant ou derrière selon le nom officiel.
+   ═══════════════════════════════════════════════════════════ */
+.nc-n { font-style: italic; }
+.nc--male    .nc-n { color: var(--male-deep); }
+.nc--femelle .nc-n { color: var(--femelle-deep); }
+.nc-a {
+  font-family: var(--font-sans); font-style: normal; font-weight: 400;
+  /* Rapport unique affixe / nom (15/10) : 0,6 du nom partout, avec un plancher
+     de lisibilité pour les petits contextes (cases de pédigrée, listes). Plus
+     d'exception par contexte. */
+  font-size: max(.6em, .56rem); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--gris); vertical-align: .18em; white-space: nowrap;
+}
+.nc-p { font-size: .62em; font-style: normal; color: var(--gris); }
+
+/* ═══════════════════════════════════════════════════════════
+   THÈMES DE PAGE — <body class="… theme-male | theme-femelle">
+   Pages neutres : rien à ajouter (crème, accents rose sakura de la marque).
+   Fiche d'un mâle : accents pétrole ; d'une femelle : accents framboise
+   (palette du 15/10, voir --male / --femelle dans :root).
+   --accent… = couleur d'accent du thème (un mâle a du pétrole dans --accent) ;
+   --marque… = rose sakura de l'élevage, constant (renommage du 16/10).
+   Le thème redéfinit les variables d'accent (--accent…) et de fond
+   (--bg-…) pour tout le contenu ; les « îlots d'identité » (nav,
+   pied de page) gardent le rose de la marque ; les boutons d'action
+   de la fiche suivent le thème.
+   Les couleurs de sexe (--male / --femelle) ne bougent jamais.
+   ═══════════════════════════════════════════════════════════ */
+body.theme-male {
+  /* Fonds : nuances de crème seules (ivoire / sable).
+     Accents (textes, boutons) en pétrole. */
+  --bg-cream:  #FDFBF6;
+  --bg-light:  #F9F5EC;
+  --bg-card:   #FFFEFA;
+  --accent-pale: var(--male-pale);
+  --accent:      var(--male);
+  --accent-deep: var(--male-deep);
+  --accent-dark: #1F5257;
+  --border:    rgba(140, 115, 75, 0.16);
+  --shadow:      0 4px 32px rgba(120, 95, 60, 0.08);
+  --shadow-hover:0 8px 48px rgba(120, 95, 60, 0.14);
+}
+body.theme-femelle {
+  /* Même crème que les mâles : c'est le fond à taches qui porte la couleur. */
+  --bg-cream:  #FDFBF6;
+  --bg-light:  #F9F5EC;
+  --bg-card:   #FFFEFA;
+  --accent-pale: var(--femelle-pale);
+  --accent:      var(--femelle);
+  --accent-deep: var(--femelle-deep);
+  --accent-dark: #7E2440;
+}
+/* Fond à taches (15/10) : crème + taches floues de la couleur d'accent
+   (sexe sur les fiches). Motif de 1 600 px répété sur toute la hauteur de la
+   page, pour que les taches accompagnent la lecture jusqu'en bas.
+   Tailles en px (même forme sur ordi et mobile). Chaque tache reste
+   ENTIÈREMENT dans le motif (centre ± 70 % du rayon vertical entre 0 et
+   1 600 px), sinon elle est coupée net au raccord entre deux motifs.
+   Pages neutres : classe .fond-taches sur <body> (taches au rose sakura de la
+   marque), posée page par page. */
+body:is(.theme-male, .theme-femelle, .fond-taches) {
+  background-color: var(--bg-cream);
+  background-image:
+    radial-gradient(620px 380px at 92% 300px,  color-mix(in srgb, var(--accent) 15%, transparent), transparent 70%),
+    radial-gradient(480px 320px at 4% 680px,   color-mix(in srgb, var(--accent) 11%, transparent), transparent 70%),
+    radial-gradient(560px 340px at 76% 1060px, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
+    radial-gradient(420px 300px at 14% 1360px, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%);
+  background-size: 100% 1600px;
+  background-repeat: repeat-y;
+}
+/* Pages neutres à taches : les sections laissent voir le fond de la page (fin
+   des bandes alternées crème / crème clair). Exceptions voulues : hero de
+   l'accueil, section grise des chevaux disparus. */
+body.fond-taches > section:not(#hero):not(.troupeau--memoire),
+body.fond-taches > header.page-header {
+  background: transparent !important;
+}
+
+/* Sur les pages à thème, les sections laissent voir le dégradé de la page. */
+body:is(.theme-male, .theme-femelle) :is(.horse-hero-top, .horse-hero-img-wrap, .horse-hero-info, .horse-pedigree) {
+  background: transparent !important;
+}
+/* Îlots d'identité : la marque reste rose quel que soit le thème. */
+body:is(.theme-male, .theme-femelle) :is(.navbar, footer) {
+  --accent-pale: var(--marque-pale); --accent: var(--marque); --accent-deep: var(--marque-deep); --accent-dark: var(--marque-dark);
+  --border: rgba(176, 96, 112, 0.15);
+}
+
+/* Bas des fiches poulains : « Les autres poulains » en cartes, sur le fond de
+   la page (remplace l'ancien bandeau noir). Le passage au footer reste franc. */
+.autres-poulains { padding: 4.5rem 1.5rem 5rem; text-align: center; }
+.autres-poulains .section-divider { margin: 1.5rem auto 2.5rem; }
+.autres-poulains .horses-grid:has(> .cc) { grid-template-columns: repeat(auto-fit, minmax(250px, 290px)); justify-content: center; text-align: left; }   /* auto-fit : pas de colonnes vides, donc vraiment centré */
+
+/* ============================================
+   PAGE « NOS CHEVAUX » (nos-chevaux.html)
+   Trois sections, chacune une rangée de cartes qui défile à l'horizontale
+   (linéaire, pas en boucle : peu de cartes, l'ordre de tri a un début).
+   Les flèches n'apparaissent que si la rangée déborde (js/main.js) ;
+   sur mobile, on glisse au doigt et la carte suivante dépasse.
+   ============================================ */
+/* En-tête sous la nav2 : la page porte déjà 80px (navbar) + la nav2 ; on retire
+   ce supplément du haut de l'en-tête pour garder le même écart visuel que sur
+   les autres pages (titre à la même hauteur). */
+.page-header--sous-nav2 { padding-top: 3.5rem; }
+
+/* Fonds : dégradés VERTICAUX qui se passent le relais (chaque section part de
+   la couleur où finit la précédente) → aucune arête. Crème → crème chaud →
+   gris chaud du mémorial. Le raccord vers le footer noir reste franc. */
+.troupeau { padding: 3.5rem 1.5rem 2rem; scroll-margin-top: calc(var(--nav-h) + var(--nav2-h)); overflow: hidden; }
+#reproducteurs { background: linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-light) 100%); }
+#poulains      { background: linear-gradient(180deg, var(--bg-light) 0%, #F7F1EC 70%, #F3EEEA 100%); }
+#memoire       { background: linear-gradient(180deg, #F3EEEA 0%, #ECE6E1 100%); padding-bottom: 4.5rem; }
+/* Fond à taches (15/10) : les sections au-dessus sont transparentes ; le gris
+   du mémorial arrive par un fondu depuis la transparence (pas d'arête). */
+body.fond-taches #memoire { background: linear-gradient(180deg, rgba(243, 238, 234, 0) 0%, #F3EEEA 11rem, #ECE6E1 100%); }
+/* Accueil sur fond à taches : le hero n'est pas touché ; son fondu du bas
+   aboutit au crème de base, et « Qui sommes-nous » repart de ce crème plein
+   pour devenir transparente : les taches apparaissent sans arête. */
+body.fond-taches #hero::after { background: linear-gradient(to bottom, rgba(254, 251, 246, 0) 0%, var(--bg-cream) 100%); }
+/* :not(.troupeau--memoire) : même priorité CSS que la règle générale des sections
+   transparentes (qui contient :not(#hero)), sinon celle-ci gagnait. */
+body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background: linear-gradient(180deg, var(--bg-cream) 0, rgba(254, 251, 246, 0) 14rem) !important; }
+/* Accueil, téléphone et tablette (16/10) : « Nos chevaux » remonte juste sous le hero,
+   « Qui sommes-nous » passe après (le défilement était trop long avant les chevaux).
+   Le raccord crème sous le hero suit la section qui vient en premier. */
+@media (max-width: 900px) {
+  body > #hero { order: -2; }
+  body > #accueil-chevaux { order: -1; }
+  body.fond-taches > section#accueil-chevaux:not(.troupeau--memoire) { background: linear-gradient(180deg, var(--bg-cream) 0, rgba(254, 251, 246, 0) 14rem) !important; }
+  body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background: transparent !important; }
+}
+.troupeau-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.4rem; }
+.troupeau-titre { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.75rem, 3.6vw, 2.4rem); line-height: 1.15; color: var(--noir); }
+.troupeau-titre em { color: var(--accent-deep); }
+.troupeau--memoire .troupeau-titre em { color: #7A6868; }
+.troupeau-accent { font-style: italic; font-weight: 500; color: var(--accent-deep); }
+/* Citation d'Alice sous les cartes « Ils ont marqué notre histoire » */
+.troupeau-citation {
+  max-width: 640px; margin: 1.6rem auto 0; text-align: center;
+  font-family: var(--font-serif); font-style: italic; font-weight: 400;
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem); line-height: 1.6; color: #7A6868;
+}
+.troupeau-citation::before {
+  content: ""; display: block; width: 48px; height: 1px; margin: 0 auto 1.1rem;
+  background: rgba(122, 104, 104, 0.45);
+}
+.troupeau-texte { margin-top: .45rem; max-width: 680px; font-size: .9rem; line-height: 1.6; color: var(--gris); }
+
+.troupeau-fleches { display: flex; gap: .5rem; flex-shrink: 0; }
+.troupeau-fleches[hidden] { display: none; }
+.rangee-btn {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--border); background: #fff; color: var(--accent-deep); cursor: pointer;
+  transition: background var(--transition), opacity var(--transition);
+}
+.rangee-btn:hover:not(:disabled) { background: var(--accent-pale); }
+.rangee-btn:disabled { opacity: .35; cursor: default; }
+
+.rangee {
+  display: flex; gap: 1.75rem;
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-behavior: smooth; scroll-padding-inline: 2.5rem;
+  /* marges internes : place pour le soulèvement et l'ombre des cartes au survol
+     (ombre de 40px de flou : 1rem sur les côtés la coupait net, 16/10) */
+  margin: -.75rem -2.5rem -1.5rem; padding: .75rem 2.5rem 3.75rem;
+  scrollbar-width: none;
+}
+.rangee::-webkit-scrollbar { display: none; }
+.rangee:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 12px; }
+/* largeur : 5 cartes tiennent sur un grand écran (pas de défilement inutile),
+   jamais moins de 250px ni plus de 290px, comme les grilles du reste du site */
+.rangee > .cc { flex: 0 0 clamp(250px, calc((100% - 4 * 1.75rem) / 5), 290px); height: auto; scroll-snap-align: start; }
+/* fondu sur le bord quand il reste des cartes de ce côté */
+.rangee.peut-droite { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); }
+.rangee.peut-gauche { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent); }
+.rangee.peut-gauche.peut-droite {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+}
+
+/* ── DA des cartes (14/10, revue le 15/10 avec la palette framboise/pétrole) ──
+   Même règle pour les deux sexes, tirée de --c (couleur du cheval) : du
+   foncé sous la photo vers le clair en bas de carte, sans passer par le
+   crème. Gris chaud pour les chevaux disparus. */
+.cc { background: color-mix(in srgb, var(--c) 6%, #FFFEFA); border-color: color-mix(in srgb, var(--c) 16%, transparent); }
+.cc--memoire { background: #F7F2EA; border-color: rgba(90, 80, 75, .12); }
+/* Texte complet : Alice a écrit ses textes pour être lus en entier. Dans une
+   rangée, les cartes s'alignent d'elles-mêmes sur la plus haute (flex), et
+   « Voir la fiche » reste calé en bas. */
+.cc-texte { display: block; -webkit-line-clamp: unset; overflow: visible; min-height: 0; }
+/* Ombre teintée de la couleur du cheval (gris chaud pour les disparus). */
+.cc { --ombre: var(--c); box-shadow: 0 1px 2px color-mix(in srgb, var(--ombre) 10%, transparent), 0 10px 28px color-mix(in srgb, var(--ombre) 15%, transparent); }
+.cc:hover { box-shadow: 0 2px 4px color-mix(in srgb, var(--ombre) 12%, transparent), 0 20px 44px color-mix(in srgb, var(--ombre) 24%, transparent); }
+.cc--memoire { --ombre: #8A7D77; }
+/* Fond du corps de carte : le liseré est fondu dans le dégradé — la couleur
+   du cheval est la plus soutenue sous la photo puis s'éclaircit jusqu'en bas
+   (même couleur, plus claire). Pas de trait net. Même dégradé dans la modale
+   (.cm-infos). NB : écrit sur les éléments eux-mêmes, pas dans une variable
+   de :root, sinon var(--c) y serait résolu avant d'être défini. */
+.cc-corps, .cm-infos { background: linear-gradient(180deg, color-mix(in srgb, var(--c) 30%, #FFFEFA) 0%, color-mix(in srgb, var(--c) 13%, #FFFEFA) 28%, color-mix(in srgb, var(--c) 6%, #FFFEFA) 100%); }
+/* La modale suit la carte : plus de trait vertical, le dégradé suffit. */
+.cm-infos::before { display: none; }
+/* Disparus : sans couleur de sexe, un gris chaud qui se fond vers le crème. */
+.cc--memoire .cc-corps { background: linear-gradient(180deg, #DDD7D3 0%, #EAE6E2 14%, #F5F2EE 50%, #F7F2EA 100%); }
+/* Disparus : le texte d'Alice en italique, comme sur la page mémoire. */
+.cc--memoire .cc-texte { font-family: var(--font-serif); font-style: italic; font-size: 1.02rem; line-height: 1.65; }
+.cm-boite.is-memoire .cm-texte { font-family: var(--font-serif); font-style: italic; font-size: 1.08rem; line-height: 1.75; color: var(--gris); }
+
+.troupeau-lien {
+  display: inline-flex; align-items: center; gap: .6rem; margin-top: .25rem;
+  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); text-decoration: none;
+  transition: gap var(--transition);
+}
+.troupeau-lien:hover { gap: .9rem; }
+.troupeau-lien strong { font-weight: 500; }
+
+@media (max-width: 600px) {
+  .troupeau { padding: 2.75rem 1rem 1.5rem; }
+  .troupeau-fleches { display: none !important; }       /* au doigt, la carte qui dépasse suffit */
+  .rangee { gap: 1rem; }
+  .rangee > .cc { flex-basis: min(78vw, 320px); }
+  .rangee.peut-gauche, .rangee.peut-droite { -webkit-mask-image: none; mask-image: none; }
+  .troupeau-lien { font-size: .66rem; line-height: 1.6; }
+}
+@media (prefers-reduced-motion: reduce) { .rangee { scroll-behavior: auto; } }
+
+/* ============================================
+   PAGE CONTACT (contact.html)
+   ============================================ */
+#contact.contact-page {
+  padding-top: 2rem;
+  background: linear-gradient(to bottom, var(--bg-cream) 0%, #FDF5F7 45%, var(--bg-light) 100%);
+}
+.contact-cote { display: flex; flex-direction: column; gap: 2rem; }
+.contact-item-text a { color: var(--accent-deep); text-decoration: none; border-bottom: 1px solid var(--border); }
+.contact-item-text a:hover { border-bottom-color: currentColor; }
+.contact-encart {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; text-align: left;
+  text-decoration: none; color: inherit; padding: 1.3rem 1.5rem; border-radius: var(--radius); background: var(--bg-card);
+  border: 1px solid var(--border); transition: box-shadow var(--transition), transform var(--transition);
+}
+.contact-encart:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.contact-encart-titre { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 600; color: var(--noir); }
+.contact-encart-texte { font-size: .85rem; color: var(--gris); line-height: 1.6; }
+.contact-encart-lien {
+  display: inline-flex; align-items: center; gap: .4rem; margin-top: .3rem;
+  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep);
+}
+.form-rgpd { margin-top: .9rem; font-size: .72rem; color: var(--gris); text-align: center; line-height: 1.6; }
+.form-rgpd a { color: inherit; }
+.form-result { margin-top: 1rem; text-align: center; font-size: .85rem; color: var(--accent-deep); }
+.form-result.is-erreur { color: #b03a2e; }
+
+/* ============================================
+   EN-TÊTE « HC » (.page-header--hc) — pages classiques (16/10)
+   L'image du hero de l'accueil avec le même voile, sans pétales ni logo.
+   Elle se fond vers le bas dans le fond à taches de la page (masque), et
+   déborde un peu sous la section suivante pour éviter toute arête.
+   Posé sur : L'élevage, Nos chevaux, Contact, Livre d'or, Acheter.
+   Pas sur : fiches chevaux, frise, arbre (ni pages légales / 404, qui ont leur style).
+   ============================================ */
+.page-header--hc { position: relative; isolation: isolate; }
+.page-header--hc::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: -4rem;
+  z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(160deg, rgba(255,248,240,0.82) 0%, rgba(254,243,245,0.8) 50%, rgba(254,251,246,0.88) 100%),
+    url('../img/heroHCwp.jpg') center 60% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0,0,0,.45) 75%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0,0,0,.45) 75%, transparent 100%);
+}
+/* Mobile : le texte passe sur le cerisier, voile plus épais pour la lisibilité (retour 16/10). */
+@media (max-width: 700px) {
+  .page-header--hc::before {
+    background:
+      linear-gradient(160deg, rgba(255,250,244,0.9) 0%, rgba(254,246,247,0.89) 50%, rgba(254,251,246,0.93) 100%),
+      url('../img/heroHCwp.jpg') center 60% / cover no-repeat;
+  }
+}
+
+/* ============================================
+   ACCUEIL — liens dans le texte d'Alice (aucun mot changé, juste un lien posé)
+   ============================================ */
+.lien-texte {
+  color: inherit; text-decoration: underline; text-decoration-thickness: 1px;
+  text-underline-offset: 3px; text-decoration-color: rgba(176, 96, 112, 0.35);
+  transition: color var(--transition), text-decoration-color var(--transition);
+}
+.lien-texte:hover, .lien-texte:focus-visible { color: var(--accent-deep); text-decoration-color: var(--accent-deep); }
+
+/* ============================================
+   ACCUEIL — petites cartes chevaux (.ca, générées par build.py format=mini)
+   Photo pleine, nom posé sur un dégradé sombre, filet bleu/rose en bas qui
+   s'étire au survol, flèche qui apparaît. Deux rangées : poulains, reproducteurs.
+   ============================================ */
+#accueil-chevaux { background: var(--bg-cream); }
+/* largeur = 5 cartes : les en-têtes s'alignent sur les rangées, le tout centré */
+.ca-groupe { --ca-w: 172px; --ca-gap: 1rem; margin: 2.6rem auto 0; max-width: calc(5 * var(--ca-w) + 4 * var(--ca-gap)); }
+@media (min-width: 1100px) { .ca-groupe { --ca-w: 220px; --ca-gap: 1.25rem; } .ca-groupe .ca-nom { font-size: 1.7rem; } }
+.ca-groupe-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 1.1rem; }
+.ca-groupe-titre { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.45rem, 2.6vw, 1.85rem); line-height: 1.15; color: var(--noir); }
+.ca-groupe-titre em { color: var(--accent-deep); }
+.ca-groupe-texte { margin-top: .35rem; max-width: 560px; font-size: .88rem; line-height: 1.6; color: var(--gris); }
+.ca-groupe-lien {
+  flex-shrink: 0; color: var(--accent-deep); text-decoration: none; white-space: nowrap;
+  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+}
+.ca-rangee {
+  display: flex; gap: var(--ca-gap, 1rem); overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-inline: 1.5rem;
+  /* marges internes assez larges pour l'ombre et le soulèvement au survol :
+     une rangée qui défile coupe tout ce qui dépasse (d'où un « carré » d'ombre) */
+  margin: -1rem -1.5rem -1.4rem; padding: 1rem 1.5rem 2.8rem; scrollbar-width: none;
+}
+.ca-rangee::-webkit-scrollbar { display: none; }
+
+.ca {
+  position: relative; isolation: isolate; overflow: hidden; display: block;
+  flex: 0 0 var(--ca-w, 172px); aspect-ratio: 3 / 4; border-radius: 16px;
+  text-decoration: none; color: #fff; scroll-snap-align: start;
+  background: #2a2522; box-shadow: 0 6px 16px color-mix(in srgb, var(--male) 24%, transparent);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.ca img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  z-index: -2; transition: transform .7s cubic-bezier(.2, .7, .2, 1);
+}
+.ca::after {   /* dégradé de lisibilité */
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to top, rgba(22, 17, 15, .82) 0%, rgba(22, 17, 15, .32) 36%, rgba(22, 17, 15, 0) 62%);
+}
+.ca::before {  /* filet de couleur du sexe */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; z-index: 2;
+  background: var(--male); transform-origin: left; transform: scaleX(.3);
+  transition: transform var(--transition);
+}
+.ca--femelle::before { background: var(--femelle); }
+.ca--femelle { box-shadow: 0 6px 16px color-mix(in srgb, var(--femelle) 24%, transparent); }
+.ca:hover, .ca:focus-visible { transform: translateY(-5px); box-shadow: 0 12px 22px color-mix(in srgb, var(--male) 36%, transparent); }
+.ca--femelle:hover, .ca--femelle:focus-visible { box-shadow: 0 12px 22px color-mix(in srgb, var(--femelle) 36%, transparent); }
+.ca:hover img, .ca:focus-visible img { transform: scale(1.07); }
+.ca:hover::before, .ca:focus-visible::before { transform: scaleX(1); }
+.ca:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.ca-corps { position: absolute; left: .9rem; right: .9rem; bottom: 1rem; display: flex; flex-direction: column; gap: .2rem; }
+.ca-nom { font-family: var(--font-serif); font-style: italic; font-size: 1.45rem; line-height: 1.05; color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, .35); }
+
+.ca-badge { position: absolute; top: .7rem; left: .7rem; font-size: .56rem; box-shadow: 0 2px 10px rgba(0, 0, 0, .18); }   /* couleur : .pastille */
+.ca-fleche {
+  position: absolute; top: .65rem; right: .65rem; width: 32px; height: 32px; border-radius: 50%;
+  display: grid; place-items: center; background: rgba(255, 255, 255, .2); color: #fff;
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  opacity: 0; transform: translateX(-6px); transition: opacity var(--transition), transform var(--transition);
+}
+.ca:hover .ca-fleche, .ca:focus-visible .ca-fleche { opacity: 1; transform: none; }
+/* Téléphone / tablette : pas de survol → flèche et filet visibles d'office */
+@media (hover: none) {
+  .ca-fleche { opacity: 1; transform: none; }
+  .ca::before { transform: scaleX(1); }
+}
+@media (max-width: 600px) {
+  .ca-groupe { --ca-w: 142px; }
+  /* la marge latérale de la page n'est que de 1rem sur téléphone : la rangée
+     débordait de 1,5rem et élargissait la page de 8 px (corrigé le 16/10) */
+  .ca-rangee { margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; padding-right: 1rem; scroll-padding-inline: 1rem; }
+  .ca { border-radius: 14px; }
+  .ca-nom { font-size: 1.2rem; }
+  .ca-groupe-tete { flex-direction: column; align-items: flex-start; gap: .6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ca, .ca img, .ca::before, .ca-fleche { transition: none; }
+}
+
+/* ============================================
+   ACCUEIL — appel vers la page contact (le formulaire vit dans contact.html)
+   ============================================ */
+.contact-appel { text-align: center; }
+.contact-appel .section-text { max-width: 540px; margin: 0 auto 2rem; }
+.contact-appel-lieu { margin-top: 1.4rem; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
+
+/* ============================================
+   ACCUEIL — « Explorez notre univers » : 3 grandes cartes (.showcase-grid--trio)
+   Grand écran : 3 côte à côte. Écran moyen : 3 bandeaux larges empilés
+   (jamais 2 + 1, pas de carrousel). Téléphone : 3 cartes empilées.
+   ============================================ */
+.showcase-grid--trio { grid-template-columns: repeat(3, 1fr); }
+.showcase-grid--trio .showcase-card { aspect-ratio: 5 / 6; }
+@media (max-width: 1100px) {
+  .showcase-grid--trio { grid-template-columns: 1fr; gap: 1.25rem; }
+  .showcase-grid--trio .showcase-card { aspect-ratio: 3 / 1; }
+  .showcase-grid--trio .showcase-card-desc { display: block; }
+  /* bandeau : texte centré verticalement à gauche, dégradé de gauche à droite,
+     l'image reste lisible sur la moitié droite */
+  .showcase-grid--trio .showcase-card-content {
+    top: 0; right: auto; width: 58%;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  }
+  .showcase-grid--trio .showcase-card::after {
+    background: linear-gradient(to right, rgba(28,20,15,.92) 0%, rgba(28,20,15,.72) 40%, rgba(28,20,15,.1) 72%, rgba(28,20,15,0) 88%);
+  }
+  .showcase-grid--trio .showcase-card:hover::after,
+  .showcase-grid--trio .showcase-card:focus-visible::after {
+    background: linear-gradient(to right, rgba(139,74,92,.94) 0%, rgba(28,20,15,.7) 42%, rgba(28,20,15,.1) 74%, rgba(28,20,15,0) 90%);
+  }
+}
+@media (max-width: 760px) {
+  .showcase-grid--trio .showcase-card { aspect-ratio: 4 / 3; }
+  .showcase-grid--trio .showcase-card-desc { display: none; }
+  .showcase-grid--trio .showcase-card-content { top: auto; right: 0; width: auto; display: block; }
+  .showcase-grid--trio .showcase-card::after {
+    background: linear-gradient(to top, rgba(28,20,15,.92) 0%, rgba(28,20,15,.62) 32%, rgba(28,20,15,.05) 62%, rgba(28,20,15,0) 80%);
+  }
+  .showcase-grid--trio .showcase-card:hover::after,
+  .showcase-grid--trio .showcase-card:focus-visible::after {
+    background: linear-gradient(to top, rgba(139,74,92,.94) 0%, rgba(28,20,15,.6) 34%, rgba(28,20,15,.05) 64%, rgba(28,20,15,0) 82%);
+  }
+}
+
+/* ============================================
+   LIVRE D'OR — messages (.lo-mot, générés par build.py) et formulaire
+   Page livre-dor.html + sélection sur l'accueil. Tout ce qui porte
+   data-si-livre-dor reste caché (hidden) tant que data/livre-dor.json est vide.
+   ============================================ */
+[data-si-livre-dor][hidden] { display: none !important; }
+
+.lo-mots { columns: 3 300px; column-gap: 1.5rem; max-width: 1150px; margin: 0 auto; }
+/* Accueil : 3 messages au plus → rangée centrée (pas de colonne vide à droite) */
+.lo-mots--accueil { columns: auto; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 1.5rem; margin: 2.5rem auto 2rem; }
+.lo-mots--accueil .lo-mot { flex: 0 1 350px; margin: 0; }
+.lo-mot {
+  position: relative; break-inside: avoid; margin: 0 0 1.5rem;
+  padding: 2.4rem 1.8rem 1.5rem; background: var(--bg-card);
+  border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.lo-mot::before {   /* guillemet décoratif */
+  content: "\201C"; position: absolute; top: .9rem; left: 1.3rem;
+  font-family: var(--font-serif); font-size: 3.2rem; line-height: 1; color: var(--accent); opacity: .55;
+}
+.lo-texte { margin: 0; padding-top: .6rem; font-family: var(--font-serif); font-style: italic; font-size: 1.12rem; line-height: 1.65; color: var(--noir); }
+.lo-texte p + p { margin-top: .7rem; }
+.lo-signature { display: flex; flex-direction: column; gap: .25rem; margin-top: 1.1rem; }
+.lo-nom { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-deep); }
+.lo-detail { font-size: .8rem; color: var(--gris); }
+.lo-detail a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(176, 96, 112, 0.35); }
+.lo-detail a:hover { color: var(--accent-deep); }
+.lo-liens { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 1rem; }
+
+.livre-dor-accueil { background: var(--bg-light); }
+.livre-dor-page { padding-top: 1rem; }
+.livre-dor-form { background: var(--bg-light); }
+.livre-dor-carte { max-width: 680px; margin: 0 auto; }
+.form-group label small { text-transform: none; letter-spacing: 0; color: var(--gris); font-size: .9em; }
+.form-accord {
+  display: flex; align-items: flex-start; gap: .7rem; margin: .4rem 0 1.4rem;
+  font-size: .85rem; line-height: 1.55; color: var(--gris); cursor: pointer;
+}
+.form-accord input { flex-shrink: 0; width: 1.05rem; height: 1.05rem; margin-top: .18rem; accent-color: var(--accent-deep); }
+@media (max-width: 600px) {
+  .lo-mot { padding: 2.2rem 1.4rem 1.3rem; }
+}
+
+/* L'élevage : carte « Notre histoire » centrée sous les 6 cartes */
+.elevage-histoire { display: block; max-width: 420px; margin: 3rem auto 0; }
+
+/* Fiches étalons, bas de page mobile : les deux boutons empilés */
+.cta-end-inner .btn + .btn { margin-top: .7rem; }
+.ac-saillie { display: flex; justify-content: center; margin: 1.6rem 0 .4rem; }

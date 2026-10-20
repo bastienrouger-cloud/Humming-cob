@@ -11,6 +11,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://hummingcob.fr/accouplement.html">
+    <link rel="canonical" href="https://hummingcob.fr/accouplement.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Humming Cob">
   <!-- Teinte de la barre du navigateur : calée sur le header,
@@ -25,7 +26,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="img/favicon_io/apple-touch-icon.png">
   <link rel="manifest" href="img/favicon_io/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/style.css">
 <style>
   :root{
@@ -33,9 +34,9 @@
        mêmes valeurs recopiées à la main : le jour où la charte bouge, la page ne
        suit pas. Les noms locaux deviennent donc de simples alias vers les
        variables globales de css/style.css, et les doublons exacts
-       (--bg-card, --rose, --rose-deep, --rose-dark, --radius) sont supprimés.
+       (--bg-card, --accent, --accent-deep, --accent-dark, --radius) sont supprimés.
        Le doré --gold, qui n'existait nulle part ailleurs sur le site, est
-       remplacé par --rose-deep. */
+       remplacé par --accent-deep. */
     --cream: var(--bg-cream);
     --ink:   var(--noir);
     --line:  var(--border);
@@ -46,12 +47,18 @@
     --strain-sd:#B7333A;
     --strain-sancler:#C2A24E;
     --strain-cairnview:#3F8F8A;
-    --strain-hc:var(--rose-deep);
+    --strain-hc:var(--accent-deep);
     --strain-autre:#d98a4a;
     --strain-inconnue:#c7bca8;
-    --sex-stallion:#3F6289;
-    --sex-mare:var(--rose-deep);
+    --sex-stallion:var(--male-deep);
+    --sex-mare:var(--femelle-deep);
+    /* Niveaux du résultat (16/10) : aplats de la famille des pastilles de statut,
+       texte blanc ≥ 4,5:1 (sauge, ambre, terre cuite, brique, taupe). */
+    --niv-faible:#567548; --niv-modere:#9A6B1F; --niv-eleve:#A4552F; --niv-tres-eleve:#8C2F2B; --niv-inconnu:#756C66;
   }
+  /* Fenêtres de choix et d'ajout : couleur du sexe à la place du rose (recherche, boutons, titre) */
+  .cp--male{--accent-pale:var(--male-pale);--accent:var(--male);--accent-deep:var(--male-deep);--accent-dark:#1F5257;}
+  .cp--femelle{--accent-pale:var(--femelle-pale);--accent:var(--femelle);--accent-deep:var(--femelle-deep);--accent-dark:#7E2440;}
   *{box-sizing:border-box;}
   body{
     margin:0;
@@ -71,50 +78,12 @@
     font-weight:700;
     font-size:2.4rem;
     margin:0 0 4px;
-    color:var(--rose-deep);
+    color:var(--accent-deep);
     max-width:var(--page-w);
     margin-left:auto;
     margin-right:auto;
   }
-  .subtitle{
-    color:#7a6f62;
-    margin:0 0 16px;
-    font-size:0.95rem;
-    max-width:var(--page-w);
-    margin-left:auto;
-    margin-right:auto;
-  }
-  .legend{
-    display:flex;
-    flex-wrap:wrap;
-    gap:16px;
-    align-items:center;
-    font-size:0.8rem;
-    color:#7a6f62;
-    max-width:var(--page-w);
-    margin:0 auto 24px;
-    padding:12px 18px;
-    background:var(--bg-card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-  }
-  .legend-title{
-    font-family:'Cormorant Garamond',serif;
-    font-size:1rem;
-    color:var(--ink);
-    margin-right:4px;
-  }
-  .legend-item{display:flex;align-items:center;gap:6px;}
-  .legend-caption{
-    flex-basis:100%;
-    font-size:0.76rem;
-    color:#8a7d6d;
-    line-height:1.5;
-    margin-top:4px;
-    padding-top:8px;
-    border-top:1px solid var(--line);
-  }
-  .legend-caption strong{color:var(--rose-dark);}
+
   .page{max-width:var(--page-w);margin:0 auto;display:flex;flex-direction:column;gap:24px;}
   .panel{
     background:var(--bg-card);
@@ -135,22 +104,14 @@
   th{color:#8a7d6d;font-weight:500;font-size:0.72rem;text-transform:uppercase;letter-spacing:.05em;padding-bottom:12px;}
   tbody tr{transition:filter .12s ease;}
   tbody tr:not(.group-head):hover{filter:brightness(0.96);}
-  .tag{
-    display:inline-block;
-    font-size:0.66rem;
-    padding:2px 8px;
-    border-radius:20px;
-    background:var(--rose);
-    color:#fff;
-    letter-spacing:.02em;
-  }
-  .tag.sex{background:var(--line);color:var(--ink);}
-  .name-stallion{color:var(--sex-stallion);font-weight:500;}
-  .name-mare{color:var(--sex-mare);font-weight:500;}
-  .tag.synth{background:#b9ab94;}
-  .tag.estim{background:var(--warn);}
-  .tag.hc{background:var(--rose-deep);margin-right:4px;}
-  .tag.imported{background:var(--rose-deep);margin-right:4px;}
+
+
+
+
+
+
+
+
   label{display:block;font-size:0.78rem;color:#7a6f62;margin:10px 0 4px;}
   input,select{
     width:100%;
@@ -171,312 +132,465 @@
     cursor:pointer;
     font-size:0.85rem;
   }
-  .btn-primary{
-    background:var(--rose-deep);color:#fff;margin-top:14px;
-    border-radius:50px;padding:11px 22px;font-size:0.78rem;
-    letter-spacing:0.08em;text-transform:uppercase;
-    transition:background .2s ease, transform .2s ease;
-  }
-  .btn-primary:hover{background:var(--rose-dark);transform:translateY(-1px);}
-  .btn-secondary{
-    /* Aligné sur .btn-outline du site : même pilule, même graisse de trait,
-       mêmes capitales espacées. */
-    background:transparent;border:1.5px solid var(--rose-deep);color:var(--rose-deep);
-    border-radius:50px;padding:0.75rem 2rem;font-size:0.78rem;
-    letter-spacing:0.12em;text-transform:uppercase;text-transform:uppercase;
-    transition:background .2s ease, color .2s ease, transform .2s ease;
-  }
-  .btn-secondary:hover{background:var(--rose-deep);color:#fff;transform:translateY(-1px);}
+  /* Boutons : ceux du site (.btn .btn-primary / .btn-outline, DA du 16/10).
+     Les anciennes copies locales (.btn-primary plein, .btn-secondary contour) sont retirées. */
+  .btn{font-weight:400;}
   .row-actions{display:flex;gap:14px;margin-top:16px;justify-content:center;flex-wrap:wrap;}
-  .result{
-    margin-top:22px;
-    padding:16px;
-    border-radius:8px;
-    border:1px solid var(--line);
-    background:#fbf6ee;
-    max-width:520px;
-    margin-left:auto;
-    margin-right:auto;
-  }
-  .result .value{
-    font-family:'Cormorant Garamond',serif;
-    font-size:2.2rem;
-    font-weight:700;
-  }
-  .result .label{font-size:0.8rem;color:#7a6f62;margin-bottom:2px;}
-  .badge{
-    display:inline-block;
-    margin-top:8px;
-    padding:4px 12px;
-    border-radius:20px;
-    font-size:0.78rem;
-    color:#fff;
-  }
   .hint{font-size:0.78rem;color:#8a7d6d;margin-top:10px;line-height:1.5;}
   #fileInput{display:none;}
-  .small{font-size:0.72rem;color:#a99d8c;margin-top:16px;}
 
-  /* --- Chevaux enregistrés : replié par défaut --- */
-  .collapse-wrap{
-    background:var(--bg-card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:4px 22px;
-  }
-  .collapse-wrap summary{
-    cursor:pointer;
-    padding:14px 0;
-    font-family:'Cormorant Garamond',serif;
-    font-size:1.15rem;
-    color:var(--ink);
-    list-style:none;
-  }
-  .collapse-wrap summary::-webkit-details-marker{display:none;}
-  .collapse-wrap summary::before{content:'▸ ';color:var(--rose-deep);}
-  .collapse-wrap[open] summary::before{content:'▾ ';}
-  .collapse-wrap[open] summary{border-bottom:1px solid var(--line);}
-  .collapse-wrap table{margin:14px 0 10px;}
-
-  /* --- En-tête de groupe du tableau (titre d'élevage / lignée) ---
-     Classe dédiée .group-head : NE PAS réutiliser .section-divider, qui est le
-     trait dégradé rose décoratif global de style.css (sinon il remplit la ligne). */
-  .group-head td{padding:20px 12px 8px;border-bottom:none;background:none;}
-  .divider-line{
-    display:flex;align-items:center;gap:14px;
-    font-family:'Jost',sans-serif;
-    font-size:0.7rem;text-transform:uppercase;letter-spacing:.16em;
-    font-weight:500;color:var(--rose-deep);
-  }
-  .divider-line::before,.divider-line::after{
-    content:'';flex:1;height:1px;
-    background:linear-gradient(to right, transparent, var(--line));
-  }
-  .divider-line::after{background:linear-gradient(to left, transparent, var(--line));}
-  .divider-content{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;}
 
   /* --- Note explicative repliable (méthode de calcul) --- */
   .calc-info{margin-top:14px;}
-  .calc-info summary{cursor:pointer;font-size:0.8rem;color:var(--rose-deep);list-style:none;}
+  .calc-info summary{cursor:pointer;font-size:0.8rem;color:var(--accent-deep);list-style:none;}
   .calc-info summary::-webkit-details-marker{display:none;}
   .calc-info summary::before{content:'▸ ';}
   .calc-info[open] summary::before{content:'▾ ';}
 
-  /* --- Encart fiabilité --- */
-  .reliability-note{
-    margin:14px 0 22px;padding:16px 20px;
-    border-left:5px solid var(--rose-deep);border-radius:var(--radius);
-    background:color-mix(in srgb, var(--rose-deep) 15%, var(--bg-card));
-    font-size:0.88rem;line-height:1.55;color:var(--ink);
-    text-align:left;
+  /* --- Section "Sauvegarder mes chevaux" (habillage 16/10, DA du site) --- */
+  .panel{
+    padding:2rem clamp(1.1rem,3vw,2.2rem) 2.2rem;border-radius:24px;text-align:center;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 10%,#FFFEFB) 0%,#FFFEFB 55%);
+    border:1px solid color-mix(in srgb,var(--accent) 18%,transparent);
+    box-shadow:0 10px 30px color-mix(in srgb,var(--accent-deep) 7%,transparent);
   }
-  .reliability-note strong{color:var(--rose-dark);}
-  .reliability-note a{color:var(--rose-deep);text-decoration:underline;}
-  .result-caveat{
-    margin-top:10px;padding:8px 14px;
-    border-left:4px solid var(--rose-deep);border-radius:var(--radius);
-    background:color-mix(in srgb, var(--rose-deep) 12%, var(--bg-card));
-    text-align:left;
+  .panel h2{
+    margin:0 0 .6rem;padding:0;border:0;
+    font-family:var(--font-serif);font-weight:400;font-size:clamp(1.5rem,2.6vw,1.85rem);color:var(--noir);
   }
-
-  /* --- Section "Sauvegarder mes chevaux" --- */
+  .panel h2 em{color:var(--accent-deep);}
+  .panel .hint{max-width:640px;margin:0 auto;font-size:.86rem;line-height:1.6;color:var(--gris);}
+  .panel .hint strong{color:var(--noir);font-weight:500;}
   .save-note{
-    margin:14px 0 4px;padding:12px 18px;
-    border-left:3px solid var(--rose);border-radius:var(--radius);
-    background:color-mix(in srgb, var(--rose) 8%, var(--bg-card));
-    font-size:0.85rem;line-height:1.5;color:var(--ink);
-    font-style:italic;
+    position:relative;max-width:680px;margin:1.2rem auto 0;padding:1rem 1.2rem 1rem 3.1rem;
+    border-radius:16px;background:rgba(255,255,255,.75);border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);
+    font-size:.84rem;line-height:1.6;color:var(--gris);text-align:left;
   }
-  .save-note strong{font-style:normal;color:var(--rose-dark);}
-
-  /* --- Pastilles de lignée --- */
-  .swatch{
-    display:inline-block;
-    border-radius:50%;
-    vertical-align:middle;
-    border:1px solid rgba(0,0,0,0.15);
-    flex:none;
+  .save-note::before{
+    content:'i';position:absolute;left:1.1rem;top:1.05rem;display:grid;place-items:center;width:1.5rem;height:1.5rem;border-radius:50%;
+    background:var(--accent-pale);color:var(--accent-deep);font-family:var(--font-serif);font-style:italic;font-weight:600;font-size:.95rem;
   }
-  .name-link{cursor:pointer;}
-  .name-link:hover{text-decoration:underline;}
-  .strain-caption{font-size:0.68rem;color:#a99d8c;margin:6px 0 2px;}
-  .strain-select{
-    cursor:pointer;
-    font-weight:500;
-    margin-bottom:8px;
+  .save-note strong{color:var(--noir);font-weight:500;}
+  .panel .row-actions{margin-top:1.4rem !important;}
+  /* Boutons « Télécharger / Recharger » : remplissage plein et symétrique plutôt
+     que le voile « fondu » (qui, centré et en paire, se lit de travers au repos). */
+  .panel .row-actions .btn-outline{
+    padding-right:1.7rem;
+    background-image:none;
+    background-color:color-mix(in srgb,var(--accent) 14%,transparent);
+    transition:background-color var(--transition),transform var(--transition);
   }
-
-  /* --- Autocomplete --- */
-  .combo{position:relative;margin-bottom:4px;}
-  .combo-input{margin-bottom:0;}
-  .combo-list{
-    position:absolute; z-index:20; top:100%; left:0; right:0;
-    background:#fff; border:1px solid var(--line); border-top:none;
-    border-radius:0 0 6px 6px; max-height:220px; overflow-y:auto;
-    display:none; box-shadow:0 6px 14px rgba(0,0,0,0.12);
-  }
-  .combo-group{font-size:0.62rem;text-transform:uppercase;letter-spacing:.03em;color:#a99d8c;padding:5px 8px 2px;background:#faf6ee;}
-  .combo-item{display:flex;align-items:center;gap:6px;padding:6px 8px;font-size:0.8rem;cursor:pointer;}
-  .combo-item:hover{background:#f2ede1;}
-  .combo-empty{padding:8px;font-size:0.76rem;color:#a99d8c;}
-  .slot-pill{
-    display:flex;align-items:center;gap:6px;
-    padding:6px 8px;border:1px solid var(--line);border-radius:6px;
-    background:#fff;font-size:0.82rem;margin-bottom:6px;
-  }
-  .slot-pill .pill-name{flex:1;}
-  .slot-pill .pill-clear, .new-clear{cursor:pointer;color:#a99d8c;font-weight:600;padding:0 4px;}
-  .slot-pill .pill-clear:hover, .new-clear:hover{color:var(--danger);}
-  .link-btn{background:transparent;border:none;color:var(--rose-deep);font-size:0.72rem;
-    letter-spacing:0.1em;text-transform:uppercase;
-    padding:2px 0;cursor:pointer;text-decoration:none;display:block;width:100%;white-space:normal;text-align:left;}
-  .new-caption{display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:#a99d8c;margin-bottom:2px;}
-  .owned-toggle{display:flex;align-items:center;gap:6px;font-size:0.76rem;color:#7a6f62;margin:10px 0 4px;}
-  .owned-toggle input{width:auto;margin:0;}
-
-  /* --- Arbre généalogique de saisie --- */
-  .tree-wrap{overflow-x:auto;padding:6px 2px 14px;}
-  .tree{display:flex;align-items:center;width:max-content;}
-  .branch{display:flex;align-items:center;}
-  .root-wrap{display:flex;flex-direction:column;align-items:stretch;}
-  .root-strain-outside{margin-top:8px;padding:0 1px;}
-  .children-wrap{
-    display:flex;
-    flex-direction:column;
-    justify-content:space-around;
-    gap:12px;
-    margin-inline-start:14px;
-    padding-inline-start:14px;
-    border-inline-start:2px solid var(--line);
-  }
-  .tree.mirrored{direction:rtl;}
-  .tree.mirrored .node-card, .tree.mirrored .root-strain-outside{direction:ltr;}
-  .node-card{
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:10px 12px;
-    background:var(--bg-card);
-    width:180px;
-  }
-  .node-card.root-card{
-    background:#fbf6ee;
-    border-color:var(--rose-deep);
-    width:170px;
-    padding:8px 10px;
-  }
-  .node-card.existing{
-    background:#f2ede1;
-    border-style:dashed;
-  }
-  .node-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:6px;
-    font-size:0.78rem;
-    color:#7a6f62;
-  }
-  .node-head .left{display:flex;align-items:center;gap:6px;}
-  .gen-badge{
-    font-size:0.62rem;
-    color:#8a7d6d;
-    background:var(--line);
-    border-radius:var(--radius);
-    padding:1px 7px;
-  }
-  .node-card select, .node-card input{
-    padding:6px 8px;
-    font-size:0.8rem;
-    margin-bottom:6px;
-  }
-  .node-card select:disabled, .node-card input:disabled{
-    background:#f2ede1;
-    color:#8a7d6d;
-    cursor:not-allowed;
-  }
-  .node-info{font-size:0.72rem;color:#7a6f62;margin-top:2px;line-height:1.4;}
-  .expand-btn{
-    margin-top:4px;
-    background:transparent;
-    border:1px solid var(--border);
-    color:var(--rose-deep);
-    font-size:0.7rem;
-    padding:4px 8px;
-    border-radius:5px;
-    cursor:pointer;
-  }
-  .expand-btn:hover{background:var(--rose-deep);color:#fff;}
-
-  /* --- Cases Étalon × Jument --- */
-  .match-panel{
-    /* Ce panneau est la raison d'être de la page. Sans distinction, il pesait
-       autant que la légende des lignées ou le bloc de sauvegarde. Il reprend
-       donc le vocabulaire des cartes de l'accueil : liseré rose-deep, coins
-       très arrondis, ombre légère. */
-    border:1.5px solid var(--rose-deep);
-    border-radius:26px;
-    box-shadow:0 4px 32px rgba(176,96,112,0.10);
-    text-align:center;}
-  .match-panel h2{border-bottom:none;text-align:left;color:var(--rose-deep);}
-  .match-row{
-    display:flex;align-items:center;justify-content:center;
-    gap:28px;flex-wrap:wrap;padding:14px 0 4px;
-  }
-  .match-box{
-    width:340px;min-height:150px;
-    border:2px solid var(--line);border-radius:12px;
-    background:var(--bg-card);padding:18px;
-    display:flex;flex-direction:column;
-    text-align:left;
-  }
-  #leftBox{border-left:4px solid var(--sex-stallion);}
-  #rightBox{border-left:4px solid var(--sex-mare);}
-  #leftBox .match-box-label{color:var(--sex-stallion);}
-  #rightBox .match-box-label{color:var(--sex-mare);}
-  .match-box-label{
-    font-family:'Cormorant Garamond',serif;
-    font-size:1.05rem;color:var(--rose-deep);margin-bottom:10px;
-  }
-  .match-box-click{
-    cursor:pointer;justify-content:center;align-items:center;text-align:center;
-    transition:border-color .15s, background .15s;
-  }
-  /* Survol des cases : chacune s'éclaire dans SA couleur de genre, pas en rose
-     pour les deux. La case étalon (#leftBox) est bleue au repos (label + liseré),
-     elle doit le rester au survol ; seule la jument passe au rose. */
-  #leftBox.match-box-click:hover  { border-color:var(--sex-stallion); background:#f3f6f9; }
-  #rightBox.match-box-click:hover { border-color:var(--sex-mare);     background:#fbeef2; }
-  .match-box-placeholder{color:#a99d8c;font-size:0.85rem;}
-  .match-box-filled{display:flex;flex-direction:column;align-items:center;gap:8px;}
-  .match-box-filled .name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;}
-  .match-box-change{font-size:0.72rem;color:var(--rose-deep);text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;}
-  .match-x{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--rose-deep);font-weight:700;}
-  .match-box select{margin-bottom:0;}
-
-  @media (max-width:680px){
-    .match-row{flex-direction:column;align-items:center;}
-    .match-box{width:100%;max-width:340px;}
+  .panel .row-actions .btn-outline::after{margin-left:.5em;}
+  .panel .row-actions .btn-outline:hover{
+    background-image:none;
+    background-color:color-mix(in srgb,var(--accent) 24%,transparent);
+    transform:translateY(-1px);
   }
 
-  /* --- Modale --- */
+  /* --- Modale de l'éditeur (refonte du 14/10) --- */
   .modal-overlay{
-    position:fixed;inset:0;background:rgba(58,50,44,0.55);
-    display:none;align-items:flex-start;justify-content:center;
-    padding:40px 20px;z-index:100;overflow-y:auto;
+    position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;padding:1.5rem;
+    background:rgba(28,22,20,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
   }
   .modal-overlay.open{display:flex;}
   .modal-panel{
-    background:var(--bg-card);border-radius:14px;max-width:1300px;width:100%;
-    padding:26px 30px 30px;box-shadow:0 20px 50px rgba(0,0,0,0.25);
+    position:relative;display:flex;flex-direction:column;width:min(780px,100%);max-height:calc(100vh - 3rem);overflow:hidden;
+    background:#FFFDFB;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.35);
   }
-  .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
-  .modal-head h2{margin:0;font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--rose-deep);}
-  .modal-close{background:transparent;border:none;font-size:1.7rem;line-height:1;color:#a99d8c;cursor:pointer;padding:2px 8px;}
-  .modal-close:hover{color:var(--danger);}
-  .modal-actions{display:flex;gap:10px;align-items:center;margin-top:14px;}
-  .modal-actions .btn-primary, .modal-actions .btn-secondary{margin-top:0;}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.3rem 1.6rem .2rem;}
+  .modal-head h2{margin:0;font-family:var(--font-serif);font-weight:400;font-size:1.75rem;color:var(--noir);border:0;padding:0;}
+  .modal-head h2 em{color:var(--accent-deep);}
+  .modal-close{width:38px;height:38px;padding:0;border-radius:50%;background:#F3EEE8;color:var(--noir);font-size:.95rem;font-weight:400;}
+  .modal-intro{margin:0;padding:.3rem 1.6rem .4rem;font-size:.84rem;line-height:1.55;color:var(--gris);}
+  .modal-corps{overflow-y:auto;padding:.4rem 1.6rem 1.4rem;}
+  .modal-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;padding:1rem 1.6rem 1.2rem;border-top:1px solid rgba(60,40,35,.07);background:#FBF7F2;}
+  .modal-actions .btn{margin-top:0;}
+
+  .ed-actions-gauche{display:flex;gap:1rem;align-items:center;}
+  .modal-actions [hidden]{display:none;}
+
+  /* Liste déroulante de chevaux (même principe que la recherche de l'arbre) */
+  .dd{position:relative;}
+  .dd-liste{margin:.4rem 0 0;padding:.35rem;list-style:none;max-height:300px;overflow-y:auto;border-radius:14px;background:#fff;border:1px solid rgba(60,40,35,.1);box-shadow:0 12px 30px rgba(60,40,35,.14);}
+  .dd-liste[hidden]{display:none;}
+  .ed-resultats.dd-liste{margin:0;}
+  .dd-item{display:flex;align-items:center;gap:.55rem;width:100%;padding:.5rem .7rem;border-radius:9px;background:transparent;text-align:left;font-weight:400;font-size:.92rem;color:var(--noir);cursor:pointer;}
+  .dd-item:hover,.dd-item.sel{background:#FBF3E7;}
+  .dd-pt{width:8px;height:8px;flex-shrink:0;border-radius:50%;background:var(--c,var(--gris));}
+  .dd-meta{margin-left:auto;font-size:.7rem;color:var(--gris);}
+  .dd-hc{margin-left:auto;font-size:.5rem;}   /* nos chevaux : .pastille--hc, comme dans l'arbre */
+  .dd-hc + .dd-meta{margin-left:.5rem;}
+  .dd-vide{padding:.5rem .7rem;font-size:.8rem;color:var(--gris);}
+  .ed-recommencer{padding:0;background:none;color:var(--gris);font-size:.74rem;font-weight:400;text-decoration:underline;}
+  .ed-actions-droite{display:flex;gap:.6rem;align-items:center;}
+  .ed-annuler{padding:.7rem 1.2rem;border-radius:50px;background:transparent;color:var(--gris);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;font-weight:400;}
+  .ed-annuler:hover{color:var(--noir);}
+
+  /* --- Formulaire --- */
+  .ed{display:flex;flex-direction:column;gap:1.2rem;}
+  .ed-bloc{padding:1.1rem 1.2rem 1.2rem;border-radius:18px;background:#fff;border:1px solid rgba(60,40,35,.07);}
+  .ed-bloc--male{--c:var(--male);background:linear-gradient(180deg,color-mix(in srgb,var(--male) 14%,#fff),#fff 60%);}
+  .ed-bloc--femelle{--c:var(--femelle);background:linear-gradient(180deg,color-mix(in srgb,var(--femelle) 16%,#fff),#fff 60%);}
+  .ed-etape{display:flex;align-items:center;gap:.6rem;margin:0 0 .8rem;font-family:var(--font-serif);font-size:1.35rem;color:var(--noir);}
+  .ed-etape-num{display:inline-grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--accent-pale);color:var(--accent-deep);font-family:var(--font-sans);font-size:.78rem;font-weight:500;}
+  .ed-aide{margin:-.3rem 0 1rem;font-size:.8rem;line-height:1.55;color:var(--gris);}
+  .ed-champ{display:block;margin:0 0 .7rem;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);}
+  .ed-champ--petit{margin:0;font-size:.58rem;}
+  .ed-requis,.ed-facultatif{margin-left:.35rem;font-style:normal;letter-spacing:.04em;text-transform:none;font-size:.7rem;color:#B4AAA4;}
+  .ed-requis{color:var(--accent-deep);}
+  .ed-input{
+    display:block;width:100%;margin-top:.3rem;padding:.6rem .8rem;border-radius:12px;border:1px solid rgba(60,40,35,.14);
+    background:#fff;font-family:var(--font-sans);font-size:.88rem;color:var(--noir);letter-spacing:0;text-transform:none;
+  }
+  .ed-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-pale);}
+  .ed-input--grand{padding:.75rem .9rem;font-family:var(--font-serif);font-size:1.2rem;}
+  .ed-ligne2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+  .ed-ligne2 .ed-champ{margin-bottom:0;}
+  .ed-ligne2 + .ed-ligne2{margin-top:.8rem;}
+
+  .ed-parents{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;align-items:start;}
+  .ed-slot{--c:var(--male);padding:.8rem .85rem .9rem;border-radius:14px;background:color-mix(in srgb,var(--c) 7%,#fff);border:1px solid color-mix(in srgb,var(--c) 22%,transparent);}
+  .ed-slot--femelle{--c:var(--femelle);}
+  .ed-role{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;margin:0 0 .45rem;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:color-mix(in srgb,var(--c) 70%,#333);}
+  .ed-gen{font-weight:400;letter-spacing:.06em;text-transform:none;color:#B4AAA4;}
+  .ed-note{display:block;font-size:.7rem;line-height:1.4;color:var(--gris);}
+  .ed-recherche{position:relative;}
+  .ed-recherche .ed-input{margin-top:0;}
+  .ed-resultats{position:absolute;left:0;right:0;top:calc(100% + .3rem);z-index:5;max-height:300px;overflow-y:auto;padding:.3rem;border-radius:12px;background:#fff;border:1px solid rgba(60,40,35,.1);box-shadow:0 12px 30px rgba(60,40,35,.15);}
+  .ed-resultats[hidden]{display:none;}
+
+
+
+
+
+  .ed-lien{margin-top:.45rem;padding:0;background:none;color:var(--accent-deep);font-size:.72rem;font-weight:400;text-decoration:underline;}
+  .ed-choisi{display:flex;align-items:center;gap:.65rem;}
+  .ed-choisi-photo{width:46px;height:46px;flex-shrink:0;border-radius:10px;object-fit:cover;background:#F3EEE6;font-size:1.2rem;}
+  .ed-choisi-infos{display:flex;flex-direction:column;gap:.15rem;min-width:0;flex:1;}
+  .ed-choisi-nom{font-family:var(--font-serif);font-size:1.15rem;line-height:1.2;}
+  .ed-retirer{flex-shrink:0;align-self:flex-start;width:28px;height:28px;padding:0;border-radius:50%;background:rgba(255,255,255,.8);color:var(--gris);font-size:.75rem;font-weight:400;}
+  .ed-retirer:hover{color:var(--noir);background:#fff;}
+  .ed-nouveau{display:flex;flex-direction:column;gap:.5rem;}
+  .ed-nouveau .ed-input{margin-top:0;}
+  .ed-nouveau .ed-champ .ed-input{margin-top:.25rem;padding:.45rem .6rem;font-size:.8rem;}
+  .ed-nouveau-tete{display:flex;align-items:center;justify-content:space-between;}
+  .ed-ajouter-parents{margin-top:.7rem;padding:.45rem .9rem;border-radius:50px;background:#fff;border:1px dashed color-mix(in srgb,var(--c) 45%,transparent);color:color-mix(in srgb,var(--c) 75%,#333);font-size:.7rem;letter-spacing:.06em;font-weight:400;}
+  .ed-ajouter-parents:hover{background:color-mix(in srgb,var(--c) 10%,#fff);}
+  .ed-parents--imbrique{grid-template-columns:1fr;gap:.6rem;margin-top:.8rem;padding-left:.8rem;border-left:2px solid color-mix(in srgb,var(--c) 25%,transparent);}
+  .ed-sous{margin:0;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#B4AAA4;}
+
+  @media (max-width:640px){
+    .modal-overlay{padding:0;align-items:flex-end;}
+    .modal-panel{width:100%;max-height:94vh;border-radius:22px 22px 0 0;}
+    .modal-head,.modal-intro,.modal-corps,.modal-actions{padding-left:1.1rem;padding-right:1.1rem;}
+    .ed-ligne2,.ed-parents{grid-template-columns:1fr;}
+    .ed-bloc{padding:1rem .9rem;}
+    .modal-actions{justify-content:center;}
+  }
+
+  /* ═══ Refonte cosmétique du 14/10 — DA du site ═══════════════════════════
+     Cases parents et résultat façon cartes (dégradé bleu / rose selon le sexe),
+     sélecteur en modale, ancêtres communs surlignés en or dans les pédigrées.
+     L'éditeur de pédigrée (modale « Ajouter ») est plus haut. */
+  .page{gap:2.2rem;}
+  .ac-test{text-align:center;}
+  .ac-titre{font-family:var(--font-serif);font-weight:400;font-size:clamp(1.6rem,3vw,2.1rem);color:var(--noir);margin:0 0 1.6rem;border:0;padding:0;}
+  .ac-titre em{color:var(--accent-deep);}
+  .ac-paire{display:flex;align-items:stretch;justify-content:center;gap:1.5rem;}
+  .ac-croix{align-self:center;font-family:var(--font-serif);font-size:2.4rem;line-height:1;color:var(--gris-clair);}
+  .ac-parent{
+    --c:var(--male); --ct:var(--male-deep);
+    display:flex;flex-direction:column;gap:.7rem;width:min(380px,100%);min-height:158px;
+    margin:0;padding:1rem 1.1rem;text-align:left;font-weight:400;color:var(--noir);cursor:pointer;
+    /* même dégradé que les cartes du site (.cc-corps) : foncé → clair, sans crème */
+    border-radius:20px;border:1px solid color-mix(in srgb,var(--c) 16%,transparent);
+    background:linear-gradient(180deg,color-mix(in srgb,var(--c) 30%,#FFFEFA) 0%,color-mix(in srgb,var(--c) 13%,#FFFEFA) 28%,color-mix(in srgb,var(--c) 6%,#FFFEFA) 100%);
+    box-shadow:0 1px 2px color-mix(in srgb,var(--c) 10%,transparent),0 10px 28px color-mix(in srgb,var(--c) 15%,transparent);
+    transition:transform .3s ease,box-shadow .3s ease,background .3s ease;
+  }
+  .ac-parent--femelle{
+    --c:var(--femelle); --ct:var(--femelle-deep);
+  }
+  .ac-parent:hover{transform:translateY(-3px);box-shadow:0 2px 4px color-mix(in srgb,var(--c) 12%,transparent),0 18px 40px color-mix(in srgb,var(--c) 24%,transparent);}
+  .ac-parent:focus-visible{outline:2px solid var(--c);outline-offset:3px;}
+  .ac-parent.is-vide{background:rgba(255,255,255,.55);border:1.5px dashed color-mix(in srgb,var(--c) 50%,transparent);box-shadow:none;}
+  .ac-parent.is-vide:hover{background:color-mix(in srgb,var(--c) 7%,#fff);}
+  .ac-role{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ct);font-weight:500;}
+  .ac-contenu{display:flex;align-items:center;gap:1rem;flex:1;}
+  .ac-parent.is-vide .ac-contenu{flex-direction:column;justify-content:center;gap:.2rem;text-align:center;}
+  .ac-plus{display:grid;place-items:center;width:44px;height:44px;margin-bottom:.35rem;border-radius:50%;background:color-mix(in srgb,var(--c) 16%,#fff);color:var(--ct);font-size:1.5rem;line-height:1;}
+  .ac-vide-titre{font-family:var(--font-serif);font-size:1.4rem;color:var(--ct);}
+  .ac-vide-sous{font-size:.8rem;color:var(--gris);}
+  .ac-parent-photo{width:88px;height:88px;flex-shrink:0;border-radius:14px;object-fit:cover;background:#F3EEE6;}
+  .ac-sans-photo{display:grid;place-items:center;font-family:var(--font-serif);font-size:2rem;color:var(--ct,var(--gris));background:color-mix(in srgb,var(--c,#999) 14%,#fff);}
+  .ac-parent-infos{display:flex;flex-direction:column;gap:.25rem;min-width:0;}
+  .ac-parent-nom{font-family:var(--font-serif);font-size:1.5rem;line-height:1.15;}
+  .ac-parent-meta{font-size:.72rem;color:var(--gris);}
+  .ac-parent-changer{margin-top:.35rem;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ct);}
+  .ac-inconnu{color:var(--gris-clair);}
+
+  /* Résultat */
+  /* Présentation (planche « Résultat du calculateur », 16/10) :
+     ordinateur = C, chaque partie est une carte de verre posée sur le fond à taches ;
+     téléphone / tablette = B, une seule carte qui part du pétrole (étalon) et finit
+     framboise (jument), parties séparées par un filet, bandeau du couple en tête. */
+  .ac-resultat{
+    width:100%;max-width:1240px;margin:0 auto;text-align:center;scroll-margin-top:100px;
+    display:flex;flex-direction:column;gap:1.4rem;
+  }
+  .ac-res-bloc:empty{display:none;}
+  .ac-res-bloc{padding:1.9rem clamp(1rem,3vw,2.2rem);border-radius:26px;
+    background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.85);box-shadow:0 10px 34px rgba(60,40,35,.07);}
+  .ac-res-bloc > .ac-sous-titre:first-child{margin-top:0;}
+  .ac-res-bloc.ac-pedigrees{margin-top:0;}
+  .ac-res-fin{padding:.4rem clamp(1rem,3vw,2.2rem) 0;}
+  .ac-couple{display:none;}
+  @media (max-width:900px){
+    .ac-resultat{
+      gap:0;padding:1.4rem clamp(1rem,4vw,1.6rem) 1.8rem;border-radius:26px;
+      background:linear-gradient(100deg,color-mix(in srgb,var(--male) 11%,#FFFEFB) 0%,#FFFEFB 32%,#FFFEFB 68%,color-mix(in srgb,var(--femelle) 10%,#FFFEFB) 100%);
+      border:1px solid rgba(60,40,35,.07);box-shadow:0 14px 40px rgba(60,40,35,.07);
+    }
+    .ac-res-bloc{padding:1.8rem 0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;box-shadow:none;}
+    .ac-res-bloc + .ac-res-bloc{border-top:1px solid rgba(60,40,35,.07);}
+    .ac-res-tete{padding-top:0;}
+    .ac-res-fin{padding:1.4rem 0 0;border-top:1px solid rgba(60,40,35,.07);}
+    .ac-couple{display:flex;align-items:center;justify-content:center;gap:.7rem;padding-bottom:1.2rem;margin-bottom:1.4rem;border-bottom:1px solid rgba(60,40,35,.07);}
+  }
+  .ac-cp{--c:var(--male);display:flex;align-items:center;gap:.55rem;min-width:0;text-align:left;}
+  .ac-cp--femelle{--c:var(--femelle);flex-direction:row-reverse;text-align:right;}
+  .ac-cp-photo{width:52px;height:52px;flex-shrink:0;border-radius:50%;object-fit:cover;border:2.5px solid var(--c);box-shadow:0 0 0 3px #FEFBF6,0 4px 12px rgba(60,40,35,.15);background:#F3EEE6;}
+  .ac-cp-role{display:block;font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);}
+  .ac-cp-nom{display:block;font-family:var(--font-serif);font-size:1.15rem;line-height:1.15;overflow-wrap:anywhere;}
+  .ac-cp-x{font-family:var(--font-serif);font-size:1.6rem;color:var(--gris-clair);}
+  .ac-resultat[hidden]{display:none;}
+  .ac-res-label{margin:0;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris);}
+  .ac-res-valeur{margin:.25rem 0 .5rem;font-family:var(--font-serif);font-size:clamp(3rem,8vw,4.3rem);line-height:1.05;color:var(--noir);}
+  .ac-niveau{
+    display:inline-block;padding:.36rem 1rem;border-radius:50px;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;
+    background:var(--niv-inconnu);box-shadow:0 2px 10px rgba(0,0,0,.12);
+  }
+  .ac-niveau--faible{background:var(--niv-faible);}
+  .ac-niveau--modere{background:var(--niv-modere);}
+  .ac-niveau--eleve{background:var(--niv-eleve);}
+  .ac-niveau--tres-eleve{background:var(--niv-tres-eleve);}
+  .ac-equiv{display:block;margin-top:.5rem;font-family:var(--font-serif);font-style:italic;font-size:1rem;color:var(--gris);}
+  .ac-jauge{max-width:520px;margin:1.7rem auto .2rem;}
+  .ac-jauge-barre{position:relative;height:8px;border-radius:8px;background:linear-gradient(90deg,#C6D2BC 0%,#E2CFA4 36%,#DDB39B 63%,#C98C86 100%);}
+  .ac-jauge-curseur{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--nvc,var(--noir));transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(0,0,0,.2);transition:left .6s cubic-bezier(.2,.8,.2,1);}
+  .ac-jauge-reperes{position:relative;height:1.3rem;margin-top:.45rem;font-size:.64rem;color:var(--gris);}
+  .ac-jauge-reperes span{position:absolute;transform:translateX(-50%);white-space:nowrap;}
+  .ac-res-note{max-width:560px;margin:.9rem auto 0;font-size:.9rem;line-height:1.6;color:var(--gris);}
+
+  .ac-sous-titre{margin:2.3rem 0 .3rem;font-family:var(--font-serif);font-weight:400;font-size:1.55rem;color:var(--noir);border:0;padding:0;}
+  .ac-sous-titre em{color:var(--accent-deep);}
+  .ac-intro{max-width:580px;margin:0 auto 1rem;font-size:.82rem;line-height:1.55;color:var(--gris);}
+  .ac-liste{display:flex;flex-direction:column;gap:.5rem;max-width:660px;margin:0 auto;padding:0;list-style:none;text-align:left;}
+  .ac-liste li{
+    display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.15rem .85rem;padding:.7rem 1rem;
+    border-radius:14px;background:color-mix(in srgb,var(--or) 6%,#FFFEFB);border:1px solid color-mix(in srgb,var(--or) 22%,transparent);transition:background .2s,box-shadow .2s;
+  }
+  .ac-liste li:focus-visible{outline:none;}
+  .ac-liste li.is-survol{background:color-mix(in srgb,var(--or) 14%,#FFFEFB);box-shadow:0 0 0 2px color-mix(in srgb,var(--or) 55%,transparent);}
+  .ac-liste .ac-num{grid-row:1 / span 2;}
+  .ac-anc-nom{font-family:var(--font-serif);font-size:1.15rem;line-height:1.2;}
+  .ac-anc-ou{grid-column:2;font-size:.72rem;color:var(--gris);}
+  .ac-anc-part{grid-row:1 / span 2;grid-column:3;font-size:.86rem;font-weight:500;color:var(--or);white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .ac-num{
+    display:inline-grid;place-items:center;flex-shrink:0;min-width:1.45rem;height:1.45rem;padding:0 .3rem;border-radius:50px;
+    background:var(--or);color:#fff;font-size:.68rem;font-weight:600;font-style:normal;   /* un seul or (pastilles, 15/10) */
+  }
+  .ac-aucun{margin:1.8rem 0 0;font-family:var(--font-serif);font-style:italic;font-size:1.05rem;color:var(--gris);}
+
+  .ac-pedigrees{margin-top:2.4rem;text-align:left;}
+  .ac-pedigrees:empty{display:none;}
+  .ac-ped-blocs{display:none;grid-template-columns:1fr;gap:1.1rem;}
+
+  /* Arbre en miroir (>×<) */
+  .ac-miroir{
+    display:grid;align-items:center;gap:.4rem .45rem;
+    grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.15fr) minmax(84px,.8fr) minmax(0,1.15fr) repeat(3,minmax(0,1fr));
+    grid-template-rows:auto repeat(8,minmax(2.3rem,auto));
+  }
+  .ac-mir-tete{align-self:end;margin-bottom:.2rem;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:#B4AAA4;text-align:center;}
+  .ac-miroir .ac-ped-case{align-self:center;}
+  .ac-mir-racine{
+    --c:var(--male);
+    align-self:center;display:flex;flex-direction:column;gap:.25rem;padding:.7rem .75rem;border-radius:14px;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--c) 24%,#fff),color-mix(in srgb,var(--c) 8%,#fff));
+    border:1px solid color-mix(in srgb,var(--c) 30%,transparent);
+  }
+  .ac-mir-racine--femelle{--c:var(--femelle);}
+  .ac-mir-role{font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);}
+  .ac-mir-nom{display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;font-family:var(--font-serif);font-size:1.12rem;line-height:1.2;}
+  .ac-mir-poulain{
+    align-self:center;display:flex;flex-direction:column;align-items:center;gap:.15rem;padding:.7rem .4rem;text-align:center;
+    border-radius:14px;background:#FBF7F1;border:1px dashed rgba(60,40,35,.18);
+  }
+  .ac-mir-croix{font-family:var(--font-serif);font-size:1.6rem;line-height:1;color:var(--gris-clair);}
+  .ac-mir-pct{font-family:var(--font-serif);font-size:1.15rem;color:var(--noir);white-space:nowrap;}
+  @media (max-width:1000px){
+    .ac-miroir{display:none;}
+    .ac-ped-blocs{display:grid;}
+  }
+  @media (min-width:701px) and (max-width:1000px){ .ac-ped-blocs{grid-template-columns:1fr 1fr;} }
+  .ac-ped{--c:var(--male);padding:1rem;border-radius:18px;border:1px solid rgba(60,40,35,.06);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 14%,#fff) 0%,#fff 35%);}
+  .ac-ped--femelle{--c:var(--femelle);}
+  .ac-ped-titre{margin:0;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);}
+  .ac-ped-racine{display:flex;align-items:center;gap:.4rem;margin:.2rem 0 .8rem;padding:.2rem .3rem;border-radius:10px;font-family:var(--font-serif);font-size:1.3rem;}
+  .ac-ped-grille{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.45rem;}
+  .ac-ped-col{display:flex;flex-direction:column;min-width:0;}
+  .ac-ped-gen{margin-bottom:.35rem;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:#B4AAA4;}
+  .ac-ped-cases{display:flex;flex-direction:column;justify-content:space-around;gap:.3rem;flex:1;}
+  .ac-ped-case{
+    display:flex;align-items:center;gap:.3rem;min-height:2.2rem;padding:.35rem .5rem;border-radius:9px;
+    background:rgba(255,255,255,.8);border:1px solid rgba(60,40,35,.07);font-size:.74rem;line-height:1.25;overflow-wrap:anywhere;
+    transition:background .2s,box-shadow .2s;
+  }
+  .ac-ped-case--male{background:color-mix(in srgb,var(--male) 9%,#fff);border-color:color-mix(in srgb,var(--male) 20%,transparent);}
+  .ac-ped-case--femelle{background:color-mix(in srgb,var(--femelle) 11%,#fff);border-color:color-mix(in srgb,var(--femelle) 24%,transparent);}
+  .ac-ped-vide{justify-content:center;color:#C9C0BA;font-style:italic;font-size:.66rem;}
+  .ac-ped-case .ac-num{min-width:1.1rem;height:1.1rem;padding:0 .2rem;font-size:.56rem;}
+  .ac-commun{background:color-mix(in srgb,var(--or) 12%,#FFFEFB) !important;border-color:color-mix(in srgb,var(--or) 45%,transparent) !important;}
+  .ac-commun.is-survol{box-shadow:0 0 0 2px color-mix(in srgb,var(--or) 55%,transparent);}
+
+  .ac-fiabilite{max-width:640px;margin:2.2rem auto 0;font-size:.78rem;line-height:1.65;color:var(--gris);}
+  .ac-fiabilite strong{color:var(--noir);font-weight:500;}
+  .ac-fiabilite a{color:var(--accent-deep);text-decoration:underline;}
+  .ac-resultat .calc-info{max-width:640px;margin:1rem auto 0;text-align:left;}
+  .ac-resultat .calc-info summary{text-align:center;}
+
+  @media (max-width:700px){
+    .ac-paire{flex-direction:column;align-items:center;gap:.5rem;}
+    .ac-parent{width:100%;min-height:132px;}
+    .ac-croix{font-size:1.8rem;}
+    .ac-liste li{grid-template-columns:auto 1fr;}
+    .ac-anc-part{grid-row:auto;grid-column:2;}
+  }
+
+  /* Génétique du poulain (js/genetique.js) */
+  .ac-niveau--inconnu{background:var(--niv-inconnu);}
+  .ag{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:1.1rem;max-width:1040px;margin:0 auto;text-align:left;}
+  .ag-sante{display:flex;flex-direction:column;gap:1.1rem;}
+  .ag-maladie,.ag-robe{padding:1.05rem 1.2rem;border-radius:18px;background:rgba(255,255,255,.72);border:1px solid rgba(60,40,35,.08);}
+  .ag-mal-tete{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;}
+  .ag-mal-titre,.ag-titre{font-family:var(--font-serif);font-weight:400;font-size:1.3rem;color:var(--noir);}
+  .ag-maladie .ac-niveau{padding:.3rem .8rem;font-size:.56rem;}
+  .ag-mal-texte{margin:.55rem 0 0;font-size:.9rem;line-height:1.5;color:var(--noir);}
+  .ag-mal-detail{margin:.3rem 0 0;font-size:.8rem;line-height:1.5;color:var(--gris);}
+  .ag-mal-def{margin:.7rem 0 0;padding-top:.6rem;border-top:1px solid rgba(60,40,35,.07);font-size:.72rem;line-height:1.55;color:var(--gris);}
+  .ag-titre{margin:0 0 .7rem;border:0;padding:0;}
+  .ag-st{margin:1.1rem 0 .45rem;font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);}
+  .ag-lignes{display:flex;flex-direction:column;gap:.4rem;margin:0;padding:0;list-style:none;}
+  .ag-ligne{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(70px,1fr) 6.6rem;align-items:center;gap:.75rem;font-size:.86rem;}
+  .ag-nom{display:flex;align-items:center;gap:.5rem;min-width:0;}
+  .ag-pastille{flex-shrink:0;width:.9rem;height:.9rem;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14),0 1px 2px rgba(0,0,0,.08);}
+  .ag-ligne--sous{font-size:.76rem;color:var(--gris);}
+  .ag-ligne--sous .ag-nom{padding-left:1.4rem;}
+  .ag-barre{position:relative;display:block;height:7px;border-radius:7px;background:rgba(60,40,35,.07);overflow:hidden;}
+  .ag-barre-max,.ag-barre-min{position:absolute;inset:0 auto 0 0;border-radius:7px;}
+  .ag-barre-max{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--or) 30%,transparent) 0 4px,color-mix(in srgb,var(--or) 10%,transparent) 4px 8px);}
+  .ag-barre-min{background:linear-gradient(90deg,#B8954A,var(--or));}
+  .ag-pct{text-align:right;white-space:nowrap;font-size:.8rem;font-weight:500;color:var(--or);font-variant-numeric:tabular-nums;}
+  .ag-vide{margin:0;font-family:var(--font-serif);font-style:italic;color:var(--gris);}
+  .ag-legende,.ag-np{margin:1rem 0 0;font-size:.74rem;line-height:1.55;color:var(--gris);}
+  .ag-legende{display:flex;align-items:center;gap:.6rem;}
+  .ag-barre--legende{flex-shrink:0;width:52px;}
+  .ag-np strong{font-weight:500;color:var(--noir);}
+  .ag-parents{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+  .ag-parent{--c:var(--male);padding:.85rem 1rem;border-radius:16px;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 14%,#fff),#fff 70%);border:1px solid color-mix(in srgb,var(--c) 22%,transparent);}
+  .ag-parent--femelle{--c:var(--femelle);}
+  .ag-parent-nom{font-family:var(--font-serif);font-size:1.1rem;}
+  .ag-puces{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.5rem;}
+  .ag-puce{display:inline-flex;gap:.3rem;padding:.2rem .6rem;border-radius:50px;background:rgba(255,255,255,.85);border:1px solid rgba(60,40,35,.13);font-size:.72rem;white-space:nowrap;}
+  .ag-puce b{font-weight:500;color:var(--gris);}
+  .ag-puce--deduit{border-style:dashed;}
+  .ag-puce--mini{padding:0 .45rem;font-size:.66rem;}
+  .ag-nt{margin:.5rem 0 0;font-size:.7rem;line-height:1.5;color:var(--gris);}
+  .ag-note{grid-column:1 / -1;margin:.1rem 0 0;font-size:.72rem;color:var(--gris);text-align:center;}
+  @media (max-width:800px){
+    .ag,.ag-parents{grid-template-columns:1fr;}
+    .ag-ligne{grid-template-columns:minmax(0,1fr) auto;gap:.25rem .75rem;}
+    .ag-ligne .ag-barre{grid-column:1 / -1;grid-row:2;}
+  }
+
+  /* Éditeur : étape 3, tests génétiques (repliable) */
+  .ed-gen-bloc > summary{margin:0;cursor:pointer;list-style:none;}
+  .ed-gen-bloc > summary::-webkit-details-marker{display:none;}
+  .ed-gen-bloc > summary::after{content:'';margin-left:auto;width:.5rem;height:.5rem;border-right:1.5px solid var(--gris);border-bottom:1.5px solid var(--gris);transform:rotate(45deg);transition:transform .2s;}
+  .ed-gen-bloc[open] > summary{margin-bottom:.8rem;}
+  .ed-gen-bloc[open] > summary::after{transform:rotate(-135deg);}
+  .ed-gen-groupe{margin:.9rem 0 .4rem;font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep);}
+  .ed-gen{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:0 .8rem;}
+  .ed-gen .ed-champ{margin-bottom:.55rem;font-size:.74rem;letter-spacing:0;text-transform:none;}
+  .ed-input.is-rempli{border-color:var(--accent);background:color-mix(in srgb,var(--accent-pale) 45%,#fff);}
+  .ed-gen-erreur{margin:.4rem 0 0;font-size:.78rem;color:#A9564F;}
+  .ed-gen-erreur:empty{display:none;}
+
+  /* Sélecteur d'un parent (modale) */
+  /* Bloc « Sauvegarder mes chevaux » : même largeur que le résultat (refonte à l'étape 3). */
+  .ac-resultat ~ .panel{width:100%;max-width:1240px;margin:0 auto;}
+
+  .cp[hidden]{display:none;}
+  .cp{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;padding:1.5rem;}
+  .cp-fond{position:absolute;inset:0;background:rgba(28,22,20,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
+  .cp-boite{position:relative;display:flex;flex-direction:column;width:min(760px,100%);max-height:calc(100vh - 3rem);overflow:hidden;background:#FFFDFB;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,.35);}
+  .cp-tete{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.3rem 1.6rem .5rem;}
+  .cp-tete h2{margin:0;font-family:var(--font-serif);font-weight:400;font-size:1.75rem;color:var(--noir);border:0;padding:0;}
+  .cp-tete h2 em{color:var(--accent-deep);}
+  .cp-fermer{width:38px;height:38px;padding:0;border-radius:50%;background:#F3EEE8;color:var(--noir);font-size:.95rem;font-weight:400;}
+  .cp-corps{overflow-y:auto;padding:.3rem 1.6rem 1.4rem;}
+  .cp-groupe{margin:1.1rem 0 .6rem;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);}
+  .cp-cartes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem;}
+  /* .ca (cartes de l'accueil) posée dans une grille, en <button> */
+  .cp-cartes .ca{width:auto;padding:0;border:0;border-radius:16px;font:inherit;text-align:left;cursor:pointer;}
+  .cp-ca-meta{font-size:.62rem;line-height:1.35;color:rgba(255,255,255,.85);letter-spacing:.02em;}
+  .cp-cartes .ca .ac-sans-photo{position:absolute;inset:0;z-index:-2;font-size:3rem;}
+  .cp-recherche{width:100%;padding:.8rem 1.1rem;border-radius:50px;border:1px solid rgba(60,40,35,.14);background:#fff;font-size:.9rem;}
+  .cp-recherche:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-pale);}
+  .cp-liste{display:flex;flex-direction:column;gap:.3rem;margin-top:.5rem;}
+  .cp-ligne{display:flex;align-items:center;gap:.8rem;padding:.45rem .6rem;border-radius:12px;background:transparent;text-align:left;font-weight:400;color:var(--noir);}
+  .cp-ligne:hover,.cp-ligne:focus-visible{background:#F6F1EA;outline:none;}
+  .cp-ligne-photo{width:44px;height:44px;flex-shrink:0;border-radius:10px;object-fit:cover;background:#F3EEE6;font-size:1.15rem;}
+  .cp-ligne-nom{display:block;font-family:var(--font-serif);font-size:1.08rem;}
+  .cp-ligne-meta{display:block;font-size:.68rem;color:var(--gris);}
+
+  .cp-pied{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem 1rem;padding:1rem 1.6rem 1.3rem;border-top:1px solid rgba(60,40,35,.07);background:#FBF7F2;}
+  .cp-pied p{margin:0;font-size:.84rem;color:var(--gris);}
+  .cp-ajouter{margin-top:0 !important;}
+  @media (max-width:600px){
+    .cp{padding:0;place-items:end stretch;}
+    .cp-boite{width:100%;max-height:92vh;border-radius:22px 22px 0 0;}
+    .cp-tete,.cp-corps,.cp-pied{padding-left:1.1rem;padding-right:1.1rem;}
+    .cp-cartes{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .cp-pied{justify-content:center;text-align:center;}
+  }
+
+  /* Pied de la modale « Ajouter » : une seule ligne sur ordinateur */
+  .modal-actions{flex-wrap:nowrap;}
+  .modal-actions .btn{padding:.72rem 1.1rem;letter-spacing:.06em;white-space:nowrap;}
+  .modal-actions .btn-outline{padding-left:1rem;padding-right:1.7rem;}
+  .modal-actions .btn-outline::after{margin-left:.4em;}
+  .ed-recommencer{white-space:nowrap;}
+  .modal-actions{gap:.6rem;}
+  .modal-actions .btn{letter-spacing:.04em;}
+  .modal-actions .ed-annuler{padding-left:.6rem;padding-right:.6rem;}
+  @media (max-width:700px){
+    /* Mobile : l'action principale en premier, pleine largeur */
+    .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .6rem;}
+    .modal-actions .ed-actions-gauche,.modal-actions .ed-actions-droite{display:contents;}
+    .modal-actions .btn{padding:.7rem .6rem;}
+    .modal-actions #saveTreeBtn{grid-column:1 / -1;order:-3;}
+    .modal-actions #dlTreeBtn{order:-2;}
+    .modal-actions #modalImport{order:-1;}
+    .modal-actions:has(#dlTreeBtn[hidden]) #modalImport,.modal-actions:has(#modalImport[hidden]) #dlTreeBtn{grid-column:1 / -1;}
+    .modal-actions .ed-annuler{order:1;justify-self:start;padding-left:0;}
+    .modal-actions #resetTreeBtn{order:2;justify-self:end;}
+  }
 </style>
 </head>
-<body>
+<body class="fond-taches">
 
 <!-- ====== NAVIGATION ====== -->
 <!-- @partial:header -->
@@ -489,24 +603,11 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="elevage.html">L'élevage</a></li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="reproducteurs.html">Reproducteurs</a></li>
-        <li><a href="poulains.html">Poulains</a></li>
-        <li><a href="memoire.html">Ils ont marqué notre histoire</a></li>
-      </ul>
-    </li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="arbre-genealogique.html">Arbre généalogique</a></li>
-        <li><a href="accouplement.html">Testez un accouplement</a></li>
-      </ul>
-    </li>
-    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="nos-chevaux.html">Nos chevaux</a></li>
+    <li><a href="arbre-genealogique.html">Généalogie</a></li>
+    <li><a href="accouplement.html">Accouplements</a></li>
+    <li><a href="contact.html" class="nav-contact">Contact</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -515,7 +616,7 @@
 <!-- @end:header -->
 
 <!-- ====== EN-TÊTE ====== -->
-<section id="page-header" class="page-header page-header--compact fade-to-cream">
+<section id="page-header" class="page-header page-header--compact page-header--hc">
   <div class="section-inner">
     <span class="section-badge">Calculateur</span>
     <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Testez un <em>accouplement</em></h1>
@@ -527,72 +628,65 @@
 </section>
 
 <div class="page-content">
-
-<div class="legend" id="legend"></div>
-
 <div class="page">
 
-  <details class="collapse-wrap" id="horseListDetails">
-    <summary>Chevaux enregistrés (<span id="horseCount">0</span>)</summary>
-    <div style="margin:2px 0 16px;"><button type="button" class="btn-secondary" onclick="openModal('catalog')">+ Ajouter un cheval</button></div>
-    <table>
-      <thead><tr><th>Nom</th><th>Sexe</th><th>Père</th><th>Mère</th><th>Lignée</th><th>Origine</th></tr></thead>
-      <tbody id="horseTable"></tbody>
-    </table>
-  </details>
-
-  <div class="panel match-panel">
-    <h2>Tester une compatibilité</h2>
-
-    <!-- Avertissement unique. Il regroupe ce qui était réparti sur deux encadrés :
-         la nature du calcul (estimation minimale) et l'origine de l'outil (fait
-         maison, retours bienvenus). Placé ici plutôt qu'en tête de page, il se lit
-         au moment où il sert — juste avant de choisir les deux chevaux. -->
-    <div class="reliability-note">
-      <strong>À lire comme une estimation.</strong> Le pourcentage ne tient compte que
-      des ancêtres renseignés dans l'outil&nbsp;: un pedigree incomplet peut masquer une
-      consanguinité réelle plus élevée. Considérez-le comme un minimum, pas comme une
-      garantie.<br>
-      Ce calculateur est développé en interne pour l'élevage Irish&nbsp;Cob / Gypsy&nbsp;Cob
-      et partagé gratuitement. Si un résultat vous paraît anormal,
-      <a href="index.html#contact">signalez-le nous</a> — ça nous aide à l'améliorer.
+  <!-- Les deux parents : un clic ouvre le sélecteur (nos reproducteurs, la base,
+       vos chevaux, ou « Ajouter mon cheval » → éditeur de pédigrée). -->
+  <section class="ac-test" aria-labelledby="acTitre">
+    <h2 class="ac-titre" id="acTitre">Choisissez les deux <em>parents</em></h2>
+    <div class="ac-paire">
+      <button type="button" class="ac-parent is-vide" id="leftBox" onclick="ouvrirSelecteur('left')">
+        <span class="ac-role">Étalon</span>
+        <span class="ac-contenu" id="leftBoxContent"></span>
+      </button>
+      <span class="ac-croix" aria-hidden="true">×</span>
+      <button type="button" class="ac-parent ac-parent--femelle is-vide" id="rightBox" onclick="ouvrirSelecteur('right')">
+        <span class="ac-role">Jument</span>
+        <span class="ac-contenu" id="rightBoxContent"></span>
+      </button>
     </div>
+  </section>
 
-    <div class="match-row">
-      <div class="match-box match-box-click" id="leftBox" onclick="openModal('left')">
-        <div class="match-box-label">♂ Étalon</div>
-        <div id="leftBoxContent" class="match-box-placeholder">Cliquez pour choisir un de nos étalons, ou ajoutez le vôtre</div>
-      </div>
-      <div class="match-x">×</div>
-      <div class="match-box match-box-click" id="rightBox" onclick="openModal('right')">
-        <div class="match-box-label">♀ Jument</div>
-        <div id="rightBoxContent" class="match-box-placeholder">Cliquez pour choisir une de nos juments, ou ajoutez la vôtre</div>
-      </div>
+  <!-- Résultat : chiffre, niveau, jauge, ancêtres communs et les deux pédigrées
+       où ils sont surlignés. Les mises en garde sont ici, là où elles servent. -->
+  <section class="ac-resultat" id="resultBox" hidden aria-live="polite">
+    <div class="ac-res-bloc ac-res-tete">
+    <div class="ac-couple" id="acCouple"></div>
+    <p class="ac-res-label">Consanguinité estimée du poulain</p>
+    <p class="ac-res-valeur" id="resultValue">—</p>
+    <div id="resultBadge"></div>
+    <div class="ac-jauge" id="acJauge"></div>
+    <p class="ac-res-note" id="resultHint"></p>
     </div>
-
+    <div class="ac-res-bloc" id="acCommuns"></div>
+    <div class="ac-res-bloc" id="acGenetique"></div>
+    <div class="ac-res-bloc ac-pedigrees" id="acPedigrees"></div>
+    <div class="ac-res-fin">
+    <div id="acSaillie"></div>
+    <p class="ac-fiabilite">
+      <strong>À lire comme une estimation.</strong> Le pourcentage ne tient compte que des ancêtres
+      renseignés dans l'outil&nbsp;: un pédigrée incomplet peut masquer une consanguinité réelle plus
+      élevée. Considérez-le comme un minimum, pas comme une garantie. Outil développé en interne pour
+      l'élevage Irish&nbsp;Cob / Gypsy&nbsp;Cob et partagé gratuitement&nbsp;; si un résultat vous paraît
+      anormal, <a href="contact.html">signalez-le nous</a>.
+    </p>
     <details class="calc-info">
-      <summary>ℹ️ Comment est calculé ce pourcentage ?</summary>
+      <summary>Comment est calculé ce pourcentage&nbsp;?</summary>
       <p class="hint" style="margin:8px 0 0;">L'outil regarde les ancêtres connus des deux chevaux (jusqu'à 3 générations, plus si vous les avez complétées) et repère ceux qu'ils ont en commun. Plus un ancêtre commun est proche dans le pedigree, plus il compte dans le résultat. Ce calcul suit la méthode de référence utilisée par l'IFCE (méthode tabulaire de Wright).</p>
       <p class="hint"><strong>Quelques repères IFCE :</strong> la consanguinité moyenne des chevaux Selle Français est d'environ 1,25 %, et sur l'ensemble des chevaux enregistrés au SIRE elle varie globalement de 0 à environ 48 % (moyenne 0,8 %). L'IFCE indique qu'au-delà de 6 %, la consanguinité « peut devenir gênante » pour l'individu concerné — c'est le seul seuil chiffré officiellement publié que nous ayons trouvé. Il n'existe pas de seuil « interdit » réglementaire en élevage équin français : la décision reste à l'appréciation de l'éleveur, avec avis vétérinaire si besoin.</p>
       <p class="hint">Les niveaux affichés avec le résultat (Faible / Modéré / Élevé / Très élevé) sont des repères indicatifs de génétique des populations — <strong>pas une classification officielle de l'IFCE</strong> — correspondant aux degrés de parenté usuels : Modéré ≈ cousins issus de germains (3,125 %), Élevé ≈ cousins germains (6,25 %), Très élevé ≈ demi-frères/sœurs ou plus proche (12,5 % et au-delà). Le seuil « Élevé » (6,25 %) est très proche du seuil de vigilance publié par l'IFCE (6 %).</p>
       <p class="hint" style="font-size:0.68rem;color:#a99d8c;">Source : dépliant « Génétique », IFCE / Haras nationaux.</p>
     </details>
-
-    <div class="result" id="resultBox" style="display:none;">
-      <div class="label">Coefficient de consanguinité estimé de la descendance</div>
-      <div class="value" id="resultValue">—</div>
-      <div id="resultBadge"></div>
-      <div class="hint result-caveat" id="resultHint"></div>
-    </div>
-  </div>
+    </div><!-- /.ac-res-fin -->
+  </section>
 
   <div class="panel">
-    <h2>Sauvegarder mes chevaux</h2>
-    <p class="hint" style="margin-top:0;"><strong>Comment ajouter un cheval :</strong> cliquez sur la case « Étalon » ou « Jument » (ou sur « + Ajouter un cheval » dans le tableau ci-dessus), renseignez son pedigree, puis cliquez sur « Sauvegarder mon cheval ».</p>
+    <h2>Sauvegarder <em>mes chevaux</em></h2>
+    <p class="hint" style="margin-top:0;"><strong>Comment ajouter un cheval :</strong> cliquez sur « Choisir un étalon » ou « Choisir une jument », puis sur « Ajouter mon étalon » ou « Ajouter ma jument » en bas de la liste. Renseignez son pédigrée, puis cliquez sur « Ajouter et tester ».</p>
     <div class="save-note"><strong>Important :</strong> rien de ce que vous ajoutez n'est enregistré de façon permanente par l'outil — tout disparaît si vous rafraîchissez ou fermez la page. Pour garder une trace (et nous transmettre les informations), téléchargez le fichier ci-dessous et envoyez-le nous. Le téléchargement ne contient que les chevaux que vous avez vous-même ajoutés dans cette session, pas toute la base.</div>
     <div class="row-actions" style="margin-top:0;">
-      <button class="btn-secondary" onclick="exportJSON()">⬇ Télécharger mes ajouts</button>
-      <button class="btn-secondary" onclick="document.getElementById('fileInput').click()">↻ Recharger un fichier</button>
+      <button class="btn btn-outline" onclick="exportJSON()">Télécharger mes ajouts</button>
+      <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">Recharger un fichier</button>
       <input type="file" id="fileInput" accept="application/json" onchange="importJSON(event)">
     </div>
   </div>
@@ -601,16 +695,24 @@
 </div><!-- /.page-content -->
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
-  <div class="modal-panel">
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-head">
-      <h2 id="modalTitle">Ajouter / tester un cheval</h2>
-      <button type="button" class="modal-close" onclick="closeModal()" aria-label="Fermer">×</button>
+      <h2 id="modalTitle">Ajouter un cheval</h2>
+      <button type="button" class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
     </div>
-    <p class="hint" id="modalHint" style="margin-top:0;">Pedigree sur 3 générations. Chaque case : soit un cheval déjà dans la liste (son ascendance connue est reprise automatiquement, pas besoin de la ressaisir), soit un nouveau cheval à nommer — avec sa lignée d'origine si vous la connaissez. Au-delà de la 3<sup>e</sup> génération, « + Ajouter les ascendants » permet de continuer la lignée aussi loin que vous la connaissez.</p>
-    <div class="tree-wrap"><div class="tree" id="treeContainer"></div></div>
+    <p class="modal-intro">Seul le nom est obligatoire. Renseignez ensuite ce que vous connaissez de son ascendance&nbsp;: c'est elle qui fait le calcul.</p>
+    <div class="modal-corps"><div class="ed" id="treeContainer"></div></div>
     <div class="modal-actions">
-      <button class="btn-primary" id="saveTreeBtn" onclick="saveTreeHorse()">Sauvegarder mon cheval</button>
-      <button type="button" class="btn-secondary" id="resetTreeBtn" onclick="resetTreeForm()">Remise à zéro</button>
+      <div class="ed-actions-gauche">
+        <button type="button" class="btn btn-outline" id="modalImport" onclick="document.getElementById('fileInputModal').click()" title="Reprendre un cheval déjà enregistré sur votre ordinateur (fichier .json téléchargé ici)">Importer un fichier</button>
+        <input type="file" id="fileInputModal" accept="application/json,.json" hidden onchange="importJSON(event, draft.context)">
+        <button type="button" class="ed-recommencer" id="resetTreeBtn" onclick="resetTreeForm()">Tout effacer</button>
+      </div>
+      <div class="ed-actions-droite">
+        <button type="button" class="ed-annuler" onclick="closeModal()">Annuler</button>
+        <button type="button" class="btn btn-outline" id="dlTreeBtn" onclick="saveTreeHorse(true)" title="Ajoute le cheval et télécharge sa fiche sur votre ordinateur (avec les ancêtres saisis), pour la réimporter plus tard ou nous l'envoyer">Télécharger</button>
+        <button type="button" class="btn btn-primary" id="saveTreeBtn" onclick="saveTreeHorse()">Ajouter et tester</button>
+      </div>
     </div>
   </div>
 </div>
@@ -626,6 +728,7 @@
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
     <ul class="footer-legal">
+      <li><a href="livre-dor.html">Livre d'or</a></li>
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Politique de confidentialité</a></li>
     </ul>
@@ -635,7 +738,29 @@
 <!-- @end:footer -->
 
 <script src="js/main.js"></script>
-<script src="js/donnees-chevaux.js"></script>
+<script src="js/chevaux.js"></script>
+<script src="js/genetique.js"></script>
+<script>
+// Adaptateur : la source unique des chevaux est data/chevaux/*.json, compilée
+// dans js/chevaux.js par build.py. Le calculateur garde son format interne.
+const HORSES_BASE = CHEVAUX.map(c => ({
+  id: c.id,
+  name: c.nom,
+  sex: c.sexe === 'femelle' ? 'mare' : 'stallion',
+  gelding: c.sexe === 'hongre',          // hongre : jamais proposé comme reproducteur
+  deceased: !!c.deces,
+  sire: c.pere || null,
+  dam: c.mere || null,
+  lineage: [c.elevage || c.origine, c.race, c.robe, ((c.naissance || '').match(/\d{4}/) || [''])[0]]
+             .filter(Boolean).join(' · '),
+  naissance: c.naissance || '', robe: c.robe || '', race: c.race || '',
+  source: c.source || 'site hummingcob.fr',
+  strain: c.souche || 'inconnue',
+  owned: c.famille === 'humming',
+  genetique: c.genetique || null,
+  genetique_deduit: c.genetique_deduit || []
+}));
+</script>
 <script>
 // --- Lignées / souches d'origine (code couleur) ---
 const STRAINS = {
@@ -677,99 +802,72 @@ function allStrains(){ return { ...STRAINS, ...customStrains }; }
 
 let horses = HORSES_BASE.map(h => ({...h}));
 
-const horseTable = document.getElementById('horseTable');
-const horseCountEl = document.getElementById('horseCount');
 const treeContainer = document.getElementById('treeContainer');
-const legendEl = document.getElementById('legend');
 
 let idSeq = 1000;
-function nextId(){ return 'h' + (idSeq++); }
+function nextId(){ let id; do id = 'h' + (idSeq++); while(horses.some(h => h.id === id)); return id; }   // jamais un id déjà importé
 
 function byId(id){ return horses.find(h => h.id === id); }
-function nameOf(id){
-  if(!id) return '—';
-  const h = byId(id);
-  return h ? nameHTML(h) : '?';
-}
 function escapeAttr(s){
   return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-function strainColor(key){ return (allStrains()[key] || STRAINS.inconnue).color; }
 function strainLabel(key){ return (allStrains()[key] || STRAINS.inconnue).label; }
-
-function strainVisual(h){
-  const sireS = h.sire ? ((byId(h.sire) || {}).strain || 'inconnue') : null;
-  const damS  = h.dam  ? ((byId(h.dam)  || {}).strain || 'inconnue') : null;
-  if(sireS && damS) return { a: sireS, b: damS };
-  if(sireS) return { a: sireS, b: sireS };
-  if(damS) return { a: damS, b: damS };
-  return { a: h.strain || 'inconnue', b: h.strain || 'inconnue' };
-}
-function swatchHTML(h, size){
-  size = size || 16;
-  const v = strainVisual(h);
-  const bg = (v.a === v.b) ? strainColor(v.a) : `linear-gradient(90deg, ${strainColor(v.a)} 50%, ${strainColor(v.b)} 50%)`;
-  const title = (v.a === v.b) ? strainLabel(v.a) : `${strainLabel(v.a)} × ${strainLabel(v.b)}`;
-  return `<span class="swatch" style="width:${size}px;height:${size}px;background:${bg}" title="${title}"></span>`;
-}
-function strainRowLabel(h){
-  const v = strainVisual(h);
-  return (v.a === v.b) ? strainLabel(v.a) : `${strainLabel(v.a)} × ${strainLabel(v.b)}`;
-}
-function renderLegend(){
-  legendEl.innerHTML = `<span class="legend-title">Lignées</span>` +
-    Object.keys(allStrains()).map(key =>
-      `<span class="legend-item"><span class="swatch" style="width:14px;height:14px;background:${strainColor(key)}"></span>${strainLabel(key)}</span>`
-    ).join('') +
-    `<span class="legend-caption">La couleur indique l'élevage d'origine de chaque cheval (là où il a été acheté ou élevé) — utile pour repérer d'un coup d'œil la diversité des lignées d'un accouplement. <strong>Elle n'indique pas une parenté</strong> : deux chevaux de même couleur ne sont pas forcément apparentés — seule l'ascendance père/mère affichée dans le pedigree fait foi.</span>`;
-}
-
-function sexClass(h){ return h.sex === 'mare' ? 'name-mare' : 'name-stallion'; }
-function nameHTML(h){
-  return `<span class="${sexClass(h)} name-link" onclick="openPedigreeView('${h.id}')" role="button" tabindex="0" title="Voir le pedigree de ${escapeAttr(h.name)}">${h.name}</span>`;
-}
-function strainBgFromColors(colorA, colorB){
-  return (colorA === colorB)
-    ? `color-mix(in srgb, ${colorA} 20%, var(--bg-card))`
-    : `linear-gradient(90deg, color-mix(in srgb, ${colorA} 20%, var(--bg-card)) 50%, color-mix(in srgb, ${colorB} 20%, var(--bg-card)) 50%)`;
-}
-function strainBg(h){
-  const v = strainVisual(h);
-  return strainBgFromColors(strainColor(v.a), strainColor(v.b));
-}
-function strainBgKey(key){
-  return strainBgFromColors(strainColor(key), strainColor(key));
-}
 
 let testState = { leftId: '', rightId: '' };
 
+// ═══ Affichage des chevaux, à la DA du site (refonte du 14/10) ═══════════════
+// Noms : comme partout sur le site (nomChevalHTML) — nom en italique de la couleur du
+// sexe, affixe en petites capitales grises. Plus de couleur par élevage d'origine
+// (16/10 : trop proche du pétrole / framboise).
+const CH_PAR_ID = Object.fromEntries(CHEVAUX.map(c => [c.id, c]));
+function echap(s){ return String(s ?? '').replace(/[&<>"']/g, x => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x])); }
+function nomCalc(h){
+  if(!h) return '<span class="ac-inconnu">—</span>';
+  const c = CH_PAR_ID[h.id];
+  if(c) return nomChevalHTML(c);
+  return `<span class="nc nc--${h.sex === 'mare' ? 'femelle' : 'male'}"><em class="nc-n">${echap(h.name)}</em></span>`;
+}
+function infosCalc(h){
+  const c = CH_PAR_ID[h.id];
+  if(c) return [c.race, c.robe_courte || c.robe, ((c.naissance || '').match(/\d{4}/) || [''])[0]].filter(Boolean).join(' · ');
+  return [h.lineage, h.strain && h.strain !== 'inconnue' ? strainLabel(h.strain) : ''].filter(Boolean).join(' · ') || 'Cheval ajouté par vous';
+}
+function vignetteCalc(h, cls){
+  const c = CH_PAR_ID[h.id] || {}, photo = c.photo || c.photo_arbre;
+  if(photo) return `<img class="${cls}" src="${echap(photo)}" alt="" loading="lazy"${c.cadrage ? ` style="object-position:${echap(c.cadrage)}"` : ''}>`;
+  const initiale = (c.nom_usuel || h.name || '?').charAt(0);
+  return `<span class="${cls} ac-sans-photo" aria-hidden="true">${echap(initiale)}</span>`;
+}
+
+// ═══ Cases des deux parents ═════════════════════════════════════════════════
 function renderMatchBox(side){
   const boxEl = document.getElementById(side + 'Box');
   const contentEl = document.getElementById(side + 'BoxContent');
   if(!boxEl || !contentEl) return;
   const id = side === 'left' ? testState.leftId : testState.rightId;
   const h = id ? byId(id) : null;
+  boxEl.classList.toggle('is-vide', !h);
   if(!h){
-    contentEl.className = 'match-box-placeholder';
-    contentEl.innerHTML = side === 'left'
-      ? 'Cliquez pour choisir un de nos étalons, ou ajoutez le vôtre'
-      : 'Cliquez pour choisir une de nos juments, ou ajoutez la vôtre';
-    boxEl.style.background = '';
+    contentEl.innerHTML = `<span class="ac-plus" aria-hidden="true">+</span>`
+      + `<span class="ac-vide-titre">${side === 'left' ? 'Choisir un étalon' : 'Choisir une jument'}</span>`
+      + `<span class="ac-vide-sous">un des nôtres, ou le vôtre</span>`;
     return;
   }
-  contentEl.className = 'match-box-filled';
-  contentEl.innerHTML = `${swatchHTML(h, 16)}<span class="name ${sexClass(h)}">${h.sex === 'mare' ? '♀' : '♂'} ${h.name}</span><button type="button" class="match-box-change" onclick="event.stopPropagation();openModal('${side}')">Changer</button>`;
-  boxEl.style.background = strainBg(h);
+  contentEl.innerHTML = vignetteCalc(h, 'ac-parent-photo')
+    + `<span class="ac-parent-infos"><span class="ac-parent-nom">${nomCalc(h)}</span>`
+    + `<span class="ac-parent-meta">${echap(infosCalc(h))}</span>`
+    + `<span class="ac-parent-changer">Changer</span></span>`;
 }
+
 function updateXResult(){
   const box = document.getElementById('resultBox');
-  if(!testState.leftId || !testState.rightId){ box.style.display = 'none'; return; }
+  if(!testState.leftId || !testState.rightId){ box.hidden = true; return; }
   const leftH = byId(testState.leftId), rightH = byId(testState.rightId);
   if(!leftH || !rightH || leftH.sex === rightH.sex){
-    box.style.display = 'block';
+    box.hidden = false;
     document.getElementById('resultValue').textContent = '—';
-    document.getElementById('resultBadge').innerHTML = '';
+    ['acCouple', 'resultBadge', 'acJauge', 'acCommuns', 'acGenetique', 'acPedigrees', 'acSaillie'].forEach(k => { document.getElementById(k).innerHTML = ''; });
     document.getElementById('resultHint').textContent = 'Il faut un étalon et une jument pour calculer une descendance hypothétique.';
     return;
   }
@@ -777,39 +875,368 @@ function updateXResult(){
   const damId = leftH.sex === 'mare' ? leftH.id : rightH.id;
   renderMatchResult(sireId, damId);
 }
-function renderMatchResult(sireId, damId){
-  const F = inbreedingCoefficient(sireId, damId);
-  const pct = F * 100;
 
-  const box = document.getElementById('resultBox');
-  const val = document.getElementById('resultValue');
-  const badge = document.getElementById('resultBadge');
-  const hint = document.getElementById('resultHint');
-
-  box.style.display = 'block';
-  val.textContent = pct.toFixed(2) + ' %';
-
-  let color, label, note;
-  if(pct < 3.125){
-    color = 'var(--ok)'; label = 'Faible';
-    note = 'Pas de lien de parenté proche détecté sur les générations connues.';
-  } else if(pct < 6.25){
-    color = 'var(--warn)'; label = 'Modéré (≈ équivalent cousins germains)';
-    note = 'À surveiller, courant sur races à petit cheptel. Vérifier tares connues côté vétérinaire.';
-  } else if(pct < 12.5){
-    color = 'var(--danger)'; label = 'Élevé';
-    note = 'Parenté proche. Accouplement à réserver à un objectif de sélection précis, avec avis vétérinaire.';
-  } else {
-    color = 'var(--danger)'; label = 'Très élevé';
-    note = 'Parenté très proche (type demi-frère/soeur ou plus proche). Déconseillé sauf cas très spécifique encadré.';
-  }
-  badge.innerHTML = `<span class="badge" style="background:${color}">${label}</span>`;
-  const sireH = byId(sireId), damH = byId(damId);
-  const estimNote = (sireH.source === 'estimation' || damH.source === 'estimation')
-    ? ' Attention : au moins un des deux chevaux a une ascendance estimée (intermédiaires non documentés) — ce résultat est une valeur plancher, le risque réel peut être plus élevé.'
-    : '';
-  hint.textContent = note + ' Résultat basé uniquement sur le pedigree connu dans cette liste — fiabilité limitée si des générations manquent.' + estimNote;
+// ═══ Résultat ═══════════════════════════════════════════════════════════════
+// Repères de génétique des populations (pas une classification IFCE, voir
+// « Comment est calculé ce pourcentage ? »).
+const NIVEAUX = [
+  { max: 3.125,    cls: 'faible',     label: 'Faible',     equiv: '',
+    note: 'Pas de lien de parenté proche détecté sur les générations connues.' },
+  { max: 6.25,     cls: 'modere',     label: 'Modéré',     equiv: '≈ cousins issus de germains',
+    note: 'À surveiller, courant sur races à petit cheptel. Vérifier tares connues côté vétérinaire.' },
+  { max: 12.5,     cls: 'eleve',      label: 'Élevé',      equiv: '≈ cousins germains',
+    note: 'Parenté proche. Accouplement à réserver à un objectif de sélection précis, avec avis vétérinaire.' },
+  { max: Infinity, cls: 'tres-eleve', label: 'Très élevé', equiv: '≈ demi-frères / demi-sœurs ou plus proche',
+    note: 'Parenté très proche. Déconseillé sauf cas très spécifique encadré.' }
+];
+const pctFr = (x, d = 2) => x.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d }) + ' %';
+// Jauge en 4 zones égales (0 – 3,125 – 6,25 – 12,5 – 25 % et plus).
+function positionJauge(pct){
+  const b = [0, 3.125, 6.25, 12.5, 25];
+  for(let i = 0; i < 4; i++) if(pct < b[i + 1] || i === 3) return Math.min(100, (i + Math.min(1, (pct - b[i]) / (b[i + 1] - b[i]))) * 25);
 }
+
+// Ancêtres communs et leur part du coefficient (méthode des chemins de Wright) :
+// pour chaque paire de chemins étalon → A ← jument sans autre ancêtre en commun
+// que A, part = (1/2)^(n1 + n2 + 1) × (1 + F_A). La somme des parts redonne
+// exactement le coefficient tabulaire (vérifié sur les 990 couples de la base).
+function cheminsAncetres(id, max = 20){
+  const out = [];
+  (function go(p){
+    out.push(p);
+    if(p.length > max) return;
+    const h = byId(p[p.length - 1]);
+    if(!h) return;
+    if(h.sire) go([...p, h.sire]);
+    if(h.dam) go([...p, h.dam]);
+  })([id]);
+  return out;
+}
+function ancetresCommuns(sireId, damId){
+  const ps = cheminsAncetres(sireId), pd = cheminsAncetres(damId), parFin = new Map();
+  pd.forEach(p => { const a = p[p.length - 1]; if(!parFin.has(a)) parFin.set(a, []); parFin.get(a).push(p); });
+  const res = new Map();
+  ps.forEach(p1 => {
+    const a = p1[p1.length - 1], l = parFin.get(a);
+    if(!l) return;
+    const s1 = new Set(p1.slice(0, -1));
+    l.forEach(p2 => {
+      if(p2.slice(0, -1).some(x => s1.has(x))) return;
+      const hA = byId(a);
+      const FA = hA && hA.sire && hA.dam ? inbreedingCoefficient(hA.sire, hA.dam) : 0;
+      const r = res.get(a) || { id: a, part: 0, genP: new Set(), genM: new Set() };
+      r.part += Math.pow(0.5, p1.length + p2.length - 1) * (1 + FA);
+      r.genP.add(p1.length); r.genM.add(p2.length);       // 1 = parent du poulain
+      res.set(a, r);
+    });
+  });
+  return [...res.values()].filter(r => r.part > 0).sort((x, y) => y.part - x.part);
+}
+
+const ordinal = g => g === 1 ? '1re' : g + 'e';
+const listeGen = s => [...s].sort((a, b) => a - b).map(ordinal).join(' et ');
+
+function pedigreeCalcHTML(id, role, num){
+  const h = byId(id);
+  const niveaux = [[h && h.sire, h && h.dam]];
+  for(let g = 1; g < 3; g++) niveaux.push(niveaux[g - 1].flatMap(x => { const y = x && byId(x); return [y ? y.sire : null, y ? y.dam : null]; }));
+  const marque = x => { const n = num.get(x); return n ? { cls: ' ac-commun', attr: ` data-anc="${x}"`, badge: `<span class="ac-num">${n}</span>` } : { cls: '', attr: '', badge: '' }; };
+  const kase = x => caseCalc(x, num);
+  const r = marque(id);
+  return `<div class="ac-ped ac-ped--${role}">
+    <p class="ac-ped-titre">Pédigrée ${role === 'male' ? "de l'étalon" : 'de la jument'}</p>
+    <p class="ac-ped-racine${r.cls}"${r.attr}>${r.badge}${nomCalc(h)}</p>
+    <div class="ac-ped-grille">${niveaux.map((l, g) => `<div class="ac-ped-col"><span class="ac-ped-gen">${['Parents', 'Grands-parents', 'Arrière-grands-parents'][g]}</span><div class="ac-ped-cases">${l.map(kase).join('')}</div></div>`).join('')}</div>
+  </div>`;
+}
+
+// Une case de pédigrée : teinte bleue / rose selon le sexe (l'affixe reste
+// neutre, les petites cases n'ont pas besoin d'un second code couleur), or si
+// c'est un ancêtre commun.
+function caseCalc(x, num, style = ''){
+  const st = style ? ` style="${style}"` : '';
+  if(!x) return `<span class="ac-ped-case ac-ped-vide"${st}>inconnu</span>`;
+  const h = byId(x), n = num.get(x);
+  const sexe = h && h.sex === 'mare' ? 'femelle' : 'male';
+  return `<span class="ac-ped-case ac-ped-case--${sexe}${n ? ' ac-commun' : ''}"${n ? ` data-anc="${x}"` : ''}${st}>`
+    + `${n ? `<span class="ac-num">${n}</span>` : ''}${nomCalc(h, false)}</span>`;
+}
+
+// Pédigrée « en miroir » (grand écran) : les ancêtres de l'étalon à gauche,
+// ceux de la jument à droite, le poulain au milieu — on lit >×< .
+// Grille de 9 colonnes × 8 lignes : arrière-grands-parents (8 cases, 1 ligne
+// chacune), grands-parents (4, 2 lignes), parents (2, 4 lignes), puis les
+// deux parents du poulain et le poulain sur toute la hauteur.
+function pedigreeMiroirHTML(sireId, damId, num, pct){
+  const generations = id => {
+    const h = byId(id), g = [[h && h.sire, h && h.dam]];
+    for(let i = 1; i < 3; i++) g.push(g[i - 1].flatMap(x => { const y = x && byId(x); return [y ? y.sire : null, y ? y.dam : null]; }));
+    return g;                                     // [parents(2), grands-parents(4), arrière-grands-parents(8)]
+  };
+  const cote = (id, cols) => generations(id).map((liste, g) => liste.map((x, i) => {
+    const span = 8 / liste.length;                // 4, 2, 1 lignes
+    return caseCalc(x, num, `grid-column:${cols[g]};grid-row:${2 + i * span} / span ${span}`);
+  }).join('')).join('');
+  const racine = (id, col, role) => {
+    const h = byId(id), n = num.get(id);
+    return `<div class="ac-mir-racine ac-mir-racine--${role}${n ? ' ac-commun' : ''}"${n ? ` data-anc="${id}"` : ''} style="grid-column:${col};grid-row:2 / span 8">`
+      + `<span class="ac-mir-role">${role === 'male' ? 'Étalon' : 'Jument'}</span>`
+      + `<span class="ac-mir-nom">${n ? `<span class="ac-num">${n}</span>` : ''}${nomCalc(h)}</span></div>`;
+  };
+  const tetes = ['Arrière-grands-parents', 'Grands-parents', 'Parents', '', '', '', 'Parents', 'Grands-parents', 'Arrière-grands-parents']
+    .map((t, i) => `<span class="ac-mir-tete" style="grid-column:${i + 1};grid-row:1">${t}</span>`).join('');
+  return `<div class="ac-miroir">${tetes}`
+    + cote(sireId, [3, 2, 1]) + racine(sireId, 4, 'male')
+    + `<div class="ac-mir-poulain" style="grid-column:5;grid-row:2 / span 8"><span class="ac-mir-croix">×</span><span class="ac-mir-role">Poulain</span><span class="ac-mir-pct">${pctFr(pct)}</span></div>`
+    + racine(damId, 6, 'femelle') + cote(damId, [7, 8, 9])
+    + `</div>`;
+}
+
+function renderMatchResult(sireId, damId){
+  const F = inbreedingCoefficient(sireId, damId), pct = F * 100;
+  const niv = NIVEAUX.find(n => pct < n.max);
+  document.getElementById('resultBox').hidden = false;
+  document.getElementById('resultValue').textContent = pctFr(pct);
+  document.getElementById('resultBadge').innerHTML = `<span class="ac-niveau ac-niveau--${niv.cls}">${niv.label}</span>`
+    + (niv.equiv ? `<span class="ac-equiv">${niv.equiv}</span>` : '');
+  document.getElementById('acJauge').innerHTML =
+    `<div class="ac-jauge-barre"><span class="ac-jauge-curseur" style="left:${positionJauge(pct)}%;--nvc:var(--niv-${niv.cls})"></span></div>`
+    + `<div class="ac-jauge-reperes"><span style="left:25%">3,125</span><span style="left:50%">6,25</span><span style="left:75%">12,5 %</span></div>`;
+  const sireH = byId(sireId), damH = byId(damId);
+  // Bandeau du couple (téléphone : rappel du couple testé en tête du résultat)
+  const membre = (h, role, sexe) => `<div class="ac-cp ac-cp--${sexe}">${vignetteCalc(h, 'ac-cp-photo')}`
+    + `<div><span class="ac-cp-role">${role}</span><span class="ac-cp-nom">${nomCalc(h)}</span></div></div>`;
+  document.getElementById('acCouple').innerHTML = membre(sireH, 'Étalon', 'male')
+    + '<span class="ac-cp-x" aria-hidden="true">×</span>' + membre(damH, 'Jument', 'femelle');
+  // Étalon de l'élevage : lien direct vers la demande de saillie (sujet prérempli)
+  const sireC = CH_PAR_ID[sireId];
+  document.getElementById('acSaillie').innerHTML = (sireC && sireC.famille === 'humming' && sireC.role === 'etalon')
+    ? `<div class="ac-saillie"><a class="btn btn-primary" href="contact.html?sujet=saillie-${echap(sireId)}">Demander les conditions de saillie avec ${echap(sireC.nom_usuel || sireC.nom)}</a></div>`
+    : '';
+  const estim = (sireH.source === 'estimation' || damH.source === 'estimation')
+    ? ' Attention : au moins un des deux chevaux a une ascendance estimée (intermédiaires non documentés) — ce résultat est une valeur plancher.' : '';
+  document.getElementById('resultHint').textContent = niv.note + estim;
+
+  const communs = ancetresCommuns(sireId, damId);
+  const num = new Map(communs.map((a, i) => [a.id, i + 1]));
+  document.getElementById('acCommuns').innerHTML = communs.length
+    ? `<h3 class="ac-sous-titre">Ancêtres <em>communs</em></h3>
+       <p class="ac-intro">Ce sont eux qui font le pourcentage : un ancêtre présent des deux côtés, d'autant plus qu'il est proche du poulain (1re génération = ses parents, 2e = ses grands-parents…).</p>
+       <ol class="ac-liste">${communs.map((a, i) => `<li data-anc="${a.id}" tabindex="0">
+         <span class="ac-num">${i + 1}</span>
+         <span class="ac-anc-nom">${nomCalc(byId(a.id))}</span>
+         <span class="ac-anc-ou">côté père : ${listeGen(a.genP)} génération · côté mère : ${listeGen(a.genM)} génération</span>
+         <span class="ac-anc-part">${pctFr(a.part * 100)}</span></li>`).join('')}</ol>`
+    : '<p class="ac-aucun">Aucun ancêtre commun dans les générations connues.</p>';
+  // Grand écran : arbre en miroir. Mobile : les deux pédigrées l'un sous l'autre.
+  document.getElementById('acGenetique').innerHTML = genetiqueHTML(sireH, damH);
+  document.getElementById('acPedigrees').innerHTML = pedigreeMiroirHTML(sireId, damId, num, pct)
+    + `<div class="ac-ped-blocs">${pedigreeCalcHTML(sireId, 'male', num)}${pedigreeCalcHTML(damId, 'femelle', num)}</div>`;
+}
+
+// ═══ Génétique du poulain ═══════════════════════════════════════════════════
+// Calcul dans js/genetique.js. Ici : l'affichage. Une fourchette « 50 à 100 % »
+// veut dire qu'un test manque chez un parent : le minimum est sûr, le reste dépend du test.
+const AG_NOM_NP = { E:'noir / alezan', A:'bai / noir', D:'dun', Z:'silver', SLC:'crème / pearl', To:'tobiano', KIT:'sabino 1 / W20' };
+const AG_COURT = { PSSM1:'PSSM1', FIS:'FIS', E:'E', A:'A', D:'Dun', Z:'Silver', Cr:'Crème', prl:'Pearl', To:'Tobiano', KIT:'KIT' };
+function agNomCourt(h){ return echap((CH_PAR_ID[h.id] || {}).nom_usuel || h.name); }
+function agPct(x){ return (Math.round(x * 1000) / 10).toLocaleString('fr-FR') + ' %'; }
+function agFourchette(r){ return r[0] === r[1] ? agPct(r[0]) : (Math.round(r[0] * 1000) / 10).toLocaleString('fr-FR') + ' à ' + agPct(r[1]); }
+function agLigne(x){
+  return `<li class="ag-ligne${x.sous ? ' ag-ligne--sous' : ''}">
+    <span class="ag-nom">${x.teinte ? `<span class="ag-pastille" style="background:${x.teinte}"></span>` : ''}${echap(x.nom)}</span>
+    <span class="ag-barre" aria-hidden="true"><span class="ag-barre-max" style="width:${x.p[1] * 100}%"></span><span class="ag-barre-min" style="width:${x.p[0] * 100}%"></span></span>
+    <span class="ag-pct">${agFourchette(x.p)}</span></li>`;
+}
+// Parents dont le génotype n'est pas entièrement connu à ce locus
+function agManquantsH(hs, locus){
+  const l = locus === 'Cr' || locus === 'prl' ? 'SLC' : locus;
+  return hs.filter(h => !Genetique.complet(h.genetique, l));
+}
+function agManquants(hs, locus){ return agManquantsH(hs, locus).map(agNomCourt).join(' et '); }
+// accord : « Sakura n'est pas testée », « Archy et Sakura ne sont pas testés »
+function agAccord(hs, locus, m, f, pl){ const x = agManquantsH(hs, locus); return x.length > 1 ? pl : (x[0] && x[0].sex === 'mare' ? f : m); }
+const AG_NIVEAU = { faible:'Aucun risque', modere:'Risque possible', eleve:'Risque', 'tres-eleve':'À éviter', inconnu:'Imprévisible' };
+function agMaladie(titre, niveau, texte, detail, def){
+  return `<div class="ag-maladie"><div class="ag-mal-tete"><span class="ag-mal-titre">${titre}</span>
+    <span class="ac-niveau ac-niveau--${niveau}">${AG_NIVEAU[niveau]}</span></div>
+    <p class="ag-mal-texte">${texte}</p>${detail ? `<p class="ag-mal-detail">${detail}</p>` : ''}<p class="ag-mal-def">${def}</p></div>`;
+}
+function agSante(r, hs){
+  const I = Genetique.inconnu, manq = l => agManquants(hs, l);
+  const pl = l => agAccord(hs, l, "n'est pas testé", "n'est pas testée", 'ne sont pas testés');
+  let html = '';
+  // PSSM1 : dominante
+  const a = r.PSSM1.atteint, defP = 'Myopathie (stockage anormal du sucre dans les muscles). Gène dominant : un seul parent porteur suffit à la transmettre.';
+  if(!a) html += agMaladie('PSSM1', 'inconnu', 'Tests incohérents, à vérifier.', '', defP);
+  else if(a[1] === 0) html += agMaladie('PSSM1', 'faible', 'Aucun poulain atteint : les deux parents sont N/N.', '', defP);
+  else if(a[0] > 0) html += agMaladie('PSSM1', 'eleve', `${agFourchette(a)} des poulains seront atteints.`, '', defP);
+  else if(I(a)) html += agMaladie('PSSM1', 'inconnu', `Impossible à prévoir : ${manq('PSSM1')} ${pl('PSSM1')}.`, '', defP);
+  else html += agMaladie('PSSM1', 'modere', `Jusqu'à ${agPct(a[1])} des poulains atteints, selon le test de ${manq('PSSM1')}.`, '', defP);
+  // FIS : récessive, mortelle
+  const f = r.FIS.atteint, c = r.FIS.porteur, defF = "Immunodéficience du poulain, mortelle dans ses premiers mois. Gène récessif : le poulain n'est malade que s'il reçoit le gène de ses deux parents ; un porteur (N/P) n'est jamais malade.";
+  const porteurs = !c || c[1] === 0 ? 'Aucun porteur.'
+    : I(c) ? `Porteurs sains : impossible à dire, ${manq('FIS')} ${pl('FIS')}.`
+    : `${agFourchette(c)} de porteurs sains (jamais malades, mais ils peuvent transmettre le gène).`;
+  if(!f) html += agMaladie('FIS', 'inconnu', 'Tests incohérents, à vérifier.', '', defF);
+  else if(f[0] > 0) html += agMaladie('FIS', 'tres-eleve', `${agFourchette(f)} des poulains seront atteints : maladie mortelle.`, porteurs, defF);
+  else if(f[1] === 0) html += agMaladie('FIS', 'faible', 'Aucun poulain malade.', porteurs, defF);
+  else if(I(f)) html += agMaladie('FIS', 'inconnu', `Impossible à prévoir : ${manq('FIS')} ${pl('FIS')}.`, '', defF);
+  else html += agMaladie('FIS', 'modere', `Jusqu'à ${agPct(f[1])} des poulains atteints si ${manq('FIS')} est ${agAccord(hs, 'FIS', 'porteur', 'porteuse', 'porteurs')} : à faire tester avant l'accouplement.`, '', defF);
+  return html;
+}
+function agParent(h){
+  const g = h.genetique || {}, ded = new Set(h.genetique_deduit || []);
+  const ls = Object.keys(Genetique.LOCI);
+  const puces = ls.filter(l => g[l]).map(l => `<span class="ag-puce${ded.has(l) ? ' ag-puce--deduit' : ''}" title="${echap(Genetique.LIBELLES[l])}${ded.has(l) ? ' — déduit (filiation), pas testé directement' : ''}"><b>${AG_COURT[l]}</b>${echap(g[l]).replace(/_/g, '?')}</span>`).join('');
+  const nt = ls.filter(l => !g[l]).map(l => Genetique.LIBELLES[l]);
+  return `<div class="ag-parent ag-parent--${h.sex === 'mare' ? 'femelle' : 'male'}">
+    <span class="ag-parent-nom">${nomCalc(h)}</span>
+    ${puces ? `<div class="ag-puces">${puces}</div>` : '<p class="ag-nt">Aucun test génétique connu.</p>'}
+    ${puces && nt.length ? `<p class="ag-nt">Non testé : ${nt.join(', ')}.</p>` : ''}
+    ${ded.size ? '<p class="ag-nt"><span class="ag-puce ag-puce--deduit ag-puce--mini">pointillés</span> = déduit par filiation.</p>' : ''}</div>`;
+}
+function genetiqueHTML(sireH, damH){
+  const hs = [sireH, damH], r = Genetique.analyser(sireH.genetique, damH.genetique);
+  const tout = [...r.robes, ...r.motifs, ...r.caches];
+  const np = r.nonPris.map(l => `${AG_NOM_NP[l]} (${agManquants(hs, l)})`);
+  const robe = `<div class="ag-robe"><h4 class="ag-titre">Robe</h4>
+    ${r.robes.length ? `<ul class="ag-lignes">${r.robes.map(agLigne).join('')}</ul>`
+      : `<p class="ag-vide">Couleur de base imprévisible : ${agManquants(hs, 'E')} sans test noir / alezan (E).</p>`}
+    ${r.motifs.length ? `<h5 class="ag-st">Panachures</h5><ul class="ag-lignes">${r.motifs.map(agLigne).join('')}</ul>` : ''}
+    ${r.caches.length ? `<h5 class="ag-st">Gènes cachés, transmissibles</h5><ul class="ag-lignes">${r.caches.map(agLigne).join('')}</ul>` : ''}
+    ${tout.some(x => x.p[0] !== x.p[1]) ? '<p class="ag-legende"><span class="ag-barre ag-barre--legende"><span class="ag-barre-max" style="width:100%"></span><span class="ag-barre-min" style="width:45%"></span></span> Fourchette : la partie pleine est sûre, la partie hachurée dépend d’un test manquant.</p>' : ''}
+    ${np.length ? `<p class="ag-np"><strong>Pas pris en compte</strong>, test manquant : ${np.join(' · ')}.</p>` : ''}</div>`;
+  return `<h3 class="ac-sous-titre">Génétique du <em>poulain</em></h3>
+    <p class="ac-intro">D'après les tests ADN des deux parents. Quand un test manque, on n'invente rien : le résultat devient une fourchette, ou n'est pas calculé.</p>
+    <div class="ag">
+      <div class="ag-sante">${agSante(r.sante, hs)}</div>
+      ${robe}
+      <div class="ag-parents">${hs.map(agParent).join('')}</div>
+      <p class="ag-note">Calcul indicatif à partir des tests des parents. Gris, rouan, splash et les autres maladies génétiques ne sont pas couverts.</p>
+    </div>`;
+}
+
+// Survol d'un ancêtre commun (liste ou pédigrée) : toutes ses cases s'allument.
+(function(){
+  const box = document.getElementById('resultBox');
+  const allumer = (id, on) => box.querySelectorAll(`[data-anc="${CSS.escape(id)}"]`).forEach(el => el.classList.toggle('is-survol', on));
+  ['mouseover', 'focusin'].forEach(t => box.addEventListener(t, e => { const el = e.target.closest('[data-anc]'); if(el) allumer(el.dataset.anc, true); }));
+  ['mouseout', 'focusout'].forEach(t => box.addEventListener(t, e => { const el = e.target.closest('[data-anc]'); if(el) allumer(el.dataset.anc, false); }));
+})();
+
+// ═══ Sélecteur d'un parent ══════════════════════════════════════════════════
+// Choisir un cheval ≠ en ajouter un : le sélecteur propose nos reproducteurs en
+// cartes, vos chevaux, une recherche dans toute la base, et en dernier recours
+// « Ajouter mon cheval » (l'éditeur de pédigrée).
+document.body.insertAdjacentHTML('beforeend', `
+  <div class="cp" id="cp" hidden>
+    <div class="cp-fond" data-fermer></div>
+    <div class="cp-boite" role="dialog" aria-modal="true" aria-labelledby="cpTitre">
+      <div class="cp-tete"><h2 id="cpTitre"></h2><button type="button" class="cp-fermer" data-fermer aria-label="Fermer">✕</button></div>
+      <div class="cp-corps" id="cpCorps"></div>
+      <div class="cp-pied"><p id="cpPiedTexte"></p><button type="button" class="btn btn-primary cp-ajouter" id="cpAjouter"></button></div>
+    </div>
+  </div>`);
+const cpEl = document.getElementById('cp');
+let cpCote = 'left';
+const sansAccents = s => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+function cpCandidats(){ const sexe = cpCote === 'left' ? 'stallion' : 'mare'; return horses.filter(h => h.sex === sexe && !h.gelding); }
+function cpLigne(h){
+  return `<button type="button" class="cp-ligne" data-choisir="${echap(h.id)}">${vignetteCalc(h, 'cp-ligne-photo')}`
+    + `<span><span class="cp-ligne-nom">${nomCalc(h)}</span><span class="cp-ligne-meta">${echap(infosCalc(h))}</span></span></button>`;
+}
+// Carte de choix = petite carte photo de l'accueil (.ca, css/style.css) : photo pleine
+// avec son cadrage, nom usuel, race · robe · année ; filet et ombre du sexe.
+function cpCarte(h){
+  const c = CH_PAR_ID[h.id] || {};
+  return `<button type="button" class="ca ca--${h.sex === 'mare' ? 'femelle' : 'male'} cp-ca" data-choisir="${echap(h.id)}">`
+    + `${vignetteCalc(h, 'cp-ca-photo')}<span class="ca-corps"><span class="ca-nom">${echap(c.nom_usuel || h.name)}</span>`
+    + `<span class="cp-ca-meta">${echap(infosCalc(h))}</span></span></button>`;
+}
+// Tri alphabétique sur le nom affiché (sans l'affixe : « Cairnview Archy » → Archy)
+function nomTri(h){ const c = CH_PAR_ID[h.id]; return sansAccents(c && c.affixe ? c.nom.replace(c.affixe, '') : h.name).trim(); }
+// Ligne de liste déroulante : pastille bleue / rose, nom, année
+function ddItem(h, attrs, sel){
+  const an = ((h.naissance || '').match(/\d{4}/) || [''])[0];
+  return `<li role="option" class="dd-item${sel ? ' sel' : ''}" ${attrs}><span class="dd-pt" style="--c:var(--${h.sex === 'mare' ? 'femelle' : 'male'})"></span>`
+    + `${nomCalc(h, false)}${h.owned ? '<span class="pastille pastille--hc pastille--contour dd-hc">HC</span>' : ''}${an ? `<span class="dd-meta">${an}</span>` : ''}</li>`;
+}
+// Flèches haut / bas, Entrée, Échap dans une liste déroulante
+function ddClavier(e, liste){
+  const items = [...liste.querySelectorAll('.dd-item')];
+  if(liste.hidden || !items.length) return false;
+  let i = items.findIndex(x => x.classList.contains('sel'));
+  if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+    e.preventDefault();
+    i = (i + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+    items.forEach((x, k) => x.classList.toggle('sel', k === i));
+    items[i].scrollIntoView({ block: 'nearest' });
+    return true;
+  }
+  if(e.key === 'Enter' && i >= 0){ e.preventDefault(); items[i].click(); return true; }
+  if(e.key === 'Escape'){ e.stopPropagation(); liste.hidden = true; return true; }
+  return false;
+}
+function cpRechercher(q){
+  const out = document.getElementById('cpResultats');
+  const t = sansAccents(q).trim();
+  // vide : toute la base (ordre alphabétique) ; sinon, la liste s'affine
+  const res = cpCandidats().filter(h => !t || sansAccents(h.name).includes(t))
+    .sort((a, b) => (t ? sansAccents(a.name).indexOf(t) - sansAccents(b.name).indexOf(t) : 0) || nomTri(a).localeCompare(nomTri(b)));
+  out.innerHTML = res.length ? res.map((h, i) => ddItem(h, `data-choisir="${echap(h.id)}"`, t && i === 0)).join('')
+    : `<li class="dd-vide">Aucun cheval de ce nom dans la base. Vous pouvez l'ajouter avec le bouton ci-dessous.</li>`;
+  out.hidden = false;
+}
+function ouvrirSelecteur(side){
+  cpCote = side;
+  const male = side === 'left';
+  cpEl.classList.toggle('cp--male', male); cpEl.classList.toggle('cp--femelle', !male);
+  const nos = cpCandidats().filter(h => { const c = CH_PAR_ID[h.id]; return c && c.famille === 'humming' && (c.role === 'etalon' || c.role === 'jument'); });
+  const vos = cpCandidats().filter(h => h.source === 'saisie manuelle' || h.source === 'importé');
+  document.getElementById('cpTitre').innerHTML = male ? 'Choisir un <em>étalon</em>' : 'Choisir une <em>jument</em>';
+  document.getElementById('cpCorps').innerHTML =
+      `<p class="cp-groupe">${male ? 'Nos étalons' : 'Nos juments'}</p><div class="cp-cartes">${nos.map(cpCarte).join('')}</div>`
+    + (vos.length ? `<p class="cp-groupe">Vos chevaux</p><div class="cp-liste">${vos.map(cpLigne).join('')}</div>` : '')
+    + `<p class="cp-groupe">Un autre cheval de la base</p>`
+    + `<div class="dd"><input type="search" class="cp-recherche" id="cpRecherche" placeholder="Rechercher par nom (ex. Flash Harry)…" autocomplete="off" aria-label="Rechercher un cheval par son nom" aria-controls="cpResultats">`
+    + `<ul class="dd-liste" id="cpResultats" role="listbox" hidden></ul></div>`;
+  document.getElementById('cpPiedTexte').textContent = male ? "Votre étalon n'est pas dans la liste ?" : "Votre jument n'est pas dans la liste ?";
+  document.getElementById('cpAjouter').textContent = male ? 'Ajouter mon étalon' : 'Ajouter ma jument';
+  const rech = document.getElementById('cpRecherche'), liste = document.getElementById('cpResultats');
+  rech.addEventListener('input', () => cpRechercher(rech.value));
+  rech.addEventListener('focus', () => { cpRechercher(rech.value); setTimeout(() => rech.scrollIntoView({ block: 'start', behavior: 'smooth' }), 30); });
+  rech.addEventListener('blur', () => setTimeout(() => { liste.hidden = true; }, 150));
+  rech.addEventListener('keydown', e => ddClavier(e, liste));
+  liste.addEventListener('pointerdown', e => e.preventDefault());   // garder le focus le temps du clic
+  cpEl.hidden = false;
+  document.body.style.overflow = 'hidden';
+  cpEl.querySelector('.cp-fermer').focus();
+}
+function fermerSelecteur(){
+  cpEl.hidden = true;
+  document.body.style.overflow = '';
+}
+function choisirParent(id){
+  if(cpCote === 'left') testState.leftId = id; else testState.rightId = id;
+  fermerSelecteur();
+  renderMatchBox(cpCote);
+  updateXResult();
+  document.getElementById(cpCote + 'Box').focus();
+  if(testState.leftId && testState.rightId) document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+cpEl.addEventListener('click', e => {
+  if(e.target.closest('[data-fermer]')) return fermerSelecteur();
+  const b = e.target.closest('[data-choisir]');
+  if(b) return choisirParent(b.dataset.choisir);
+  if(e.target.closest('#cpAjouter')){ fermerSelecteur(); openModal(cpCote); }
+});
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Escape') return;
+  if(!cpEl.hidden) fermerSelecteur();
+  else if(document.getElementById('modalOverlay').classList.contains('open')) closeModal();
+});
 
 function draftHasContent(){
   if(draft.root.mode === 'existing' && draft.root.existingId) return true;
@@ -830,7 +1257,10 @@ function openModal(context){
     if(forced) draft.root.sex = forced;
   }
   document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
   renderTree();
+  const nom = document.getElementById('edNom');
+  if(nom && !nom.disabled) setTimeout(() => nom.focus(), 50);
 }
 function resetTreeForm(){
   const keepContext = draft.context;
@@ -840,6 +1270,7 @@ function resetTreeForm(){
 }
 function closeModal(){
   document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
 }
 function closeModalOnOverlay(e){
   if(e.target === e.currentTarget) closeModal();
@@ -847,12 +1278,12 @@ function closeModalOnOverlay(e){
 
 let draft;
 function resetDraft(){
-  draft = { root: { mode:'new', existingId:'', name:'', sex:'stallion', lineage:'', strain:'inconnue', owned:false }, nodes:{}, context:'catalog', rootShowAll:false };
+  draft = { root: { mode:'new', existingId:'', name:'', sex:'stallion', naissance:'', robe:'', race:'', strain:'inconnue', owned:false, genetique:{} }, nodes:{}, context:'catalog', rootShowAll:false };
 }
 resetDraft();
 
 function getNode(path){
-  if(!draft.nodes[path]) draft.nodes[path] = { mode:'empty', existingId:'', name:'', lineage:'', strain:'inconnue', expanded:false };
+  if(!draft.nodes[path]) draft.nodes[path] = { mode:'empty', existingId:'', name:'', naissance:'', robe:'', strain:'inconnue', expanded:false };
   return draft.nodes[path];
 }
 function roleOf(path){ const s = path.split('.'); return s[s.length - 1]; }
@@ -936,16 +1367,6 @@ function expandNode(path){
   renderTree();
 }
 
-function strainSelectHTML(currentKey, onChangeExpr){
-  const all = allStrains();
-  const optionsHTML = Object.keys(all).map(key =>
-    `<option value="${key}" ${currentKey === key ? 'selected' : ''}>${escapeAttr(all[key].label)}</option>`
-  ).join('') + `<option value="__new__">+ Nouvelle lignée…</option>`;
-  const color = strainColor(currentKey);
-  return `<div class="strain-caption">Lignée d'origine</div>` +
-    `<select class="strain-select" style="border-left:4px solid ${color};background:color-mix(in srgb, ${color} 18%, #fff);" onchange="${onChangeExpr}(this.value)">${optionsHTML}</select>`;
-}
-
 function normalizeSearch(s){
   return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 }
@@ -954,296 +1375,150 @@ function poolForPath(path){
   const wantSex = role === 'sire' ? 'stallion' : 'mare';
   return horses.filter(h => !h.synthetic && h.sex === wantSex);
 }
-function dropdownGroupLabel(h){
-  return h.source === 'importé' ? 'Importés' : strainLabel(h.strain);
-}
-function sortedGrouped(list){
-  return [...list].sort((a, b) => {
-    const sa = dropdownGroupLabel(a), sb = dropdownGroupLabel(b);
-    return sa !== sb ? sa.localeCompare(sb) : a.name.localeCompare(b.name);
-  });
-}
 function comboListId(path){ return 'combo-' + path.replace(/\./g, '-'); }
-function comboFilter(path, text){
-  const el = document.getElementById(comboListId(path));
-  if(!el) return;
-  const q = normalizeSearch(text);
-  let pool = poolForPath(path);
-  if(q) pool = pool.filter(h => normalizeSearch(h.name).includes(q));
-  pool = sortedGrouped(pool);
-  if(pool.length === 0){
-    el.innerHTML = `<div class="combo-empty">Aucun résultat dans la base.</div>`;
-    el.style.display = 'block';
-    return;
-  }
-  let lastGroup = null, html = '';
-  pool.slice(0, 40).forEach(h => {
-    const g = dropdownGroupLabel(h);
-    if(g !== lastGroup){
-      html += `<div class="combo-group">${g}</div>`;
-      lastGroup = g;
-    }
-    html += `<div class="combo-item" onmousedown="pickCombo('${path}','${h.id}')">${swatchHTML(h, 11)}<span class="${sexClass(h)}">${h.name}</span></div>`;
-  });
-  el.innerHTML = html;
-  el.style.display = 'block';
-}
 function pickCombo(path, horseId){
   setSlotMode(path, horseId);
 }
-function comboBlur(path){
-  const el = document.getElementById(comboListId(path));
-  setTimeout(() => { if(el) el.style.display = 'none'; }, 150);
-}
-function comboWidgetHTML(path){
-  return `
-    <div class="combo" data-path="${path}">
-      <input type="text" class="combo-input" placeholder="Rechercher un cheval…" autocomplete="off"
-        oninput="comboFilter('${path}', this.value)"
-        onfocus="comboFilter('${path}', this.value)"
-        onblur="comboBlur('${path}')">
-      <div class="combo-list" id="${comboListId(path)}"></div>
-    </div>
-    <button type="button" class="link-btn" onclick="setSlotMode('${path}','__new__')">+ Cheval hors base</button>`;
-}
-
-function onRootExistingSelect(value){
-  if(value === ''){
-    draft.root.mode = 'new';
-    draft.root.existingId = '';
-    draft.root.name = '';
-    draft.root.lineage = '';
-    draft.root.strain = 'inconnue';
-    draft.root.sex = forcedSexFor(draft.context) || 'stallion';
-    clearDescendants('sire'); clearDescendants('dam');
-    delete draft.nodes['sire']; delete draft.nodes['dam'];
-    renderTree();
-    return;
-  }
-  const h = byId(value);
-  if(!h) return;
-  draft.root.mode = 'existing';
-  draft.root.existingId = value;
-  draft.root.name = h.name;
-  draft.root.sex = h.sex;
-  draft.root.lineage = h.lineage || '';
-  draft.root.strain = h.strain || 'inconnue';
-  cascadeRootExisting(value);
-  renderTree();
-}
-function cascadeRootExisting(horseId){
-  clearDescendants('sire'); clearDescendants('dam');
-  const h = byId(horseId);
-  const sireNode = getNode('sire');
-  if(h && h.sire){ sireNode.mode = 'existing'; sireNode.existingId = h.sire; sireNode.expanded = false; cascadeExisting('sire', h.sire, 1); }
-  else { sireNode.mode = 'empty'; sireNode.existingId = ''; sireNode.expanded = false; }
-  const damNode = getNode('dam');
-  if(h && h.dam){ damNode.mode = 'existing'; damNode.existingId = h.dam; damNode.expanded = false; cascadeExisting('dam', h.dam, 1); }
-  else { damNode.mode = 'empty'; damNode.existingId = ''; damNode.expanded = false; }
-}
-function toggleRootShowAll(){
-  draft.rootShowAll = true;
-  renderTree();
-}
-
-function openPedigreeView(horseId){
-  const h = byId(horseId);
-  if(!h) return;
-  resetDraft();
-  draft.context = 'view';
-  draft.root.mode = 'existing';
-  draft.root.existingId = horseId;
-  draft.root.name = h.name;
-  draft.root.sex = h.sex;
-  draft.root.lineage = h.lineage || '';
-  draft.root.strain = h.strain || 'inconnue';
-  cascadeRootExisting(horseId);
-  document.getElementById('modalOverlay').classList.add('open');
-  renderTree();
-}
-
 function isOwnHorseSource(source){
   return source === 'saisie manuelle' || source === 'importé';
 }
-function isViewGapEditable(path){
-  const parts = path.split('.');
-  const parentNode = parts.length === 1
-    ? { mode: 'existing', existingId: draft.root.existingId }
-    : draft.nodes[parts.slice(0, -1).join('.')];
-  if(!parentNode || parentNode.mode !== 'existing') return true;
-  const owner = byId(parentNode.existingId);
-  return !!owner && isOwnHorseSource(owner.source);
+// ═══ Éditeur « Ajouter mon étalon / ma jument » (refonte du 14/10) ══════════
+// On lit de haut en bas : le cheval, puis ses parents, puis — seulement si on
+// le demande — les parents de chaque parent saisi à la main, aussi loin qu'on
+// les connaît. Un parent trouvé dans la base apporte toute son ascendance : rien
+// à ressaisir. Le modèle de données (draft.nodes, chemins « sire.dam »…) et
+// l'enregistrement (saveTreeHorse) sont inchangés.
+const ROLE_LABEL = { sire: 'Père', dam: 'Mère' };
+function genLabel(depth){ return ['', 'parent', 'grand-parent', 'arrière-grand-parent'][depth] || `${depth}e génération`; }
+
+function elevageSelectHTML(current, onchange){
+  const all = allStrains();
+  const libelle = k => ({ autre: 'Autre élevage', inconnue: 'Je ne sais pas' })[k] || all[k].label;
+  return `<select class="ed-input ed-select" onchange="${onchange}(this.value)">`
+    + Object.keys(all).map(k => `<option value="${k}" ${current === k ? 'selected' : ''}>${escapeAttr(libelle(k))}</option>`).join('')
+    + `<option value="__new__">+ Un autre élevage (le nommer)…</option></select>`;
 }
 
-function renderBranch(path, depth){
-  const node = getNode(path);
-  const role = roleOf(path);
-  const roleLabel = role === 'sire' ? '♂ Père' : '♀ Mère';
-  const existingHorse = node.mode === 'existing' ? byId(node.existingId) : null;
+function slotRechercher(path, text){
+  const el = document.getElementById(comboListId(path));
+  if(!el) return;
+  const q = normalizeSearch(text).trim();
+  // vide : toute la base (le champ a le focus) ; sinon, la liste s'affine
+  const res = poolForPath(path).filter(h => !q || normalizeSearch(h.name).includes(q))
+    .sort((a, b) => (q ? normalizeSearch(a.name).indexOf(q) - normalizeSearch(b.name).indexOf(q) : 0) || nomTri(a).localeCompare(nomTri(b)));
+  el.innerHTML = res.length
+    ? res.map((h, i) => ddItem(h, `onmousedown="event.preventDefault()" onclick="pickCombo('${path}','${h.id}')"`, q && i === 0)).join('')
+    : `<li class="dd-vide">Pas dans la base sous ce nom.</li>`;
+  el.hidden = false;
+}
+function slotFermerResultats(path){
+  const el = document.getElementById(comboListId(path));
+  setTimeout(() => { if(el) el.hidden = true; }, 150);
+}
 
-  let headSwatch = `<span class="swatch" style="width:13px;height:13px;background:${strainColor('inconnue')}"></span>`;
-  if(existingHorse){
-    headSwatch = swatchHTML(existingHorse, 13);
+function slotHTML(path, depth){
+  const node = getNode(path), role = roleOf(path);
+  const h = node.mode === 'existing' ? byId(node.existingId) : null;
+  let corps;
+  if(h){
+    const parents = (h.sire || h.dam)
+      ? `Ascendance connue dans la base : ${nomCalc(byId(h.sire), false)} × ${nomCalc(byId(h.dam), false)}`
+      : 'Ses origines ne sont pas renseignées dans la base.';
+    corps = `<div class="ed-choisi">${vignetteCalc(h, 'ed-choisi-photo')}`
+      + `<span class="ed-choisi-infos"><span class="ed-choisi-nom">${nomCalc(h)}</span><span class="ed-note">${parents}</span></span>`
+      + `<button type="button" class="ed-retirer" onclick="setSlotMode('${path}','')" aria-label="Retirer">✕</button></div>`;
   } else if(node.mode === 'new'){
-    headSwatch = `<span class="swatch" style="width:13px;height:13px;background:${strainColor(node.strain)}"></span>`;
-  }
-
-  let inner = `<div class="node-head"><span class="left">${roleLabel}${headSwatch}</span><span class="gen-badge">G${depth}</span></div>`;
-
-  if(node.mode === 'existing' && existingHorse){
-    inner += `<div class="slot-pill" style="background:${strainBg(existingHorse)}">${swatchHTML(existingHorse, 12)}<span class="pill-name ${sexClass(existingHorse)}">${existingHorse.name}</span><span class="pill-clear" onclick="setSlotMode('${path}','')" title="Retirer">×</span></div>`;
-    if(existingHorse.source === 'estimation'){
-      inner += `<div class="node-info">Ascendance estimée (intermédiaires non documentés).</div>`;
-    }
-    if(!(existingHorse.sire || existingHorse.dam)){
-      inner += `<div class="node-info">Origine inconnue en base.</div>`;
-    }
-  } else if(node.mode === 'new'){
-    inner += `<div class="new-caption"><span>Nouveau cheval</span><span class="new-clear" onclick="setSlotMode('${path}','')" title="Annuler">×</span></div>`;
-    inner += `<input placeholder="Nom" value="${escapeAttr(node.name)}" oninput="updateDraftField('${path}','name',this.value)">`;
-    inner += `<input placeholder="Lignée / note" value="${escapeAttr(node.lineage)}" oninput="updateDraftField('${path}','lineage',this.value)">`;
-    inner += strainSelectHTML(node.strain, `setNodeStrain.bind(null,'${path}')`);
-  } else if(draft.context === 'view' && !isViewGapEditable(path)){
-    inner += `<div class="node-info">Origine inconnue en base — verrouillée dans cette vue (un cheval de la base commune Humming Cob ne se complète pas ici ; à modifier directement avec nous si besoin. Un cheval ajouté par vous cette session, lui, reste modifiable).</div>`;
+    corps = `<div class="ed-nouveau">
+        <div class="ed-nouveau-tete"><span class="ed-note">Saisi par vous</span><button type="button" class="ed-retirer" onclick="setSlotMode('${path}','')" aria-label="Annuler">✕</button></div>
+        <input class="ed-input" placeholder="Nom" value="${escapeAttr(node.name)}" oninput="updateDraftField('${path}','name',this.value)">
+        <div class="ed-ligne2">
+          <label class="ed-champ ed-champ--petit">Élevage d'origine ${elevageSelectHTML(node.strain, `setNodeStrain.bind(null,'${path}')`)}</label>
+          <label class="ed-champ ed-champ--petit">Naissance <input class="ed-input" placeholder="2015" value="${escapeAttr(node.naissance)}" oninput="updateDraftField('${path}','naissance',this.value)"></label>
+        </div>
+        <label class="ed-champ ed-champ--petit">Robe <input class="ed-input" placeholder="Bai, Noir tobiano…" value="${escapeAttr(node.robe)}" oninput="updateDraftField('${path}','robe',this.value)"></label>
+      </div>`;
   } else {
-    inner += comboWidgetHTML(path);
+    corps = `<div class="ed-recherche">
+        <input type="search" class="ed-input" placeholder="Rechercher dans notre base…" autocomplete="off" aria-label="Rechercher ${role === 'sire' ? 'le père' : 'la mère'} dans la base"
+          oninput="slotRechercher('${path}', this.value)" onfocus="slotRechercher('${path}', this.value)" onblur="slotFermerResultats('${path}')"
+          onkeydown="ddClavier(event, document.getElementById('${comboListId(path)}'))">
+        <ul class="ed-resultats dd-liste" id="${comboListId(path)}" role="listbox" hidden></ul>
+      </div>
+      <button type="button" class="ed-lien" onclick="setSlotMode('${path}','__new__')">Pas dans la base ? Saisir son nom</button>`;
   }
-
-  const hasKnownAncestry = existingHorse && (existingHorse.sire || existingHorse.dam);
-  const showChildren = depth < 3 || node.expanded;
-  const canExpand = depth >= 3 && !node.expanded && (node.mode === 'new' || (node.mode === 'existing' && hasKnownAncestry));
-  if(canExpand){
-    inner += `<button type="button" class="expand-btn" onclick="expandNode('${path}')">+ Ajouter les ascendants</button>`;
+  let suite = '';
+  if(node.mode === 'new'){
+    suite = node.expanded
+      ? `<div class="ed-parents ed-parents--imbrique"><p class="ed-sous">Ses parents</p>${slotHTML(path + '.sire', depth + 1)}${slotHTML(path + '.dam', depth + 1)}</div>`
+      : `<button type="button" class="ed-ajouter-parents" onclick="expandNode('${path}')">+ Ajouter ses parents</button>`;
   }
-
-  const cardClass = existingHorse ? 'node-card existing' : 'node-card';
-  let cardBg = '';
-  if(existingHorse){ cardBg = strainBg(existingHorse); }
-  else if(node.mode === 'new'){ cardBg = strainBgKey(node.strain); }
-  const cardStyle = cardBg ? ` style="background:${cardBg}"` : '';
-  let html = `<div class="branch"><div class="${cardClass}"${cardStyle}>${inner}</div>`;
-  if(showChildren){
-    html += `<div class="children-wrap">${renderBranch(path + '.sire', depth + 1)}${renderBranch(path + '.dam', depth + 1)}</div>`;
-  }
-  html += `</div>`;
-  return html;
+  return `<div class="ed-slot ed-slot--${role === 'sire' ? 'male' : 'femelle'}">
+      <p class="ed-role">${ROLE_LABEL[role]}<span class="ed-gen">${genLabel(depth)}</span></p>${corps}${suite}</div>`;
 }
 
 function renderTree(){
   if(!treeContainer) return;
-  const root = draft.root;
-  const compareMode = draft.context === 'left' || draft.context === 'right';
-  const viewMode = draft.context === 'view';
-  const requiredSex = forcedSexFor(draft.context);
-  treeContainer.classList.toggle('mirrored', draft.context === 'left');
-
-  if(root.mode === 'existing' && !byId(root.existingId)){
-    root.mode = 'new'; root.existingId = '';
-  }
+  const root = draft.root, requiredSex = forcedSexFor(draft.context);
   if(requiredSex) root.sex = requiredSex;
-  const isExisting = (compareMode || viewMode) && root.mode === 'existing' && !!root.existingId;
-
-  let existingPicker = '';
-  if(compareMode){
-    const pool = draft.rootShowAll
-      ? horses.filter(h => !h.synthetic && h.sex === requiredSex)
-      : horses.filter(h => (h.owned || h.source === 'saisie manuelle' || h.source === 'importé') && h.sex === requiredSex);
-    let optionsHTML = '';
-    if(draft.rootShowAll){
-      const grouped = sortedGrouped(pool);
-      let lastGroup = null;
-      grouped.forEach(h => {
-        const g = dropdownGroupLabel(h);
-        if(g !== lastGroup){
-          if(lastGroup !== null) optionsHTML += `</optgroup>`;
-          optionsHTML += `<optgroup label="${g}">`;
-          lastGroup = g;
-        }
-        optionsHTML += `<option value="${h.id}" ${root.existingId === h.id ? 'selected' : ''}>${h.name}</option>`;
-      });
-      if(lastGroup !== null) optionsHTML += `</optgroup>`;
-    } else {
-      const importedPool = sortedGrouped(pool.filter(h => h.source === 'importé'));
-      const hcPool = sortedGrouped(pool.filter(h => h.source !== 'importé' && h.owned));
-      const addedPool = sortedGrouped(pool.filter(h => h.source !== 'importé' && !h.owned));
-      if(hcPool.length > 0){
-        optionsHTML += `<optgroup label="Chevaux Humming Cob">` +
-          hcPool.map(h => `<option value="${h.id}" ${root.existingId === h.id ? 'selected' : ''}>${h.name}</option>`).join('') +
-          `</optgroup>`;
-      }
-      if(importedPool.length > 0){
-        optionsHTML += `<optgroup label="Importés">` +
-          importedPool.map(h => `<option value="${h.id}" ${root.existingId === h.id ? 'selected' : ''}>${h.name}</option>`).join('') +
-          `</optgroup>`;
-      }
-      if(addedPool.length > 0){
-        optionsHTML += `<optgroup label="Chevaux ajoutés">` +
-          addedPool.map(h => `<option value="${h.id}" ${root.existingId === h.id ? 'selected' : ''}>${h.name}</option>`).join('') +
-          `</optgroup>`;
-      }
-    }
-    existingPicker = `
-      <select class="root-existing-select" onchange="onRootExistingSelect(this.value)">
-        <option value="">— Nouveau cheval —</option>
-        ${optionsHTML}
-      </select>
-      ${!draft.rootShowAll ? '<button type="button" class="link-btn" onclick="toggleRootShowAll()">Afficher tous les chevaux</button>' : ''}`;
-  }
-
-  const rootSwatch = `<span class="swatch" style="width:13px;height:13px;background:${strainColor(root.strain)}"></span>`;
-  const ownedToggle = (compareMode || viewMode) ? '' :
-    `<label class="owned-toggle"><input type="checkbox" ${root.owned ? 'checked' : ''} onchange="updateRootField('owned', this.checked)"> Cheval Humming Cob (reproducteur/poulain)</label>`;
-  const disabledAttr = isExisting ? 'disabled' : '';
-  const cardBg = isExisting ? strainBg(byId(root.existingId)) : strainBgKey(root.strain);
-  const infoNote = isExisting ? (() => {
-    const h = byId(root.existingId);
-    if(h.source === 'estimation') return '<div class="node-info">Ascendance estimée (intermédiaires non documentés).</div>';
-    if(!(h.sire || h.dam)) return '<div class="node-info">Origine inconnue en base.</div>';
-    return '<div class="node-info">Ascendance connue reprise automatiquement ci-dessous.</div>';
-  })() : '';
-  const rootTitle = viewMode ? ('Pedigree de ' + (root.name || '?'))
-    : requiredSex === 'stallion' ? 'Étalon à ajouter' : requiredSex === 'mare' ? 'Jument à ajouter' : 'Cheval à ajouter';
-  const sexFieldHTML = requiredSex
-    ? `<div class="node-info">${requiredSex === 'stallion' ? '♂ Étalon' : '♀ Jument'} (imposé par la case)</div>`
-    : `<select ${disabledAttr} onchange="updateRootField('sex', this.value)">
-          <option value="stallion" ${root.sex === 'stallion' ? 'selected' : ''}>♂ Étalon</option>
-          <option value="mare" ${root.sex === 'mare' ? 'selected' : ''}>♀ Jument</option>
-        </select>`;
-  const sexAccentColor = requiredSex === 'stallion' ? 'var(--sex-stallion)' : requiredSex === 'mare' ? 'var(--sex-mare)' : '';
-  const sexAccentStyle = sexAccentColor ? `border-left:4px solid ${sexAccentColor};` : '';
-
-  const rootHTML = `
-    <div class="root-wrap">
-      <div class="node-card root-card" style="background:${cardBg};${sexAccentStyle}">
-        <div class="node-head"><span class="left">${rootTitle}${rootSwatch}</span></div>
-        ${existingPicker}
-        ${sexFieldHTML}
-        <input placeholder="Nom *" ${disabledAttr} value="${escapeAttr(root.name)}" oninput="updateRootField('name', this.value)">
-        <input placeholder="Lignée / note" ${disabledAttr} value="${escapeAttr(root.lineage)}" oninput="updateRootField('lineage', this.value)">
-        ${infoNote}
-        ${ownedToggle}
+  if(root.mode === 'existing' && !byId(root.existingId)){ root.mode = 'new'; root.existingId = ''; }
+  const male = root.sex !== 'mare', existant = root.mode === 'existing';
+  const sexeChoix = requiredSex ? '' : `<label class="ed-champ">Sexe
+      <select class="ed-input" onchange="updateRootField('sex', this.value); renderTree()">
+        <option value="stallion" ${male ? 'selected' : ''}>Étalon</option><option value="mare" ${male ? '' : 'selected'}>Jument</option>
+      </select></label>`;
+  treeContainer.innerHTML = `
+    <section class="ed-bloc ed-bloc--${male ? 'male' : 'femelle'}">
+      <p class="ed-etape"><span class="ed-etape-num">1</span>${male ? 'Votre étalon' : 'Votre jument'}</p>
+      ${sexeChoix}
+      <label class="ed-champ">Nom <em class="ed-requis">obligatoire</em>
+        <input class="ed-input ed-input--grand" id="edNom" value="${escapeAttr(root.name)}" oninput="updateRootField('name', this.value)" ${existant ? 'disabled' : ''}></label>
+      <div class="ed-ligne2">
+        <label class="ed-champ">Élevage d'origine ${elevageSelectHTML(root.strain, 'setRootStrain')}</label>
+        <label class="ed-champ">Naissance <span class="ed-facultatif">facultatif</span>
+          <input class="ed-input" placeholder="2015, ou 2015-04-12" value="${escapeAttr(root.naissance)}" oninput="updateRootField('naissance', this.value)" ${existant ? 'disabled' : ''}></label>
       </div>
-      ${!isExisting ? `<div class="root-strain-outside">${strainSelectHTML(root.strain, 'setRootStrain')}</div>` : ''}
-    </div>`;
-  treeContainer.innerHTML = rootHTML +
-    `<div class="children-wrap">${renderBranch('sire', 1)}${renderBranch('dam', 1)}</div>`;
-
+      <div class="ed-ligne2">
+        <label class="ed-champ">Robe <span class="ed-facultatif">facultatif</span>
+          <input class="ed-input" placeholder="Bai, Noir tobiano…" value="${escapeAttr(root.robe)}" oninput="updateRootField('robe', this.value)" ${existant ? 'disabled' : ''}></label>
+        <label class="ed-champ">Race <span class="ed-facultatif">facultatif</span>
+          <input class="ed-input" placeholder="Irish Cob…" value="${escapeAttr(root.race)}" oninput="updateRootField('race', this.value)" ${existant ? 'disabled' : ''}></label>
+      </div>
+    </section>
+    <section class="ed-bloc">
+      <p class="ed-etape"><span class="ed-etape-num">2</span>Ses parents</p>
+      <p class="ed-aide">Cherchez-les d'abord dans notre base : s'ils y sont, toute leur ascendance connue suit, rien à ressaisir. Sinon, saisissez leur nom — vous pourrez ensuite remonter plus loin avec « Ajouter ses parents ». Plus vous remontez, plus le calcul est fiable.</p>
+      <div class="ed-parents">${slotHTML('sire', 1)}${slotHTML('dam', 1)}</div>
+    </section>
+    ${existant ? '' : genSaisieHTML()}`;
+  const dlBtn = document.getElementById('dlTreeBtn'), imp = document.getElementById('modalImport');
+  if(dlBtn) dlBtn.hidden = existant || draft.context === 'view';
+  if(imp) imp.hidden = draft.context === 'view';
   const saveBtn = document.getElementById('saveTreeBtn');
-  if(saveBtn){
-    saveBtn.textContent = viewMode ? 'Enregistrer les ajouts et fermer' : (isExisting ? 'Utiliser ce cheval' : 'Sauvegarder mon cheval');
-  }
-  const modalTitleEl = document.getElementById('modalTitle');
-  if(modalTitleEl){
-    modalTitleEl.textContent = viewMode ? ('Pedigree de ' + (root.name || '?')) : 'Ajouter / tester un cheval';
-  }
-  const modalHintEl = document.getElementById('modalHint');
-  if(modalHintEl){
-    modalHintEl.textContent = viewMode
-      ? "Ascendance déjà enregistrée pour ce cheval. Les cases déjà renseignées restent telles quelles (non modifiables ici, pour éviter une erreur de clic). Les cases encore vides ne peuvent être complétées que si le cheval concerné a été ajouté par vous cette session (saisie manuelle ou import JSON) — les chevaux de la base commune Humming Cob restent verrouillés, même sur une case vide."
-      : "Pedigree sur 3 générations. Chaque case : soit un cheval déjà dans la liste (son ascendance connue est reprise automatiquement, pas besoin de la ressaisir), soit un nouveau cheval à nommer — avec sa lignée d'origine si vous la connaissez. Au-delà de la 3e génération, « + Ajouter les ascendants » permet de continuer la lignée aussi loin que vous la connaissez.";
-  }
-  const resetTreeBtnEl = document.getElementById('resetTreeBtn');
-  if(resetTreeBtnEl) resetTreeBtnEl.style.display = viewMode ? 'none' : '';
+  if(saveBtn) saveBtn.textContent = existant ? 'Utiliser ce cheval' : (requiredSex ? 'Ajouter et tester' : 'Enregistrer ce cheval');
+  const titre = document.getElementById('modalTitle');
+  if(titre) titre.innerHTML = requiredSex ? (male ? 'Ajouter mon <em>étalon</em>' : 'Ajouter ma <em>jument</em>') : 'Ajouter un <em>cheval</em>';
+  const fenetre = document.getElementById('modalOverlay');   // couleur du sexe (recherche, boutons, titre)
+  if(fenetre){ fenetre.classList.toggle('cp--male', !!requiredSex && male); fenetre.classList.toggle('cp--femelle', !!requiredSex && !male); }
+}
+
+// Étape 3 (facultative) : tests génétiques du cheval saisi.
+function genSaisieHTML(){
+  const g = draft.root.genetique || {}, n = Object.keys(g).length;
+  const groupes = [['Santé', ['PSSM1', 'FIS']], ['Robe', ['E', 'A', 'D', 'Z', 'Cr', 'prl']], ['Panachures', ['To', 'KIT']]];
+  return `<details class="ed-bloc ed-gen-bloc"${n ? ' open' : ''}>
+    <summary class="ed-etape"><span class="ed-etape-num">3</span>Ses tests génétiques <span class="ed-facultatif">facultatif${n ? ' · ' + n + ' renseigné' + (n > 1 ? 's' : '') : ''}</span></summary>
+    <p class="ed-aide">Reportez les résultats de ses analyses ADN : le calculateur en déduit les risques et les robes possibles du poulain. Laissez « Non testé » pour tout le reste, rien n'est supposé.</p>
+    ${groupes.map(([t, ls]) => `<p class="ed-gen-groupe">${t}</p><div class="ed-gen">${ls.map(l => `<label class="ed-champ">${Genetique.LIBELLES[l]}
+      <select class="ed-input${g[l] ? ' is-rempli' : ''}" onchange="setRootGen('${l}', this.value, this)"><option value="">Non testé</option>${Genetique.CHOIX[l].map(v => `<option${g[l] === v ? ' selected' : ''}>${v}</option>`).join('')}</select></label>`).join('')}</div>`).join('')}
+    <p class="ed-gen-erreur" id="edGenErreur" role="alert"></p>
+  </details>`;
+}
+function setRootGen(locus, valeur, el){
+  const g = draft.root.genetique = draft.root.genetique || {};
+  if(valeur) g[locus] = valeur; else delete g[locus];
+  if(el) el.classList.toggle('is-rempli', !!valeur);
+  const e = document.getElementById('edGenErreur');
+  if(e) e.textContent = Genetique.erreurs(g).join(' ; ');
 }
 
 function nodeHasContent(node){
@@ -1307,11 +1582,13 @@ function resolveNodeToId(path, depth){
   }
   const role = roleOf(path);
   const id = nextId();
+  const naissance = (node.naissance || '').trim(), robe = (node.robe || '').trim();
   horses.push({
     id, name: n,
     sex: role === 'sire' ? 'stallion' : 'mare',
     sire: sireId, dam: damId,
-    lineage: (node.lineage || '').trim(),
+    naissance, robe,
+    lineage: lineageDe({ naissance, robe }),
     source: 'saisie manuelle',
     strain: node.strain || 'inconnue'
   });
@@ -1362,7 +1639,7 @@ function saveViewedGaps(){
   render();
 }
 
-function saveTreeHorse(){
+function saveTreeHorse(telecharger){
   const context = draft.context;
   if(context === 'view'){
     saveViewedGaps();
@@ -1380,6 +1657,8 @@ function saveTreeHorse(){
 
   const name = draft.root.name.trim();
   if(!name){ alert('Le nom du cheval est obligatoire.'); return; }
+  const gen = { ...(draft.root.genetique || {}) }, genErr = Genetique.erreurs(gen);
+  if(genErr.length){ alert('Tests génétiques à corriger : ' + genErr.join(' ; ')); return; }
 
   const plan = planTreeResolution();
   const namesToCheck = plan.plannedNew.map(p => p.name);
@@ -1415,10 +1694,12 @@ function saveTreeHorse(){
     sex: draft.root.sex,
     sire: sireId,
     dam: damId,
-    lineage: draft.root.lineage.trim(),
+    naissance: draft.root.naissance.trim(), robe: draft.root.robe.trim(), race: draft.root.race.trim(),
+    lineage: lineageDe({ naissance: draft.root.naissance.trim(), robe: draft.root.robe.trim(), race: draft.root.race.trim() }),
     source: 'saisie manuelle',
     strain: draft.root.strain || 'inconnue',
-    owned: !!draft.root.owned
+    owned: !!draft.root.owned,
+    ...(Object.keys(gen).length ? { genetique: gen } : {})
   });
 
   if(context === 'left') testState.leftId = newHorseId;
@@ -1426,68 +1707,13 @@ function saveTreeHorse(){
   closeModal();
   resetDraft();
   render();
+  if(telecharger) telechargerChevaux(avecAscendanceSaisie(newHorseId), (slugId(name) || 'mon-cheval') + '.json');
 }
 
-function horseRowHTML(h){
-  let originTag;
-  if(h.synthetic) originTag = '<span class="tag synth">Maillon estimé</span>';
-  else if(h.source === 'estimation') originTag = '<span class="tag estim">Ascendance estimée</span>';
-  else originTag = '<span class="tag" style="background:var(--ok);">Confirmé</span>';
-  const hcTag = h.owned ? '<span class="tag hc">HC</span>' : '';
-  const importedTag = h.source === 'importé' ? '<span class="tag imported">Importé</span>' : '';
-  return `
-    <tr style="background:${strainBg(h)}">
-      <td>${hcTag}${importedTag}${nameHTML(h)}</td>
-      <td><span class="tag sex">${h.sex === 'mare' ? '♀ Jument' : '♂ Étalon'}</span></td>
-      <td>${nameOf(h.sire)}</td>
-      <td>${nameOf(h.dam)}</td>
-      <td style="display:flex;align-items:center;gap:6px;">${swatchHTML(h, 13)}<span>${strainRowLabel(h)}</span></td>
-      <td>${originTag}</td>
-    </tr>`;
-}
-function sectionDividerHTML(label, count, swatchColorValue){
-  const dot = swatchColorValue ? `<span class="swatch" style="width:9px;height:9px;background:${swatchColorValue}"></span>` : '';
-  return `<tr class="group-head"><td colspan="6"><div class="divider-line"><span class="divider-content">${dot}${label} (${count})</span></div></td></tr>`;
-}
 function render(){
-  const refHorses = horses.filter(h => h.source !== 'saisie manuelle' && h.source !== 'importé');
-  const addedHorses = horses.filter(h => h.source === 'saisie manuelle' || h.source === 'importé');
-
-  const ownedRef = refHorses.filter(h => h.owned);
-  const restRef = refHorses.filter(h => !h.owned);
-  const originOrder = ['sancler', 'sd', 'cairnview', 'hc', 'autre', 'inconnue'];
-
-  let rowsHTML = '';
-  if(ownedRef.length > 0){
-    rowsHTML += sectionDividerHTML('Élevage Humming Cob', ownedRef.length);
-    rowsHTML += ownedRef.map(horseRowHTML).join('');
-  }
-  originOrder.forEach(key => {
-    const group = restRef.filter(h => (h.strain || 'inconnue') === key);
-    if(group.length === 0) return;
-    rowsHTML += sectionDividerHTML(strainLabel(key), group.length, strainColor(key));
-    rowsHTML += group.map(horseRowHTML).join('');
-  });
-
-  if(addedHorses.length > 0){
-    const importedRows = addedHorses.filter(h => h.source === 'importé');
-    const manualRows = addedHorses.filter(h => h.source !== 'importé');
-    if(importedRows.length > 0){
-      rowsHTML += sectionDividerHTML('Importés via JSON', importedRows.length);
-      rowsHTML += importedRows.map(horseRowHTML).join('');
-    }
-    if(manualRows.length > 0){
-      rowsHTML += sectionDividerHTML('Ajoutés manuellement', manualRows.length);
-      rowsHTML += manualRows.map(horseRowHTML).join('');
-    }
-  }
-  horseTable.innerHTML = rowsHTML;
-  horseCountEl.textContent = horses.length;
-
   renderMatchBox('left');
   renderMatchBox('right');
   updateXResult();
-  renderLegend();
   renderTree();
 }
 
@@ -1556,17 +1782,89 @@ function inbreedingCoefficient(sireId, damId){
   return additiveRelationship(sireId, damId, memo, gen) / 2;
 }
 
+// ═══ Format d'échange = format des fiches du site (data/chevaux/*.json) ══════
+// Le fichier téléchargé reprend les mêmes champs que nos fiches (nom, sexe, pere,
+// mere, naissance, robe, genetique…) : un cheval reçu peut être rangé tel quel
+// dans data/chevaux/. L'import accepte aussi l'ancien format du calculateur
+// (name, sex, sire, dam, lineage…) pour les fichiers déjà téléchargés.
+const SOUCHES_SITE = ['cairnview', 'sancler', 'sd', 'hc', 'autre'];
+function lineageDe(h){
+  return [h.race, h.robe, ((h.naissance || '').match(/\d{4}/) || [''])[0], h.notes].filter(Boolean).join(' · ');
+}
+function versFormatSite(h){
+  const o = { id: h.id, nom: h.name, famille: 'externe', sexe: h.sex === 'mare' ? 'femelle' : (h.gelding ? 'hongre' : 'male') };
+  if(h.sire) o.pere = h.sire;
+  if(h.dam) o.mere = h.dam;
+  if(h.naissance) o.naissance = h.naissance;
+  if(h.robe) o.robe = h.robe;
+  if(h.race) o.race = h.race;
+  if(h.strain && h.strain !== 'inconnue'){
+    if(SOUCHES_SITE.includes(h.strain)) o.souche = h.strain;
+    else { o.souche = 'autre'; o.elevage = strainLabel(h.strain); }
+  }
+  if(h.genetique && Object.keys(h.genetique).length) o.genetique = { ...h.genetique };
+  // ancien texte libre « Précisions » (fichiers d'avant l'alignement)
+  const notes = h.notes || (!h.naissance && !h.robe && !h.race ? h.lineage : '');
+  if(notes) o.notes = notes;
+  o.source = 'calculateur hummingcob.fr';
+  return o;
+}
+function depuisFormatSite(o){
+  const sexes = { male: 'stallion', hongre: 'stallion', femelle: 'mare' };
+  let strain = 'inconnue';
+  if(o.souche && o.souche !== 'autre' && SOUCHES_SITE.includes(o.souche)) strain = o.souche;
+  else if(o.elevage) strain = registerCustomStrainFromLabel(o.elevage) || 'autre';
+  else if(o.souche === 'autre') strain = 'autre';
+  const h = {
+    id: o.id, name: o.nom, sex: sexes[o.sexe] || o.sexe, gelding: o.sexe === 'hongre',
+    sire: o.pere || null, dam: o.mere || null,
+    naissance: o.naissance || '', robe: o.robe || '', race: o.race || '', notes: o.notes || '',
+    strain, owned: false
+  };
+  if(o.genetique != null) h.genetique = o.genetique;
+  h.lineage = lineageDe(h);
+  return h;
+}
+const estFormatSite = o => !!o && typeof o === 'object' && ('nom' in o || 'sexe' in o);
+
+const estAjoute = h => !!h && (h.source === 'saisie manuelle' || h.source === 'importé');
+const slugId = n => (n || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+// Un cheval et les ancêtres saisis par le visiteur (ceux de notre base restent des liens).
+function avecAscendanceSaisie(id){
+  const out = [], vus = new Set();
+  (function go(i){ const h = byId(i); if(!estAjoute(h) || vus.has(i)) return; vus.add(i); out.push(h); go(h.sire); go(h.dam); })(id);
+  return out;
+}
 function exportJSON(){
-  const added = horses.filter(h => h.source === 'saisie manuelle' || h.source === 'importé');
+  const added = horses.filter(estAjoute);
   if(added.length === 0){
     alert("Vous n'avez encore ajouté aucun cheval dans cette session — rien à télécharger.");
     return;
   }
-  const blob = new Blob([JSON.stringify(added, null, 2)], {type:'application/json'});
+  telechargerChevaux(added, 'mes-chevaux-ajoutes.json');
+}
+function telechargerChevaux(added, fichier){
+  // id lisible tiré du nom (« Bella du Test » → « belladutest »), comme nos fiches :
+  // le fichier peut être rangé tel quel dans data/chevaux/. Liens pere / mere suivis.
+  const slug = slugId;
+  const pris = new Set(horses.filter(h => !added.includes(h)).map(h => h.id)), nouvelId = new Map();
+  added.forEach(h => {
+    const base = slug(h.name) || h.id; let id = base, n = 2;
+    while(pris.has(id)) id = base + '-' + n++;
+    pris.add(id); nouvelId.set(h.id, id);
+  });
+  const sortie = added.map(h => {
+    const o = versFormatSite(h);
+    o.id = nouvelId.get(h.id);
+    if(o.pere && nouvelId.has(o.pere)) o.pere = nouvelId.get(o.pere);
+    if(o.mere && nouvelId.has(o.mere)) o.mere = nouvelId.get(o.mere);
+    return o;
+  });
+  const blob = new Blob([JSON.stringify(sortie, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'mes-chevaux-ajoutes.json';
+  a.download = fichier;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -1592,12 +1890,12 @@ function validateImport(data, currentHorses){
     if(typeof h.id !== 'string' || !h.id.trim()) reasons.push('id manquant ou vide');
     else if(seenIds.has(h.id)) reasons.push("id '" + h.id + "' en double dans le fichier");
     if(typeof h.name !== 'string' || !h.name.trim()) reasons.push('nom manquant');
-    if(h.sex !== 'stallion' && h.sex !== 'mare') reasons.push("sexe invalide (attendu 'stallion' ou 'mare', reçu " + JSON.stringify(h.sex) + ')');
+    if(h.sex !== 'stallion' && h.sex !== 'mare') reasons.push("sexe invalide (attendu « male », « femelle » ou « hongre », reçu " + JSON.stringify(h.sex) + ')');
     if(h.sire != null){
-      if(typeof h.sire !== 'string' || !allIds.has(h.sire)) reasons.push("père (sire) introuvable : " + JSON.stringify(h.sire));
+      if(typeof h.sire !== 'string' || !allIds.has(h.sire)) reasons.push("père introuvable : " + JSON.stringify(h.sire));
     }
     if(h.dam != null){
-      if(typeof h.dam !== 'string' || !allIds.has(h.dam)) reasons.push("mère (dam) introuvable : " + JSON.stringify(h.dam));
+      if(typeof h.dam !== 'string' || !allIds.has(h.dam)) reasons.push("mère introuvable : " + JSON.stringify(h.dam));
     }
 
     if(reasons.length){
@@ -1605,6 +1903,11 @@ function validateImport(data, currentHorses){
       return;
     }
     if(h.id) seenIds.add(h.id);
+
+    if(h.genetique != null){
+      const ge = Genetique.erreurs(h.genetique);
+      if(ge.length){ warnings.push(`${h.name} : tests génétiques ignorés (${ge.join(' ; ')})`); h = { ...h }; delete h.genetique; }
+    }
 
     if(h.sire != null){ const s = sexOf(h.sire); if(s && s !== 'stallion') warnings.push(`${h.name} : le père '${h.sire}' est enregistré comme jument`); }
     if(h.dam != null){ const s = sexOf(h.dam); if(s && s !== 'mare') warnings.push(`${h.name} : la mère '${h.dam}' est enregistrée comme étalon`); }
@@ -1615,14 +1918,16 @@ function validateImport(data, currentHorses){
   return { valid, rejected, warnings };
 }
 
-function importJSON(event){
+function importJSON(event, cote){
   const file = event.target.files[0];
   if(!file) return;
   const reader = new FileReader();
   reader.onload = e => {
     try {
-      const data = JSON.parse(e.target.result);
+      let data = JSON.parse(e.target.result);
+      if(data && !Array.isArray(data) && typeof data === 'object') data = [data];   // une fiche seule
       if(!Array.isArray(data)) throw new Error('Format invalide');
+      data = data.map(x => estFormatSite(x) ? depuisFormatSite(x) : x);
 
       const check = validateImport(data, horses);
       if(check.valid.length === 0){
@@ -1693,11 +1998,21 @@ function importJSON(event){
         if(idx >= 0){ horses[idx] = h; updated++; }
         else { horses.push(h); added++; }
       });
-      testState = { leftId: '', rightId: '' };
+      // Depuis la modale « Ajouter mon étalon / ma jument » : le cheval du fichier est
+      // choisi directement (celui qui n'est le parent d'aucun autre dans le fichier).
+      const sexe = cote === 'left' ? 'stallion' : cote === 'right' ? 'mare' : null;
+      const parentsFichier = new Set(clean.flatMap(h => [h.sire, h.dam]));
+      const racines = sexe ? clean.filter(h => h.sex === sexe && !h.gelding && !parentsFichier.has(h.id)) : [];
       resetDraft();
       render();
-      document.getElementById('resultBox').style.display = 'none';
+      if(sexe){
+        closeModal();
+        if(racines.length === 1){ if(cote === 'left') testState.leftId = racines[0].id; else testState.rightId = racines[0].id; }
+      }
+      ['left', 'right'].forEach(renderMatchBox);
+      updateXResult();
       alert(`Import terminé : ${added} cheval(aux) ajouté(s), ${updated} mis à jour.`);
+      if(sexe && racines.length !== 1) ouvrirSelecteur(cote);   // plusieurs chevaux : à choisir dans « Vos chevaux »
     } catch(err){
       alert('Fichier JSON invalide : ' + err.message);
     }
@@ -1710,7 +2025,7 @@ const startupCyclicId = findCycle(horses.map(h => h.id), byId);
 if(startupCyclicId){
   const h = byId(startupCyclicId);
   alert(
-    "⚠️ Cycle de parenté détecté dans la base (donnees-chevaux.js) : " +
+    "⚠️ Cycle de parenté détecté dans la base (data/chevaux/) : " +
     (h ? h.name : startupCyclicId) + " (id '" + startupCyclicId + "') est son propre ancêtre " +
     "selon les liens sire/dam actuels. Le calcul de consanguinité plantera (boucle infinie) si " +
     "ce cheval est utilisé dans un test — corrige le fichier avant de continuer."
@@ -1721,7 +2036,7 @@ const startupValidation = validateImport(HORSES_BASE, []);
 if(startupValidation.rejected.length > 0 || startupValidation.warnings.length > 0){
   const parts = [];
   if(startupValidation.rejected.length > 0){
-    parts.push("Entrées invalides dans donnees-chevaux.js :\n" +
+    parts.push("Entrées invalides dans data/chevaux/ :\n" +
       startupValidation.rejected.map(r => "• " + (r.horse.name || r.horse.id || '?') + " — " + r.reasons.join(' ; ')).join('\n'));
   }
   if(startupValidation.warnings.length > 0){
@@ -1729,13 +2044,21 @@ if(startupValidation.rejected.length > 0 || startupValidation.warnings.length > 
       startupValidation.warnings.map(w => "• " + w).join('\n'));
   }
   alert(
-    "⚠️ Vérification d'intégrité de la base au chargement (donnees-chevaux.js) :\n\n" +
+    "⚠️ Vérification d'intégrité de la base au chargement (data/chevaux/) :\n\n" +
     parts.join('\n\n') +
     "\n\nCorrige le fichier si besoin ; l'outil continue de fonctionner mais ces chevaux " +
     "peuvent fausser les calculs."
   );
 }
 
+// Préremplissage depuis une fiche étalon : accouplement.html?etalon=archy
+// (et/ou &jument=suzie). Un id inconnu ou du mauvais sexe est ignoré.
+(function(){
+  const q = new URLSearchParams(location.search);
+  const e = byId(q.get('etalon') || ''), j = byId(q.get('jument') || '');
+  if(e && e.sex === 'stallion') testState.leftId = e.id;
+  if(j && j.sex === 'mare') testState.rightId = j.id;
+})();
 render();
 </script>
 </body>

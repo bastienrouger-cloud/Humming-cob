@@ -1,0 +1,42 @@
+{
+  "id": "qoulitch",
+  "nom": "Qoulitch Yasuke",
+  "affixe": "Yasuke",
+  "famille": "externe",
+  "statut": "a-vendre",
+  "vendeur": "Yasuke",
+  "sexe": "male",
+  "pere": "avantgarde",
+  "mere": "rubyjane",
+  "naissance": "2026-05-23",
+  "robe": "Bai Pearl",
+  "race": "OC",
+  "elevage": "Élevage Yasuke",
+  "souche": "autre",
+  "photo": "img/avantgarde/Qoulitch 013.jpg",
+  "photo_arbre": "img/tree/qoulitch.jpg",
+  "photos": [
+    "img/avantgarde/Qoulitch 01.jpg",
+    "img/avantgarde/Qoulitch 02.jpg",
+    "img/avantgarde/Qoulitch 03.jpg",
+    "img/avantgarde/Qoulitch 013.jpg",
+    "img/avantgarde/Qoulitch 05.jpg",
+    "img/avantgarde/Qoulitch 06.jpg"
+  ],
+  "resume": "Fils d'Avantgarde x SD Ruby Jane, il est né le 23 mai 2026, en Bretagne, à l'Élevage Yasuke. Observateur, posé et réfléchi.",
+  "cartes": {
+    "rubyjane": {
+      "photo": "img/ruby/Ruby Qoulitch.jpg",
+      "resume": "Troisième fils d'Avantgarde, il est né le 23 mai 2026, en Bretagne, à l'Élevage Yasuke. Observateur, posé et réfléchi.",
+      "photos": [
+        "img/ruby/Qoulitch 013.jpg",
+        "img/ruby/Qoulitch 01.jpg",
+        "img/ruby/Qoulitch 02.jpg",
+        "img/ruby/Qoulitch 03.jpg",
+        "img/ruby/Qoulitch 04.jpg",
+        "img/ruby/Qoulitch 05.jpg",
+        "img/ruby/Qoulitch 06.jpg"
+      ]
+    }
+  }
+}

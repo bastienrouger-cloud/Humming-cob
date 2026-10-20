@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SD Suzie — Jument Irish Cob · Humming Cob</title>
   <meta name="description" content="La matriarche de l'élevage, fille du célèbre Woolly Mammoth. Toute une lignée est née d'elle.">
@@ -9,6 +11,7 @@
   <meta property="og:description" content="La matriarche de l'élevage, fille du célèbre Woolly Mammoth. Toute une lignée est née d'elle.">
   <meta property="og:image" content="https://hummingcob.fr/img/og/og-suzie.jpg">
   <meta property="og:url" content="https://hummingcob.fr/reproducteurs/suzie.html">
+    <link rel="canonical" href="https://hummingcob.fr/reproducteurs/suzie.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Humming Cob">
   <!-- Teinte de la barre du navigateur : calée sur le header,
@@ -24,7 +27,7 @@
   <link rel="manifest" href="../img/favicon_io/site.webmanifest">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="horse-page">
+<body class="horse-page theme-femelle">
 
 <!-- @partial:header -->
 <nav class="navbar" id="navbar">
@@ -36,24 +39,11 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="../reproducteurs.html">Reproducteurs</a></li>
-        <li><a href="../poulains.html">Poulains</a></li>
-        <li><a href="../memoire.html">Ils ont marqué notre histoire</a></li>
-      </ul>
-    </li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="../arbre-genealogique.html">Arbre généalogique</a></li>
-        <li><a href="../accouplement.html">Testez un accouplement</a></li>
-      </ul>
-    </li>
-    <li><a href="../index.html#contact">Contact</a></li>
+    <li><a href="../nos-chevaux.html">Nos chevaux</a></li>
+    <li><a href="../arbre-genealogique.html">Généalogie</a></li>
+    <li><a href="../accouplement.html">Accouplements</a></li>
+    <li><a href="../contact.html" class="nav-contact">Contact</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -68,14 +58,16 @@
       <li><a href="#descendance">Poulains</a></li>
       <li><a href="#pedigree">Pedigree</a></li>
     </ul>
-    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Nous contacter</a>
+    <a href="../contact.html" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Nous contacter</a>
   </div>
 </nav>
 
 
 <div class="horse-hero-top">
-  <span class="badge-reproducteur" style="position:static;display:inline-block;">Jument · Débourrée montée</span>
-  <p class="horse-hero-race">Bientôt à la retraite</p>
+  <!-- @entete: suzie -->
+  <span class="pastille pastille--info">Débourrée montée</span>
+  <p class="horse-hero-race">Jument · Bientôt à la retraite</p>
+  <!-- @end:entete -->
 </div>
 
 <div class="horse-hero">
@@ -121,7 +113,7 @@
   </div>
 
   <div class="horse-hero-info">
-    <h1 class="horse-hero-name">SD <em>Suzie</em></h1>
+    <h1 class="horse-hero-name"><!-- @nom: suzie --><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Suzie</em></span><!-- @end:nom --></h1>
 
     <div class="horse-specs">
       <div class="horse-spec"><div class="horse-spec-label">Née le</div><div class="horse-spec-value">2010</div></div>
@@ -153,7 +145,7 @@
 
     <!-- Point d'ancrage du bouton : repère du script pour le dupliquer dans nav2 -->
     <div id="ctaAnchor" class="cta-anchor cta-anchor--center">
-      <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
+      <a href="../contact.html" class="btn btn-primary">Nous contacter</a>
     </div>
   </div>
 </div>
@@ -189,151 +181,126 @@
     <!-- Vendues par SD — 2 cartes -->
     <p style="font-size:.72rem;color:var(--gris);letter-spacing:.1em;margin:0 0 .75rem;">Du Pays de Galles aux États-Unis</p>
     <div class="horses-grid horses-grid--3" style="margin-top:0;margin-bottom:2rem;justify-content:start;">
-
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="SD One Stop The Top"
-           data-desc="Exportée aux USA, actuellement à la vente suitée. Elle est devenue une magnifique jument et une très bonne mère."
-           data-images='["../img/suzie/ostt-01.jpg","../img/suzie/ostt-02.jpg","../img/suzie/ostt-03.jpg","../img/suzie/ostt-04.jpg","../img/suzie/ostt-05.jpg","../img/suzie/ostt-06.jpg","../img/suzie/ostt-07.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/suzie/ostt-03.jpg" alt="One Stop The Top" style="width:100%;height:100%;object-fit:cover;">
+      <!-- @cartes: onestop, cherry contexte=suzie -->
+      <article class="cc cc--femelle cc--modale reveal reveal-delay-1" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="onestop" data-contexte="suzie">
+        <div class="cc-photo">
+          <img src="../img/suzie/ostt-03.jpg" alt="SD One Stop The Top" loading="lazy">
+          <span class="cc-badge pastille pastille--vendu">Vendue par SD</span>
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 7</span>
         </div>
-        <span style="position:absolute;top:1rem;left:1rem;background:rgba(80,80,80,0.75);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;">Vendue par SD</span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Jument · Gypsy Cob · Bai Sabino · 2014</span>
-          <h3 class="horse-card-name">SD One Stop The Top</h3>
-          <p class="horse-card-desc">Exportée aux USA, actuellement à la vente suitée. Elle est devenue une magnifique jument et
-            une très bonne mère.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Gypsy Cob</span><span>Bai Sabino</span><wbr><span class="cc-dates">2014</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">One Stop The Top</em></span></h3>
+          <p class="cc-texte">Exportée aux USA, actuellement à la vente suitée. Elle est devenue une magnifique jument et une très bonne mère.</p>
+          <span class="cc-action">Voir les 7 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="SD Cherry Oh Baby"
-           data-desc="La grande sœur de mes filles. Celle qui a fait naître mon admiration pour cette lignée et qui, sans le savoir, a ouvert la porte à l'arrivée de Suzie."
-           data-images='["../img/suzie/cherry-01.jpg","../img/suzie/cherry-02.jpg","../img/suzie/cherry-03.jpg","../img/suzie/cherry-04.jpg","../img/suzie/cherry-05.jpg","../img/suzie/cherry-06.jpg","../img/suzie/cherry-07.jpg","../img/suzie/cherry-08.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/suzie/cherry-04.jpg" alt="SD Cherry Oh Baby" style="width:100%;height:100%;object-fit:cover;">
+      </article>
+      <article class="cc cc--femelle cc--modale reveal reveal-delay-2" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="cherry" data-contexte="suzie">
+        <div class="cc-photo">
+          <img src="../img/suzie/cherry-04.jpg" alt="SD Cherry Oh Baby" loading="lazy">
+          <span class="cc-badge pastille pastille--vendu">Vendue par SD</span>
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 8</span>
         </div>
-        <span style="position:absolute;top:1rem;left:1rem;background:rgba(80,80,80,0.75);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;">Vendue par SD</span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Jument · Gypsy Cob · Bai · 2016</span>
-          <h3 class="horse-card-name">SD Cherry Oh Baby</h3>
-          <p class="horse-card-desc">La grande sœur de mes filles.
-            Celle qui a fait naître mon admiration pour cette lignée et qui, sans le savoir, a ouvert la porte à l'arrivée de Suzie.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Gypsy Cob</span><span>Bai</span><wbr><span class="cc-dates">2016</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Cherry Oh Baby</em></span></h3>
+          <p class="cc-texte">La grande sœur de mes filles. Celle qui a fait naître mon admiration pour cette lignée et qui, sans le savoir, a ouvert la porte à l&#x27;arrivée de Suzie.</p>
+          <span class="cc-action">Voir les 8 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
+      </article>
+      <!-- @end:cartes -->
     </div>
 
     <!-- Chez nous / nées ici — 3 cartes -->
     <p style="font-size:.72rem;color:var(--gris);letter-spacing:.1em;margin:0 0 .75rem;">Du Pays de Galles à Humming Cob</p>
     <div class="horses-grid horses-grid--3" style="margin-top:0;margin-bottom:2.5rem;">
-
-      <a href="../reproducteurs/sakura.html" class="horse-card">
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/sakura/sa- 02 J15.jpg" alt="SD Sakura" style="width:100%;height:100%;object-fit:cover;">
+      <!-- @cartes: sakura, rubyjane, jinba contexte=suzie -->
+      <a class="cc cc--femelle reveal reveal-delay-1" href="../reproducteurs/sakura.html" data-cheval="sakura">
+        <div class="cc-photo">
+          <img src="../img/sakura/sa- 02 J15.jpg" alt="SD Sakura" loading="lazy">
+          <span class="cc-badge pastille pastille--or">★ Élite grade 1</span>
         </div>
-        <span class="badge-reproducteur"><strong>⭐ Jument · Élite grade 1</strong></span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Jument · Irish Cob · Bai Sabino · 2017</span>
-          <h3 class="horse-card-name">SD Sakura</h3>
-          <p class="horse-card-desc">Actuellement en confiage chez mon amie Ludivine du Cros de L'Oume,
-            elle s'épanouit au rythme de randonnées actives.</p>
-          <span class="horse-card-link">Découvrir <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-        </div>
-      </a>
-
-      <a href="../reproducteurs/ruby-jane.html" class="horse-card">
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/ruby/rj-05.jpg" alt="SD Ruby Jane" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <span class="badge-reproducteur"><strong>⭐ Jument · Élite grade 1</strong></span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Jument · Irish Cob · Bai · 2018</span>
-          <h3 class="horse-card-name">SD Ruby Jane</h3>
-          <p class="horse-card-desc">Également en confiage, chez mon amie Julie Berenguer,
-            elle participe à de l'équicie et est maman de nouveau.</p>
-          <span class="horse-card-link">Découvrir <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Irish Cob</span><span>Bai Sabino</span><wbr><span class="cc-dates">2017</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Sakura</em></span></h3>
+          <p class="cc-texte">Actuellement en confiage chez mon amie Ludivine du Cros de L&#x27;Oume, elle s&#x27;épanouit au rythme de randonnées actives.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
-
-      <a href="../poulains/Jinba-Ittaï.html" class="horse-card">
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/jinba/ji-03-J+30.jpg" alt="HC Jinba Ittaï" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+      <a class="cc cc--femelle reveal reveal-delay-2" href="../reproducteurs/ruby-jane.html" data-cheval="rubyjane">
+        <div class="cc-photo">
+          <img src="../img/ruby/rj-05.jpg" alt="SD Ruby Jane" loading="lazy">
+          <span class="cc-badge pastille pastille--or">★ Élite grade 1</span>
         </div>
-        <span style="position:absolute;top:1rem;left:1rem;
-          background:rgba(60,160,160,0.85);color:#fff;
-          font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;
-          padding:.3rem .75rem;border-radius:50px;"><strong>⭐ Vendue</strong></span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Jument · Irish Cob · Noir Sabino · 2019</span>
-          <h3 class="horse-card-name">HC Jinba Ittaï</h3>
-          <p class="horse-card-desc">Du bleu dans les yeux, du tempérament, elle est la première pouliche à porter
-            notre affixe (HC). Elle poursuit son aventure à deux pas de l'élevage.</p>
-          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Irish Cob</span><span>Bai</span><wbr><span class="cc-dates">2018</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Ruby Jane</em></span></h3>
+          <p class="cc-texte">Également en confiage, chez mon amie Julie Berenguer, elle participe à de l&#x27;équicie et est maman de nouveau.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
-
+      <a class="cc cc--femelle reveal reveal-delay-3" href="../poulains/Jinba-Ittaï.html" data-cheval="jinba">
+        <div class="cc-photo">
+          <img src="../img/jinba/ji-03-J+30.jpg" alt="HC Jinba Ittaï" loading="lazy" style="object-position:center top">
+          <span class="cc-badge pastille pastille--vendu">Vendue</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Jument</span><span>Irish Cob</span><span>Noire Sabino</span><wbr><span class="cc-dates">2019</span></p>
+          <h3 class="cc-nom"><span class="nc nc--femelle"><span class="nc-a">HC</span> <em class="nc-n">Jinba Ittaï</em></span></h3>
+          <p class="cc-texte">Du bleu dans les yeux, du tempérament, elle est la première pouliche à porter notre affixe (HC). Elle poursuit son aventure à deux pas de l&#x27;élevage.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <!-- @end:cartes -->
     </div>
 
     <h3 style="font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris);margin:0 0 1rem;">Par Kuarahy OMD</h3>
     <div class="horses-grid" style="margin-top:0;margin-bottom:2.5rem;">
-
-      <!-- NURAN DC — carte modale -->
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="NURAN DC"
-           data-desc="Né chez Éloïse Richard, de l'union avec son étalon Kuarahy. Curieux, intelligent et débrouillard, Nuran allie indépendance et affection."
-           data-images='["../img/suzie/Nuran/01- Nuran 2023.jpg","../img/suzie/Nuran/02- Nuran mai 2023.jpg","../img/suzie/Nuran/03- Nuran 07 2023.jpg","../img/suzie/Nuran/04- Nuran 07 2023.jpg","../img/suzie/Nuran/05- Nuran 07 2023.jpg","../img/suzie/Nuran/06- Nuran nov 2023.jpg","../img/suzie/Nuran/07- Nuran janv 2024.jpg","../img/suzie/Nuran/08- Nuran 2026.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/suzie/Nuran/01- Nuran 2023.jpg" alt="NURAN DC" style="width:100%;height:100%;object-fit:cover;">
+      <!-- @cartes: nuran, omamori contexte=suzie -->
+      <article class="cc cc--male cc--modale reveal reveal-delay-1" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="nuran" data-contexte="suzie">
+        <div class="cc-photo">
+          <img src="../img/suzie/Nuran/01- Nuran 2023.jpg" alt="Nuran DC" loading="lazy">
+          <span class="cc-badge pastille pastille--vendu">Vendu par DC</span>
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 8</span>
         </div>
-        <span style="position:absolute;top:1rem;left:1rem;background:rgba(80,80,80,0.75);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;">Vendue par DC</span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Entier · OC · Smocky Silver · 2023</span>
-          <h3 class="horse-card-name">Nuran DC</h3>
-          <p class="horse-card-desc">Né chez Éloïse Richard, de l'union avec son étalon Kuarahy. 
-            Curieux, intelligent et débrouillard, Nuran allie indépendance et affection.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Entier</span><span>OC</span><span>Smoky Silver</span><wbr><span class="cc-dates">2023</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><em class="nc-n">Nuran</em> <span class="nc-a">DC</span></span></h3>
+          <p class="cc-texte">Né chez Éloïse Richard, de l&#x27;union avec son étalon Kuarahy. Curieux, intelligent et débrouillard, Nuran allie indépendance et affection.</p>
+          <span class="cc-action">Voir les 8 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
-      <a href="../poulains/omamori.html" class="horse-card">
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/omamori/Oma.jpg" alt="Omamori" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+      </article>
+      <a class="cc cc--male reveal reveal-delay-2" href="../poulains/omamori.html" data-cheval="omamori">
+        <div class="cc-photo">
+          <img src="../img/omamori/Oma.jpg" alt="HC Omamori" loading="lazy" style="object-position:center top">
+          <span class="cc-badge pastille pastille--reste">Reste à l&#x27;élevage</span>
         </div>
-        <span class="badge-available"><strong>⭐ Disponible</strong></span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Entier · OC · Grullo Silver · 2024</span>
-          <h3 class="horse-card-name">HC Omamori</h3>
-          <p class="horse-card-desc">Intelligent, réfléchi, polyvalent. De robe Grullo Silver, rare dans la race. 
-            Taille estimée ~1m50 (toisé à 1m46 déjà). Super caractère avec l'humain. Il pourra aisément évoluer en TREC, 
-            en randonnée ou devenir étalon.</p>
-          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Entier</span><span>OC</span><span>Grullo Silver</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Omamori</em></span></h3>
+          <p class="cc-texte">Intelligent, réfléchi, polyvalent. De robe Grullo Silver, rare dans la race. Taille estimée ~1m50 (toisé à 1m46 déjà). Super caractère avec l&#x27;humain. Il pourra aisément évoluer en TREC, en randonnée ou devenir étalon.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
-
+      <!-- @end:cartes -->
     </div>
 
     <h3 style="font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris);margin:0 0 1rem;">Par San Cler Avantgarde</h3>
     <div class="horses-grid" style="margin-top:0;margin-bottom:2.5rem;">
-
-      <a href="../poulains/kaeru.html" class="horse-card">
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/kaeru/kaeru-portrait.jpg" alt="HC Quercus Kaeru" style="width:100%;height:100%;object-fit:cover;">
+      <!-- @cartes: kaeru contexte=suzie -->
+      <a class="cc cc--male reveal reveal-delay-1" href="../poulains/kaeru.html" data-cheval="kaeru">
+        <div class="cc-photo">
+          <img src="../img/kaeru/kaeru-portrait.jpg" alt="HC Quercus Kaeru" loading="lazy" style="object-position:center top">
+          <span class="cc-badge pastille pastille--vente">À vendre</span>
         </div>
-<span class="badge-available"><strong>⭐ Disponible</strong></span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Poulain · Irish Cob · Noir Pearl · 2026</span>
-          <h3 class="horse-card-name">HC Quercus Kaeru</h3>
-          <p class="horse-card-desc">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. 
-            Un petit chêne qui a su montrer qu'il était un véritable battant.</p>
-          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>Irish Cob</span><span>Noir Pearl</span><wbr><span class="cc-dates">2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Quercus Kaeru</em></span></h3>
+          <p class="cc-texte">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. Un petit chêne qui a su montrer qu&#x27;il était un véritable battant.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
-
-
-
+      <!-- @end:cartes -->
     </div>
   </div>
 </section>
@@ -350,122 +317,42 @@
       Il est lui-même issu de Samson of Wales et de Sovereign, deux noms emblématiques de la race.
     </p>
 
-    <style>
-      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
-      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
-      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
-      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
-      .ped-parent--unknown { background:rgba(0,0,0,0.02); border-color:rgba(0,0,0,0.10); }
-      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
-      .ped-label--pere { color:var(--bleu); }
-      .ped-label--mere { color:var(--rose); }
-      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
-      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
-      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
-      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
-      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
-      .ped-gp-card--unknown { border-left-color:rgba(0,0,0,0.12); }
-      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
-      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
-      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
-      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
-      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
-      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
-      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
-      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
-      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
-      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
-      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
-      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
-      @media(max-width:700px) {
-        .ped-tree { grid-template-columns:1fr; }
-        .ped-gp { grid-template-columns:1fr; }
-        .ped-ggp { grid-template-columns:1fr; }
-      }
-    </style>
-
-    <div class="ped-tree">
-
-      <!-- PÈRE -->
-      <div class="ped-parent ped-parent--pere is-collapsed">
-        <div class="ped-label ped-label--pere">Père</div>
-        <div class="ped-name">SD Woolly Mammoth</div>
-        <div class="ped-robe">Black · Gypsy Vanner · 2002 · 13.3hh · GVHS GV04025</div>
-
-        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
-          <span class="ped-toggle-label">Voir les ascendants</span>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--pere">
-            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
-            <div class="ped-gp-name">Samson of Wales</div>
-            <div class="ped-gp-robe">Black Tobiano · Gypsy Vanner · ~2000</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">The Old Horse of Wales</div>
-                <div class="ped-ggp-robe">Black Tobiano · 15hh · 1984 · IRL</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--mere">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">The Sweeper Mare</div>
-                <div class="ped-ggp-robe">Black Tobiano · ~1990</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ped-gp-card ped-gp-card--mere">
-            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère paternelle</div>
-            <div class="ped-gp-name">Sovereign</div>
-            <div class="ped-gp-robe">Black Tobiano · Gypsy Vanner · 1998 · GVHS GV00053F</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">Bob The Blagdon</div>
-                <div class="ped-ggp-robe">Black · 145.5cm · ~1994 · IRL</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--mere">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">Price's Red & White Mare</div>
-                <div class="ped-ggp-robe">Bay Tobiano · 1994</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MÈRE -->
-      <div class="ped-parent ped-parent--unknown is-collapsed">
-        <div class="ped-label" style="color:var(--gris);">Mère</div>
-        <div class="ped-name">SD Olivia</div>
-        <div class="ped-robe">Chestnut · Gypsy Vanner · origines non documentées</div>
-
-        <button type="button" class="ped-toggle ped-toggle--neutre" aria-expanded="false">
-          <span class="ped-toggle-label">Voir les ascendants</span>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--unknown">
-            <div class="ped-gp-label" style="color:var(--gris);">♂ Grand-père maternel</div>
-            <div class="ped-gp-name" style="opacity:.5;">—</div>
-            <div class="ped-gp-robe">Non renseigné</div>
-          </div>
-          <div class="ped-gp-card ped-gp-card--unknown">
-            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère maternelle</div>
-            <div class="ped-gp-name" style="opacity:.5;">—</div>
-            <div class="ped-gp-robe">Non renseignée</div>
-          </div>
-        </div>
-            </div>
-    </div>
+    <!-- @pedigree: suzie -->
+    <div class="pg" role="group" aria-label="Pédigrée sur trois générations">
+    <div class="pg-gens" aria-hidden="true"><span>Parents</span><span>Grands-parents</span><span>Arrière-grands-parents</span></div>
+    <div class="pg-arbre">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--male pg-n1 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="woollymammoth" title="Voir les photos et les infos"><img class="pg-photo" src="../img/tree/woolly.jpg" alt="" loading="lazy"><span class="pg-texte"><span class="pg-label">Père</span><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">SD</span> <em class="nc-n">Woolly Mammoth</em></span></span><span class="pg-meta">Noir</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--male pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="samsonofwales" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-père</span><span class="pg-nom"><span class="nc nc--male"><em class="nc-n">Samson of Wales</em></span></span><span class="pg-meta">Noir Tobiano</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-node pg-node--male pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--male"><em class="nc-n">The Old Horse of Wales</em></span></span><span class="pg-meta">Noir Tobiano</span></span></div></div>
+    <div class="pg-c">
+    <div class="pg-node pg-node--femelle pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--femelle"><em class="nc-n">The Sweeper Mare</em></span></span><span class="pg-meta">Noir Tobiano</span></span></div></div></div></div></div>
+    <div class="pg-c">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--femelle pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="sovereign" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-mère</span><span class="pg-nom"><span class="nc nc--femelle"><em class="nc-n">Sovereign</em></span></span><span class="pg-meta">Noir Tobiano</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-node pg-node--male pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--male"><em class="nc-n">Bob The Blagdon</em></span></span><span class="pg-meta">Noir</span></span></div></div>
+    <div class="pg-c">
+    <div class="pg-node pg-node--femelle pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--femelle"><em class="nc-n">Price&#x27;s Red &amp; White Mare</em></span></span><span class="pg-meta">Bai Tobiano</span></span></div></div></div></div></div></div></div><div class="pg-branche pg-branche--seule">
+    <div class="pg-node pg-node--femelle pg-n1 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="olivia" title="Voir les photos et les infos"><img class="pg-photo" src="../img/tree/olivia.jpg" alt="" loading="lazy"><span class="pg-texte"><span class="pg-label">Mère</span><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Olivia</em></span></span><span class="pg-meta">Alezan</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div></div></div></div>
+    <!-- @end:pedigree -->
 
     <div class="ped-note">
       <strong>Ancêtre commun</strong> — <em>The Old Horse of Wales</em> (1984) apparaît des deux côtés du pedigree de SD Woolly Mammoth : côté paternel via Samson of Wales, et côté maternel via Price's Red & White Mare × Sovereign. Ce fondateur emblématique de la race Gypsy Vanner britannique est l'un des ancêtres les plus représentés dans les grandes lignées irlando-britanniques.
     </div>
+
+    <!-- Lien vers l'arbre, ouvert directement sur ce cheval (adresse #id) -->
+    <p class="voir-arbre">
+      <a href="../arbre-genealogique.html#suzie" class="btn btn-outline">Voir dans l'arbre généalogique
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </p>
+
   </div>
 </section>
 
@@ -475,7 +362,7 @@
      js/main.js masque la version flottante — voir bloc nav2. -->
 <div class="cta-end" id="ctaEnd" style="background:var(--bg-light);">
   <div class="cta-end-inner">
-    <a href="../index.html#contact" class="btn btn-primary">Nous contacter</a>
+    <a href="../contact.html" class="btn btn-primary">Nous contacter</a>
   </div>
 </div>
 
@@ -489,6 +376,7 @@
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
     <ul class="footer-legal">
+      <li><a href="../livre-dor.html">Livre d'or</a></li>
       <li><a href="../mentions-legales.html">Mentions légales</a></li>
       <li><a href="../confidentialite.html">Politique de confidentialité</a></li>
     </ul>
@@ -497,6 +385,7 @@
 </footer>
 <!-- @end:footer -->
 
+<script src="../js/chevaux.js"></script>
 <script src="../js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,39 @@
+{
+  "id": "archy",
+  "nom": "Cairnview Archy",
+  "nom_usuel": "Archy",
+  "affixe": "Cairnview",
+  "famille": "humming",
+  "role": "etalon",
+  "sexe": "male",
+  "pere": "llewelyn",
+  "mere": "kessia",
+  "naissance": "2010-06-01",
+  "robe": "Noir Tobiano - Yeux Bleus",
+  "robe_courte": "Pie Noir",
+  "race": "Irish Cob",
+  "taille": "1m41",
+  "genetique": {
+    "PSSM1": "N/N",
+    "E": "E/e",
+    "A": "a/a",
+    "To": "To/n"
+  },
+  "origine": "Irlande · Cairnview Stud",
+  "distinction": "Champion France QL · Élite grade 1",
+  "souche": "cairnview",
+  "page": "reproducteurs/archy.html",
+  "photo": "img/archy/ar-aniane-04.jpg",
+  "cadrage": "center top",
+  "photo_arbre": "img/tree/archy.jpg",
+  "resume": "Né en Irlande, il arrive en France à ses 9 mois. Lignée Cairnview reconnue pour sa morphologie taillant grand et ses utilisations polyvalentes. 5 poulains à son actif.",
+  "notes": "Étalon irlandais, lignée Cairnview. Champion de France loisir junior.",
+  "source": "site hummingcob.fr",
+  "entete": {
+    "titres": [
+      "Élite grade 1",
+      "Champion France Qualification Loisirs"
+    ],
+    "ligne": "Étalon · Ouvert aux saillies"
+  }
+}

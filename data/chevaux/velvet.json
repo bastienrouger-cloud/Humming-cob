@@ -1,0 +1,57 @@
+{
+  "id": "velvet",
+  "nom": "SD Red Velvet",
+  "nom_usuel": "Red Velvet",
+  "affixe": "SD",
+  "famille": "humming",
+  "role": "memoire",
+  "sexe": "femelle",
+  "pere": "flashharry",
+  "mere": "lizzy",
+  "naissance": "2017",
+  "deces": "2020",
+  "race": "Gypsy Cob",
+  "souche": "sd",
+  "photo": "img/velvet/rv-01.jpg",
+  "photo_arbre": "img/tree/velvet.jpg",
+  "notes": "Gypsy Vanner. Décédée en 2020.",
+  "photos": [
+    {
+      "src": "img/velvet/rv-01.jpg",
+      "legende": "notre rencontre"
+    },
+    {
+      "src": "img/velvet/rv-lizzy.jpg",
+      "legende": "avec sa mère SD Lizzy"
+    },
+    {
+      "src": "img/velvet/rv-02.jpg",
+      "legende": "Mon Dieu, ses yeux ! Bleu de glace !"
+    },
+    {
+      "src": "img/velvet/rv-03.jpg",
+      "legende": "Et quel modèle."
+    },
+    {
+      "src": "img/velvet/rv-04.jpg",
+      "legende": "Cette encolure !"
+    },
+    {
+      "src": "img/velvet/rv-05.jpg",
+      "legende": "A son arrivée à L'Isle-sur-la-Sorgue"
+    },
+    {
+      "src": "img/velvet/rv-06.jpg",
+      "legende": "Cette élégance"
+    },
+    {
+      "src": "img/velvet/rv-07.jpg",
+      "legende": "Ce regard doux"
+    },
+    {
+      "src": "img/velvet/rv-08.jpg",
+      "legende": "Avec elle"
+    }
+  ],
+  "resume": "Née en Angleterre, cette pouliche et son regard bleu furent une douce évidence. Rien ne la destinait à rejoindre l'aventure. Arrivée avec Sakura dont elle était l'ombre, ma Princesse Petit Pois était d'une sensibilité rare. D'abord réservée, elle comprit vite l'intérêt des humains et venait me réclamer sa séance de gratouilles."
+}

@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Avantgarde — Étalon Irish Cob · Humming Cob</title>
   <meta name="description" content="Douze ans de rêve devenus réalité. Sous une robe spectaculaire, un gypsy cob doux et proche de l'homme.">
@@ -9,6 +11,7 @@
   <meta property="og:description" content="Douze ans de rêve devenus réalité. Sous une robe spectaculaire, un gypsy cob doux et proche de l'homme.">
   <meta property="og:image" content="https://hummingcob.fr/img/og/og-avantgarde.jpg">
   <meta property="og:url" content="https://hummingcob.fr/reproducteurs/avantgarde.html">
+    <link rel="canonical" href="https://hummingcob.fr/reproducteurs/avantgarde.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Humming Cob">
   <!-- Teinte de la barre du navigateur : calée sur le header,
@@ -24,7 +27,7 @@
   <link rel="manifest" href="../img/favicon_io/site.webmanifest">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="horse-page">
+<body class="horse-page theme-male">
 
 <!-- @partial:header -->
 <nav class="navbar" id="navbar">
@@ -36,24 +39,11 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="../reproducteurs.html">Reproducteurs</a></li>
-        <li><a href="../poulains.html">Poulains</a></li>
-        <li><a href="../memoire.html">Ils ont marqué notre histoire</a></li>
-      </ul>
-    </li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="../arbre-genealogique.html">Arbre généalogique</a></li>
-        <li><a href="../accouplement.html">Testez un accouplement</a></li>
-      </ul>
-    </li>
-    <li><a href="../index.html#contact">Contact</a></li>
+    <li><a href="../nos-chevaux.html">Nos chevaux</a></li>
+    <li><a href="../arbre-genealogique.html">Généalogie</a></li>
+    <li><a href="../accouplement.html">Accouplements</a></li>
+    <li><a href="../contact.html" class="nav-contact">Contact</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -68,14 +58,16 @@
       <li><a href="#descendance">Poulains</a></li>
       <li><a href="#pedigree">Pedigree</a></li>
     </ul>
-    <a href="../index.html#contact" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Conditions de saillie</a>
+    <a href="../contact.html?sujet=saillie-avantgarde" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Conditions de saillie</a>
   </div>
 </nav>
 
 
 <div class="horse-hero-top">
-  <span class="badge-reproducteur" style="position:static;display:inline-block;">Étalon · Vice-Champion de France 2025</span>
-  <p class="horse-hero-race">Ouvert aux saillies</p>
+  <!-- @entete: avantgarde -->
+  <span class="pastille pastille--titre">Vice-Champion de France 2025</span>
+  <p class="horse-hero-race">Étalon · Ouvert aux saillies</p>
+  <!-- @end:entete -->
 </div>
 
 <div class="horse-hero">
@@ -120,7 +112,7 @@
   </div>
 
   <div class="horse-hero-info">
-    <h1 class="horse-hero-name">San Cler <em>Avantgarde</em></h1>
+    <h1 class="horse-hero-name"><!-- @nom: avantgarde --><span class="nc nc--male"><span class="nc-a">San Cler</span> <em class="nc-n">Avantgarde</em></span><!-- @end:nom --></h1>
 
     <div class="horse-specs">
       <div class="horse-spec"><div class="horse-spec-label">Né le</div><div class="horse-spec-value">24/05/2022</div></div>
@@ -146,7 +138,8 @@
 
     <!-- Point d'ancrage du bouton : repère du script pour le dupliquer dans nav2 -->
     <div id="ctaAnchor" class="cta-anchor cta-anchor--center">
-      <a href="../index.html#contact" class="btn btn-primary">Demander les conditions de saillie</a>
+      <a href="../contact.html?sujet=saillie-avantgarde" class="btn btn-primary">Demander les conditions de saillie</a>
+      <a href="../accouplement.html?etalon=avantgarde" class="btn btn-outline">Tester avec ma jument</a>
     </div>
   </div>
 </div>
@@ -178,60 +171,52 @@
 
     <p class="section-text" style="margin-top:2rem;">Élevage Humming Cob</p>
     <div class="horses-grid" style="margin-top:1rem;">
-      <a href="../poulains/kaeru.html" class="horse-card">
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/kaeru/kaeru-portrait.jpg" alt="Quercus Kaeru"
-               style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+      <!-- @cartes: kaeru contexte=avantgarde -->
+      <a class="cc cc--male reveal reveal-delay-1" href="../poulains/kaeru.html" data-cheval="kaeru">
+        <div class="cc-photo">
+          <img src="../img/kaeru/kaeru-portrait.jpg" alt="HC Quercus Kaeru" loading="lazy" style="object-position:center top">
+          <span class="cc-badge pastille pastille--vente">À vendre</span>
         </div>
-        <span class="badge-available"><strong>⭐ Disponible</strong></span>
-        <div class="horse-card-body">
-          <span class="horse-card-tag">Poulain · Irish Cob · Noir Pearl · 2026</span>
-          <h3 class="horse-card-name">HC Quercus Kaeru</h3>
-          <p class="horse-card-desc">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. 
-            Un petit chêne qui a su montrer qu'il était un véritable battant.</p>
-          <span class="horse-card-link">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>Irish Cob</span><span>Noir Pearl</span><wbr><span class="cc-dates">2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Quercus Kaeru</em></span></h3>
+          <p class="cc-texte">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. Un petit chêne qui a su montrer qu&#x27;il était un véritable battant.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
       </a>
+      <!-- @end:cartes -->
     </div>
 
     <p class="section-text" style="margin-top:3rem;">Autres descendants - Naissances extérieures</p>
     <div class="horses-grid" style="margin-top:1rem;">
-
-      <!-- Qinaï -->
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Qinaï"
-           data-desc="Fils d'Avantgarde × Mystic de L'Oume. Né le 13 mai 2026. Élevage Le Cros de l'Oume."
-           data-images='["../img/avantgarde/Qinaï 01.jpg", "../img/avantgarde/Qinaï 02.jpg", "../img/avantgarde/Qinaï 03.jpg", "../img/avantgarde/Qinaï 04.jpg", "../img/avantgarde/Qinaï 05.jpg", "../img/avantgarde/Qinaï 06.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/avantgarde/Qinaï 05.jpg" alt="Qinaï" style="width:100%;height:100%;object-fit:cover;">
+      <!-- @cartes: qinai, qoulitch contexte=avantgarde -->
+      <article class="cc cc--male cc--modale reveal reveal-delay-1" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="qinai" data-contexte="avantgarde">
+        <div class="cc-photo">
+          <img src="../img/avantgarde/Qinaï 05.jpg" alt="Qinaï de L&#x27;Oume" loading="lazy">
+          <span class="cc-badge pastille pastille--vente">À vendre par Le Cros de l&#x27;Oume</span>
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 6</span>
         </div>
-        <div class="horse-card-body">
-          <span style="position:absolute;top:1rem;left:1rem;background:rgba(80,80,80,0.75);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;">À vendre par Le Cros</span>
-          <span class="horse-card-tag">Poulain · Irish Cob · Bai Pearl · 2026</span>
-          <h3 class="horse-card-name">Qinaï de L'Oume</h3>
-          <p class="horse-card-desc">Fils d'Avantgarde × Mystic de L'Oume. Né le 13 mai 2026. Élevage Le Cros de l'Oume. Un poulain d'une grande douceur.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>Irish Cob</span><span>Bai Pearl</span><wbr><span class="cc-dates">2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><em class="nc-n">Qinaï</em> <span class="nc-a">de L&#x27;Oume</span></span></h3>
+          <p class="cc-texte">Fils d&#x27;Avantgarde × Mystic de L&#x27;Oume. Né le 13 mai 2026. Élevage Le Cros de l&#x27;Oume. Un poulain d&#x27;une grande douceur.</p>
+          <span class="cc-action">Voir les 6 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
-      <!-- Qoulitch -->
-      <div class="horse-card horse-card--static foal-card" style="cursor:pointer;pointer-events:all;opacity:1;"
-           data-name="Qoulitch Yasuke"
-           data-desc="Fils d'Avantgarde × SD Ruby Jane, il est né le 23 mai 2026, en Bretagne, à l'Élevage Yasuke. Observateur, posé et réfléchi."
-            data-images='["../img/avantgarde/Qoulitch 01.jpg", "../img/avantgarde/Qoulitch 02.jpg", "../img/avantgarde/Qoulitch 03.jpg", "../img/avantgarde/Qoulitch 013.jpg", "../img/avantgarde/Qoulitch 05.jpg", "../img/avantgarde/Qoulitch 06.jpg"]'>
-        <div class="horse-card-img-placeholder" style="padding:0;overflow:hidden;">
-          <img src="../img/avantgarde/Qoulitch 013.jpg" alt="Qoulitch Yasuke" style="width:100%;height:100%;object-fit:cover;">
+      </article>
+      <article class="cc cc--male cc--modale reveal reveal-delay-2" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="qoulitch" data-contexte="avantgarde">
+        <div class="cc-photo">
+          <img src="../img/avantgarde/Qoulitch 013.jpg" alt="Qoulitch Yasuke" loading="lazy">
+          <span class="cc-badge pastille pastille--vente">À vendre par Yasuke</span>
+          <span class="cc-nb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg> 6</span>
         </div>
-        <div class="horse-card-body">
-          <span style="position:absolute;top:1rem;left:1rem;background:rgba(80,80,80,0.75);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;">À vendre par Yasuke</span>
-          <span class="horse-card-tag">Poulain · OC · Bai Pearl · 2026</span>
-          <h3 class="horse-card-name">Qoulitch Yasuke</h3>
-          <p class="horse-card-desc">Fils d'Avantgarde x SD Ruby Jane, il est né le 23 mai 2026, en Bretagne, à l'Élevage Yasuke.
-            Observateur, posé et réfléchi.</p>
-          <span class="horse-card-link" style="font-size:.78rem;opacity:.6;">Cliquer pour agrandir</span>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>OC</span><span>Bai Pearl</span><wbr><span class="cc-dates">2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><em class="nc-n">Qoulitch</em> <span class="nc-a">Yasuke</span></span></h3>
+          <p class="cc-texte">Fils d&#x27;Avantgarde x SD Ruby Jane, il est né le 23 mai 2026, en Bretagne, à l&#x27;Élevage Yasuke. Observateur, posé et réfléchi.</p>
+          <span class="cc-action">Voir les 6 photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-
+      </article>
+      <!-- @end:cartes -->
     </div>
   </div>
 </section>
@@ -251,149 +236,49 @@
         Les données ci-dessous sont extraites de son registre personnel.
     </p>
 
-    <style>
-      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
-      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
-      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
-      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
-      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
-      .ped-label--pere { color:var(--bleu); }
-      .ped-label--mere { color:var(--rose); }
-      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
-      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
-      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
-      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
-      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
-      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
-      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
-      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
-      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
-      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
-      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
-      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
-      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
-      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
-      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
-      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
-      .ped-ancestors { margin-top:.4rem; font-size:.6rem; color:var(--gris); font-style:italic; line-height:1.5; border-top:1px dashed rgba(0,0,0,0.08); padding-top:.35rem; }
-      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
-      .ped-note strong { color:var(--bleu); }
-      @media(max-width:700px) {
-        .ped-tree { grid-template-columns:1fr; }
-        .ped-gp { grid-template-columns:1fr; }
-        .ped-ggp { grid-template-columns:1fr; }
-      }
-    </style>
-
-    <div class="ped-tree">
-
-      <!-- PÈRE -->
-      <div class="ped-parent ped-parent--pere is-collapsed">
-        <div class="ped-label ped-label--pere">Père</div>
-        <div class="ped-name">San Cler Talk Of The Town</div>
-        <div class="ped-robe">Chestnut Homozygous Pearl · Gypsy Vanner · 2018 · 14hh</div>
-
-        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
-          <span class="ped-toggle-label">Voir les ascendants</span>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--pere">
-            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
-            <div class="ped-gp-name">The Milky Bar Kid</div>
-            <div class="ped-gp-robe">Gypsy Vanner · 2016</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">San Cler Creme Dream</div>
-                <div class="ped-ggp-robe">Tobie · 2009</div>
-                <div class="ped-ancestors">par San Cler Toby* (buck tob, 2005)<br>× Foundation Mare UK (blk tob)</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ped-gp-card ped-gp-card--mere">
-            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère paternelle</div>
-            <div class="ped-gp-name">San Cler Orange Pop</div>
-            <div class="ped-gp-robe">Chestnut · Gypsy Vanner · 2014</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">San Cler Cream Cracker</div>
-                <div class="ped-ggp-robe">Pal Pearl Tobiano · 14.1hh · 2010</div>
-                <div class="ped-ancestors">par Cimla Jimboy (blk tob pearl, 2007)<br>× The Old Palomino Mare (Molly UK, 1990)</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MÈRE -->
-      <div class="ped-parent ped-parent--mere is-collapsed">
-        <div class="ped-label ped-label--mere">Mère</div>
-        <div class="ped-name">San Cler Uptown Girl</div>
-        <div class="ped-robe">Black HZ Pearl Tobiano · Gypsy Vanner · 2018</div>
-
-        <button type="button" class="ped-toggle ped-toggle--mere" aria-expanded="false">
-          <span class="ped-toggle-label">Voir les ascendants</span>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--pere">
-            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père maternel</div>
-            <div class="ped-gp-name">San Cler Razzamataz</div>
-            <div class="ped-gp-robe">Buckskin Pearl · Gypsy Vanner · 2015</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">San Cler Cream Cracker</div>
-                <div class="ped-ggp-robe">Pal Pearl Tobiano · 14.1hh · 2010</div>
-                <div class="ped-ancestors">par Cimla Jimboy (blk tob pearl, 2007)<br>× The Old Palomino Mare (Molly UK, 1990)</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--mere">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">San Cler Butterscotch</div>
-                <div class="ped-ggp-robe">Buckskin Pearl · 2010</div>
-                <div class="ped-ancestors">par San Cler Toby* (buck tob, 2005)<br>× San Cler Nutmeg (buck pearl, 2007)</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="ped-gp-card ped-gp-card--mere">
-            <div class="ped-gp-label" style="color:var(--rose);">♀ Grand-mère maternelle</div>
-            <div class="ped-gp-name">San Cler Coffee Creme</div>
-            <div class="ped-gp-robe">Black Pearl Tobiano · Gypsy Vanner · 2010</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">Cimla Jimboy</div>
-                <div class="ped-ggp-robe">Black Tobiano Pearl · 2007</div>
-                <div class="ped-ancestors">par Old Jim (blk tob, 1990)<br>× Old Pat of San Cler* (buck, 2002)</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--mere">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">Black Shirley</div>
-                <div class="ped-ggp-robe">Black · San Cler Stud · 2000</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <!-- @pedigree: avantgarde -->
+    <div class="pg" role="group" aria-label="Pédigrée sur trois générations">
+    <div class="pg-gens" aria-hidden="true"><span>Parents</span><span>Grands-parents</span><span>Arrière-grands-parents</span></div>
+    <div class="pg-arbre">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--male pg-n1 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="talkofthetown" title="Voir les photos et les infos"><img class="pg-photo" src="../img/tree/talk.jpg" alt="" loading="lazy"><span class="pg-texte"><span class="pg-label">Père</span><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">San Cler</span> <em class="nc-n">Talk Of The Town</em></span></span><span class="pg-meta">Alezan</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--male pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="milkybarkid" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-père</span><span class="pg-nom"><span class="nc nc--male"><em class="nc-n">The Milky Bar Kid</em></span></span><span class="pg-meta">Palomino Pearl</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-node pg-node--male pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">San Cler</span> <em class="nc-n">Creme Dream</em></span></span><span class="pg-meta">Tobiano</span></span></div></div>
+    <div class="pg-c">
+    <div class="pg-node pg-node--femelle pg-node--inconnu pg-n3"><span class="pg-nom">Inconnue</span></div></div></div></div></div>
+    <div class="pg-c">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--femelle pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="orangepop" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-mère</span><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">San Cler</span> <em class="nc-n">Orange Pop</em></span></span><span class="pg-meta">Alezan</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-node pg-node--male pg-n3 pg-node--repete pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">San Cler</span> <em class="nc-n">Cream Cracker</em></span><span class="pg-repete" title="Ancêtre présent 2 fois dans ce pédigrée">2×</span></span><span class="pg-meta">Palomino Pearl Tobiano</span></span></div></div>
+    <div class="pg-c">
+    <div class="pg-node pg-node--femelle pg-node--inconnu pg-n3"><span class="pg-nom">Inconnue</span></div></div></div></div></div></div></div>
+    <div class="pg-branche">
+    <div class="pg-node pg-node--femelle pg-n1 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="uptowngirl" title="Voir les photos et les infos"><img class="pg-photo" src="../img/tree/uptown.jpg" alt="" loading="lazy"><span class="pg-texte"><span class="pg-label">Mère</span><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">San Cler</span> <em class="nc-n">Uptown Girl</em></span></span><span class="pg-meta">Bai Noir</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--male pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="razzamataz" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-père</span><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">San Cler</span> <em class="nc-n">Razzamataz</em></span></span><span class="pg-meta">Buckskin</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-node pg-node--male pg-n3 pg-node--repete pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">San Cler</span> <em class="nc-n">Cream Cracker</em></span><span class="pg-repete" title="Ancêtre présent 2 fois dans ce pédigrée">2×</span></span><span class="pg-meta">Palomino Pearl Tobiano</span></span></div></div>
+    <div class="pg-c">
+    <div class="pg-node pg-node--femelle pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">San Cler</span> <em class="nc-n">Butterscotch</em></span></span><span class="pg-meta">Buckskin Pearl</span></span></div></div></div></div></div>
+    <div class="pg-c">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--femelle pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="coffeecreme" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-mère</span><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">San Cler</span> <em class="nc-n">Coffee Creme</em></span></span><span class="pg-meta">Noir</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-node pg-node--male pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">Cimla</span> <em class="nc-n">Jimboy</em></span></span><span class="pg-meta">Noir Tobiano Pearl</span></span></div></div>
+    <div class="pg-c">
+    <div class="pg-node pg-node--femelle pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--femelle"><em class="nc-n">Black Shirley</em></span></span><span class="pg-meta">Noir</span></span></div></div></div></div></div></div></div></div></div>
+    <!-- @end:pedigree -->
 
     <div class="ped-note">
       <strong>Transparence sur les origines communes</strong><br>
@@ -403,6 +288,13 @@
       courant et accepté en sélection équine au sein d'un même stud. Les tests ADN d'Avantgarde confirment son 
       homozygotie pearl (Aa Ee PrlPrl), garantissant une transmission à 100 % de la dilution à chaque poulain.
     </div>
+
+    <!-- Lien vers l'arbre, ouvert directement sur ce cheval (adresse #id) -->
+    <p class="voir-arbre">
+      <a href="../arbre-genealogique.html#avantgarde" class="btn btn-outline">Voir dans l'arbre généalogique
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </p>
+
   </div>
 </section>
 
@@ -411,7 +303,8 @@
      js/main.js masque la version flottante — voir bloc nav2. -->
 <div class="cta-end" id="ctaEnd" style="background:var(--bg-light);">
   <div class="cta-end-inner">
-    <a href="../index.html#contact" class="btn btn-primary">Conditions de saillie</a>
+    <a href="../contact.html?sujet=saillie-avantgarde" class="btn btn-primary">Conditions de saillie</a>
+    <a href="../accouplement.html?etalon=avantgarde" class="btn btn-outline">Tester avec ma jument</a>
   </div>
 </div>
 
@@ -425,6 +318,7 @@
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
     <ul class="footer-legal">
+      <li><a href="../livre-dor.html">Livre d'or</a></li>
       <li><a href="../mentions-legales.html">Mentions légales</a></li>
       <li><a href="../confidentialite.html">Politique de confidentialité</a></li>
     </ul>
@@ -432,6 +326,7 @@
   </div>
 </footer>
 <!-- @end:footer -->
+<script src="../js/chevaux.js"></script>
 <script src="../js/main.js"></script>
 </body>
 </html>

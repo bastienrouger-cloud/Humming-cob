@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HC Jinba Ittaï — Jument Irish Cob · Humming Cob</title>
   <meta name="description" content="La première pouliche à porter l'affixe Humming Cob. Une aventurière aux yeux bleus, aujourd'hui installée dans sa nouvelle famille.">
@@ -9,6 +11,7 @@
   <meta property="og:description" content="La première pouliche à porter l'affixe Humming Cob. Une aventurière aux yeux bleus, aujourd'hui installée dans sa nouvelle famille.">
   <meta property="og:image" content="https://hummingcob.fr/img/og/og-jinba-ittai.jpg">
   <meta property="og:url" content="https://hummingcob.fr/poulains/Jinba-Ittaï.html">
+    <link rel="canonical" href="https://hummingcob.fr/poulains/Jinba-Ittaï.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Humming Cob">
   <!-- Teinte de la barre du navigateur : calée sur le header,
@@ -24,7 +27,7 @@
   <link rel="manifest" href="../img/favicon_io/site.webmanifest">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="horse-page">
+<body class="horse-page theme-femelle">
 
 <!-- @partial:header -->
 <nav class="navbar" id="navbar">
@@ -36,24 +39,11 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="../index.html#qui-sommes-nous">À propos</a></li>
     <li><a href="../elevage.html">L'élevage</a></li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Nos chevaux <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="../reproducteurs.html">Reproducteurs</a></li>
-        <li><a href="../poulains.html">Poulains</a></li>
-        <li><a href="../memoire.html">Ils ont marqué notre histoire</a></li>
-      </ul>
-    </li>
-    <li class="has-dropdown">
-      <a href="#" aria-haspopup="true" aria-expanded="false">Généalogie <span class="nav-caret"><svg width="9" height="7" viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><polygon points="5,7.2 0.8,0.8 9.2,0.8"/></svg></span></a>
-      <ul class="nav-dropdown">
-        <li><a href="../arbre-genealogique.html">Arbre généalogique</a></li>
-        <li><a href="../accouplement.html">Testez un accouplement</a></li>
-      </ul>
-    </li>
-    <li><a href="../index.html#contact">Contact</a></li>
+    <li><a href="../nos-chevaux.html">Nos chevaux</a></li>
+    <li><a href="../arbre-genealogique.html">Généalogie</a></li>
+    <li><a href="../accouplement.html">Accouplements</a></li>
+    <li><a href="../contact.html" class="nav-contact">Contact</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -62,10 +52,6 @@
 <!-- @end:header -->
 
 <!-- Hero cheval -->
-<div class="horse-hero-top">
-  <span style="position:static;display:inline-block;background:rgba(60,160,160,0.85);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:50px;"><strong>Vendue</strong></span>
-  <p class="horse-hero-race">Jument · Irish Cob PP · Noire Sabino</p>
-</div>
 
 <!-- ====== NAV SECONDAIRE (spécifique à la fiche) ====== -->
 <nav class="nav2" id="nav2" aria-label="Sections de la fiche">
@@ -75,9 +61,16 @@
       <li><a href="#histoire">Son histoire</a></li>
       <li><a href="#pedigree">Pedigree</a></li>
     </ul>
-    <a href="../poulains.html" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Poulains disponibles</a>
+    <a href="../nos-chevaux.html#poulains" class="btn btn-primary nav2-cta" id="nav2Cta" tabindex="-1" aria-hidden="true">Poulains disponibles</a>
   </div>
 </nav>
+
+<div class="horse-hero-top">
+  <!-- @entete: jinba -->
+  <span class="pastille pastille--vendu pastille--contour">Vendue</span>
+  <p class="horse-hero-race">Jument · Irish Cob PP · Noire Sabino</p>
+  <!-- @end:entete -->
+</div>
 
 <div class="horse-hero">
   <div class="horse-hero-img-wrap">
@@ -120,7 +113,7 @@
   </div>
 
   <div class="horse-hero-info">
-    <h1 class="horse-hero-name">HC <em>Jinba Ittaï</em></h1>
+    <h1 class="horse-hero-name"><!-- @nom: jinba --><span class="nc nc--femelle"><span class="nc-a">HC</span> <em class="nc-n">Jinba Ittaï</em></span><!-- @end:nom --></h1>
 
     <div class="horse-specs">
       <div class="horse-spec"><div class="horse-spec-label">Née le</div><div class="horse-spec-value">04/04/2019</div></div>
@@ -152,7 +145,7 @@
          Jinba étant vendue, le CTA n'invite pas à l'acheter mais oriente vers
          les poulains encore disponibles. -->
     <div id="ctaAnchor" class="cta-anchor cta-anchor--center">
-      <a href="../poulains.html" class="btn btn-primary">Voir les poulains disponibles</a>
+      <a href="../nos-chevaux.html#poulains" class="btn btn-primary">Voir les poulains disponibles</a>
     </div>
   </div>
 </div>
@@ -210,147 +203,37 @@
       SD Flash Harry, est un étalon extérieur enregistré au TGCA.
     </p>
 
-    <style>
-      .ped-tree { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
-      .ped-parent { border-radius:14px; padding:1.5rem; border:1px solid; }
-      .ped-parent--pere { background:rgba(106,143,160,0.04); border-color:rgba(106,143,160,0.22); }
-      .ped-parent--mere { background:rgba(212,137,154,0.04); border-color:rgba(212,137,154,0.22); }
-      .ped-label { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.35rem; }
-      .ped-label--pere { color:var(--bleu); }
-      .ped-label--mere { color:var(--rose); }
-      .ped-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
-      .ped-robe { font-size:.72rem; color:var(--gris); margin-top:.2rem; margin-bottom:1.2rem; }
-      .ped-gp { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-      .ped-gp-card { background:white; border-radius:8px; padding:.85rem; border:1px solid rgba(0,0,0,0.06); border-left-width:3px; }
-      .ped-gp-card--pere { border-left-color:rgba(106,143,160,0.55); background:rgba(106,143,160,0.04); }
-      .ped-gp-card--mere { border-left-color:rgba(212,137,154,0.55); background:rgba(212,137,154,0.04); }
-      .ped-gp-card--unknown { background:rgba(0,0,0,0.02); border-left-color:rgba(0,0,0,0.1); }
-      .ped-gp-label { font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.25rem; }
-      .ped-gp-name { font-weight:600; font-size:.82rem; line-height:1.3; margin-bottom:.12rem; }
-      .ped-gp-robe { font-size:.68rem; color:var(--gris); margin-bottom:.65rem; }
-      .ped-ggp { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-top:.55rem; border-top:1px solid rgba(0,0,0,0.07); padding-top:.55rem; }
-      .ped-ggp-card { border-radius:6px; padding:.5rem .6rem; border-left:2px solid transparent; }
-      .ped-ggp-card--pere { background:rgba(106,143,160,0.07); border-left-color:rgba(106,143,160,0.35); }
-      .ped-ggp-card--mere { background:rgba(212,137,154,0.07); border-left-color:rgba(212,137,154,0.35); }
-      .ped-ggp-card--unknown { background:rgba(0,0,0,0.025); }
-      .ped-ggp-label { font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gris); margin-bottom:.12rem; }
-      .ped-ggp-name { font-size:.73rem; font-weight:500; line-height:1.3; }
-      .ped-ggp-robe { font-size:.62rem; color:var(--gris); margin-top:.1rem; }
-      .ped-parent-link { display:inline-block; margin-top:1rem; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; }
-      .ped-parent-link--pere { color:var(--bleu); }
-      .ped-parent-link--mere { color:var(--rose-deep); }
-      .ped-note { margin-top:2rem; background:rgba(106,143,160,0.06); border:1px solid rgba(106,143,160,0.2); border-radius:12px; padding:1.25rem 1.5rem; font-size:.8rem; line-height:1.65; color:var(--noir); }
-      .ped-note strong { color:var(--bleu); }
-      @media(max-width:700px) {
-        .ped-tree { grid-template-columns:1fr; }
-        .ped-gp { grid-template-columns:1fr; }
-        .ped-ggp { grid-template-columns:1fr; }
-      }
-    </style>
-
-    <div class="ped-tree">
-
-      <!-- PÈRE -->
-      <div class="ped-parent ped-parent--pere is-collapsed">
-        <div class="ped-label ped-label--pere">Père</div>
-        <div class="ped-name">SD Flash Harry</div>
-        <div class="ped-robe">Bay Sabino · Gypsy Vanner · 2005 · 14hh · TGCA · GVHS GV13705P</div>
-
-        <button type="button" class="ped-toggle ped-toggle--pere" aria-expanded="false">
-          <span class="ped-toggle-label">Voir les ascendants</span>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--pere">
-            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père paternel</div>
-            <div class="ped-gp-name">SD Jim (aka Nero)</div>
-            <div class="ped-gp-robe">Black · Gypsy Vanner · 2003 · 15hh</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">Bob The Blagdon</div>
-                <div class="ped-ggp-robe">Black · 145.5cm · ~1994 · IRL</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--mere">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">The Sweeper Mare</div>
-                <div class="ped-ggp-robe">Black Tobiano · ~1990</div>
-              </div>
-            </div>
-          </div>
-          <div class="ped-gp-card ped-gp-card--unknown">
-            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère paternelle</div>
-            <div class="ped-gp-name">SD Pink Palomino</div>
-            <div class="ped-gp-robe">Chestnut · Gypsy Vanner · origines non documentées</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MÈRE -->
-      <div class="ped-parent ped-parent--mere is-collapsed">
-        <div class="ped-label ped-label--mere">Mère</div>
-        <div class="ped-name">SD Suzie</div>
-        <div class="ped-robe">Noire · Gypsy Vanner · 2010 · Facteur Irish Cob · SD Farm (UK)</div>
-
-        <button type="button" class="ped-toggle ped-toggle--mere" aria-expanded="false">
-          <span class="ped-toggle-label">Voir les ascendants</span>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-
-        <div class="ped-gp">
-          <div class="ped-gp-card ped-gp-card--pere">
-            <div class="ped-gp-label" style="color:var(--bleu);">♂ Grand-père maternel</div>
-            <div class="ped-gp-name">SD Woolly Mammoth</div>
-            <div class="ped-gp-robe">Black · Gypsy Vanner · 2002 · 13.3hh · GVHS GV04025</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--pere">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">Samson of Wales</div>
-                <div class="ped-ggp-robe">Black Tobiano · ~2000</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--mere">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">Sovereign</div>
-                <div class="ped-ggp-robe">Black Tobiano · 1998 · GVHS GV00053F</div>
-              </div>
-            </div>
-          </div>
-          <div class="ped-gp-card ped-gp-card--unknown">
-            <div class="ped-gp-label" style="color:var(--gris);">♀ Grand-mère maternelle</div>
-            <div class="ped-gp-name">SD Olivia</div>
-            <div class="ped-gp-robe">Chestnut · Gypsy Vanner · origines non documentées</div>
-            <div class="ped-ggp">
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♂ Père</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseigné</div>
-              </div>
-              <div class="ped-ggp-card ped-ggp-card--unknown">
-                <div class="ped-ggp-label">♀ Mère</div>
-                <div class="ped-ggp-name">—</div>
-                <div class="ped-ggp-robe">Non renseignée</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <a href="../reproducteurs/suzie.html" class="ped-parent-link ped-parent-link--mere link-arrow">Voir la fiche de Suzie →</a>
-      </div>
-
-    </div>
+    <!-- @pedigree: jinba -->
+    <div class="pg" role="group" aria-label="Pédigrée sur trois générations">
+    <div class="pg-gens" aria-hidden="true"><span>Parents</span><span>Grands-parents</span><span>Arrière-grands-parents</span></div>
+    <div class="pg-arbre">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--male pg-n1 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="flashharry" title="Voir les photos et les infos"><img class="pg-photo" src="../img/tree/flash.jpg" alt="" loading="lazy"><span class="pg-texte"><span class="pg-label">Père</span><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">SD</span> <em class="nc-n">Flash Harry</em></span></span><span class="pg-meta">Bai Sabino</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--male pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="sdjim" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-père</span><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">SD</span> <em class="nc-n">Jim</em><span class="nc-p"> (aka Nero)</span></span></span><span class="pg-meta">Noir</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-node pg-node--male pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--male"><em class="nc-n">Bob The Blagdon</em></span></span><span class="pg-meta">Noir</span></span></div></div>
+    <div class="pg-c">
+    <div class="pg-node pg-node--femelle pg-n3 pg-node--simple"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--femelle"><em class="nc-n">The Sweeper Mare</em></span></span><span class="pg-meta">Noir Tobiano</span></span></div></div></div></div></div>
+    <div class="pg-c"><div class="pg-branche pg-branche--seule">
+    <div class="pg-node pg-node--femelle pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="pinkpalomino" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-mère</span><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Pink Palomino</em></span></span><span class="pg-meta">Palomino</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div></div></div></div></div>
+    <div class="pg-branche">
+    <a class="pg-node pg-node--femelle pg-n1 pg-node--lien" href="../reproducteurs/suzie.html"><img class="pg-photo" src="../img/tree/suzie.jpg" alt="" loading="lazy"><span class="pg-texte"><span class="pg-label">Mère</span><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Suzie</em></span></span><span class="pg-meta">Noire</span></span><span class="pg-fleche" aria-hidden="true">→</span></a>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-branche">
+    <div class="pg-node pg-node--male pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="woollymammoth" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-père</span><span class="pg-nom"><span class="nc nc--male"><span class="nc-a">SD</span> <em class="nc-n">Woolly Mammoth</em></span></span><span class="pg-meta">Noir</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div>
+    <div class="pg-sous">
+    <div class="pg-c">
+    <div class="pg-node pg-node--male pg-n3 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="samsonofwales" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--male"><em class="nc-n">Samson of Wales</em></span></span><span class="pg-meta">Noir Tobiano</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div></div>
+    <div class="pg-c">
+    <div class="pg-node pg-node--femelle pg-n3 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="sovereign" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-nom"><span class="nc nc--femelle"><em class="nc-n">Sovereign</em></span></span><span class="pg-meta">Noir Tobiano</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div></div></div></div></div>
+    <div class="pg-c"><div class="pg-branche pg-branche--seule">
+    <div class="pg-node pg-node--femelle pg-n2 pg-node--modale" tabindex="0" role="button" aria-haspopup="dialog" data-cheval="olivia" title="Voir les photos et les infos"><span class="pg-texte"><span class="pg-label">Grand-mère</span><span class="pg-nom"><span class="nc nc--femelle"><span class="nc-a">SD</span> <em class="nc-n">Olivia</em></span></span><span class="pg-meta">Alezan</span></span><span class="pg-fleche"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="15" height="15" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></span></div></div></div></div></div></div></div>
+    <!-- @end:pedigree -->
 
     <div class="ped-note">
       <strong>Note sur les origines</strong><br>
@@ -359,29 +242,71 @@
       SD Pink Palomino et SD Olivia ne sont pas documentées au-delà de leur génération.
     </div>
 
+    <!-- Lien vers l'arbre, ouvert directement sur ce cheval (adresse #id) -->
+    <p class="voir-arbre">
+      <a href="../arbre-genealogique.html#jinba" class="btn btn-outline">Voir dans l'arbre généalogique
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </p>
+
+
   </div>
 </section>
 
 
-<!-- Autres poulains -->
-<section style="padding:4rem 1.5rem;background:var(--noir);">
-  <div class="section-inner" style="text-align:center;">
-    <span class="section-badge" style="color:var(--rose);border-color:var(--rose);">Nos poulains disponibles</span>
-    <h2 class="section-title" style="color:#fff;margin-bottom:2.5rem;">Les autres <em>poulains</em></h2>
-    <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
-      <a href="nashi.html" class="btn btn-outline btn-on-dark">Nashi</a>
-      <a href="omamori.html" class="btn btn-outline btn-on-dark">Omamori</a>
-      <a href="orion.html" class="btn btn-outline btn-on-dark">Orion</a>
-      <a href="kaeru.html" class="btn btn-outline btn-on-dark">Quercus Kaeru</a>
+<!-- Les autres poulains : cartes générées par build.py (poulains à vendre, sauf celui-ci) -->
+<section class="autres-poulains">
+  <div class="section-inner">
+    <span class="section-badge">Nos poulains disponibles</span>
+    <h2 class="section-title">Les autres <em>poulains</em></h2>
+    <div class="section-divider"></div>
+    <div class="horses-grid">
+      <!-- @cartes: section=a-vendre sauf=jinba -->
+      <a class="cc cc--male reveal reveal-delay-1" href="../poulains/nashi.html" data-cheval="nashi">
+        <div class="cc-photo">
+          <img src="../img/nashi/na-index.jpg" alt="HC Nashi" loading="lazy">
+          <span class="cc-badge pastille pastille--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Hongre</span><span>Irish Cob</span><span>Bai</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Nashi</em></span></h3>
+          <p class="cc-texte">Premier fils de Sakura et Archy. Espiègle, pétillant, malin — un vrai crâneur proche de l&#x27;homme. Une bonne prise en main sera nécessaire pour en faire un partenaire de choix. Idéal spectacle, TAP, TREC, rando. Taille estimée ~1m45.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--male reveal reveal-delay-2" href="../poulains/orion.html" data-cheval="orion">
+        <div class="cc-photo">
+          <img src="../img/orion/or-index.jpg" alt="HC Orion" loading="lazy">
+          <span class="cc-badge pastille pastille--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Entier</span><span>OC</span><span>Grullo Silver</span><wbr><span class="cc-dates">2024</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Orion</em></span></h3>
+          <p class="cc-texte">Fin, élégant, sensible — grand amoureux de l&#x27;humain. Robe Grullo Silver. Taille estimée ~1m45/1m50 (toisé à 1m42). Plus léger et atlhétique, parfait pour du dressage, du poney game...</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <a class="cc cc--male reveal reveal-delay-3" href="../poulains/kaeru.html" data-cheval="kaeru">
+        <div class="cc-photo">
+          <img src="../img/kaeru/kaeru-portrait.jpg" alt="HC Quercus Kaeru" loading="lazy" style="object-position:center top">
+          <span class="cc-badge pastille pastille--vente">À vendre</span>
+        </div>
+        <div class="cc-corps">
+          <p class="cc-tags"><span class="cc-sexe">Poulain</span><span>Irish Cob</span><span>Noir Pearl</span><wbr><span class="cc-dates">2026</span></p>
+          <h3 class="cc-nom"><span class="nc nc--male"><span class="nc-a">HC</span> <em class="nc-n">Quercus Kaeru</em></span></h3>
+          <p class="cc-texte">Du haut de ses quelques jours, Quercus révèle déjà une sacrée force de vivre. Un petit chêne qui a su montrer qu&#x27;il était un véritable battant.</p>
+          <span class="cc-action">Voir la fiche <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+      <!-- @end:cartes -->
     </div>
   </div>
 </section>
 
 <!-- Ancrage du CTA flottant (mobile). Quand ce bloc entre dans le champ,
      js/main.js masque la version flottante — voir bloc nav2. -->
-<div class="cta-end" id="ctaEnd" style="background:var(--noir);">
+<div class="cta-end" id="ctaEnd">
   <div class="cta-end-inner">
-    <a href="../poulains.html" class="btn btn-primary">Poulains disponibles</a>
+    <a href="../nos-chevaux.html#poulains" class="btn btn-primary">Poulains disponibles</a>
   </div>
 </div>
 
@@ -395,6 +320,7 @@
       <button class="footer-share" aria-label="Partager cette page" title="Partager"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
     </div>
     <ul class="footer-legal">
+      <li><a href="../livre-dor.html">Livre d'or</a></li>
       <li><a href="../mentions-legales.html">Mentions légales</a></li>
       <li><a href="../confidentialite.html">Politique de confidentialité</a></li>
     </ul>
@@ -403,6 +329,7 @@
 </footer>
 <!-- @end:footer -->
 
+<script src="../js/chevaux.js"></script>
 <script src="../js/main.js"></script>
 </body>
 </html>
