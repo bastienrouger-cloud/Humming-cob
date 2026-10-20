@@ -2069,19 +2069,13 @@ footer {
 
 @media (max-width: 760px) {
   .pg-gens { display: none; }
-  .pg-arbre { gap: 1.1rem; }
-  .pg-branche, .pg-sous .pg-branche { display: block; }
-  .pg-sous { padding-left: calc(var(--pg-l) + 6px); margin-top: .35rem; }
-  .pg-sous::before { display: none; }
-  .pg-c::before { left: calc(var(--pg-l) * -1 + 6px); width: calc(var(--pg-l) - 6px); }
-  .pg-c::after  { left: calc(var(--pg-l) * -1 + 6px); }
-  .pg-c:first-child::after { top: -.35rem; bottom: 0; }
-  .pg-c:last-child::after  { top: 0; bottom: 50%; }
-  /* arrière-grands-parents : côte à côte, sans traits */
-  .pg-sous .pg-sous { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding-left: calc(var(--pg-l) + 6px); }
-  .pg-sous .pg-sous .pg-c { padding: 0; }
-  .pg-sous .pg-sous .pg-c::before, .pg-sous .pg-sous .pg-c::after { display: none; }
-  .pg-sous .pg-sous { border-left: 1px solid var(--pg-trait); margin-left: 0; }
+  /* Mobile : pédigrée réduit aux deux parents — la lignée complète reste accessible
+     via « Voir dans l'arbre généalogique » sous le pédigrée (l'arbre sur 3 générations
+     n'est pas lisible sur un écran de téléphone). */
+  .pg-arbre { gap: .8rem; }
+  .pg-branche { display: block; }
+  .pg-sous { display: none; }
+  .pg-n1 { padding: .7rem .9rem; }
 }
 
 /* Note sous le pédigrée (texte libre de la fiche) */
