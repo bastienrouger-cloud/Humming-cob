@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Testez un accouplement — Humming Cob</title>
-  <meta name="description" content="Calculez gratuitement le coefficient de consanguinité d'un accouplement hypothétique. Outil gratuit développé par l'élevage Humming Cob. Méthode tabulaire de Wright, référence IFCE.">
-  <meta property="og:title" content="Testez un accouplement — Humming Cob">
-  <meta property="og:description" content="Calculez le coefficient de consanguinité estimé d'un accouplement hypothétique. Choisissez un étalon et une jument, l'outil fait le reste. Outil gratuit, méthode IFCE.">
+  <title>Testez un croisement — Humming Cob</title>
+  <meta name="description" content="Testez un croisement entre deux chevaux : coefficient de consanguinité, robes possibles du poulain et risques de maladies génétiques. Outil gratuit de l'élevage Humming Cob, méthode IFCE.">
+  <meta property="og:title" content="Testez un croisement — Humming Cob">
+  <meta property="og:description" content="Consanguinité, robes possibles et risques génétiques d'un croisement envisagé. Choisissez un étalon et une jument, l'outil fait le reste.">
   <meta property="og:image" content="https://hummingcob.fr/img/og/og-accouplement.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -606,7 +606,7 @@
     <li><a href="elevage.html">L'élevage</a></li>
     <li><a href="nos-chevaux.html">Nos chevaux</a></li>
     <li><a href="arbre-genealogique.html">Généalogie</a></li>
-    <li><a href="accouplement.html">Accouplements</a></li>
+    <li><a href="accouplement.html">Croisements</a></li>
     <li><a href="contact.html" class="nav-contact">Contact</a></li>
   </ul>
   <div class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -619,10 +619,10 @@
 <section id="page-header" class="page-header page-header--compact page-header--hc">
   <div class="section-inner">
     <span class="section-badge">Calculateur</span>
-    <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Testez un <em>accouplement</em></h1>
+    <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Testez un <em>croisement</em></h1>
     <div class="section-divider" style="margin:1.5rem auto;"></div>
     <p class="section-text" style="max-width:800px;margin:0 auto;">
-      Choisissez un étalon et une jument — parmi nos reproducteurs ou en ajoutant les vôtres — et l'outil calcule le coefficient de consanguinité estimé de la descendance (méthode tabulaire de Wright, référence IFCE).
+      Choisissez un étalon et une jument — parmi nos reproducteurs ou en ajoutant les vôtres — et l'outil estime la descendance : coefficient de consanguinité (méthode tabulaire de Wright, référence IFCE), robes possibles et risques de maladies génétiques (PSSM1, FIS).
     </p>
   </div>
 </section>
@@ -885,7 +885,7 @@ const NIVEAUX = [
   { max: 6.25,     cls: 'modere',     label: 'Modéré',     equiv: '≈ cousins issus de germains',
     note: 'À surveiller, courant sur races à petit cheptel. Vérifier tares connues côté vétérinaire.' },
   { max: 12.5,     cls: 'eleve',      label: 'Élevé',      equiv: '≈ cousins germains',
-    note: 'Parenté proche. Accouplement à réserver à un objectif de sélection précis, avec avis vétérinaire.' },
+    note: 'Parenté proche. Croisement à réserver à un objectif de sélection précis, avec avis vétérinaire.' },
   { max: Infinity, cls: 'tres-eleve', label: 'Très élevé', equiv: '≈ demi-frères / demi-sœurs ou plus proche',
     note: 'Parenté très proche. Déconseillé sauf cas très spécifique encadré.' }
 ];
@@ -1082,7 +1082,7 @@ function agSante(r, hs){
   else if(f[0] > 0) html += agMaladie('FIS', 'tres-eleve', `${agFourchette(f)} des poulains seront atteints : maladie mortelle.`, porteurs, defF);
   else if(f[1] === 0) html += agMaladie('FIS', 'faible', 'Aucun poulain malade.', porteurs, defF);
   else if(I(f)) html += agMaladie('FIS', 'inconnu', `Impossible à prévoir : ${manq('FIS')} ${pl('FIS')}.`, '', defF);
-  else html += agMaladie('FIS', 'modere', `Jusqu'à ${agPct(f[1])} des poulains atteints si ${manq('FIS')} est ${agAccord(hs, 'FIS', 'porteur', 'porteuse', 'porteurs')} : à faire tester avant l'accouplement.`, '', defF);
+  else html += agMaladie('FIS', 'modere', `Jusqu'à ${agPct(f[1])} des poulains atteints si ${manq('FIS')} est ${agAccord(hs, 'FIS', 'porteur', 'porteuse', 'porteurs')} : à faire tester avant le croisement.`, '', defF);
   return html;
 }
 function agParent(h){
