@@ -36,6 +36,7 @@ existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
 | `robe`, `race`, `taille`, `origine`, `elevage` | texte libre | `elevage` = naisseur, pour les externes |
 | `robe_courte` | `Bai Pearl` | version courte de la robe pour la ligne d'étiquettes des cartes (si `robe` est trop longue) |
 | `distinction` | `Élite grade 1` | reproducteurs |
+| `badge_court` | `Facteur IC` | facultatif : version courte du badge, utilisée uniquement par les mini-cartes de l'accueil (les grandes cartes et fiches gardent le texte complet de `distinction`) |
 | `papiers` | `Plein Papier`, `Origines Constatées` | poulains |
 | `genetique` | `{"PSSM1": "N/N", "E": "E/e", "KIT": "Sb1/W20"}` | tests génétiques, un génotype `X/Y` par locus ; `_` = allèle inconnu (`E/_`) ; locus absent = **pas testé** (jamais « négatif » par défaut). Locus : `PSSM1`, `FIS` (`N`/`P`), `E`, `A`, `D`, `Z`, `prl`, `Cr`, `To`, `KIT` (`Sb1`, `W20`, `n` — même gène). Le build vérifie le format et la cohérence avec les parents. Le calculateur s'en sert pour la génétique du poulain (`js/genetique.js`). Tableau de travail : Notion › Tests génétiques |
 | `genetique_deduit` | `["PSSM1"]` | locus non testés sur le cheval lui-même mais déduits (« par filiation », robe) |

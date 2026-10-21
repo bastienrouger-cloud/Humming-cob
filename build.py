@@ -454,15 +454,18 @@ def carte_html(c, base, contexte=None, rang=0):
 def carte_mini_html(c, base, contexte=None, rang=0):
     """Petite carte photo (accueil) : photo pleine, nom usuel seul (sans affixe
     ni date) posé sur un dégradé, filet et ombre bleus/roses selon le sexe,
-    seul badge : « À vendre »."""
+    badge tiré du JSON (statut ou distinction), comme les grandes cartes."""
     v = dict(c)
     v.update((c.get("cartes") or {}).get(contexte or "", {}))
     sexe = "femelle" if c["sexe"] == "femelle" else "male"
     photo = v.get("photo") or c.get("photo_arbre")
     style = ' style="object-position:%s"' % _esc(v["cadrage"]) if v.get("cadrage") else ""
     b = badge_carte(c)
-    badge = ('<span class="ca-badge pastille pastille--%s">%s</span>' % (PASTILLE[b[0]], _esc(b[1]))
-             if b and b[0] == "vente" else "")
+    if b:
+        txt = c.get("badge_court") or b[1]
+        badge = '<span class="ca-badge pastille pastille--%s">%s</span>' % (PASTILLE[b[0]], _esc(txt))
+    else:
+        badge = ""
     # Pas de .reveal sur la carte : son transition-delay retarderait le survol.
     # L'apparition se fait sur la rangée entière (.ca-rangee.reveal).
     return "\n".join(l for l in [
