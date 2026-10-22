@@ -191,6 +191,12 @@
     .focus-main{min-width:0;display:flex;flex-direction:column}
     .canvas-wrap{flex:1 1 auto}
     #focus.vmobile .focus-grid{display:block}
+    /* Accueil PC (aucun cheval ouvert) : pas de panneau, la zone prend toute la largeur */
+    #focus.apercu .focus-grid{display:block}
+    #focus.apercu .focus-side{display:none}
+    #focus:not(.apercu):not(.vmobile) .arbre-panneau{animation:panneauEntre .35s ease}
+    @keyframes panneauEntre{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+    .apc{position:absolute;width:128px}
     #focus.vmobile .focus-side{display:none}
     /* le panneau reste visible pendant le défilement ; la colonne, elle, a la hauteur de la zone */
     .arbre-panneau{overflow:visible;position:sticky;top:calc(var(--nav-h,80px) + var(--gap,1.1rem))}
@@ -226,6 +232,7 @@
     .ap-lien:hover{background:#FBF3E7}
     .ap-resume{margin-top:1rem;font-size:.85rem;line-height:1.6;color:var(--noir)}
     .ap-cta{margin-top:1.2rem;padding:.65rem 1.6rem;font-size:.7rem}
+    .arbre-panneau .ap-cta{display:flex;width:fit-content;margin:1.4rem auto 0}   /* « Voir la fiche » centré en bas de la carte (PC) */
     .robe-pill{display:inline-block;padding:.08rem .55rem;border:1px solid;border-radius:20px;font-size:.78rem}
 
     /* ── Volet mobile : « Sa carte » ouvre la carte détaillée en feuille qui monte du bas (pas de voile : la page reste lisible derrière) ── */
@@ -323,7 +330,8 @@ const sexCls = h => isExt(h) ? 'ext' : (h.sexe === 'femelle' ? 'f' : 'm');
 const colorCls = h => h.sexe === 'femelle' ? 'f' : 'm';
 function roleLabel(h){ if(h.role==='etalon')return'Étalon'; if(h.role==='jument')return'Jument'; if(h.role==='memoire')return'En mémoire';
   if(h.role==='poulain')return h.sexe==='femelle'?'Pouliche':(h.sexe==='hongre'?'Hongre':'Poulain'); return'Extérieur'; }
-const badge = h => h.badge_court || (h.statut && STATUT[h.statut]) || '';
+// Même logique que les mini-cartes du site (build.py) : badge court, sinon statut, sinon distinction (« ★ Élite grade 1 »).
+const badge = h => h.badge_court || (h.statut && STATUT[h.statut]) || (h.distinction?(/Élite grade 1/.test(h.distinction)?'★ Élite grade 1':h.distinction):'');
 
 // ── Helpers pour la carte détaillée (panneau latéral) et la recherche ──
 const COUL = { male:'var(--male)', hongre:'var(--male)', femelle:'var(--femelle)' };
@@ -515,7 +523,7 @@ function focusDesktop(id,nh){
   }
 
   // --- carte centrale ---
-  H+=`<div class="cardnode" style="left:${centerX-CW/2}px;top:${cardTop}px">${cardHTML(sel,hCard)}</div>`;
+  H+=`<div class="cardnode" style="left:${centerX-CW/2}px;top:${cardTop}px" data-hid="${sel.id}">${cardHTML(sel,hCard)}</div>`;
 
   // --- descendance : spine horizontal SOUS la carte ; carte + étalons y descendent ;
   //     chaque couple forme un U, ses poulains pendent du milieu ---
@@ -554,6 +562,92 @@ function focusDesktop(id,nh){
   // centre la vue horizontalement
   const wrap=document.querySelector('.canvas-wrap');
   requestAnimationFrame(()=>{wrap.scrollLeft=(wrap.scrollWidth-wrap.clientWidth)/2;});
+}
+
+/* ── Accueil PC : nos chevaux en cartes, placés selon leur filiation (parents au-dessus, enfants en dessous). ──
+   Mise en page par couches : couche = 1 + couche la plus basse des parents. Un trait qui saute une couche passe par un
+   point relais invisible (il ne traverse jamais une carte). Ordre des colonnes par barycentre (peu de croisements),
+   puis positions au plus près des parents/enfants avec un écart minimal. Tout est calculé depuis les données. */
+const AP={W:128,H:160,GX:34,GY:96,DW:30,PAD:34};
+function focusApercu(){
+  const ours=HORSES.filter(h=>h.famille==='humming'&&(h.role==='etalon'||h.role==='jument'||h.role==='poulain'));
+  const ids=new Set(ours.map(h=>h.id));
+  const parentsDe=h=>[h.pere,h.mere].filter(p=>p&&ids.has(p));
+  const couche={}; const cc=h=>couche[h.id]!==undefined?couche[h.id]:(couche[h.id]=parentsDe(h).length?1+Math.max(...parentsDe(h).map(p=>cc(byId[p]))):0);
+  ours.forEach(cc);
+  const N={}, liens=[];
+  ours.forEach(h=>{N[h.id]={k:h.id,l:couche[h.id],w:AP.W,up:[],down:[],h};});
+  ours.forEach(c=>parentsDe(c).forEach(pid=>{ let prev=pid;
+    for(let l=couche[pid]+1;l<couche[c.id];l++){ const k='~'+pid+'>'+c.id+'@'+l; N[k]={k,l,w:AP.DW,up:[],down:[],fantome:true}; liens.push([prev,k]); prev=k; }
+    liens.push([prev,c.id]); }));
+  liens.forEach(([a,b])=>{N[a].down.push(b);N[b].up.push(a);});
+  const keys=Object.keys(N), maxL=Math.max(0,...keys.map(k=>N[k].l));
+  // Parent « principal » de chaque cheval : celui qui a le moins de poulains (le trait tombe droit dessous), à égalité la mère.
+  // L'autre parent le rejoint par un trait horizontal (comme un couple), puis descend avec lui.
+  const idDe=k=>N[k].h?N[k].h.id:N[k].via;
+  keys.forEach(k=>{ const n=N[k]; if(!n.up.length){n.prim=null;return;}
+    const mere=n.h&&n.h.mere;
+    n.prim=n.up.slice().sort((p,q)=>(N[p].down.length-N[q].down.length)||((idDe(q)===mere)-(idDe(p)===mere)))[0]; });
+  const primKids={}; keys.forEach(k=>{const p=N[k].prim; if(p)(primKids[p]=primKids[p]||[]).push(k);});
+  // Deux dispositions candidates (ordre de départ des fratries dans un sens ou dans l'autre) ; on garde la moins coûteuse :
+  // croisements très pénalisés, puis longueur des traits horizontaux (chaque décalage = un coude de plus à lire).
+  const disposer=sens=>{
+    const rows=Array.from({length:maxL+1},()=>[]);
+    keys.slice().sort((a,b)=>(N[a].h?0:1)-(N[b].h?0:1)||sens*((((N[a].h||{}).naissance||'')<((N[b].h||{}).naissance||''))?-1:1)).forEach(k=>rows[N[k].l].push(k));
+    const pos={}; const indexer=()=>rows.forEach(r=>r.forEach((k,i)=>pos[k]=i)); indexer();
+    const bary=(k,v)=>N[k][v].length?N[k][v].reduce((t,q)=>t+pos[q],0)/N[k][v].length:pos[k];
+    const trier=(l,v)=>{ rows[l]=rows[l].map(k=>[k,bary(k,v)]).sort((a,b)=>a[1]-b[1]||pos[a[0]]-pos[b[0]]).map(q=>q[0]); indexer(); };
+    for(let t=0;t<8;t++){ for(let l=1;l<=maxL;l++) trier(l,'up'); for(let l=maxL-1;l>=0;l--) trier(l,'down'); }
+    const x={};
+    rows.forEach(r=>{ let cx=0; r.forEach(k=>{x[k]=cx+N[k].w/2;cx+=N[k].w+AP.GX;}); const tot=cx-AP.GX; r.forEach(k=>x[k]-=tot/2); });
+    const separer=(r,cible)=>{ const offs=[]; let off=0; r.forEach((k,i)=>{ if(i)off+=(N[r[i-1]].w+N[k].w)/2+AP.GX; offs.push(off); });
+      const blocs=[]; r.forEach((k,i)=>{ blocs.push({s:cible[k]-offs[i],n:1});
+        while(blocs.length>1&&blocs[blocs.length-2].s/blocs[blocs.length-2].n>blocs[blocs.length-1].s/blocs[blocs.length-1].n){const b=blocs.pop(),a=blocs.pop();blocs.push({s:a.s+b.s,n:a.n+b.n});} });
+      let i=0; blocs.forEach(b=>{ const m=b.s/b.n; for(let j=0;j<b.n;j++,i++) x[r[i]]=m+offs[i]; }); };
+    const vers_bas=()=>{ for(let l=1;l<=maxL;l++){ const c={}; rows[l].forEach(k=>{c[k]=N[k].prim?x[N[k].prim]:x[k];}); separer(rows[l],c); } };
+    for(let t=0;t<60;t++){
+      vers_bas();
+      for(let l=maxL-1;l>=0;l--){ const c={}; rows[l].forEach(k=>{const d=primKids[k]||N[k].down; c[k]=d.length?d.reduce((a,q)=>a+x[q],0)/d.length:x[k];}); separer(rows[l],c); }
+    }
+    vers_bas();
+    // Redressage final : un parent qui n'a qu'un seul poulain principal se cale exactement au-dessus de lui si la place le permet
+    for(let l=maxL-1;l>=0;l--) rows[l].forEach((k,i)=>{ const kids=primKids[k]; if(!kids||kids.length!==1) return;
+      const g=i?x[rows[l][i-1]]+(N[rows[l][i-1]].w+N[k].w)/2+AP.GX:-1e9, d=i<rows[l].length-1?x[rows[l][i+1]]-(N[rows[l][i+1]].w+N[k].w)/2-AP.GX:1e9;
+      x[k]=Math.min(d,Math.max(g,x[kids[0]])); });
+    let cout=0;
+    liens.forEach(([a,b])=>{ cout+=Math.abs(x[a]-x[b]); });
+    liens.forEach(([a,b],i)=>liens.forEach(([c,d],j)=>{ if(j>i&&N[a].l===N[c].l&&a!==c&&b!==d&&(pos[a]-pos[c])*(pos[b]-pos[d])<0) cout+=2000; }));
+    return {rows,x,cout};
+  };
+  const choix=[1,-1].map(disposer).sort((p,q)=>p.cout-q.cout)[0];
+  const rows=choix.rows, x=choix.x;
+  let minX=1e9,maxX=-1e9; keys.forEach(k=>{minX=Math.min(minX,x[k]-N[k].w/2);maxX=Math.max(maxX,x[k]+N[k].w/2);});
+  const dx=AP.PAD-minX, cW=Math.ceil(maxX-minX+2*AP.PAD), cH=2*AP.PAD+(maxL+1)*AP.H+maxL*AP.GY;
+  const top=l=>AP.PAD+l*(AP.H+AP.GY);
+  H='';L='';
+  keys.forEach(k=>{ const n=N[k], cx=Math.round(x[k]+dx);
+    if(n.fantome) seg(`M${cx} ${top(n.l)} L${cx} ${top(n.l)+AP.H}`);
+    else H+=`<div class="apc" style="left:${cx-AP.W/2}px;top:${top(n.l)}px">${photoCard(n.h)}</div>`; });
+  // Traits : droits quand le parent est juste au-dessus ; sinon un trait horizontal par groupe (même parent + même autre parent),
+  // chaque groupe sur son propre niveau (deux groupes qui se chevauchent ne partagent pas la même hauteur).
+  const groupes={};
+  liens.forEach(([a,b])=>{ const xa=Math.round(x[a]+dx), xb=Math.round(x[b]+dx), ya=top(N[a].l)+AP.H, yb=top(N[b].l);
+    if(Math.abs(xa-xb)<1){ seg(`M${xa} ${ya} L${xa} ${yb}`); return; }
+    const cle=a+'|'+N[b].up.filter(u=>u!==a).sort().join(',');
+    const g=groupes[cle]||(groupes[cle]={a,l:N[a].l,xa,ya,yb,xs:[]}); g.xs.push(xb); });
+  const parGap={}; Object.values(groupes).forEach(g=>{ g.min=Math.min(g.xa,...g.xs); g.max=Math.max(g.xa,...g.xs); (parGap[g.l]=parGap[g.l]||[]).push(g); });
+  Object.values(parGap).forEach(gs=>{
+    gs.sort((p,q)=>(p.xa-q.xa)||((p.max-p.min)-(q.max-q.min)));
+    const occ=[], prev={};
+    gs.forEach(g=>{ let i=prev[g.xa]!==undefined?prev[g.xa]+1:0;
+      while(occ[i]&&occ[i].some(r=>g.min<r[1]+14&&g.max>r[0]-14)) i++;
+      (occ[i]=occ[i]||[]).push([g.min,g.max]); g.niv=i; prev[g.xa]=i; });
+    gs.forEach(g=>{ g.f=(g.niv+1)/(occ.length+1); }); });
+  Object.values(groupes).forEach(g=>{ const yBar=Math.round(g.ya+AP.GY*g.f);
+    g.xs.forEach(xb=>seg(`M${g.xa} ${g.ya} L${g.xa} ${yBar} L${xb} ${yBar} L${xb} ${g.yb}`)); });
+  const canvas=document.getElementById('canvas'); canvas.style.width=cW+'px'; canvas.style.height=cH+'px'; canvas.style.transform='';
+  canvas.innerHTML=`<svg viewBox="0 0 ${cW} ${cH}" width="${cW}" height="${cH}">${L}</svg>`+H;
+  canvas.dataset.cw=cW;
 }
 
 /* ── Vue Famille mobile (≤900px) : HTML/flex simple, sans nœuds partenaires.
@@ -623,8 +717,60 @@ function focusMobile(id){
 let renderedMobile=null;
 const btnRetour=document.getElementById('backBtn'), titreFocus=document.getElementById('focusTitle');
 function barre(ouvert){ btnRetour.hidden=!ouvert; titreFocus.hidden=!ouvert; }
-function render(id){ renderedMobile=MOBILE.matches; if(renderedMobile) focusMobile(id); else focusDesktop(id); barre(true); ajusterVue(); }
-function showRest(){fermerVolet(true);document.getElementById('focus').hidden=true;document.getElementById('rest').hidden=false;current=null;barre(false);}
+// ── Transition entre deux vues (PC) : les chevaux présents avant ET après glissent de leur ancienne place à la nouvelle
+//    (carte ↔ cercle en fondu enchaîné), les nouveaux apparaissent, les autres s'effacent, les traits se redessinent après. ──
+const DUREE_GLISSE=760;
+let animsEnCours=[], animT=null;
+function annulerAnim(){ clearTimeout(animT); animsEnCours.forEach(a=>{try{a.cancel();}catch(e){}}); animsEnCours=[];
+  const g=document.getElementById('fantomes'); if(g) g.innerHTML=''; }
+function chevauxVisibles(){ const m={}, cv=document.getElementById('canvas');
+  cv.querySelectorAll('.pcard[data-id],.cnode[data-id],.cardnode[data-hid]').forEach(el=>{
+    const id=el.dataset.hid||el.dataset.id; if(m[id]&&!el.dataset.hid) return;   // la carte centrale l'emporte sur un doublon
+    const r=el.getBoundingClientRect(); m[id]={el,r,w:el.offsetWidth,h:el.offsetHeight,k:r.width/(el.offsetWidth||1)}; });
+  return m; }
+function glisse(dessiner){
+  const cv=document.getElementById('canvas'), fe=document.getElementById('focus');
+  if(typeof cv.animate!=='function'||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)){ dessiner(); return; }
+  annulerAnim();
+  const avant=fe.hidden?{}:chevauxVisibles();
+  const copies={}; Object.keys(avant).forEach(id=>{copies[id]=avant[id].el.cloneNode(true);});
+  const svgA=cv.querySelector('svg'), svgAvant=svgA?{noeud:svgA.cloneNode(true),r:svgA.getBoundingClientRect(),w:svgA.getAttribute('width'),h:svgA.getAttribute('height'),k:svgA.getBoundingClientRect().width/(+svgA.getAttribute('width')||1)}:null;
+  dessiner();
+  let calque=document.getElementById('fantomes');
+  if(!calque){ calque=document.createElement('div'); calque.id='fantomes'; calque.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden'; document.body.appendChild(calque); }
+  const apres=chevauxVisibles(), ease='cubic-bezier(.45,0,.2,1)', D=DUREE_GLISSE;
+  const jouer=(el,kf,opt)=>{ const a=el.animate(kf,opt); animsEnCours.push(a); return a; };
+  const fantome=(id)=>{ const o=avant[id], g=copies[id]; g.removeAttribute('data-id'); g.removeAttribute('data-hid');
+    Object.assign(g.style,{position:'fixed',margin:'0',left:o.r.left+'px',top:o.r.top+'px',width:o.w+'px',height:o.h+'px',transformOrigin:'0 0',transform:'scale('+o.k+')',pointerEvents:'none'});
+    calque.appendChild(g); return g; };
+  Object.keys(avant).forEach(id=>{ const o=avant[id], n=apres[id], g=fantome(id);
+    if(n){
+      const kFin=n.r.width/o.w, tx=(n.r.left+n.r.width/2)-(o.r.left+o.w*kFin/2), ty=(n.r.top+n.r.height/2)-(o.r.top+o.h*kFin/2);
+      jouer(g,[{transform:'translate(0px,0px) scale('+o.k+')',opacity:1,offset:0},{opacity:1,offset:.3},
+               {transform:'translate('+tx+'px,'+ty+'px) scale('+kFin+')',opacity:0,offset:1}],{duration:D,easing:ease,fill:'forwards'});
+      const sN=n.k||1, dx=((o.r.left+o.r.width/2)-(n.r.left+n.r.width/2))/sN, dy=((o.r.top+o.r.height/2)-(n.r.top+n.r.height/2))/sN, k0=(o.r.width/(n.r.width||1));
+      jouer(n.el,[{translate:dx+'px '+dy+'px',scale:k0,opacity:0,offset:0},{opacity:0,offset:.25},{translate:'0px 0px',scale:1,opacity:1,offset:1}],{duration:D,easing:ease,fill:'both'});
+    }else jouer(g,[{opacity:1},{opacity:0}],{duration:260,easing:'ease-in',fill:'forwards'}); });
+  Object.keys(apres).forEach(id=>{ if(!avant[id]) jouer(apres[id].el,[{opacity:0},{opacity:1}],{duration:380,delay:360,easing:'ease-out',fill:'both'}); });
+  // anciens traits : ils s'effacent sur place ; nouveaux traits : ils reviennent une fois les chevaux en place
+  if(svgAvant){ const g=svgAvant.noeud; Object.assign(g.style,{position:'fixed',left:svgAvant.r.left+'px',top:svgAvant.r.top+'px',width:svgAvant.w+'px',height:svgAvant.h+'px',transformOrigin:'0 0',transform:'scale('+svgAvant.k+')',overflow:'visible',pointerEvents:'none'});
+    calque.appendChild(g); jouer(g,[{opacity:1},{opacity:0}],{duration:220,easing:'ease-in',fill:'forwards'}); }
+  const svgN=cv.querySelector('svg'); if(svgN) jouer(svgN,[{opacity:0},{opacity:1}],{duration:380,delay:D*.6,easing:'ease-out',fill:'both'});
+  animT=setTimeout(annulerAnim,D+500);
+}
+function render(id){ renderedMobile=MOBILE.matches;
+  if(renderedMobile){ annulerAnim(); focusMobile(id); barre(true); ajusterVue(); return; }
+  const fe=document.getElementById('focus');
+  if(id===current&&!fe.hidden&&!fe.classList.contains('apercu')) return;
+  glisse(()=>{ fe.classList.remove('apercu'); focusDesktop(id); barre(true); ajusterVue(); }); }
+// Accueil : sur PC l'arbre de nos chevaux (rien d'ouvert, pas de panneau) ; sur mobile la grille de cartes.
+function accueil(anim){ current=null; barre(false); fermerVolet(true);
+  const fe=document.getElementById('focus'), rest=document.getElementById('rest');
+  if(MOBILE.matches){ annulerAnim(); fe.hidden=true; rest.hidden=false; return; }
+  rest.hidden=true; fe.hidden=false; fe.classList.remove('vmobile');
+  const dessiner=()=>{ fe.classList.add('apercu'); apContenu.innerHTML=''; focusApercu(); ajusterVue(); };
+  if(anim&&!fe.classList.contains('apercu')) glisse(dessiner); else { annulerAnim(); dessiner(); } }
+function showRest(){ accueil(true); }
 // Vue PC : l'arbre s'adapte à la zone (échelle) et la zone descend jusqu'en bas de la fenêtre, à --gap du bord.
 function ajusterVue(){
   const fe=document.getElementById('focus');
@@ -681,10 +827,12 @@ recherche.addEventListener('blur',()=>setTimeout(()=>{suggestions.hidden=true;},
 // fois matchMedia et resize (certains navigateurs ne déclenchent pas 'change' de façon fiable).
 function syncVue(){ if(!MOBILE.matches&&!volet.hidden) fermerVolet(true);
   const focusOuvert=!document.getElementById('focus').hidden;
-  if(current && focusOuvert && renderedMobile!==MOBILE.matches) render(current); else ajusterVue(); }
+  if(!current) accueil(false);
+  else if(focusOuvert && renderedMobile!==MOBILE.matches) render(current); else ajusterVue(); }
 if(MOBILE.addEventListener) MOBILE.addEventListener('change',syncVue); else MOBILE.addListener(syncVue);
 let rzT; window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(syncVue,120);});
 renderRest();
+accueil(false);
 // Les polices web peuvent changer la longueur des noms : on redessine une fois quand elles sont prêtes.
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ if(current&&!document.getElementById('focus').hidden&&!MOBILE.matches) render(current); });
 </script>
