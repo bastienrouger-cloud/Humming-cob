@@ -137,6 +137,8 @@ if (revealEls.length) {
     overlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
+  // Accessible aux autres scripts (ex. l'arbre : photo de la carte du cheval) : ouvrirLightbox([src], 0, [légende])
+  window.ouvrirLightbox = openLb;
   function closeLb() {
     overlay.style.display = 'none';
     document.body.style.overflow = '';

@@ -32,22 +32,18 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     :root {
-      --cream:#FEFBF6; --or:#C0A050; --noir:#1C1C1C; --gris:#6A6A6A;
-      --serif:'Cormorant Garamond', Georgia, serif;
-      --sans:'Jost', sans-serif;
-      /* Vocabulaire interne de la vue Famille, calé sur la palette du site */
-      --m:var(--male,#4E8F94); --f:var(--femelle,#D2557A);
-      --brand:var(--marque-deep,#AB5667);
-      --panel:#fffdf9; --panel2:#f1e8dd; --line:#e4d9cc; --line2:#d6c8b8;
-      --muted:#8c8075; --fg:var(--noir); --conn:#b0a291; --halo:#FBF4EF;
-      --font-serif:var(--serif); --font-ui:var(--sans);
+      /* Vocabulaire interne de la vue Famille : uniquement des alias vers la palette du site (style.css),
+         plus deux teintes propres à l'arbre (fond des photos absentes, halo des noms). */
+      --m:var(--male); --f:var(--femelle); --brand:var(--marque-deep);
+      --panel:var(--bg-card); --panel2:#F3EEE6; --line:var(--border); --line2:var(--gris-clair);
+      --muted:var(--gris);   /* était #8c8075 : 3,7:1 sur crème, sous le seuil de 4,5:1 */
+      --fg:var(--noir); --conn:#b0a291; --halo:#FBF4EF; --survol:var(--survol);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--sans); background: var(--cream); color: var(--noir);
-      min-height: 100vh; min-height: 100dvh; line-height: normal; }
+    body { min-height: 100vh; min-height: 100dvh; line-height: normal; }   /* police, fond (à taches) et couleur : style.css */
 
     .header { text-align: center; padding: calc(var(--nav-h, 80px) + 1.2rem) 2rem 1rem; position: relative; }
-    .header h1 { font-family: var(--serif); font-size: 2.2rem; font-weight: 400; }
+    .header h1 { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 400; }
     .header h1 em { color: var(--accent-deep); font-style: italic; }
     .header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris); margin-top: 0.4rem; }
     .sur-tactile { display: none; }
@@ -73,18 +69,18 @@
     .group{margin-bottom:1.4rem}
     .group-t{font-family:var(--font-serif);font-style:italic;font-size:1.4rem;margin:0 0 .7rem;text-align:center}
     .row{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
-    .pcard{position:relative;cursor:pointer;border:none;padding:0;width:128px;border-radius:14px;overflow:hidden;background:#24201d;box-shadow:0 3px 10px rgba(0,0,0,.14);display:block;outline:2px solid transparent;outline-offset:2px;transition:transform .15s,box-shadow .15s}
-    .pcard::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--c,var(--line2));z-index:3}
-    .pcard img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
-    .pcard .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,10,8,.82),rgba(14,10,8,.05) 52%,transparent 72%)}
-    .pcard .pnm{position:absolute;left:.55rem;right:.5rem;bottom:.5rem;color:#fff;font-family:var(--font-serif);font-style:italic;font-size:1.22rem;line-height:1.02;text-shadow:0 1px 6px rgba(0,0,0,.5);z-index:2}
-    .pcard .pbdg{position:absolute;top:.45rem;left:.45rem;z-index:2;font-size:.58rem;padding:.1rem .45rem;border-radius:20px;background:rgba(255,255,255,.92);color:var(--c,#333);border:1px solid var(--c,#ccc)}
-    .pcard.m{--c:var(--m)}.pcard.f{--c:var(--f)}
-    .pcard:hover,.pcard:focus-visible{transform:translateY(-3px);box-shadow:0 10px 22px rgba(0,0,0,.2);outline-color:var(--c,var(--brand))}
+    /* Cartes de nos chevaux : composant .ca des mini-cartes de l'accueil (style.css), sans la flèche
+       (ici on ouvre la famille, pas une page). Ce sont des <button> : on neutralise leur style natif. */
+    button.ca{border:0;padding:0;font:inherit;text-align:left;cursor:pointer;width:var(--ca-w);--ca-w:128px}
+    .apc .ca,.row .ca{flex:none}
+    .ca .ca-corps{left:.7rem;right:.6rem;bottom:.75rem}
+    .ca .ca-nom{font-size:1.15rem}
+    .ca .ca-badge{top:.45rem;left:.45rem;font-size:.5rem;letter-spacing:.06em;padding:.42em .65em;max-width:calc(100% - .9rem);overflow:hidden;text-overflow:ellipsis}   /* serrée : les libellés longs tiennent sur 128px */
 
     #focus[hidden]{display:none}
-    .btn{appearance:none;cursor:pointer;font-family:inherit;font-size:.8rem;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;display:inline-flex;gap:.4rem;align-items:center}
-    .btn:hover{border-color:var(--brand);color:var(--brand)}
+    /* Bouton de retour propre à l'arbre. Ne pas l'appeler .btn : ça écrasait les .btn-primary / .btn-outline du site. */
+    .btn-arbre{appearance:none;cursor:pointer;font-family:inherit;font-size:.8rem;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;display:inline-flex;gap:.4rem;align-items:center;transition:border-color .15s,color .15s}
+    .btn-arbre:hover{border-color:var(--brand);color:var(--brand)}
     .canvas-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:radial-gradient(ellipse 75% 70% at 50% 45%, #FFFEFB 0%, #FCF6F1 62%, #F9EEEC 100%);padding:1rem}
     .canvas{position:relative;margin:0 auto}
     .canvas svg{position:absolute;inset:0;pointer-events:none;overflow:visible}
@@ -117,14 +113,14 @@
     .selcard .ring{width:132px;height:132px;border-radius:50%;margin:0 auto;border:4px solid var(--c,var(--line2));overflow:hidden;background:var(--panel2);display:grid;place-items:center}
     .selcard .ring img{width:100%;height:100%;object-fit:cover}
     .selcard .ring .mono{font-family:var(--font-serif);font-size:2.2rem;color:var(--c)}
-    .selcard .role{color:var(--c,var(--muted));letter-spacing:.14em;text-transform:uppercase;font-size:.7rem;font-weight:600;margin-top:.8rem}
+    .selcard .role{color:var(--ct,var(--muted));letter-spacing:.14em;text-transform:uppercase;font-size:.7rem;font-weight:600;margin-top:.8rem}
     .selcard .name{font-family:var(--font-serif);font-size:1.55rem;line-height:1.05;margin-top:.1rem}
-    .selcard .name .aff{font-family:var(--font-ui);font-weight:600;letter-spacing:.07em;text-transform:uppercase;font-size:.78rem;color:var(--muted);margin-right:.3rem}
-    .selcard .name em{font-style:italic;color:var(--c,var(--fg))}
+    .selcard .name .aff{font-family:var(--font-sans);font-weight:600;letter-spacing:.07em;text-transform:uppercase;font-size:.78rem;color:var(--muted);margin-right:.3rem}
+    .selcard .name em{font-style:italic;color:var(--ct,var(--fg))}
     .selcard .meta{color:var(--muted);font-size:.84rem;margin-top:.3rem}
-    .selcard.m{--c:var(--m)}.selcard.f{--c:var(--f)}
+    .selcard.m{--c:var(--m);--ct:var(--male-deep)}.selcard.f{--c:var(--f);--ct:var(--femelle-deep)}   /* --c : traits, bagues ; --ct : textes (≥ 4,5:1) */
     @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-    @media (max-width:560px){.pcard{width:116px}.pcard .pnm{font-size:1.12rem}}
+    @media (max-width:560px){button.ca{--ca-w:136px}}   /* 2 par ligne ; assez large pour « Vice-Champion 2025 » */
 
     /* ── Vue Famille mobile (≤900px) : un cheval au centre, parents/grands-parents
        au-dessus, descendance en dessous (le co-parent en légende « avec X »).
@@ -141,30 +137,30 @@
     .fx-paire{display:flex;justify-content:center;gap:.25rem}
     .fx-crochet{display:block;width:58%;height:.6rem;margin-top:.3rem;border:1.5px solid color-mix(in srgb,var(--c) 45%,transparent);border-top:0;border-radius:0 0 9px 9px}
     .fx-med.fx-med--petit{width:68px;gap:.2rem}
-    .fx-med--petit .fx-med-img{width:42px;height:42px;border-width:1.5px;box-shadow:0 0 0 2px #FEFBF6,0 2px 6px rgba(60,40,35,.1)}
+    .fx-med--petit .fx-med-img{width:42px;height:42px;border-width:1.5px;box-shadow:0 0 0 2px var(--bg-cream),0 2px 6px rgba(60,40,35,.1)}
     .fx-med--petit .fx-med-nom{font-size:.76rem;line-height:1.1}
     .fx-med--petit.is-inconnu .fx-med-img{font-size:1rem}
     .fx-med--petit.is-inconnu .fx-med-nom{font-size:.68rem}
     .fx-med{display:flex;flex-direction:column;align-items:center;gap:.3rem;width:96px;background:none;border:0;padding:0;font:inherit;color:var(--noir);cursor:pointer}
-    .fx-med-img{width:64px;height:64px;border-radius:50%;overflow:hidden;display:grid;place-items:center;flex-shrink:0;border:2px solid var(--c);box-shadow:0 0 0 3px #FEFBF6,0 3px 10px rgba(60,40,35,.12);background:#F3EEE6;font-family:var(--serif);font-size:1.4rem;color:var(--c)}
+    .fx-med-img{width:64px;height:64px;border-radius:50%;overflow:hidden;display:grid;place-items:center;flex-shrink:0;border:2px solid var(--c);box-shadow:0 0 0 3px var(--bg-cream),0 3px 10px rgba(60,40,35,.12);background:var(--panel2);font-family:var(--font-serif);font-size:1.4rem;color:var(--c)}
     .fx-med-img img{width:100%;height:100%;object-fit:cover;display:block}
     .fx-med:active .fx-med-img{transform:scale(.95)}
-    .fx-med-nom{font-family:var(--serif);font-size:.95rem;line-height:1.15;overflow-wrap:anywhere}
+    .fx-med-nom{font-family:var(--font-serif);font-size:.95rem;line-height:1.15;overflow-wrap:anywhere}
     .fx-med-note{font-size:.62rem;color:var(--gris);line-height:1.3}
     .fx-med.is-ext .fx-med-nom{color:var(--gris);font-style:italic}
     .fx-med.is-memoire .fx-med-img{filter:grayscale(.85);border-style:dashed}
     .fx-med.is-inconnu{cursor:default}
-    .fx-med.is-inconnu .fx-med-img{border:1.5px dashed #C9C0BA;box-shadow:none;background:transparent;color:#C9C0BA}
-    .fx-med.is-inconnu .fx-med-nom{color:#B4AAA4;font-style:italic;font-size:.85rem}
+    .fx-med.is-inconnu .fx-med-img{border:1.5px dashed var(--gris-clair);box-shadow:none;background:transparent;color:var(--gris-clair)}
+    .fx-med.is-inconnu .fx-med-nom{color:var(--gris);font-style:italic;font-size:.85rem}
     .fx-trait{width:1.5px;height:1.4rem;margin:.5rem 0;background:linear-gradient(var(--c,var(--accent)),color-mix(in srgb,var(--c,var(--accent)) 25%,transparent))}
     .fx-centre{display:flex;flex-direction:column;align-items:center;gap:.2rem;width:100%;max-width:360px;padding:1.1rem 1rem 1.2rem;border-radius:22px;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 18%,#FFFEFB) 0%,#FFFEFB 70%);border:1px solid color-mix(in srgb,var(--c) 28%,transparent);box-shadow:0 10px 28px color-mix(in srgb,var(--c) 16%,transparent)}
-    .fx-centre-photo{width:124px;height:124px;border-radius:50%;overflow:hidden;padding:0;border:3px solid var(--c);box-shadow:0 0 0 5px #FEFBF6,0 8px 22px rgba(60,40,35,.18);background:#F3EEE6;margin-bottom:.55rem;display:grid;place-items:center;font-family:var(--serif);font-size:2.2rem;color:var(--c)}
+    .fx-centre-photo{width:124px;height:124px;border-radius:50%;overflow:hidden;padding:0;border:3px solid var(--c);box-shadow:0 0 0 5px var(--bg-cream),0 8px 22px rgba(60,40,35,.18);background:var(--panel2);margin-bottom:.55rem;display:grid;place-items:center;font-family:var(--font-serif);font-size:2.2rem;color:var(--c)}
     .fx-centre-photo img{width:100%;height:100%;object-fit:cover;display:block}
-    .fx-genre{margin:0;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--c);display:flex;gap:.5rem;align-items:center;justify-content:center;flex-wrap:wrap}
-    .fx-genre .fx-bdg{font-size:.9em;padding:.05rem .45rem;border-radius:20px;border:1px solid var(--c);color:var(--c);letter-spacing:.06em}
-    .fx-nom{margin:.1rem 0 0;font-family:var(--serif);font-weight:400;font-size:1.75rem;line-height:1.1}
-    .fx-nom .aff{font-family:var(--sans);font-weight:600;letter-spacing:.07em;text-transform:uppercase;font-size:.62em;color:var(--gris);margin-right:.25rem}
-    .fx-nom em{font-style:italic;color:var(--c)}
+    .fx-genre{margin:0;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ct,var(--c));display:flex;gap:.5rem;align-items:center;justify-content:center;flex-wrap:wrap}
+    .fx-genre .fx-bdg{font-size:.56rem}   /* couleur : .pastille (contour, comme dans les panneaux) */
+    .fx-nom{margin:.1rem 0 0;font-family:var(--font-serif);font-weight:400;font-size:1.75rem;line-height:1.1}
+    .fx-nom .aff{font-family:var(--font-sans);font-weight:600;letter-spacing:.07em;text-transform:uppercase;font-size:.62em;color:var(--gris);margin-right:.25rem}
+    .fx-nom em{font-style:italic;color:var(--ct,var(--c))}
     .fx-meta{margin:.15rem 0 0;font-size:.78rem;color:var(--gris)}
     .fx-actions{display:flex;gap:.5rem;margin-top:.8rem;flex-wrap:wrap;justify-content:center}
     .fx-actions .btn{padding:.6rem 1.3rem;font-size:.66rem;font-family:inherit;cursor:pointer}
@@ -173,15 +169,19 @@
     .fx-rangee-bloc{width:100%;display:flex;flex-direction:column;align-items:center}
     .fx-rangee .fx-med{scroll-snap-align:start;flex-shrink:0;width:88px}
     .fx-rangee .fx-med-img{width:56px;height:56px}
-    .fx-aucun{margin:0;font-family:var(--serif);font-style:italic;color:var(--gris)}
+    /* Barre de défilement de la descendance : montrée seulement si la rangée déborde (indique qu'on peut faire défiler) */
+    .fx-defil{position:relative;width:min(60%,220px);height:4px;margin:.2rem auto 0;border-radius:4px;background:color-mix(in srgb,var(--c) 22%,transparent)}
+    .fx-defil[hidden]{display:none}
+    .fx-defil span{position:absolute;top:0;bottom:0;left:0;border-radius:4px;background:var(--c)}
+    .fx-aucun{margin:0;font-family:var(--font-serif);font-style:italic;color:var(--gris)}
 
     /* ── Recherche (dropdown) ── */
     .ap-recherche{position:relative;max-width:440px;margin:0 auto 1.1rem;z-index:30}
     .ap-recherche input{width:100%;font:inherit;font-size:.85rem;color:var(--noir);padding:.6rem 1rem .6rem 2.3rem;border:1px solid rgba(0,0,0,.12);border-radius:50px;background:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%236A6A6A' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:.85rem center;outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
-    .ap-recherche input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,137,154,.18)}
+    .ap-recherche input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--marque) 18%,transparent)}
     .ap-suggestions{position:absolute;left:0;right:0;top:calc(100% - .3rem);list-style:none;margin:0;padding:.35rem;background:#fff;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.14);max-height:320px;overflow-y:auto;overscroll-behavior:contain}
     .ap-suggestions li{display:flex;align-items:center;gap:.55rem;padding:.5rem .65rem;border-radius:9px;font-size:.86rem;cursor:pointer}
-    .ap-suggestions li.sel,.ap-suggestions li:hover{background:#FBF3E7}
+    .ap-suggestions li.sel,.ap-suggestions li:hover{background:var(--survol)}
     .ap-suggestions .pt{width:8px;height:8px;border-radius:50%;background:var(--c);flex-shrink:0}
     .ap-suggestions .hc{margin-left:auto;font-size:.5rem}
     .ap-suggestions li.vide{color:var(--gris);cursor:default;background:none}
@@ -207,20 +207,21 @@
     }
 
     /* ── Carte détaillée du cheval (panneau) ── */
-    .ap-carte,.fx-centre{--accent:var(--c);--accent-deep:var(--ct);--accent-dark:color-mix(in srgb,var(--ct,var(--c)) 78%,#000);--accent-pale:color-mix(in srgb,var(--c) 18%,#fff)}
+    .ap-carte,.fx-centre{--accent:var(--c);--accent-deep:var(--ct,var(--c));--accent-dark:color-mix(in srgb,var(--ct,var(--c)) 78%,#000);--accent-pale:color-mix(in srgb,var(--c) 18%,#fff)}
     .ap-carte{position:relative;background:#fff;border:1px solid rgba(60,40,35,.07);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px rgba(60,40,35,.04),0 10px 30px rgba(60,40,35,.08);animation:ap-in .3s ease}
     .ap-carte.is-ext{border:1px dashed color-mix(in srgb,var(--c) 40%,transparent)}
     @keyframes ap-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-    .ap-photo{position:relative;display:block;width:100%;aspect-ratio:4/3;padding:0;border:0;background:#F3EEE6}
+    .ap-photo{position:relative;display:block;width:100%;aspect-ratio:4/3;padding:0;border:0;background:var(--panel2)}
     .ap-photo img{width:100%;height:100%;object-fit:cover;display:block}
     .ap-photo.is-vide{cursor:default}
+    .ap-photo[data-zoom]{cursor:zoom-in}
     .ap-fermer{position:absolute;top:.6rem;right:.6rem;z-index:2;width:32px;height:32px;border-radius:50%;border:0;cursor:pointer;background:rgba(255,255,255,.9);color:var(--noir);font-size:1rem;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,.12)}
     .ap-corps{padding:1.15rem 1.3rem 1.4rem;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 30%,#FFFEFA) 0%,color-mix(in srgb,var(--c) 13%,#FFFEFA) 28%,color-mix(in srgb,var(--c) 6%,#FFFEFA) 100%)}
     .ap-carte.is-memoire .ap-corps{background:linear-gradient(180deg,#DDD7D3 0%,#EAE6E2 14%,#F5F2EE 50%,#F7F2EA 100%)}
     .ap-carte.is-memoire .ap-photo img{filter:grayscale(.85)}
     .ap-genre{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ct,var(--c));margin-bottom:.3rem}
     .ap-badge{font-size:.56rem}
-    .ap-nom{font-family:var(--serif);font-weight:400;font-size:1.75rem;line-height:1.15;color:var(--noir)}
+    .ap-nom{font-family:var(--font-serif);font-weight:400;font-size:1.75rem;line-height:1.15;color:var(--noir)}
     .ap-nom em{color:var(--ct,var(--c));font-style:italic}
     .ap-sous{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-top:.3rem}
     .ap-infos{margin:1rem 0 0;padding-top:1rem;border-top:1px solid rgba(60,40,35,.08);display:grid;grid-template-columns:auto 1fr;gap:.5rem .9rem;font-size:.82rem;align-items:baseline}
@@ -229,18 +230,17 @@
     .ap-liens{display:flex;flex-wrap:wrap;gap:.35rem}
     .ap-lien{display:inline-flex;align-items:center;gap:.4rem;font:inherit;font-size:.78rem;color:var(--noir);padding:.22rem .7rem .22rem .55rem;border-radius:20px;border:1px solid color-mix(in srgb,var(--c) 55%,transparent);background:rgba(255,255,255,.8);cursor:pointer;transition:background .15s}
     .ap-lien::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--c);flex-shrink:0}
-    .ap-lien:hover{background:#FBF3E7}
+    .ap-lien:hover{background:var(--survol)}
     .ap-resume{margin-top:1rem;font-size:.85rem;line-height:1.6;color:var(--noir)}
     .ap-cta{margin-top:1.2rem;padding:.65rem 1.6rem;font-size:.7rem}
-    .arbre-panneau .ap-cta{display:flex;width:fit-content;margin:1.4rem auto 0}   /* « Voir la fiche » centré en bas de la carte (PC) */
-    .robe-pill{display:inline-block;padding:.08rem .55rem;border:1px solid;border-radius:20px;font-size:.78rem}
+    :is(.arbre-panneau,.volet) .ap-cta{display:flex;width:fit-content;margin:1.4rem auto 0}   /* « Voir la fiche » centré en bas de la carte (panneau PC + volet mobile) */
 
     /* ── Volet mobile : « Sa carte » ouvre la carte détaillée en feuille qui monte du bas (pas de voile : la page reste lisible derrière) ── */
     .volet{position:fixed;inset:0;z-index:2000}
     .volet[hidden]{display:none}
     .volet-fond{position:absolute;inset:0}
     .volet-boite{position:absolute;left:0;right:0;bottom:0;margin:0 auto;width:100%;max-width:560px;max-height:62vh;max-height:62dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
-      background:#FEFBF6;border-radius:26px 26px 0 0;padding:0 1.05rem calc(1.2rem + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(60,40,35,.16);
+      background:var(--bg-cream);border-radius:26px 26px 0 0;padding:0 1.05rem calc(1.2rem + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(60,40,35,.16);
       transform:translateY(100%);transition:transform .32s cubic-bezier(.22,.8,.24,1)}
     .volet.is-open .volet-boite{transform:none}
     .volet-poignee{display:block;padding:.55rem 0 .7rem;touch-action:none}
@@ -280,7 +280,7 @@
 
 <div class="wrap">
   <div class="toolbar">
-    <button class="btn" id="backBtn" type="button" hidden>← Tous nos chevaux</button>
+    <button class="btn-arbre" id="backBtn" type="button" hidden>← Tous nos chevaux</button>
     <div class="ap-recherche" role="search">
       <input id="recherche" type="search" placeholder="Rechercher un cheval…" autocomplete="off"
              aria-label="Rechercher un cheval" aria-controls="suggestions">
@@ -320,7 +320,6 @@ const PHOTOS = {}, PHOTOS_TREE = {};
 CHEVAUX.forEach(c => { if (c.photo) PHOTOS[c.id] = c.photo; if (c.photo_arbre) PHOTOS_TREE[c.id] = c.photo_arbre; });
 const byId = {}; HORSES.forEach(h => byId[h.id] = h);
 const kids = {}; HORSES.forEach(h => [h.pere, h.mere].forEach(p => { if (p) { (kids[p] = kids[p] || []).push(h.id); } }));
-const STATUT = { "a-vendre": "À vendre", "reserve": "Réservé", "vendu": "Vendu", "garde": "Reste à l'élevage" };
 const annee = h => { const m = /(\d{4})/.exec(h.naissance || ''); return m ? m[1] : ''; };
 function disp(h){ if(h.nom_usuel) return h.nom_usuel; if(h.affixe&&h.nom){const n=h.nom.split(h.affixe).join(' ').replace(/\s+/g,' ').trim();return n||h.nom;} return h.nom; }
 const isExt = h => h.famille === 'externe';
@@ -330,8 +329,19 @@ const sexCls = h => isExt(h) ? 'ext' : (h.sexe === 'femelle' ? 'f' : 'm');
 const colorCls = h => h.sexe === 'femelle' ? 'f' : 'm';
 function roleLabel(h){ if(h.role==='etalon')return'Étalon'; if(h.role==='jument')return'Jument'; if(h.role==='memoire')return'En mémoire';
   if(h.role==='poulain')return h.sexe==='femelle'?'Pouliche':(h.sexe==='hongre'?'Hongre':'Poulain'); return'Extérieur'; }
-// Même logique que les mini-cartes du site (build.py) : badge court, sinon statut, sinon distinction (« ★ Élite grade 1 »).
-const badge = h => h.badge_court || (h.statut && STATUT[h.statut]) || (h.distinction?(/Élite grade 1/.test(h.distinction)?'★ Élite grade 1':h.distinction):'');
+// Même règle que badge_carte (build.py) : statut, sinon « En mémoire », sinon distinction.
+// Renvoie [variante de .pastille, texte] ou null. « Reste à l'élevage » : poulains seulement.
+function badgeInfo(h){ const e=h.sexe==='femelle'?'e':'', par=h.vendeur?' par '+h.vendeur:'';
+  if(h.statut==='a-vendre')return['vente','À vendre'+par];
+  if(h.statut==='reserve')return['reserve','Réservé'+e+par];
+  if(h.statut==='vendu')return['vendu','Vendu'+e+par];
+  if(h.statut==='garde'&&h.role==='poulain')return['reste',"Reste à l'élevage"];
+  if(h.role==='memoire')return['memoire','En mémoire'];
+  const d=h.distinction; if(d)return /Élite grade 1/.test(d)?['or','★ Élite grade 1']:['titre',d];
+  return null; }
+// Pastille du site : pleine sur les photos, contour dans les panneaux ; badge_court seulement sur les petites cartes.
+function pastille(h,cls,{contour=false,court=false,b=badgeInfo(h)}={}){ if(!b)return'';
+  return `<span class="${cls} pastille pastille--${b[0]}${contour?' pastille--contour':''}">${esc((court&&h.badge_court)||b[1])}</span>`; }
 
 // ── Helpers pour la carte détaillée (panneau latéral) et la recherche ──
 const COUL = { male:'var(--male)', hongre:'var(--male)', femelle:'var(--femelle)' };
@@ -340,10 +350,6 @@ const PLACEHOLDER = { male:'img/placeholders/etalon.jpg', hongre:'img/placeholde
 const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const nomCourt = c => c.nom.replace(/\s*\(.*\)$/, '');
 const dateFr = d => { const m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(d||''); return m?`${m[3]}/${m[2]}/${m[1]}`:d; };
-function robeToColor(robe){ const r=(robe||'').toLowerCase();
-  if(/palomino/.test(r))return'#B8862B'; if(/buckskin/.test(r))return'#A9803F'; if(/grull|grulla/.test(r))return'#7C7468';
-  if(/alezan|chestnut/.test(r))return'#A85A32'; if(/bai|bay/.test(r))return'#8B5E34';
-  if(/noir|black|tobiano|pinto|roan|smoky/.test(r))return'#423C36'; return'#8A8A8A'; }
 // D'où vient un cheval extérieur : son élevage ; à défaut son affixe (= élevage) ; sinon le pays. Vide si rien n'est connu.
 function provenance(h){
   const pays=h.origine?' · '+h.origine:'';
@@ -354,12 +360,8 @@ function provenance(h){
   return (h.origine||'');
 }
 function libelleSexe(c){ if(c.sexe==='hongre')return'Hongre'; if(c.role==='poulain')return c.sexe==='femelle'?'Pouliche':'Poulain'; return c.sexe==='femelle'?'Jument':'Étalon'; }
-function badgeStatut(c){ const e=c.sexe==='femelle'?'e':''; const p=v=>`ap-badge pastille pastille--${v} pastille--contour`;
-  if(c.role==='memoire')return'<span class="ap-badge pastille pastille--memoire">En mémoire</span>';
-  if(c.statut==='a-vendre')return`<span class="${p('vente')}">À vendre</span>`;
-  if(c.statut==='reserve')return`<span class="${p('reserve')}">Réservé${e}</span>`;
-  if(c.statut==='vendu')return`<span class="${p('vendu')}">Vendu${e}</span>`;
-  if(c.statut==='garde'&&c.role==='poulain')return`<span class="${p('reste')}">Reste à l'élevage</span>`; return''; }
+// Panneau : statut seulement (la distinction est déjà en sous-titre), en contour.
+function badgeStatut(c){ const b=badgeInfo(c); return b&&b[0]!=='or'&&b[0]!=='titre'?pastille(c,'ap-badge',{contour:true,b}):''; }
 const nomPanneau = c => (typeof nomChevalHTML==='function') ? nomChevalHTML(c)
   : (c.affixe?`<span style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:.75em;color:var(--gris)">${esc(c.affixe)}</span> `:'')+`<em>${esc(disp(c))}</em>`;
 function lienCheval(id){ const c=byId[id]; if(!c)return''; return `<button type="button" class="ap-lien" data-id="${c.id}" style="--c:${COUL[c.sexe]}">${esc(nomCourt(c))}</button>`; }
@@ -370,7 +372,7 @@ function carteHTML(c){
   const infos=[];
   if(c.naissance)infos.push([c.deces?'Vie':(c.sexe==='femelle'?'Née':'Né'), esc(dateFr(c.naissance))+(c.deces?' — '+esc(c.deces):'')]);
   if(c.race)infos.push(['Race', esc(c.race)]);
-  if(c.robe){const rc=robeToColor(c.robe); infos.push(['Robe',`<span class="robe-pill" style="color:${rc};border-color:${rc}">${esc(c.robe)}</span>`]);}
+  if(c.robe)infos.push(['Robe', esc(c.robe)]);   // texte simple, comme la modale du site
   const parents=[c.pere,c.mere].filter(Boolean).map(lienCheval).join('');
   if(parents)infos.push(['Parents',`<span class="ap-liens">${parents}</span>`]);
   const enfants=enfantsDe(c.id);
@@ -378,7 +380,7 @@ function carteHTML(c){
   return `
   <article class="ap-carte${c.famille==='externe'?' is-ext':''}${c.role==='memoire'?' is-memoire':''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
     <button type="button" class="ap-fermer" aria-label="Fermer">✕</button>
-    <span class="ap-photo${vraiePhoto?'':' is-vide'}"><img src="${esc(photo)}" alt="${vraiePhoto?esc(c.nom):''}" loading="lazy"${c.photo&&c.cadrage?` style="object-position:${esc(c.cadrage)}"`:''}></span>
+    <span class="ap-photo${vraiePhoto?'':' is-vide'}"${vraiePhoto?` data-zoom="${esc(photo)}" data-legende="${esc(c.nom)}" role="button" tabindex="0" aria-label="Agrandir la photo de ${esc(c.nom)}"`:''}><img src="${esc(photo)}" alt="${vraiePhoto?esc(c.nom):''}" loading="lazy"${c.photo&&c.cadrage?` style="object-position:${esc(c.cadrage)}"`:''}></span>
     <div class="ap-corps">
       <p class="ap-genre">${libelleSexe(c)}${badgeStatut(c)}</p>
       <h2 class="ap-nom">${nomPanneau(c)}</h2>
@@ -413,11 +415,12 @@ function fermerVolet(vite){ if(volet.hidden)return;
   const fin=()=>{ if(y0===null)return; y0=null; voletBoite.style.transition=''; if(dy>90) fermerVolet(); else voletBoite.style.transform=''; };
   poignee.addEventListener('touchend',fin); poignee.addEventListener('touchcancel',fin);
 })();
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!volet.hidden) fermerVolet(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!volet.hidden) fermerVolet();
+  if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.ap-photo[data-zoom]')){ e.preventDefault(); e.target.click(); } });
 
 /* repos : nos chevaux en cartes (sans les décédés) */
-function photoCard(h){ const ph=PHOTOS[h.id]||PHOTOS_TREE[h.id], b=badge(h);
-  return `<button class="pcard ${sexCls(h)}" data-id="${h.id}" type="button">${ph?`<img src="${ph}" alt="${disp(h)}">`:`<div style="aspect-ratio:4/5;background:var(--panel2)"></div>`}<span class="ov"></span>${b?`<span class="pbdg">${b}</span>`:''}<span class="pnm">${disp(h)}</span></button>`; }
+function photoCard(h){ const ph=PHOTOS[h.id]||PHOTOS_TREE[h.id], cadre=PHOTOS[h.id]&&h.cadrage?` style="object-position:${esc(h.cadrage)}"`:'';
+  return `<button class="ca ca--${h.sexe==='femelle'?'femelle':'male'}" data-id="${h.id}" type="button">${ph?`<img src="${ph}" alt="${esc(h.nom)}" loading="lazy"${cadre}>`:''}${pastille(h,'ca-badge',{court:true})}<span class="ca-corps"><span class="ca-nom">${disp(h)}</span></span></button>`; }
 function renderRest(){ const ours=HORSES.filter(h=>h.famille==='humming');
   const g=(t,l)=>l.length?`<div class="group"><h3 class="group-t">${t}</h3><div class="row">${l.map(photoCard).join('')}</div></div>`:'';
   document.getElementById('rest').innerHTML =
@@ -568,7 +571,7 @@ function focusDesktop(id,nh){
    Mise en page par couches : couche = 1 + couche la plus basse des parents. Un trait qui saute une couche passe par un
    point relais invisible (il ne traverse jamais une carte). Ordre des colonnes par barycentre (peu de croisements),
    puis positions au plus près des parents/enfants avec un écart minimal. Tout est calculé depuis les données. */
-const AP={W:128,H:160,GX:34,GY:96,DW:30,PAD:34};
+const AP={W:128,H:171,GX:34,GY:96,DW:30,PAD:34};
 function focusApercu(){
   const ours=HORSES.filter(h=>h.famille==='humming'&&(h.role==='etalon'||h.role==='jument'||h.role==='poulain'));
   const ids=new Set(ours.map(h=>h.id));
@@ -710,7 +713,7 @@ function focusMobile(id){
   const img=PHOTOS_TREE[id]||PHOTOS[id];
   const meta=[(sel.robe_courte||sel.robe), annee(sel)].filter(Boolean).join(' · ');
   const avec=e=>{const co=byId[e.pere===id?e.mere:e.pere];return [annee(e), co?'avec '+disp(co):''].filter(Boolean).join('<br>');};
-  const b=badge(sel);
+  const bi=badgeInfo(sel), b=bi&&bi[0]!=='memoire'?pastille(sel,'fx-bdg',{contour:true,b:bi}):'';   // « En mémoire » déjà dit par le rôle
   const aff=sel.affixe?`<span class="aff">${sel.affixe}</span>`:'';
   const acts=`<button type="button" class="btn btn-outline" data-carte="${sel.id}" aria-haspopup="dialog">Sa carte</button>`+
     (sel.page?`<a class="btn btn-primary" href="${sel.page}">Voir la fiche</a>`:'');
@@ -723,21 +726,29 @@ function focusMobile(id){
       <p class="fx-titre">Parents</p>
       <div class="fx-parents">${medFocus(P,'','Père')}${medFocus(M,'','Mère')}</div>
       <span class="fx-trait" aria-hidden="true"></span>
-      <div class="fx-centre${sel.role==='memoire'?' is-memoire':''}" style="--c:${sexHex(sel)}">
+      <div class="fx-centre${sel.role==='memoire'?' is-memoire':''}" style="--c:${sexHex(sel)};--ct:${COUL_TEXTE[sel.sexe]}">
         <div class="fx-centre-photo">${img?`<img src="${img}" alt="${disp(sel)}">`:(disp(sel)[0]||'?')}</div>
-        <p class="fx-genre">${roleLabel(sel)}${b?`<span class="fx-bdg">${b}</span>`:''}</p>
+        <p class="fx-genre">${roleLabel(sel)}${b}</p>
         <h2 class="fx-nom">${aff}<em>${disp(sel)}</em></h2>
         ${meta?`<p class="fx-meta">${meta}</p>`:''}
         <div class="fx-actions">${acts}</div>
       </div>
       <span class="fx-trait" aria-hidden="true"></span>
       <p class="fx-titre">${enfants.length?`Descendance (${enfants.length})`:'Descendance'}</p>
-      ${enfants.length?`<div class="fx-rangee-bloc"><div class="fx-rangee">${enfants.map(e=>medFocus(e,avec(e))).join('')}</div></div>`
+      ${enfants.length?`<div class="fx-rangee-bloc"><div class="fx-rangee">${enfants.map(e=>medFocus(e,avec(e))).join('')}</div><div class="fx-defil" hidden aria-hidden="true"><span></span></div></div>`
                       :'<p class="fx-aucun">Pas de descendance connue.</p>'}
     </div>`;
   const fe=document.getElementById('focus');fe.classList.add('vmobile');
   document.getElementById('rest').hidden=true;fe.hidden=false;
+  canvas.querySelectorAll('.fx-rangee').forEach(majDefil);
 }
+// Barre sous la descendance : largeur du curseur = part visible, position = défilement. Cachée si tout tient à l'écran.
+function majDefil(r){ const b=r.nextElementSibling; if(!b||!b.classList.contains('fx-defil'))return;
+  const deborde=r.scrollWidth>r.clientWidth+1; b.hidden=!deborde; if(!deborde)return;
+  const part=r.clientWidth/r.scrollWidth, pos=r.scrollLeft/(r.scrollWidth-r.clientWidth), cur=b.firstElementChild;
+  cur.style.width=(part*100)+'%'; cur.style.left=(pos*(1-part)*100)+'%'; }
+document.addEventListener('scroll',e=>{ if(e.target.classList&&e.target.classList.contains('fx-rangee')) majDefil(e.target); },true);
+window.addEventListener('resize',()=>document.querySelectorAll('.fx-rangee').forEach(majDefil));
 
 let renderedMobile=null;
 const btnRetour=document.getElementById('backBtn'), titreFocus=document.getElementById('focusTitle');
@@ -749,7 +760,7 @@ let animsEnCours=[], animT=null;
 function annulerAnim(){ clearTimeout(animT); animsEnCours.forEach(a=>{try{a.cancel();}catch(e){}}); animsEnCours=[];
   const g=document.getElementById('fantomes'); if(g) g.innerHTML=''; }
 function chevauxVisibles(){ const m={}, cv=document.getElementById('canvas');
-  cv.querySelectorAll('.pcard[data-id],.cnode[data-id],.cardnode[data-hid]').forEach(el=>{
+  cv.querySelectorAll('.ca[data-id],.cnode[data-id],.cardnode[data-hid]').forEach(el=>{
     const id=el.dataset.hid||el.dataset.id; if(m[id]&&!el.dataset.hid) return;   // la carte centrale l'emporte sur un doublon
     const r=el.getBoundingClientRect(); m[id]={el,r,w:el.offsetWidth,h:el.offsetHeight,k:r.width/(el.offsetWidth||1)}; });
   return m; }
@@ -815,6 +826,7 @@ document.addEventListener('click',e=>{
   const dansVolet=e.target.closest('#volet');
   if(e.target.closest('[data-fermer-volet]')||(dansVolet&&e.target.closest('.ap-fermer'))){fermerVolet();return;}
   const bc=e.target.closest('[data-carte]'); if(bc){ouvrirVolet(bc.dataset.carte,bc);return;}
+  const zp=e.target.closest('.ap-photo[data-zoom]'); if(zp){ if(window.ouvrirLightbox) ouvrirLightbox([zp.dataset.zoom],0,[zp.dataset.legende]); return; }   // lightbox du site (main.js)
   if(e.target.closest('#backBtn')||e.target.closest('.ap-fermer')){showRest();return;}
   if(e.target.closest('a'))return;
   const c=e.target.closest('[data-id]');
