@@ -39,7 +39,7 @@
       --m:var(--male,#4E8F94); --f:var(--femelle,#D2557A); --ext:#9A9290;
       --brand:var(--marque-deep,#AB5667);
       --panel:#fffdf9; --panel2:#f1e8dd; --line:#e4d9cc; --line2:#d6c8b8;
-      --muted:#8c8075; --fg:var(--noir); --conn:#b0a291;
+      --muted:#8c8075; --fg:var(--noir); --conn:#b0a291; --halo:#FBF4EF;
       --font-serif:var(--serif); --font-ui:var(--sans);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,7 +53,7 @@
     .sur-tactile { display: none; }
     @media (hover: none) { .sur-souris { display: none; } .sur-tactile { display: inline; } }
 
-    .wrap{max-width:1280px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px)) 3rem;}
+    .wrap{max-width:1500px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px)) 3rem;}
     .legend{display:flex;flex-wrap:wrap;gap:.3rem 1rem;margin:0 0 1.4rem;font-size:.76rem;color:var(--muted);justify-content:center}
     .legend span{display:inline-flex;align-items:center;gap:.4rem}
     .dot{width:.7rem;height:.7rem;border-radius:50%;border:2px solid currentColor;display:inline-block}
@@ -75,7 +75,7 @@
     .focus-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .7rem;margin-bottom:.4rem}
     .btn{appearance:none;cursor:pointer;font-family:inherit;font-size:.8rem;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;display:inline-flex;gap:.4rem;align-items:center}
     .btn:hover{border-color:var(--brand);color:var(--brand)}
-    .canvas-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:var(--panel2);padding:1rem}
+    .canvas-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:radial-gradient(ellipse 75% 70% at 50% 45%, #FFFEFB 0%, #FCF6F1 62%, #F9EEEC 100%);padding:1rem}
     .canvas{position:relative;margin:0 auto}
     .canvas svg{position:absolute;inset:0;pointer-events:none;overflow:visible}
 
@@ -83,9 +83,11 @@
     .cnode .circ{border-radius:50%;overflow:hidden;background:var(--panel2);border:3px solid var(--c,var(--line2));box-shadow:0 3px 9px rgba(0,0,0,.16);display:grid;place-items:center;transition:transform .15s,box-shadow .15s}
     .cnode .circ img{width:100%;height:100%;object-fit:cover}
     .cnode .circ .mono{font-family:var(--font-serif);font-size:1.5rem;color:var(--c,var(--muted))}
-    .cnode .cname{font-family:var(--font-serif);font-style:italic;font-size:.98rem;line-height:1.04;max-width:116px}
-    .cnode .csub{font-size:.62rem;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-top:-.1rem}
-    .cnode.m{--c:var(--m)}.cnode.f{--c:var(--f)}.cnode.ext{--c:var(--ext)}
+    /* Détourage « carte routière » : halo opaque couleur du fond pour que les traits
+       passent derrière le nom sans le traverser visuellement. */
+    .cnode .cname{font-family:var(--font-serif);font-style:italic;font-size:.98rem;line-height:1.04;max-width:116px;text-shadow:-1.5px -1.5px 0 var(--halo),1.5px -1.5px 0 var(--halo),-1.5px 1.5px 0 var(--halo),1.5px 1.5px 0 var(--halo),0 0 3px var(--halo),0 0 5px var(--halo),0 0 7px var(--halo)}
+    .cnode .csub{font-size:.62rem;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-top:-.1rem;text-shadow:-1px -1px 0 var(--halo),1px -1px 0 var(--halo),-1px 1px 0 var(--halo),1px 1px 0 var(--halo),0 0 4px var(--halo)}
+    .cnode.m{--c:var(--m)}.cnode.f{--c:var(--f)}
     .cnode.ext .cname{font-style:normal;font-family:var(--font-ui);font-weight:600;font-size:.82rem}
     .cnode.partner .cname{font-size:1.05rem}
     .cnode:hover .circ,.cnode:focus-visible .circ{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.24)}
@@ -106,7 +108,7 @@
     .selcard .a2{background:var(--panel2);color:var(--fg)}
     .selcard .aP{background:var(--c,var(--brand));color:#fff;border-color:transparent}
     .selcard .extnote{color:var(--muted);font-size:.78rem;margin-top:.8rem}
-    .selcard.m{--c:var(--m)}.selcard.f{--c:var(--f)}.selcard.ext{--c:var(--ext)}
+    .selcard.m{--c:var(--m)}.selcard.f{--c:var(--f)}
     .bandlab{position:absolute;z-index:1;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transform:translate(-50%,0);text-align:center}
     .hint{font-size:.76rem;color:var(--muted);margin:.8rem 2px 0;text-align:center}
     @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -163,6 +165,54 @@
     .fx-rangee .fx-med{scroll-snap-align:start;flex-shrink:0;width:88px}
     .fx-rangee .fx-med-img{width:56px;height:56px}
     .fx-aucun{margin:0;font-family:var(--serif);font-style:italic;color:var(--gris)}
+
+    /* ── Recherche (dropdown) ── */
+    .ap-recherche{position:relative;max-width:440px;margin:0 auto 1.1rem;z-index:30}
+    .ap-recherche input{width:100%;font:inherit;font-size:.85rem;color:var(--noir);padding:.6rem 1rem .6rem 2.3rem;border:1px solid rgba(0,0,0,.12);border-radius:50px;background:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%236A6A6A' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:.85rem center;outline:none;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+    .ap-recherche input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(212,137,154,.18)}
+    .ap-suggestions{position:absolute;left:0;right:0;top:calc(100% - .3rem);list-style:none;margin:0;padding:.35rem;background:#fff;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.14);max-height:320px;overflow-y:auto;overscroll-behavior:contain}
+    .ap-suggestions li{display:flex;align-items:center;gap:.55rem;padding:.5rem .65rem;border-radius:9px;font-size:.86rem;cursor:pointer}
+    .ap-suggestions li.sel,.ap-suggestions li:hover{background:#FBF3E7}
+    .ap-suggestions .pt{width:8px;height:8px;border-radius:50%;background:var(--c);flex-shrink:0}
+    .ap-suggestions .hc{margin-left:auto;font-size:.5rem}
+    .ap-suggestions li.vide{color:var(--gris);cursor:default;background:none}
+
+    /* ── Vue focus PC : arbre à gauche, panneau carte à droite ── */
+    #focus .focus-bar{margin-bottom:.6rem}
+    .focus-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:1.1rem;align-items:start}
+    .focus-main{min-width:0}
+    .focus-side{position:sticky;top:1rem}
+    #focus.vmobile .focus-grid{display:block}
+    #focus.vmobile .focus-side{display:none}
+    .arbre-panneau{overflow:visible}
+
+    /* ── Carte détaillée du cheval (panneau) ── */
+    .ap-carte,.fx-centre{--accent:var(--c);--accent-deep:var(--ct);--accent-dark:color-mix(in srgb,var(--ct,var(--c)) 78%,#000);--accent-pale:color-mix(in srgb,var(--c) 18%,#fff)}
+    .ap-carte{position:relative;background:#fff;border:1px solid rgba(60,40,35,.07);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px rgba(60,40,35,.04),0 10px 30px rgba(60,40,35,.08);animation:ap-in .3s ease}
+    .ap-carte.is-ext{border:1px dashed color-mix(in srgb,var(--c) 40%,transparent)}
+    @keyframes ap-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .ap-photo{position:relative;display:block;width:100%;aspect-ratio:4/3;padding:0;border:0;background:#F3EEE6}
+    .ap-photo img{width:100%;height:100%;object-fit:cover;display:block}
+    .ap-photo.is-vide{cursor:default}
+    .ap-fermer{position:absolute;top:.6rem;right:.6rem;z-index:2;width:32px;height:32px;border-radius:50%;border:0;cursor:pointer;background:rgba(255,255,255,.9);color:var(--noir);font-size:1rem;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+    .ap-corps{padding:1.15rem 1.3rem 1.4rem;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 30%,#FFFEFA) 0%,color-mix(in srgb,var(--c) 13%,#FFFEFA) 28%,color-mix(in srgb,var(--c) 6%,#FFFEFA) 100%)}
+    .ap-carte.is-memoire .ap-corps{background:linear-gradient(180deg,#DDD7D3 0%,#EAE6E2 14%,#F5F2EE 50%,#F7F2EA 100%)}
+    .ap-carte.is-memoire .ap-photo img{filter:grayscale(.85)}
+    .ap-genre{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ct,var(--c));margin-bottom:.3rem}
+    .ap-badge{font-size:.56rem}
+    .ap-nom{font-family:var(--serif);font-weight:400;font-size:1.75rem;line-height:1.15;color:var(--noir)}
+    .ap-nom em{color:var(--ct,var(--c));font-style:italic}
+    .ap-sous{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-top:.3rem}
+    .ap-infos{margin:1rem 0 0;padding-top:1rem;border-top:1px solid rgba(60,40,35,.08);display:grid;grid-template-columns:auto 1fr;gap:.5rem .9rem;font-size:.82rem;align-items:baseline}
+    .ap-infos dt{color:var(--gris);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase}
+    .ap-infos dd{margin:0;color:var(--noir)}
+    .ap-liens{display:flex;flex-wrap:wrap;gap:.35rem}
+    .ap-lien{display:inline-flex;align-items:center;gap:.4rem;font:inherit;font-size:.78rem;color:var(--noir);padding:.22rem .7rem .22rem .55rem;border-radius:20px;border:1px solid color-mix(in srgb,var(--c) 55%,transparent);background:rgba(255,255,255,.8);cursor:pointer;transition:background .15s}
+    .ap-lien::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--c);flex-shrink:0}
+    .ap-lien:hover{background:#FBF3E7}
+    .ap-resume{margin-top:1rem;font-size:.85rem;line-height:1.6;color:var(--noir)}
+    .ap-cta{margin-top:1.2rem;padding:.65rem 1.6rem;font-size:.7rem}
+    .robe-pill{display:inline-block;padding:.08rem .55rem;border:1px solid;border-radius:20px;font-size:.78rem}
   </style>
 </head>
 <body class="fond-taches">
@@ -195,13 +245,25 @@
 </div>
 
 <div class="wrap">
+  <div class="ap-recherche" role="search">
+    <input id="recherche" type="search" placeholder="Rechercher un cheval…" autocomplete="off"
+           aria-label="Rechercher un cheval" aria-controls="suggestions">
+    <ul class="ap-suggestions" id="suggestions" role="listbox" hidden></ul>
+  </div>
   <div class="legend"><span><i class="dot m"></i> Mâle</span><span><i class="dot f"></i> Femelle</span><span><i class="dot ext"></i> Cheval extérieur</span></div>
   <div id="rest"></div>
   <div id="focus" hidden>
     <div class="focus-bar"><button class="btn" id="backBtn" type="button">← Tous nos chevaux</button>
       <div style="font-family:var(--font-serif);font-style:italic;font-size:1.25rem;color:var(--muted)" id="focusTitle"></div></div>
-    <div class="canvas-wrap"><div class="canvas" id="canvas"></div></div>
-    <p class="hint">Cliquez n'importe quel cheval de la vue pour le recentrer. Les étalons partenaires sont au niveau du cheval, leurs poulains juste en dessous.</p>
+    <div class="focus-grid">
+      <div class="focus-main">
+        <div class="canvas-wrap"><div class="canvas" id="canvas"></div></div>
+        <p class="hint">Cliquez n'importe quel cheval de la vue pour le recentrer. Les étalons partenaires sont au niveau du cheval, leurs poulains juste en dessous.</p>
+      </div>
+      <aside class="focus-side">
+        <aside class="arbre-panneau" id="panneau" aria-live="polite"><div id="apContenu"></div></aside>
+      </aside>
+    </div>
   </div>
 </div>
 
@@ -221,9 +283,62 @@ const annee = h => { const m = /(\d{4})/.exec(h.naissance || ''); return m ? m[1
 function disp(h){ if(h.nom_usuel) return h.nom_usuel; if(h.affixe&&h.nom){const n=h.nom.split(h.affixe).join(' ').replace(/\s+/g,' ').trim();return n||h.nom;} return h.nom; }
 const isExt = h => h.famille === 'externe';
 const sexCls = h => isExt(h) ? 'ext' : (h.sexe === 'femelle' ? 'f' : 'm');
+// Couleur par sexe pour TOUS les chevaux (y compris extérieurs) ; l'appartenance
+// à l'élevage est marquée à part (classe « ext » → nom en italique gris).
+const colorCls = h => h.sexe === 'femelle' ? 'f' : 'm';
 function roleLabel(h){ if(h.role==='etalon')return'Étalon'; if(h.role==='jument')return'Jument'; if(h.role==='memoire')return'En mémoire';
   if(h.role==='poulain')return h.sexe==='femelle'?'Pouliche':(h.sexe==='hongre'?'Hongre':'Poulain'); return'Extérieur'; }
 const badge = h => h.badge_court || (h.statut && STATUT[h.statut]) || '';
+
+// ── Helpers pour la carte détaillée (panneau latéral) et la recherche ──
+const COUL = { male:'var(--male)', hongre:'var(--male)', femelle:'var(--femelle)' };
+const COUL_TEXTE = { male:'var(--male-deep)', hongre:'var(--male-deep)', femelle:'var(--femelle-deep)' };
+const PLACEHOLDER = { male:'img/placeholders/etalon.jpg', hongre:'img/placeholders/etalon.jpg', femelle:'img/placeholders/jument.jpg' };
+const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const nomCourt = c => c.nom.replace(/\s*\(.*\)$/, '');
+const dateFr = d => { const m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(d||''); return m?`${m[3]}/${m[2]}/${m[1]}`:d; };
+function robeToColor(robe){ const r=(robe||'').toLowerCase();
+  if(/palomino/.test(r))return'#B8862B'; if(/buckskin/.test(r))return'#A9803F'; if(/grull|grulla/.test(r))return'#7C7468';
+  if(/alezan|chestnut/.test(r))return'#A85A32'; if(/bai|bay/.test(r))return'#8B5E34';
+  if(/noir|black|tobiano|pinto|roan|smoky/.test(r))return'#423C36'; return'#8A8A8A'; }
+function libelleSexe(c){ if(c.sexe==='hongre')return'Hongre'; if(c.role==='poulain')return c.sexe==='femelle'?'Pouliche':'Poulain'; return c.sexe==='femelle'?'Jument':'Étalon'; }
+function badgeStatut(c){ const e=c.sexe==='femelle'?'e':''; const p=v=>`ap-badge pastille pastille--${v} pastille--contour`;
+  if(c.role==='memoire')return'<span class="ap-badge pastille pastille--memoire">En mémoire</span>';
+  if(c.statut==='a-vendre')return`<span class="${p('vente')}">À vendre</span>`;
+  if(c.statut==='reserve')return`<span class="${p('reserve')}">Réservé${e}</span>`;
+  if(c.statut==='vendu')return`<span class="${p('vendu')}">Vendu${e}</span>`;
+  if(c.statut==='garde'&&c.role==='poulain')return`<span class="${p('reste')}">Reste à l'élevage</span>`; return''; }
+const nomPanneau = c => (typeof nomChevalHTML==='function') ? nomChevalHTML(c)
+  : (c.affixe?`<span style="font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:.75em;color:var(--gris)">${esc(c.affixe)}</span> `:'')+`<em>${esc(disp(c))}</em>`;
+function lienCheval(id){ const c=byId[id]; if(!c)return''; return `<button type="button" class="ap-lien" data-id="${c.id}" style="--c:${COUL[c.sexe]}">${esc(nomCourt(c))}</button>`; }
+const enfantsDe = id => HORSES.filter(c=>c.pere===id||c.mere===id).sort((a,b)=>(a.naissance||'').localeCompare(b.naissance||''));
+function carteHTML(c){
+  const vraiePhoto=c.photo||c.photo_arbre, photo=vraiePhoto||PLACEHOLDER[c.sexe];
+  const sous=c.famille==='humming'?(c.distinction||''):(c.elevage||c.origine||'');
+  const infos=[];
+  if(c.naissance)infos.push([c.deces?'Vie':(c.sexe==='femelle'?'Née':'Né'), esc(dateFr(c.naissance))+(c.deces?' — '+esc(c.deces):'')]);
+  if(c.race)infos.push(['Race', esc(c.race)]);
+  if(c.robe){const rc=robeToColor(c.robe); infos.push(['Robe',`<span class="robe-pill" style="color:${rc};border-color:${rc}">${esc(c.robe)}</span>`]);}
+  const parents=[c.pere,c.mere].filter(Boolean).map(lienCheval).join('');
+  if(parents)infos.push(['Parents',`<span class="ap-liens">${parents}</span>`]);
+  const enfants=enfantsDe(c.id);
+  if(enfants.length)infos.push(['Descendance',`<span class="ap-liens">${enfants.map(e=>lienCheval(e.id)).join('')}</span>`]);
+  return `
+  <article class="ap-carte${c.famille==='externe'?' is-ext':''}${c.role==='memoire'?' is-memoire':''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
+    <button type="button" class="ap-fermer" aria-label="Fermer">✕</button>
+    <span class="ap-photo${vraiePhoto?'':' is-vide'}"><img src="${esc(photo)}" alt="${vraiePhoto?esc(c.nom):''}" loading="lazy"${c.photo&&c.cadrage?` style="object-position:${esc(c.cadrage)}"`:''}></span>
+    <div class="ap-corps">
+      <p class="ap-genre">${libelleSexe(c)}${badgeStatut(c)}</p>
+      <h2 class="ap-nom">${nomPanneau(c)}</h2>
+      ${sous?`<p class="ap-sous">${esc(sous)}</p>`:''}
+      <dl class="ap-infos">${infos.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
+      ${c.resume?`<p class="ap-resume">${esc(c.resume)}</p>`:''}
+      ${c.page?`<a class="btn btn-primary ap-cta" href="${esc(c.page)}">Voir la fiche</a>`:''}
+    </div>
+  </article>`;
+}
+const apContenu = document.getElementById('apContenu');
+function ouvrirCarte(c){ if(apContenu) apContenu.innerHTML = carteHTML(c); }
 
 /* repos : nos chevaux en cartes (sans les décédés) */
 function photoCard(h){ const ph=PHOTOS[h.id]||PHOTOS_TREE[h.id], b=badge(h);
@@ -238,7 +353,7 @@ function renderRest(){ const ours=HORSES.filter(h=>h.famille==='humming');
 let H='', L='';
 function putCircle(h,cx,cy,R,extraCls,sub){
   const slot=Math.max(2*R,112), ph=PHOTOS_TREE[h.id]||PHOTOS[h.id];
-  H+=`<button class="cnode ${sexCls(h)} ${extraCls||''}" data-id="${h.id}" style="left:${cx-slot/2}px;top:${cy-R}px;width:${slot}px">
+  H+=`<button class="cnode ${colorCls(h)}${isExt(h)?' ext':''}${h.role==='memoire'?' memoire':''} ${extraCls||''}" data-id="${h.id}" style="left:${cx-slot/2}px;top:${cy-R}px;width:${slot}px">
     <span class="circ" style="width:${2*R}px;height:${2*R}px">${ph?`<img src="${ph}" alt="">`:`<span class="mono">${(disp(h)[0]||'?')}</span>`}</span>
     <span class="cname">${disp(h)}</span>${sub?`<span class="csub">${sub}</span>`:''}</button>`;
 }
@@ -260,7 +375,7 @@ function placeGroup(gcx,dropY,ids){
   return cols*FW;
 }
 
-function cardHTML(h){ const cls=sexCls(h), ph=PHOTOS_TREE[h.id]||PHOTOS[h.id];
+function cardHTML(h){ const cls=colorCls(h), ph=PHOTOS_TREE[h.id]||PHOTOS[h.id];
   const aff=h.affixe?`<span class="aff">${h.affixe}</span>`:'';
   const meta=[(h.robe_courte||h.robe), annee(h)].filter(Boolean).join(' · ');
   let acts = h.page?`<div class="acts"><a class="a2" href="nos-chevaux.html#${h.id}">Sa carte →</a><a class="aP" href="${h.page}">Voir la fiche</a></div>`
@@ -301,8 +416,9 @@ function focusDesktop(id){
   const cW=2*half, centerX=half;
 
   // bandes verticales
+  const hasDesc = desc.length>0;
   const gpY=40, pY=172, cardTop=250, cardCenterY=cardTop+CH/2; foalY=cardTop+CH+150;
-  let cH=foalY+Rf+36;
+  let cH = hasDesc ? foalY+Rf+36 : cardTop+CH+40;   // pas de bande descendance si aucun poulain
 
   // --- ascendants : parents puis grands-parents ---
   const PSP=132, GSP=74;
@@ -322,7 +438,7 @@ function focusDesktop(id){
   //     chaque couple forme un U, ses poulains pendent du milieu ---
   const cardBottom=cardTop+CH, spineY=cardBottom+46;
   let smin=centerX, smax=centerX;
-  seg(`M${centerX} ${cardBottom} L${centerX} ${spineY}`);
+  if(hasDesc) seg(`M${centerX} ${cardBottom} L${centerX} ${spineY}`);   // jambe carte→spine seulement s'il y a descendance
   // côté droit : poulains centrés dans le segment propre à chaque couple (entre l'étalon et le nœud précédent)
   let prevR=centerX;
   right.forEach((g,idx)=>{const n=g.ids.length,w=n*FW;
@@ -357,6 +473,7 @@ function focusDesktop(id){
   document.getElementById('focusTitle').innerHTML=`Famille de <b style="font-style:normal;color:var(--fg)">${disp(sel)}</b>`;
   const fe=document.getElementById('focus');fe.classList.remove('vmobile');
   document.getElementById('rest').hidden=true;fe.hidden=false;
+  ouvrirCarte(sel);   // panneau latéral : carte détaillée du cheval sélectionné
   // centre la vue horizontalement
   const wrap=document.querySelector('.canvas-wrap');
   requestAnimationFrame(()=>{wrap.scrollLeft=(wrap.scrollWidth-wrap.clientWidth)/2;});
@@ -365,7 +482,7 @@ function focusDesktop(id){
 /* ── Vue Famille mobile (≤900px) : HTML/flex simple, sans nœuds partenaires.
    Le co-parent d'un poulain est donné en légende « avec X ». ── */
 const MOBILE = window.matchMedia('(max-width: 900px)');
-const sexHex = h => isExt(h) ? 'var(--ext)' : (h.sexe==='femelle' ? 'var(--f)' : 'var(--m)');
+const sexHex = h => h.sexe==='femelle' ? 'var(--f)' : 'var(--m)';
 function medFocus(h, note, role, petit){
   const p = petit ? ' fx-med--petit' : '';
   if(!h) return `<span class="fx-med is-inconnu${p}"><span class="fx-med-img">?</span><span class="fx-med-nom">${petit?('Inconnu'+(role==='Mère'?'e':'')):(role+' inconnu'+(role==='Mère'?'e':''))}</span></span>`;
@@ -425,16 +542,47 @@ function focusMobile(id){
   document.getElementById('rest').hidden=true;fe.hidden=false;
 }
 
-function render(id){ if(MOBILE.matches) focusMobile(id); else focusDesktop(id); }
+let renderedMobile=null;
+function render(id){ renderedMobile=MOBILE.matches; if(renderedMobile) focusMobile(id); else focusDesktop(id); }
 function showRest(){document.getElementById('focus').hidden=true;document.getElementById('rest').hidden=false;current=null;}
 document.addEventListener('click',e=>{
-  if(e.target.closest('#backBtn')){showRest();return;}
+  if(e.target.closest('#backBtn')||e.target.closest('.ap-fermer')){showRest();return;}
   if(e.target.closest('a'))return;
   const c=e.target.closest('[data-id]');
   if(c){const first=document.getElementById('focus').hidden;render(c.dataset.id);if(first)window.scrollTo({top:0,behavior:'smooth'});}
 });
-// Bascule PC ↔ mobile : on garde le cheval affiché dans le bon rendu.
-MOBILE.addEventListener('change',()=>{ if(current && !document.getElementById('focus').hidden) render(current); });
+
+// ── Recherche (dropdown, nos chevaux d'abord) ──
+const recherche=document.getElementById('recherche'), suggestions=document.getElementById('suggestions');
+const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const INDEX=HORSES.map(c=>({c,cle:norm(c.nom+' '+(c.nom_usuel||''))}));
+let resultats=[], choixIdx=-1;
+function chercher(q){ const n=norm(q.trim());
+  const debut=c=>!n||norm(nomCourt(c)).split(' ').some(m=>m.startsWith(n));
+  return INDEX.filter(x=>x.cle.includes(n)).map(x=>x.c)
+    .sort((a,b)=>(b.famille==='humming')-(a.famille==='humming')||debut(b)-debut(a)||nomCourt(a).localeCompare(nomCourt(b))); }
+function dessinerSuggestions(){
+  suggestions.innerHTML=resultats.length
+    ? resultats.map((c,i)=>`<li role="option" data-id="${c.id}" class="${i===choixIdx?'sel':''}" aria-selected="${i===choixIdx}" style="--c:${COUL[c.sexe]}"><span class="pt"></span>${esc(nomCourt(c))}${c.famille==='humming'?'<span class="hc pastille pastille--hc pastille--contour">HC</span>':''}</li>`).join('')
+    : '<li class="vide">Aucun cheval trouvé</li>';
+  suggestions.hidden=false; const sel=suggestions.querySelector('.sel'); if(sel)sel.scrollIntoView({block:'nearest'}); }
+function choisir(id){ recherche.value='';suggestions.hidden=true;recherche.blur();
+  const first=document.getElementById('focus').hidden; render(id); if(first)window.scrollTo({top:0,behavior:'smooth'}); }
+recherche.addEventListener('input',()=>{const q=recherche.value.trim();resultats=chercher(recherche.value);choixIdx=q&&resultats.length?0:-1;dessinerSuggestions();});
+recherche.addEventListener('focus',()=>{resultats=chercher(recherche.value);choixIdx=recherche.value.trim()&&resultats.length?0:-1;dessinerSuggestions();});
+recherche.addEventListener('keydown',e=>{
+  if((e.key==='ArrowDown'||e.key==='ArrowUp')&&resultats.length){e.preventDefault();choixIdx=(choixIdx+(e.key==='ArrowDown'?1:-1)+resultats.length)%resultats.length;dessinerSuggestions();}
+  else if(e.key==='Enter'&&resultats[choixIdx]){e.preventDefault();choisir(resultats[choixIdx].id);}
+  else if(e.key==='Escape'){recherche.value='';suggestions.hidden=true;}});
+suggestions.addEventListener('mousedown',e=>e.preventDefault());
+suggestions.addEventListener('click',e=>{const li=e.target.closest('li[data-id]');if(li)choisir(li.dataset.id);});
+recherche.addEventListener('blur',()=>setTimeout(()=>{suggestions.hidden=true;},150));
+// Bascule PC ↔ mobile : on garde le cheval affiché dans le bon rendu. On écoute à la
+// fois matchMedia et resize (certains navigateurs ne déclenchent pas 'change' de façon fiable).
+function syncVue(){ const focusOuvert=!document.getElementById('focus').hidden;
+  if(current && focusOuvert && renderedMobile!==MOBILE.matches) render(current); }
+if(MOBILE.addEventListener) MOBILE.addEventListener('change',syncVue); else MOBILE.addListener(syncVue);
+let rzT; window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(syncVue,120);});
 renderRest();
 </script>
 </body>
