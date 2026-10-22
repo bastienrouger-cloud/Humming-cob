@@ -589,37 +589,62 @@ function focusApercu(){
     const mere=n.h&&n.h.mere;
     n.prim=n.up.slice().sort((p,q)=>(N[p].down.length-N[q].down.length)||((idDe(q)===mere)-(idDe(p)===mere)))[0]; });
   const primKids={}; keys.forEach(k=>{const p=N[k].prim; if(p)(primKids[p]=primKids[p]||[]).push(k);});
-  // Deux dispositions candidates (ordre de départ des fratries dans un sens ou dans l'autre) ; on garde la moins coûteuse :
-  // croisements très pénalisés, puis longueur des traits horizontaux (chaque décalage = un coude de plus à lire).
-  const disposer=sens=>{
+  // Ordre des colonnes : plusieurs dispositions de départ (fratries dans un sens ou dans l'autre, points relais au début ou à la fin),
+  // affinées par barycentre ; on garde la moins coûteuse. Coût = croisements (très pénalisés) + longueur des traits horizontaux.
+  // Ordre de lecture : reproducteurs d'abord, puis poulains gardés, vendus, à vendre ; à rang égal par date de naissance (une année seule vaut fin d'année).
+  const cleOrdre=k=>{ const h=N[k].h; if(!h) return ''; const rang=(h.role==='etalon'||h.role==='jument')?0:({garde:1,reserve:2,vendu:2,'a-vendre':3}[h.statut]||1);
+    const n=h.naissance||''; return rang+n+'9999-99-99'.slice(n.length); };
+  const ordreNaturel=()=>{ const rows=Array.from({length:maxL+1},()=>[]);
+    keys.slice().sort((a,b)=>cleOrdre(a)<cleOrdre(b)?-1:cleOrdre(a)>cleOrdre(b)?1:0).forEach(k=>rows[N[k].l].push(k)); return rows; };
+  const ordonner=(sens,relaisAvant)=>{
     const rows=Array.from({length:maxL+1},()=>[]);
-    keys.slice().sort((a,b)=>(N[a].h?0:1)-(N[b].h?0:1)||sens*((((N[a].h||{}).naissance||'')<((N[b].h||{}).naissance||''))?-1:1)).forEach(k=>rows[N[k].l].push(k));
+    keys.slice().sort((a,b)=>(relaisAvant?-1:1)*((N[a].h?0:1)-(N[b].h?0:1))||sens*((cleOrdre(a)<cleOrdre(b))?-1:1)).forEach(k=>rows[N[k].l].push(k));
     const pos={}; const indexer=()=>rows.forEach(r=>r.forEach((k,i)=>pos[k]=i)); indexer();
     const bary=(k,v)=>N[k][v].length?N[k][v].reduce((t,q)=>t+pos[q],0)/N[k][v].length:pos[k];
     const trier=(l,v)=>{ rows[l]=rows[l].map(k=>[k,bary(k,v)]).sort((a,b)=>a[1]-b[1]||pos[a[0]]-pos[b[0]]).map(q=>q[0]); indexer(); };
     for(let t=0;t<8;t++){ for(let l=1;l<=maxL;l++) trier(l,'up'); for(let l=maxL-1;l>=0;l--) trier(l,'down'); }
+    return rows; };
+  const placer=rows=>{
+    const pos={}; rows.forEach(r=>r.forEach((k,i)=>pos[k]=i));
     const x={};
     rows.forEach(r=>{ let cx=0; r.forEach(k=>{x[k]=cx+N[k].w/2;cx+=N[k].w+AP.GX;}); const tot=cx-AP.GX; r.forEach(k=>x[k]-=tot/2); });
     const separer=(r,cible)=>{ const offs=[]; let off=0; r.forEach((k,i)=>{ if(i)off+=(N[r[i-1]].w+N[k].w)/2+AP.GX; offs.push(off); });
       const blocs=[]; r.forEach((k,i)=>{ blocs.push({s:cible[k]-offs[i],n:1});
         while(blocs.length>1&&blocs[blocs.length-2].s/blocs[blocs.length-2].n>blocs[blocs.length-1].s/blocs[blocs.length-1].n){const b=blocs.pop(),a=blocs.pop();blocs.push({s:a.s+b.s,n:a.n+b.n});} });
       let i=0; blocs.forEach(b=>{ const m=b.s/b.n; for(let j=0;j<b.n;j++,i++) x[r[i]]=m+offs[i]; }); };
-    const vers_bas=()=>{ for(let l=1;l<=maxL;l++){ const c={}; rows[l].forEach(k=>{c[k]=N[k].prim?x[N[k].prim]:x[k];}); separer(rows[l],c); } };
+    // eps : légère attraction vers l'autre parent pendant le calcul (sinon deux familles liées par un second parent peuvent dériver l'une de l'autre)
+    const vers_bas=eps=>{ for(let l=1;l<=maxL;l++){ const c={}; rows[l].forEach(k=>{ const p=N[k].prim; if(!p){c[k]=x[k];return;}
+      const autres=N[k].up.filter(u=>u!==p); c[k]=x[p]+(eps&&autres.length?eps*(autres.reduce((t,u)=>t+x[u],0)/autres.length-x[p]):0); }); separer(rows[l],c); } };
     for(let t=0;t<60;t++){
-      vers_bas();
+      vers_bas(.06);
       for(let l=maxL-1;l>=0;l--){ const c={}; rows[l].forEach(k=>{const d=primKids[k]||N[k].down; c[k]=d.length?d.reduce((a,q)=>a+x[q],0)/d.length:x[k];}); separer(rows[l],c); }
     }
-    vers_bas();
+    vers_bas(0);
     // Redressage final : un parent qui n'a qu'un seul poulain principal se cale exactement au-dessus de lui si la place le permet
     for(let l=maxL-1;l>=0;l--) rows[l].forEach((k,i)=>{ const kids=primKids[k]; if(!kids||kids.length!==1) return;
       const g=i?x[rows[l][i-1]]+(N[rows[l][i-1]].w+N[k].w)/2+AP.GX:-1e9, d=i<rows[l].length-1?x[rows[l][i+1]]-(N[rows[l][i+1]].w+N[k].w)/2-AP.GX:1e9;
       x[k]=Math.min(d,Math.max(g,x[kids[0]])); });
     let cout=0;
     liens.forEach(([a,b])=>{ cout+=Math.abs(x[a]-x[b]); });
+    cout=Math.round(cout/25)*25;   // à quelques pixels près, deux dispositions se valent : on départage ensuite sur l'ordre des naissances
     liens.forEach(([a,b],i)=>liens.forEach(([c,d],j)=>{ if(j>i&&N[a].l===N[c].l&&a!==c&&b!==d&&(pos[a]-pos[c])*(pos[b]-pos[d])<0) cout+=2000; }));
-    return {rows,x,cout};
-  };
-  const choix=[1,-1].map(disposer).sort((p,q)=>p.cout-q.cout)[0];
+    // une fratrie reste groupée : un cheval d'un autre parent principal ne s'intercale pas entre ses membres (les points relais sont tolérés)
+    Object.keys(primKids).forEach(p=>{ const reels=primKids[p].filter(k=>N[k].h); if(reels.length<2) return; const l=N[reels[0]].l, ps=reels.map(k=>pos[k]);
+      const lo=Math.min(...ps), hi=Math.max(...ps); rows[l].forEach((k,i)=>{ if(i>lo&&i<hi){ if(N[k].h&&N[k].prim!==p) cout+=1500; else if(!N[k].h) cout+=30; } }); });   // un trait qui descend se glisse plutôt à l'extérieur d'une fratrie
+    // à coût égal, une fratrie se lit dans l'ordre des naissances (0,5 par inversion)
+    const nais=cleOrdre;
+    rows.forEach(r=>r.forEach((k,i)=>r.forEach((q,j)=>{ if(j>i&&N[k].prim&&N[k].prim===N[q].prim&&N[k].h&&N[q].h&&nais(k)>nais(q)) cout+=.5; })));
+    return {rows,x,cout}; };
+  let choix=[placer(ordreNaturel())].concat([[1,true],[1,false],[-1,true],[-1,false]].map(([a,b])=>placer(ordonner(a,b)))).sort((p,q)=>p.cout-q.cout)[0];
+  // Affinage : à l'intérieur d'une fratrie, on essaie d'échanger deux frères/sœurs (leurs descendants suivent, par barycentre)
+  for(let passe=0;passe<8;passe++){ let mieux=false;
+    for(let l=0;l<=maxL;l++){ const groupes={}; choix.rows[l].forEach(k=>{const p=N[k].prim; if(p&&N[k].h)(groupes[p]=groupes[p]||[]).push(k);});
+      for(const g of Object.values(groupes)) for(let i=0;i<g.length;i++) for(let j=i+1;j<g.length;j++){
+        const rows=choix.rows.map(r=>r.slice()), r=rows[l], ia=r.indexOf(g[i]), ib=r.indexOf(g[j]); [r[ia],r[ib]]=[r[ib],r[ia]];
+        const pos={}; rows.forEach(rr=>rr.forEach((k,n)=>pos[k]=n));
+        for(let m=l+1;m<=maxL;m++){ rows[m]=rows[m].map(k=>[k,N[k].up.length?N[k].up.reduce((t,q)=>t+pos[q],0)/N[k].up.length:pos[k]]).sort((p,q)=>p[1]-q[1]||pos[p[0]]-pos[q[0]]).map(q=>q[0]); rows[m].forEach((k,n)=>pos[k]=n); }
+        const essai=placer(rows); if(essai.cout<choix.cout-1e-6){ choix=essai; mieux=true; } } }
+    if(!mieux) break; }
   const rows=choix.rows, x=choix.x;
   let minX=1e9,maxX=-1e9; keys.forEach(k=>{minX=Math.min(minX,x[k]-N[k].w/2);maxX=Math.max(maxX,x[k]+N[k].w/2);});
   const dx=AP.PAD-minX, cW=Math.ceil(maxX-minX+2*AP.PAD), cH=2*AP.PAD+(maxL+1)*AP.H+maxL*AP.GY;
