@@ -28,532 +28,141 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Feuille du site : nav et typographie communes. Chargée AVANT le style
-       local, qui garde la main sur l'arbre. Aucune règle globale du site ne
-       vise .active / .visible seules (toujours qualifiées : .ar-slide.active,
-       .reveal.visible…) : pas de collision avec les états de l'arbre. -->
+       local, qui garde la main sur l'arbre. -->
   <link rel="stylesheet" href="css/style.css">
   <style>
     :root {
-      --cream:     #FEFBF6;
-      /* Rose de la marque et couleurs des sexes : celles de css/style.css
-         (plus de copie locale depuis le 15/10). */
-      --or:        #C0A050;
-      --noir:      #1C1C1C;
-      --gris:      #6A6A6A;
-      --serif:     'Cormorant Garamond', Georgia, serif;
-      --sans:      'Jost', sans-serif;
+      --cream:#FEFBF6; --or:#C0A050; --noir:#1C1C1C; --gris:#6A6A6A;
+      --serif:'Cormorant Garamond', Georgia, serif;
+      --sans:'Jost', sans-serif;
+      /* Vocabulaire interne de la vue Famille, calé sur la palette du site */
+      --m:var(--male,#4E8F94); --f:var(--femelle,#D2557A); --ext:#9A9290;
+      --brand:var(--marque-deep,#AB5667);
+      --panel:#fffdf9; --panel2:#f1e8dd; --line:#e4d9cc; --line2:#d6c8b8;
+      --muted:#8c8075; --fg:var(--noir); --conn:#b0a291;
+      --font-serif:var(--serif); --font-ui:var(--sans);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--noir);
+      min-height: 100vh; min-height: 100dvh; line-height: normal; }
 
-    body {
-      font-family: var(--sans);
-      background: var(--cream);
-      color: var(--noir);
-      padding: 0;
-      min-height: 100vh;
-      min-height: 100dvh;
-      line-height: normal;
-      /* Fond : celui du site (body.fond-taches, css/style.css) depuis le 15/10 ;
-         l'essai de fond nuancé propre à cette page est retiré. */
-    }
-
-    .header {
-      text-align: center;
-      /* la navbar du site est fixe : on réserve sa hauteur */
-      padding: calc(var(--nav-h, 80px) + 1.2rem) 2rem 1rem;
-      position: relative;
-      margin-bottom: 0;
-    }
+    .header { text-align: center; padding: calc(var(--nav-h, 80px) + 1.2rem) 2rem 1rem; position: relative; }
     .header h1 { font-family: var(--serif); font-size: 2.2rem; font-weight: 400; }
     .header h1 em { color: var(--accent-deep); font-style: italic; }
     .header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris); margin-top: 0.4rem; }
-
-    .tree-outer {
-      overflow: hidden;
-      touch-action: none;
-      cursor: grab;
-      height: 68vh;            /* repli si flex non pris en compte */
-      flex: 1 1 auto;          /* body est en colonne flex (style.css) */
-      min-height: 55vh;
-      position: relative;
-      user-select: none;
-    }
-    .tree-outer.panning { cursor: grabbing; }
-
-    /* SVG styles */
-    .tree-svg { display: block; width: 100%; height: 100%; }
-
-    .zoom-controls {
-      position: absolute; bottom: .75rem; right: .75rem;
-      display: flex; flex-direction: column; gap: .35rem; z-index: 5;
-    }
-    .zoom-btn {
-      width: 34px; height: 34px;
-      background: rgba(255,255,255,.88); backdrop-filter: blur(4px);
-      border: 1px solid rgba(0,0,0,.1); border-radius: 50%; cursor: pointer;
-      font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,.1); transition: background .15s;
-      color: var(--noir); line-height: 1;
-    }
-    .zoom-btn:hover { background: white; }
-
-    .mobile-hint {
-      display: none;
-      position: absolute; top: .5rem; left: 50%; transform: translateX(-50%);
-      font-size: .58rem; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--gris); background: rgba(255,255,255,.82);
-      padding: .25rem .8rem; border-radius: 20px;
-      pointer-events: none; white-space: nowrap; z-index: 5;
-    }
-
-    @media (max-width: 900px) {
-      .mobile-hint { display: block; }
-      .header { padding: calc(var(--nav-h, 80px) + 1rem) 1rem 0.8rem; }
-      .legend { gap: 1rem; }
-    }
-    @media (max-width: 600px) {
-      .header h1 { font-size: 1.6rem; }
-      .header p { display: none; }
-      .tree-outer { height: 60vh; min-height: 60vh; }
-    }
-
-    /* Paths */
-    .rel-path {
-      fill: none;
-      stroke-width: 1.8;
-      opacity: 0;
-      transition: opacity 0.28s ease;
-      pointer-events: none;
-    }
-    .rel-path.on { opacity: 0.7; }
-
-    /* Nodes */
-    .node-circle {
-      cursor: pointer;
-      transition: r 0.18s ease;
-    }
-
-
-
-
-    /* Cheval externe / en mémoire : bordure en pointillés, comme son portrait. */
-    /* Conteneur du nom : séparé des infos par un filet vertical de la couleur du
-       cheval. Sur mobile la carte passe en colonne → filet horizontal en bas. */
-    .robe-pill {
-      display: inline-flex;
-      align-items: center;
-      /* Fond neutre très clair : la robe donne la couleur du texte et du liseré
-         (inline, voir robeToColor), le fond reste lisible quelle que soit la robe. */
-      background: rgba(0,0,0,0.03);
-      border: 1px solid var(--accent);   /* écrasé en inline par la couleur de robe */
-      color: var(--accent-deep);          /* idem */
-      border-radius: 20px;
-      padding: .18rem .65rem;
-      font-size: .67rem;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      align-self: center;
-    }
-
-    /* Étiquettes de génération */
-    .gen-label {
-      position: absolute;
-      left: 14px;
-      pointer-events: none;
-      z-index: 5;
-      transform: translateY(calc(-100% - 7px));   /* posée AU-DESSUS de sa ligne : ne chevauche jamais un cheval de la rangée */
-      opacity: 0;
-      transition: opacity 0.25s;
-    }
-    .gen-label.visible { opacity: 1; }
-    .gen-label-text {
-      display: inline-flex; align-items: center; gap: .45rem;
-      font-family: var(--sans); font-size: .55rem; font-weight: 500;
-      letter-spacing: .15em; text-transform: uppercase; white-space: nowrap;
-      color: var(--accent-deep);
-      background: rgba(255, 255, 255, .78);
-      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-      padding: .26rem .7rem .26rem .55rem; border-radius: 50px;
-      border: 1px solid rgba(176, 96, 112, .16);
-      box-shadow: 0 2px 8px rgba(60, 40, 35, .06);
-    }
-    .gen-label-text::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: currentColor; opacity: .5;
-    }
-
-    /* Lightbox photo arbre */
-    #lb-photo-ov {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,.92); z-index: 9000;
-      align-items: center; justify-content: center;
-      flex-direction: column; gap: 1rem; cursor: zoom-out;
-    }
-    #lb-photo-ov img {
-      max-width: 88vw; max-height: 80vh; object-fit: contain;
-      border-radius: 8px; box-shadow: 0 16px 60px rgba(0,0,0,.9); cursor: default;
-    }
-    #lb-photo-ov .lb-name {
-      color: rgba(255,255,255,.75); font-family: var(--serif);
-      font-size: 1.2rem; font-weight: 300; font-style: italic;
-      pointer-events: none;
-    }
-    #lb-photo-close {
-      position: absolute; top: 1rem; right: 1.5rem;
-      background: rgba(255,255,255,.12); border: none; color: #fff;
-      font-size: 1.3rem; width: 38px; height: 38px; border-radius: 50%;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
-    #lb-photo-close:hover { background: rgba(255,255,255,.28); }
-
-    /* Legend */
-    .legend {
-      display: flex; gap: .6rem 1.6rem; justify-content: center; flex-wrap: wrap;
-      padding: .75rem 1.25rem;
-      border-top: 1px solid rgba(176, 96, 112, .12);
-      background: rgba(255, 255, 255, .55);
-    }
-    .leg { display: flex; align-items: center; gap: 8px; font-size: 0.72rem; color: var(--gris); }
-    .leg-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; }
-    .leg-line { width: 30px; height: 2px; border-radius: 2px; flex-shrink: 0; }
-    .leg-cross { width: 14px; height: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #9A8A84; font-family: Georgia, serif; opacity: .8; }
-
-    /* ── ZONE : ARBRE + RECHERCHE + PANNEAU ─────────────────────────────
-       Ordinateur : arbre à gauche, recherche et carte du cheval à droite.
-       Mobile (≤ 900px) : recherche posée sur l'arbre, carte en volet du bas. */
-    .arbre-zone {
-      flex: 1 1 0;
-      min-height: 55vh;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      grid-template-rows: auto minmax(0, 1fr);
-      column-gap: 1.25rem;
-      padding: 0 1.25rem 1.25rem 0;
-      position: relative;
-    }
-    /* Cadre de l'arbre : un « plan de travail » à peine plus clair au centre et
-       légèrement rosé sur les bords, pour détacher l'arbre du fond de page.
-       Il porte aussi l'interrupteur et la légende (bandeau du bas). */
-    .arbre-cadre {
-      grid-column: 1; grid-row: 1 / span 2;
-      position: relative; min-height: 0;
-      display: flex; flex-direction: column;
-      margin-left: 1.25rem;
-      border-radius: 22px; overflow: hidden;
-      background: radial-gradient(ellipse 75% 70% at 50% 45%, #FFFEFB 0%, #FCF6F1 62%, #F9EEEC 100%);
-      border: 1px solid rgba(176, 96, 112, .16);
-      box-shadow: 0 1px 0 rgba(255,255,255,.8) inset, 0 12px 34px rgba(60, 40, 35, .06);
-    }
-    .arbre-cadre .tree-outer { flex: 1 1 auto; height: auto; min-height: 0; }
-    .node-group:hover { opacity: 1 !important; }   /* un extérieur estompé se révèle au survol */
-
-    /* Recherche */
-    .ap-recherche { grid-column: 2; grid-row: 1; position: relative; padding: .25rem 0 .6rem; z-index: 20; }
-    .ap-recherche input {
-      width: 100%; font: inherit; font-size: .85rem; color: var(--noir);
-      padding: .6rem 1rem .6rem 2.3rem;
-      border: 1px solid rgba(0,0,0,.12); border-radius: 50px; background: #fff;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%236A6A6A' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-4-4'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: .85rem center;
-      outline: none; transition: border-color .15s, box-shadow .15s;
-      -webkit-appearance: none; appearance: none;
-    }
-    .ap-recherche input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(212,137,154,.18); }
-    .ap-suggestions {
-      position: absolute; left: 0; right: 0; top: calc(100% - .3rem);
-      list-style: none; margin: 0; padding: .35rem;
-      background: #fff; border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.14);
-      max-height: 320px; overflow-y: auto;
-      overscroll-behavior: contain; -webkit-overflow-scrolling: touch;   /* la page ne défile pas avec la liste */
-    }
-    .ap-suggestions li {
-      display: flex; align-items: center; gap: .55rem;
-      padding: .5rem .65rem; border-radius: 9px; font-size: .86rem; cursor: pointer;
-    }
-    .ap-suggestions li.sel, .ap-suggestions li:hover { background: #FBF3E7; }
-    .ap-suggestions .pt { width: 8px; height: 8px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
-    .ap-suggestions .hc { margin-left: auto; font-size: .5rem; }   /* .pastille--hc */
-    .ap-suggestions li.vide { color: var(--gris); cursor: default; background: none; }
-
-    /* Panneau */
-    .arbre-panneau {
-      grid-column: 2; grid-row: 2;
-      overflow-y: auto; overscroll-behavior: contain;
-      padding-bottom: 1rem;
-    }
-    /* Carte du cheval : habillage des cartes du site (.cc / modale .cm, 16/10) —
-       pas de liseré (abandonné le 15/10), corps en dégradé foncé → clair, boutons du site
-       aux couleurs du sexe (les --accent-* sont redéfinis sur la carte). */
-    .ap-carte, .fx-centre {
-      --accent: var(--c); --accent-deep: var(--ct);
-      --accent-dark: color-mix(in srgb, var(--ct) 78%, #000);
-      --accent-pale: color-mix(in srgb, var(--c) 18%, #fff);
-    }
-    .ap-carte {
-      position: relative; background: #fff;
-      border: 1px solid rgba(60,40,35,.07); border-radius: 20px; overflow: hidden;
-      box-shadow: 0 1px 2px rgba(60,40,35,.04), 0 10px 30px rgba(60,40,35,.08);
-      animation: ap-in .3s ease;
-    }
-    .ap-carte.is-ext { border: 1px dashed color-mix(in srgb, var(--c) 40%, transparent); }
-    @keyframes ap-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-    .ap-photo {
-      position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; border: 0;
-      background: #F3EEE6; cursor: zoom-in;
-    }
-    .ap-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .ap-photo.is-vide { cursor: default; }
-    .ap-fermer {
-      position: absolute; top: .6rem; right: .6rem; z-index: 2;
-      width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer;
-      background: rgba(255,255,255,.9); color: var(--noir); font-size: 1rem; line-height: 1;
-      box-shadow: 0 2px 6px rgba(0,0,0,.12);
-    }
-    .ap-corps {
-      padding: 1.15rem 1.3rem 1.4rem;
-      background: linear-gradient(180deg, color-mix(in srgb, var(--c) 30%, #FFFEFA) 0%, color-mix(in srgb, var(--c) 13%, #FFFEFA) 28%, color-mix(in srgb, var(--c) 6%, #FFFEFA) 100%);
-    }
-    .ap-carte.is-memoire .ap-corps { background: linear-gradient(180deg, #DDD7D3 0%, #EAE6E2 14%, #F5F2EE 50%, #F7F2EA 100%); }
-    .ap-carte.is-memoire .ap-photo img { filter: grayscale(.85); }
-    .ap-genre {
-      display: flex; align-items: center; flex-wrap: wrap; gap: .5rem;
-      font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct);
-      margin-bottom: .3rem;
-    }
-    .ap-badge { font-size: .56rem; }   /* couleur : .pastille de css/style.css (contour dans le panneau) */
-    .ap-nom { font-family: var(--serif); font-weight: 400; font-size: 1.75rem; line-height: 1.15; color: var(--noir); }
-    .ap-nom em { color: var(--ct); font-style: italic; }
-    .ap-sous { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); margin-top: .3rem; }
-    .ap-infos {
-      margin: 1rem 0 0; padding-top: 1rem; border-top: 1px solid rgba(60,40,35,.08);
-      display: grid; grid-template-columns: auto 1fr; gap: .5rem .9rem;
-      font-size: .82rem; align-items: baseline;
-    }
-    .ap-infos dt { color: var(--gris); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; }
-    .ap-infos dd { margin: 0; color: var(--noir); }
-    .ap-liens { display: flex; flex-wrap: wrap; gap: .35rem; }
-    .ap-lien {
-      display: inline-flex; align-items: center; gap: .4rem;
-      font: inherit; font-size: .78rem; color: var(--noir);
-      padding: .22rem .7rem .22rem .55rem; border-radius: 20px;
-      border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); background: rgba(255,255,255,.8); cursor: pointer;
-      transition: background .15s;
-    }
-    .ap-lien::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
-    .ap-lien:hover { background: #FBF3E7; }
-    .ap-resume { margin-top: 1rem; font-size: .85rem; line-height: 1.6; color: var(--noir); }
-    .ap-cta { margin-top: 1.2rem; padding: .65rem 1.6rem; font-size: .7rem; }   /* .btn .btn-primary du site */
-    .ap-note { margin-top: 1rem; font-size: .75rem; color: var(--gris); font-style: italic; }
-    .ap-vide {
-      padding: 1.25rem; border: 1px solid rgba(176,96,112,.16); border-radius: 18px;
-      background: linear-gradient(180deg, #FFFEFB 0%, #FBF3EF 100%);
-      color: var(--gris); font-size: .85rem; line-height: 1.6;
-    }
-    .ap-vide-titre { font-family: var(--serif); font-size: 1.45rem; color: var(--noir); margin-bottom: .25rem; }
-    .ap-vide-sous { margin: 1.1rem 0 .5rem; font-size: .64rem; letter-spacing: .16em; text-transform: uppercase; }
-
-
-    /* Panneau au repos : galerie de médaillons */
-    .ap-galerie { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: .8rem .4rem; }
-    .ap-med {
-      display: flex; flex-direction: column; align-items: center; gap: .3rem;
-      background: none; border: 0; padding: .2rem 0; cursor: pointer; font: inherit; color: var(--noir);
-    }
-    .ap-med-img {
-      width: 56px; height: 56px; border-radius: 50%; overflow: hidden; display: block;
-      border: 2px solid var(--c); box-shadow: 0 0 0 3px #FEFBF6, 0 3px 10px rgba(60,40,35,.12);
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .ap-med-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .ap-med:hover .ap-med-img { transform: translateY(-2px) scale(1.06); box-shadow: 0 0 0 3px #FEFBF6, 0 6px 16px rgba(60,40,35,.18); }
-    .ap-med-nom { font-family: var(--serif); font-size: .98rem; line-height: 1.1; text-align: center; }
-    .ap-med-note { font-size: .56rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); margin-top: -.15rem; }
-    .ap-med-note.is-vente { color: var(--st-vente); }
-    /* Élite : même code que l'arbre — étoile dorée + anneau doré en pointillés */
-    .ap-med { position: relative; }
-    .ap-med.is-elite .ap-med-img { outline: 1.5px dashed rgba(192, 160, 80, .75); outline-offset: 4px; }
-    .ap-med-etoile {
-      position: absolute; top: -.55rem; left: 50%; transform: translateX(-50%);
-      color: #C0A050; font-size: .78rem; line-height: 1;
-      text-shadow: 0 0 3px #FEFBF6, 0 0 3px #FEFBF6;
-    }
-    .ap-med.is-memoire .ap-med-img { filter: grayscale(.85); opacity: .85; border-style: dashed; }
-    .ap-vide .ap-vide-sous { color: var(--accent-deep); }
-
-    /* Légende : mini-photo et étoile */
-    .leg-photo { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--accent); flex-shrink: 0; }
-    .leg-star { width: 14px; text-align: center; color: #C0A050; font-size: 12px; flex-shrink: 0; }
-
-    /* Interrupteur « Chevaux extérieurs » (posé sur l'arbre, hors de la zone
-       tactile de l'arbre, qui bloque les gestes par défaut) */
-    .arbre-switch {
-      position: absolute; top: .6rem; left: .75rem; z-index: 15;
-      display: inline-flex; align-items: center; gap: .55rem;
-      padding: .4rem .8rem .4rem .5rem; border-radius: 50px;
-      background: rgba(255,255,255,.88); backdrop-filter: blur(4px);
-      border: 1px solid rgba(0,0,0,.08); box-shadow: 0 2px 8px rgba(0,0,0,.06);
-      font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris);
-      cursor: pointer; user-select: none;
-    }
-    .arbre-switch input { position: absolute; opacity: 0; pointer-events: none; }
-    .arbre-switch-piste {
-      width: 28px; height: 16px; border-radius: 8px; background: #D9D3CB; position: relative;
-      transition: background .2s;
-    }
-    .arbre-switch-piste::after {
-      content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px;
-      border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform .2s;
-    }
-    .arbre-switch input:checked + .arbre-switch-piste { background: var(--accent-deep); }
-    .arbre-switch input:checked + .arbre-switch-piste::after { transform: translateX(12px); }
-    .arbre-switch input:focus-visible + .arbre-switch-piste { outline: 2px solid var(--accent); outline-offset: 2px; }
-    @media (max-width: 900px) { .arbre-switch { top: 3.6rem; left: .6rem; } }
-
-    /* Sous-titre adapté : souris ou doigt */
     .sur-tactile { display: none; }
     @media (hover: none) { .sur-souris { display: none; } .sur-tactile { display: inline; } }
 
-    @media (max-width: 900px) {
-      /* flex 1 0 auto : la zone grandit avec le cadre (70vh en vue Famille) */
-      .arbre-zone { display: flex; flex-direction: column; padding: 0 0 .9rem; min-height: 60vh; flex: 1 0 auto; }
-      .arbre-cadre { flex: 1 1 auto; margin: 0 .6rem; border-radius: 18px; }
-      .arbre-cadre .tree-outer { min-height: 55vh; }
-      .legend { gap: .45rem 1.1rem; padding: .65rem .9rem; }
-      .leg { font-size: .66rem; }
-      .ap-recherche { position: absolute; top: .65rem; left: 1.2rem; right: 1.2rem; padding: 0; }   /* dans le cadre (marge .6rem) */
-      /* 16px : en dessous, iOS zoome tout seul quand on touche le champ (et le
-         pincement étant bloqué, on ne pouvait plus dézoomer) */
-      .ap-recherche input { box-shadow: 0 2px 10px rgba(0,0,0,.08); font-size: 16px; }
-      .mobile-hint { top: auto; bottom: .7rem; left: .75rem; transform: none; }
-      .arbre-panneau {
-        position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
-        max-height: 62vh; padding: .55rem .85rem calc(1rem + env(safe-area-inset-bottom));
-        background: var(--cream); border-radius: 20px 20px 0 0;
-        box-shadow: 0 -10px 30px rgba(0,0,0,.15);
-        transform: translateY(105%); transition: transform .3s cubic-bezier(.2,.8,.2,1);
-      }
-      .arbre-panneau.ouvert { transform: none; }
-      .arbre-panneau::before {
-        content: ''; display: block; width: 40px; height: 4px; border-radius: 2px;
-        background: rgba(0,0,0,.15); margin: 0 auto .6rem;
-      }
-      .ap-photo { aspect-ratio: 16 / 9; }
-      .ap-vide { display: none; }
-    }
+    .wrap{max-width:1280px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px)) 3rem;}
+    .legend{display:flex;flex-wrap:wrap;gap:.3rem 1rem;margin:0 0 1.4rem;font-size:.76rem;color:var(--muted);justify-content:center}
+    .legend span{display:inline-flex;align-items:center;gap:.4rem}
+    .dot{width:.7rem;height:.7rem;border-radius:50%;border:2px solid currentColor;display:inline-block}
+    .dot.m{color:var(--m)}.dot.f{color:var(--f)}.dot.ext{color:var(--ext)}
 
-    /* ── MODE FOCUS (mobile) ─────────────────────────────────────────────
-       Un cheval au centre, ses parents au-dessus, sa descendance en dessous.
-       Toucher un cheval le met au centre. Seule vue sur téléphone et tablette
-       (≤ 900px) depuis le 16/10 : la vue Arbre y était cassée et peu pratique. */
-    .focus { display: none; }
-    /* Téléphone / tablette : pas de zoom du navigateur sur l'arbre (16/10). En
-       voulant faire défiler, on zoomait sans le vouloir et la croix du volet
-       sortait de l'écran. Seuls le défilement et le glissement restent permis
-       (bloque aussi le zoom au double toucher). Complété en JS pour iOS. */
-    @media (max-width: 900px) {
-      html, body { touch-action: pan-x pan-y; }
-    }
-    @media (max-width: 900px) {
-      .arbre-zone.vue-focus .tree-outer,
-      .arbre-zone.vue-focus .legend,
-      .arbre-zone.vue-focus .arbre-switch { display: none; }
-      /* La vue Famille s'écoule dans la page (16/10) : plus de zone qui défile
-         à l'intérieur du cadre, c'est la page qui défile (avant, il fallait
-         « forcer » pour atteindre la descendance). */
-      .arbre-zone.vue-focus .focus {
-        display: block; position: static; overflow: visible;
-        padding: 3.9rem 1rem 1.6rem;
-      }
-      .arbre-zone.vue-focus .arbre-cadre { min-height: 0; overflow: visible; }
-    }
-    .fx { display: flex; flex-direction: column; align-items: center; text-align: center; }
-    .fx.fx-entre { animation: fxEntre .32s ease both; }
-    @keyframes fxEntre { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-    .fx-titre { margin: 0 0 .55rem; font-size: .58rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gris); }
-    /* Grands-parents et parents sur la même grille à 2 colonnes : chaque paire de
-       grands-parents est centrée au-dessus de son enfant (côté père / côté mère). */
-    .fx-ascendants, .fx-parents {
-      display: grid; grid-template-columns: 1fr 1fr; column-gap: .6rem;
-      justify-items: center; width: 100%; max-width: 340px;
-    }
-    .fx-ascendants { margin-bottom: .5rem; }
-    .fx-branche { display: flex; flex-direction: column; align-items: center; width: 100%; }
-    .fx-paire { display: flex; justify-content: center; gap: .25rem; }
-    .fx-crochet {
-      display: block; width: 58%; height: .6rem; margin-top: .3rem;
-      border: 1.5px solid color-mix(in srgb, var(--c) 45%, transparent); border-top: 0;
-      border-radius: 0 0 9px 9px;
-    }
-    .fx-med.fx-med--petit { width: 68px; gap: .2rem; }
-    .fx-med--petit .fx-med-img {
-      width: 42px; height: 42px; border-width: 1.5px;
-      box-shadow: 0 0 0 2px #FEFBF6, 0 2px 6px rgba(60,40,35,.1);
-    }
-    .fx-med--petit .fx-med-nom { font-size: .76rem; line-height: 1.1; }
-    .fx-med--petit.is-inconnu .fx-med-img { font-size: 1rem; }
-    .fx-med--petit.is-inconnu .fx-med-nom { font-size: .68rem; }
-    .fx-med {
-      display: flex; flex-direction: column; align-items: center; gap: .3rem; width: 96px;
-      background: none; border: 0; padding: 0; font: inherit; color: var(--noir); cursor: pointer;
-    }
-    .fx-med-img {
-      width: 64px; height: 64px; border-radius: 50%; overflow: hidden; display: block; flex-shrink: 0;
-      border: 2px solid var(--c); box-shadow: 0 0 0 3px #FEFBF6, 0 3px 10px rgba(60,40,35,.12);
-      background: #F3EEE6;
-    }
-    .fx-med-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .fx-med:active .fx-med-img { transform: scale(.95); }
-    .fx-med-nom { font-family: var(--serif); font-size: .95rem; line-height: 1.15; overflow-wrap: anywhere; }
-    .fx-med-note { font-size: .62rem; color: var(--gris); line-height: 1.3; }
-    .fx-med.is-ext .fx-med-nom { color: var(--gris); font-style: italic; }
-    .fx-med.is-memoire .fx-med-img { filter: grayscale(.85); border-style: dashed; }
-    .fx-med.is-inconnu { cursor: default; }
-    .fx-med.is-inconnu .fx-med-img {
-      display: grid; place-items: center; border: 1.5px dashed #C9C0BA; box-shadow: none;
-      background: transparent; color: #C9C0BA; font-family: var(--serif); font-size: 1.4rem;
-    }
-    .fx-med.is-inconnu .fx-med-nom { color: #B4AAA4; font-style: italic; font-size: .85rem; }
-    .fx-trait { width: 1.5px; height: 1.4rem; margin: .5rem 0; background: linear-gradient(var(--c, var(--accent)), color-mix(in srgb, var(--c, var(--accent)) 25%, transparent)); }
-    .fx-centre {
-      display: flex; flex-direction: column; align-items: center; gap: .2rem;
-      width: 100%; max-width: 360px; padding: 1.1rem 1rem 1.2rem; border-radius: 22px;
-      background: linear-gradient(180deg, color-mix(in srgb, var(--c) 18%, #FFFEFB) 0%, #FFFEFB 70%);
-      border: 1px solid color-mix(in srgb, var(--c) 28%, transparent);
-      box-shadow: 0 10px 28px color-mix(in srgb, var(--c) 16%, transparent);
-    }
-    .fx-centre-photo {
-      width: 124px; height: 124px; border-radius: 50%; overflow: hidden; padding: 0; cursor: pointer;
-      border: 3px solid var(--c); box-shadow: 0 0 0 5px #FEFBF6, 0 8px 22px rgba(60,40,35,.18);
-      background: #F3EEE6; margin-bottom: .55rem;
-    }
-    .fx-centre-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .fx-centre.is-memoire .fx-centre-photo img { filter: grayscale(.85); }
-    .fx-genre { margin: 0; font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ct); display: flex; gap: .4rem; align-items: center; justify-content: center; flex-wrap: wrap; }
-    .fx-nom { margin: .1rem 0 0; font-family: var(--serif); font-weight: 400; font-size: 1.75rem; line-height: 1.1; }
-    .fx-meta { margin: .15rem 0 0; font-size: .78rem; color: var(--gris); }
-    .fx-actions { display: flex; gap: .5rem; margin-top: .8rem; flex-wrap: wrap; justify-content: center; }
-    /* boutons du site (.btn-primary / .btn-outline), en plus petit */
-    .fx-actions .btn { padding: .6rem 1.3rem; font-size: .66rem; font-family: inherit; cursor: pointer; }
-    .fx-actions .btn-outline { padding-left: 1.1rem; padding-right: 2.2rem; }
-    .fx-rangee {
-      display: flex; gap: .4rem; max-width: 100%; overflow-x: auto; padding: .3rem .2rem .6rem;
-      scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
-    }
-    .fx-rangee-bloc { width: 100%; display: flex; flex-direction: column; align-items: center; }
-    .fx-rangee { scrollbar-width: none; }
-    .fx-rangee::-webkit-scrollbar { display: none; }
-    .fx-defil { position: relative; width: min(220px, 60%); height: 4px; margin-top: .2rem; border-radius: 4px;
-                background: color-mix(in srgb, var(--c) 18%, transparent); }
-    .fx-defil[hidden] { display: none; }
-    .fx-defil span { position: absolute; top: 0; bottom: 0; border-radius: 4px; background: var(--c); transition: left .08s linear; }
-    .fx-rangee .fx-med { scroll-snap-align: start; flex-shrink: 0; width: 88px; }
-    .fx-rangee .fx-med-img { width: 56px; height: 56px; }
-    .fx-aucun { margin: 0; font-family: var(--serif); font-style: italic; color: var(--gris); }
-    .fx-accueil { align-items: stretch; }
-    .fx-accueil .fx-accueil-titre { margin: 0 0 .3rem; font-family: var(--serif); font-size: 1.6rem; color: var(--noir); }
-    .fx-accueil p { margin: 0 0 .6rem; color: var(--gris); font-size: .85rem; line-height: 1.5; }
-    .fx-accueil .ap-galerie { width: 100%; margin-bottom: 1rem; }
-    .fx-accueil .ap-vide-sous { margin: 1rem 0 .7rem; text-align: left; font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gris); }
+    .group{margin-bottom:1.4rem}
+    .group-t{font-family:var(--font-serif);font-style:italic;font-size:1.4rem;margin:0 0 .7rem;text-align:center}
+    .row{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+    .pcard{position:relative;cursor:pointer;border:none;padding:0;width:128px;border-radius:14px;overflow:hidden;background:#24201d;box-shadow:0 3px 10px rgba(0,0,0,.14);display:block;outline:2px solid transparent;outline-offset:2px;transition:transform .15s,box-shadow .15s}
+    .pcard::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--c,var(--line2));z-index:3}
+    .pcard img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+    .pcard .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,10,8,.82),rgba(14,10,8,.05) 52%,transparent 72%)}
+    .pcard .pnm{position:absolute;left:.55rem;right:.5rem;bottom:.5rem;color:#fff;font-family:var(--font-serif);font-style:italic;font-size:1.22rem;line-height:1.02;text-shadow:0 1px 6px rgba(0,0,0,.5);z-index:2}
+    .pcard .pbdg{position:absolute;top:.45rem;left:.45rem;z-index:2;font-size:.58rem;padding:.1rem .45rem;border-radius:20px;background:rgba(255,255,255,.92);color:var(--c,#333);border:1px solid var(--c,#ccc)}
+    .pcard.m{--c:var(--m)}.pcard.f{--c:var(--f)}
+    .pcard:hover,.pcard:focus-visible{transform:translateY(-3px);box-shadow:0 10px 22px rgba(0,0,0,.2);outline-color:var(--c,var(--brand))}
+
+    #focus[hidden]{display:none}
+    .focus-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .7rem;margin-bottom:.4rem}
+    .btn{appearance:none;cursor:pointer;font-family:inherit;font-size:.8rem;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;display:inline-flex;gap:.4rem;align-items:center}
+    .btn:hover{border-color:var(--brand);color:var(--brand)}
+    .canvas-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:var(--panel2);padding:1rem}
+    .canvas{position:relative;margin:0 auto}
+    .canvas svg{position:absolute;inset:0;pointer-events:none;overflow:visible}
+
+    .cnode{position:absolute;appearance:none;border:none;background:none;cursor:pointer;font-family:inherit;color:inherit;display:flex;flex-direction:column;align-items:center;gap:.25rem;padding:0}
+    .cnode .circ{border-radius:50%;overflow:hidden;background:var(--panel2);border:3px solid var(--c,var(--line2));box-shadow:0 3px 9px rgba(0,0,0,.16);display:grid;place-items:center;transition:transform .15s,box-shadow .15s}
+    .cnode .circ img{width:100%;height:100%;object-fit:cover}
+    .cnode .circ .mono{font-family:var(--font-serif);font-size:1.5rem;color:var(--c,var(--muted))}
+    .cnode .cname{font-family:var(--font-serif);font-style:italic;font-size:.98rem;line-height:1.04;max-width:116px}
+    .cnode .csub{font-size:.62rem;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-top:-.1rem}
+    .cnode.m{--c:var(--m)}.cnode.f{--c:var(--f)}.cnode.ext{--c:var(--ext)}
+    .cnode.ext .cname{font-style:normal;font-family:var(--font-ui);font-weight:600;font-size:.82rem}
+    .cnode.partner .cname{font-size:1.05rem}
+    .cnode:hover .circ,.cnode:focus-visible .circ{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.24)}
+    .cnode:focus-visible{outline:none}.cnode:focus-visible .circ{outline:2px solid var(--c,var(--brand));outline-offset:3px}
+
+    .cardnode{position:absolute;z-index:3}
+    .selcard{width:244px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:1.2rem 1.1rem;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+    .selcard .ring{width:132px;height:132px;border-radius:50%;margin:0 auto;border:4px solid var(--c,var(--line2));overflow:hidden;background:var(--panel2);display:grid;place-items:center}
+    .selcard .ring img{width:100%;height:100%;object-fit:cover}
+    .selcard .ring .mono{font-family:var(--font-serif);font-size:2.2rem;color:var(--c)}
+    .selcard .role{color:var(--c,var(--muted));letter-spacing:.14em;text-transform:uppercase;font-size:.7rem;font-weight:600;margin-top:.8rem}
+    .selcard .name{font-family:var(--font-serif);font-size:1.55rem;line-height:1.05;margin-top:.1rem}
+    .selcard .name .aff{font-family:var(--font-ui);font-weight:600;letter-spacing:.07em;text-transform:uppercase;font-size:.78rem;color:var(--muted);margin-right:.3rem}
+    .selcard .name em{font-style:italic;color:var(--c,var(--fg))}
+    .selcard .meta{color:var(--muted);font-size:.84rem;margin-top:.3rem}
+    .selcard .acts{display:flex;gap:.45rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
+    .selcard .a2,.selcard .aP{font-size:.76rem;border-radius:999px;padding:.48rem .8rem;text-decoration:none;display:inline-flex;gap:.3rem;align-items:center;cursor:pointer;border:1px solid var(--line)}
+    .selcard .a2{background:var(--panel2);color:var(--fg)}
+    .selcard .aP{background:var(--c,var(--brand));color:#fff;border-color:transparent}
+    .selcard .extnote{color:var(--muted);font-size:.78rem;margin-top:.8rem}
+    .selcard.m{--c:var(--m)}.selcard.f{--c:var(--f)}.selcard.ext{--c:var(--ext)}
+    .bandlab{position:absolute;z-index:1;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transform:translate(-50%,0);text-align:center}
+    .hint{font-size:.76rem;color:var(--muted);margin:.8rem 2px 0;text-align:center}
+    @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+    @media (max-width:560px){.pcard{width:116px}.pcard .pnm{font-size:1.12rem}}
+
+    /* ── Vue Famille mobile (≤900px) : un cheval au centre, parents/grands-parents
+       au-dessus, descendance en dessous (le co-parent en légende « avec X »).
+       Pas de nœuds partenaires ni de SVG : simple colonne qui s'écoule. ── */
+    #focus.vmobile .focus-bar{justify-content:center;margin-bottom:.2rem}
+    #focus.vmobile .focus-bar #focusTitle{display:none}
+    #focus.vmobile .hint{display:none}
+    #focus.vmobile .canvas-wrap{overflow:visible;border:0;background:none;padding:.2rem 0}
+    #focus.vmobile #canvas{width:auto!important;height:auto!important;position:static}
+    .fx{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:380px;margin:0 auto}
+    .fx.fx-entre{animation:fxEntre .32s ease both}
+    @keyframes fxEntre{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .fx-titre{margin:.2rem 0 .55rem;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris)}
+    .fx-ascendants,.fx-parents{display:grid;grid-template-columns:1fr 1fr;column-gap:.6rem;justify-items:center;width:100%;max-width:340px}
+    .fx-ascendants{margin-bottom:.5rem}
+    .fx-branche{display:flex;flex-direction:column;align-items:center;width:100%}
+    .fx-paire{display:flex;justify-content:center;gap:.25rem}
+    .fx-crochet{display:block;width:58%;height:.6rem;margin-top:.3rem;border:1.5px solid color-mix(in srgb,var(--c) 45%,transparent);border-top:0;border-radius:0 0 9px 9px}
+    .fx-med.fx-med--petit{width:68px;gap:.2rem}
+    .fx-med--petit .fx-med-img{width:42px;height:42px;border-width:1.5px;box-shadow:0 0 0 2px #FEFBF6,0 2px 6px rgba(60,40,35,.1)}
+    .fx-med--petit .fx-med-nom{font-size:.76rem;line-height:1.1}
+    .fx-med--petit.is-inconnu .fx-med-img{font-size:1rem}
+    .fx-med--petit.is-inconnu .fx-med-nom{font-size:.68rem}
+    .fx-med{display:flex;flex-direction:column;align-items:center;gap:.3rem;width:96px;background:none;border:0;padding:0;font:inherit;color:var(--noir);cursor:pointer}
+    .fx-med-img{width:64px;height:64px;border-radius:50%;overflow:hidden;display:grid;place-items:center;flex-shrink:0;border:2px solid var(--c);box-shadow:0 0 0 3px #FEFBF6,0 3px 10px rgba(60,40,35,.12);background:#F3EEE6;font-family:var(--serif);font-size:1.4rem;color:var(--c)}
+    .fx-med-img img{width:100%;height:100%;object-fit:cover;display:block}
+    .fx-med:active .fx-med-img{transform:scale(.95)}
+    .fx-med-nom{font-family:var(--serif);font-size:.95rem;line-height:1.15;overflow-wrap:anywhere}
+    .fx-med-note{font-size:.62rem;color:var(--gris);line-height:1.3}
+    .fx-med.is-ext .fx-med-nom{color:var(--gris);font-style:italic}
+    .fx-med.is-memoire .fx-med-img{filter:grayscale(.85);border-style:dashed}
+    .fx-med.is-inconnu{cursor:default}
+    .fx-med.is-inconnu .fx-med-img{border:1.5px dashed #C9C0BA;box-shadow:none;background:transparent;color:#C9C0BA}
+    .fx-med.is-inconnu .fx-med-nom{color:#B4AAA4;font-style:italic;font-size:.85rem}
+    .fx-trait{width:1.5px;height:1.4rem;margin:.5rem 0;background:linear-gradient(var(--c,var(--accent)),color-mix(in srgb,var(--c,var(--accent)) 25%,transparent))}
+    .fx-centre{display:flex;flex-direction:column;align-items:center;gap:.2rem;width:100%;max-width:360px;padding:1.1rem 1rem 1.2rem;border-radius:22px;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 18%,#FFFEFB) 0%,#FFFEFB 70%);border:1px solid color-mix(in srgb,var(--c) 28%,transparent);box-shadow:0 10px 28px color-mix(in srgb,var(--c) 16%,transparent)}
+    .fx-centre-photo{width:124px;height:124px;border-radius:50%;overflow:hidden;padding:0;border:3px solid var(--c);box-shadow:0 0 0 5px #FEFBF6,0 8px 22px rgba(60,40,35,.18);background:#F3EEE6;margin-bottom:.55rem;display:grid;place-items:center;font-family:var(--serif);font-size:2.2rem;color:var(--c)}
+    .fx-centre-photo img{width:100%;height:100%;object-fit:cover;display:block}
+    .fx-genre{margin:0;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--c);display:flex;gap:.5rem;align-items:center;justify-content:center;flex-wrap:wrap}
+    .fx-genre .fx-bdg{font-size:.9em;padding:.05rem .45rem;border-radius:20px;border:1px solid var(--c);color:var(--c);letter-spacing:.06em}
+    .fx-nom{margin:.1rem 0 0;font-family:var(--serif);font-weight:400;font-size:1.75rem;line-height:1.1}
+    .fx-nom .aff{font-family:var(--sans);font-weight:600;letter-spacing:.07em;text-transform:uppercase;font-size:.62em;color:var(--gris);margin-right:.25rem}
+    .fx-nom em{font-style:italic;color:var(--c)}
+    .fx-meta{margin:.15rem 0 0;font-size:.78rem;color:var(--gris)}
+    .fx-actions{display:flex;gap:.5rem;margin-top:.8rem;flex-wrap:wrap;justify-content:center}
+    .fx-actions .btn{padding:.6rem 1.3rem;font-size:.66rem;font-family:inherit;cursor:pointer}
+    .fx-rangee{display:flex;gap:.4rem;max-width:100%;overflow-x:auto;padding:.3rem .2rem .6rem;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .fx-rangee::-webkit-scrollbar{display:none}
+    .fx-rangee-bloc{width:100%;display:flex;flex-direction:column;align-items:center}
+    .fx-rangee .fx-med{scroll-snap-align:start;flex-shrink:0;width:88px}
+    .fx-rangee .fx-med-img{width:56px;height:56px}
+    .fx-aucun{margin:0;font-family:var(--serif);font-style:italic;color:var(--gris)}
   </style>
 </head>
 <body class="fond-taches">
@@ -582,1120 +191,251 @@
 
 <div class="header">
   <h1>Arbre <em>généalogique</em></h1>
-  <p><span class="sur-souris">Cliquez sur un cheval pour voir ses liens</span><span class="sur-tactile">Touchez un cheval pour voir ses liens</span></p>
+  <p><span class="sur-souris">Cliquez sur un cheval pour voir sa famille</span><span class="sur-tactile">Touchez un cheval pour voir sa famille</span></p>
 </div>
 
-<div class="arbre-zone">
-<div class="arbre-cadre">
-<div class="tree-outer" id="treeOuter">
-  <svg class="tree-svg" id="tree"></svg>
-  <div class="gen-label" data-y="-110"><div class="gen-label-text">Ascendants</div></div>
-  <div class="gen-label" data-y="255"><div class="gen-label-text">Reproducteurs</div></div>
-  <div class="gen-label" data-y="630"><div class="gen-label-text">Descendants</div></div>
-  <div class="mobile-hint">Glisser pour naviguer · Pincer pour zoomer</div>
-  <div class="zoom-controls">
-    <button class="zoom-btn" id="zoomIn" title="Zoom +">+</button>
-    <button class="zoom-btn" id="zoomOut" title="Zoom −">−</button>
-    <button class="zoom-btn" id="zoomReset" title="Réinitialiser" style="font-size:.75rem;letter-spacing:.05em;">⌂</button>
+<div class="wrap">
+  <div class="legend"><span><i class="dot m"></i> Mâle</span><span><i class="dot f"></i> Femelle</span><span><i class="dot ext"></i> Cheval extérieur</span></div>
+  <div id="rest"></div>
+  <div id="focus" hidden>
+    <div class="focus-bar"><button class="btn" id="backBtn" type="button">← Tous nos chevaux</button>
+      <div style="font-family:var(--font-serif);font-style:italic;font-size:1.25rem;color:var(--muted)" id="focusTitle"></div></div>
+    <div class="canvas-wrap"><div class="canvas" id="canvas"></div></div>
+    <p class="hint">Cliquez n'importe quel cheval de la vue pour le recentrer. Les étalons partenaires sont au niveau du cheval, leurs poulains juste en dessous.</p>
   </div>
 </div>
-
-
-
-<div class="focus" id="focus" aria-live="polite"></div>
-
-<label class="arbre-switch">
-  <input type="checkbox" id="voirExt">
-  <span class="arbre-switch-piste" aria-hidden="true"></span>
-  <span>Chevaux extérieurs</span>
-</label>
-
-<div class="legend">
-  <div class="leg"><div class="leg-dot" style="background:color-mix(in srgb, var(--male) 14%, #fff);border-color:var(--male);"></div>Mâle</div>
-  <div class="leg"><div class="leg-dot" style="background:color-mix(in srgb, var(--femelle) 12%, #fff);border-color:var(--femelle);"></div>Femelle</div>
-  <div class="leg"><img class="leg-photo" src="img/placeholders/jument.jpg" alt="">Nos chevaux</div>
-  <div class="leg"><div class="leg-dot" style="background:#F6F3EE;border-color:#9A9290;border-style:dashed;opacity:.7;"></div>Extérieur à l'élevage</div>
-  <div class="leg"><span class="leg-star">★</span>Élite grade 1</div>
-  <div class="leg"><div class="leg-cross">†</div>En mémoire</div>
-  <div class="leg"><div class="leg-line" style="background:var(--male);"></div>Ligne paternelle</div>
-  <div class="leg"><div class="leg-line" style="background:var(--femelle);"></div>Ligne maternelle</div>
-</div>
-</div><!-- /.arbre-cadre -->
-
-<div class="ap-recherche" role="search">
-  <input id="recherche" type="search" placeholder="Rechercher un cheval…" autocomplete="off"
-         aria-label="Rechercher un cheval" aria-controls="suggestions">
-  <ul class="ap-suggestions" id="suggestions" role="listbox" hidden></ul>
-</div>
-
-<aside class="arbre-panneau" id="panneau" aria-live="polite">
-  <div id="apContenu"></div>
-</aside>
-</div><!-- /.arbre-zone -->
-
-<!-- Pas de pied de page sur l'arbre (retiré le 16/10 : l'arbre prend tout l'écran). -->
-
-
-
 
 <script src="js/main.js"></script>
 <script src="js/chevaux.js"></script>
 <script>
-// ── COULEURS : lues dans css/style.css (:root), pour que l'arbre suive la
-// palette du site. Le SVG n'accepte pas var() dans ses attributs : on lit
-// donc les valeurs une fois, et on calcule les teintes claires des nœuds.
-const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const eclaircir = (hex, part) => {          // part = proportion de la couleur (0…1), le reste en blanc
-  const n = parseInt(hex.replace('#', ''), 16), m = c => Math.round(c * part + 255 * (1 - part));
-  return '#' + [n >> 16 & 255, n >> 8 & 255, n & 255].map(c => m(c).toString(16).padStart(2, '0')).join('');
-};
-const C_MALE = cssVar('--male') || '#4E8F94', C_FEMELLE = cssVar('--femelle') || '#D2557A', C_MARQUE_FONCE = cssVar('--marque-deep') || '#AB5667';
+// ── Vue « Famille » : nos chevaux en cartes au repos ; au clic, la famille du
+// cheval choisi (ascendants en cercles décroissants au-dessus, carte centrale,
+// descendance par couple en dessous). Données : js/chevaux.js (CHEVAUX).
+const HORSES = CHEVAUX;
+const PHOTOS = {}, PHOTOS_TREE = {};
+CHEVAUX.forEach(c => { if (c.photo) PHOTOS[c.id] = c.photo; if (c.photo_arbre) PHOTOS_TREE[c.id] = c.photo_arbre; });
+const byId = {}; HORSES.forEach(h => byId[h.id] = h);
+const kids = {}; HORSES.forEach(h => [h.pere, h.mere].forEach(p => { if (p) { (kids[p] = kids[p] || []).push(h.id); } }));
+const STATUT = { "a-vendre": "À vendre", "reserve": "Réservé", "vendu": "Vendu", "garde": "Reste à l'élevage" };
+const annee = h => { const m = /(\d{4})/.exec(h.naissance || ''); return m ? m[1] : ''; };
+function disp(h){ if(h.nom_usuel) return h.nom_usuel; if(h.affixe&&h.nom){const n=h.nom.split(h.affixe).join(' ').replace(/\s+/g,' ').trim();return n||h.nom;} return h.nom; }
+const isExt = h => h.famille === 'externe';
+const sexCls = h => isExt(h) ? 'ext' : (h.sexe === 'femelle' ? 'f' : 'm');
+function roleLabel(h){ if(h.role==='etalon')return'Étalon'; if(h.role==='jument')return'Jument'; if(h.role==='memoire')return'En mémoire';
+  if(h.role==='poulain')return h.sexe==='femelle'?'Pouliche':(h.sexe==='hongre'?'Hongre':'Poulain'); return'Extérieur'; }
+const badge = h => h.badge_court || (h.statut && STATUT[h.statut]) || '';
 
-// ── RADII
-const R          = 12;
-const R_ACTIVE   = 52;
-const R_NOTRE    = 24;
-const R_MID      = 34;  // ascendants éloignés (grands-parents et au-delà) à la sélection  // nos chevaux au repos : mini-photo (les extérieurs gardent R)
-const R_SELECTED = 64;  // n'est plus utilisé : le nœud sélectionné ne grossit plus, il est identifié par son nom éclairé (voir applyState). Conservé au cas où.
+/* repos : nos chevaux en cartes (sans les décédés) */
+function photoCard(h){ const ph=PHOTOS[h.id]||PHOTOS_TREE[h.id], b=badge(h);
+  return `<button class="pcard ${sexCls(h)}" data-id="${h.id}" type="button">${ph?`<img src="${ph}" alt="${disp(h)}">`:`<div style="aspect-ratio:4/5;background:var(--panel2)"></div>`}<span class="ov"></span>${b?`<span class="pbdg">${b}</span>`:''}<span class="pnm">${disp(h)}</span></button>`; }
+function renderRest(){ const ours=HORSES.filter(h=>h.famille==='humming');
+  const g=(t,l)=>l.length?`<div class="group"><h3 class="group-t">${t}</h3><div class="row">${l.map(photoCard).join('')}</div></div>`:'';
+  document.getElementById('rest').innerHTML =
+    g('Nos reproducteurs', ours.filter(h=>h.role==='etalon'||h.role==='jument')) +
+    g('Nos poulains', ours.filter(h=>h.role==='poulain')); }
 
-// ── DONNÉES ─────────────────────────────────────────────────────────────
-// Source unique : data/chevaux/*.json (chevaux) et data/arbre-positions.json
-// (placement à la main), compilés dans js/chevaux.js par build.py.
-// Un cheval apparaît dans l'arbre s'il a une position. Ce bloc traduit les
-// données dans le format historique de l'arbre (DATA, POS, RELS, PHOTOS) :
-// le reste du script n'a pas changé.
-const PAR_ID = Object.fromEntries(CHEVAUX.map(c => [c.id, c]));
-const DANS_ARBRE = CHEVAUX.filter(c => POSITIONS_ARBRE[c.id]);
-const estANous = id => (PAR_ID[id] || {}).famille === 'humming';
-const nomCourt = c => c.nom.replace(/\s*\(.*\)$/, '');          // « SD Jim (aka Nero) » → « SD Jim »
-const dateFr = d => { const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(d || ''); return m ? `${m[3]}/${m[2]}/${m[1]}` : d; };
+/* cercle : wrapper positionné pour que le CENTRE du cercle tombe en (cx,cy) */
+let H='', L='';
+function putCircle(h,cx,cy,R,extraCls,sub){
+  const slot=Math.max(2*R,112), ph=PHOTOS_TREE[h.id]||PHOTOS[h.id];
+  H+=`<button class="cnode ${sexCls(h)} ${extraCls||''}" data-id="${h.id}" style="left:${cx-slot/2}px;top:${cy-R}px;width:${slot}px">
+    <span class="circ" style="width:${2*R}px;height:${2*R}px">${ph?`<img src="${ph}" alt="">`:`<span class="mono">${(disp(h)[0]||'?')}</span>`}</span>
+    <span class="cname">${disp(h)}</span>${sub?`<span class="csub">${sub}</span>`:''}</button>`;
+}
+const CC="var(--conn)";
+function seg(d,w){ L+=`<path d="${d}" fill="none" stroke="${CC}" stroke-width="${w||1.7}" stroke-linejoin="round" stroke-linecap="round"/>`; }
+function elbow(cx,cTop,px,pBot){ const my=Math.round((pBot+cTop)/2); seg(`M${px} ${pBot} L${px} ${my} L${cx} ${my} L${cx} ${cTop}`); }
+const MAXCOL=99, ROWH2=130;  // une seule ligne de poulains
+let maxBottom=0;
+function placeGroup(gcx,dropY,ids){
+  const n=ids.length, cols=Math.min(n,MAXCOL), rows=Math.ceil(n/cols);
+  const colX=c=>gcx-(cols-1)*FW/2+c*FW, barY=foalY-Rf-20, gx=Math.round(gcx);
+  seg(`M${gx} ${dropY} L${gx} ${barY}`);
+  if(cols>1)seg(`M${Math.round(colX(0))} ${barY} L${Math.round(colX(cols-1))} ${barY}`,1.8);
+  ids.forEach((did,i)=>{const c=i%cols,r=Math.floor(i/cols),x=Math.round(colX(c)),y=foalY+r*ROWH2;
+    if(r===0)seg(`M${x} ${barY} L${x} ${y-Rf}`);
+    else seg(`M${x} ${foalY+(r-1)*ROWH2+Rf} L${x} ${y-Rf}`);
+    putCircle(byId[did],colX(c),y,Rf,'',annee(byId[did]));});
+  maxBottom=Math.max(maxBottom,foalY+(rows-1)*ROWH2+Rf);
+  return cols*FW;
+}
 
-function sousTitre(c) {
-  if (c.role === 'memoire') return c.deces ? '† ' + c.deces.slice(0, 4) : '';
-  if (c.statut === 'vendu') return c.sexe === 'femelle' ? 'vendue' : 'vendu';
-  if (c.famille === 'humming') {
-    if (!c.distinction) return '';
-    return /Élite grade 1/.test(c.distinction) ? 'Élite grade 1' : c.distinction;
+function cardHTML(h){ const cls=sexCls(h), ph=PHOTOS_TREE[h.id]||PHOTOS[h.id];
+  const aff=h.affixe?`<span class="aff">${h.affixe}</span>`:'';
+  const meta=[(h.robe_courte||h.robe), annee(h)].filter(Boolean).join(' · ');
+  let acts = h.page?`<div class="acts"><a class="a2" href="nos-chevaux.html#${h.id}">Sa carte →</a><a class="aP" href="${h.page}">Voir la fiche</a></div>`
+    :`<div class="extnote">${isExt(h)?'Cheval extérieur'+(h.origine?' · '+h.origine:''):'Pas de fiche dédiée'}</div>`;
+  return `<div class="selcard ${cls}"><div class="ring">${ph?`<img src="${ph}" alt="${disp(h)}">`:`<span class="mono">${disp(h)[0]}</span>`}</div>
+    <div class="role">${roleLabel(h)}</div><div class="name">${aff}<em>${disp(h)}</em></div>${meta?`<div class="meta">${meta}</div>`:''}${acts}</div>`;
+}
+
+const Rp=46,Rgp=33,Rpart=50,Rf=43,FW=116;
+const CW=244,CH=300;
+let current=null, foalY=0;
+function focusDesktop(id){
+  if(!byId[id])return;current=id;const sel=byId[id];H='';L='';maxBottom=0;
+  const P=sel.pere&&byId[sel.pere]?byId[sel.pere]:null;
+  const M=sel.mere&&byId[sel.mere]?byId[sel.mere]:null;
+  const gpsOf=p=>p?[p.pere,p.mere].map(x=>x&&byId[x]?byId[x]:null):[null,null];
+
+  // partenaires (co-parents) + poulains
+  const desc=(kids[id]||[]);const groups=[],gmap={};
+  desc.forEach(did=>{const h=byId[did];const co=(h.pere===id?h.mere:(h.mere===id?h.pere:null));const k=co||'∅';
+    if(!gmap[k]){gmap[k]={co,ids:[]};groups.push(gmap[k]);}gmap[k].ids.push(did);});
+  const known=groups.filter(g=>g.co&&byId[g.co]);
+  const unknown=groups.find(g=>!(g.co&&byId[g.co]));
+  const GAP=44;
+  const blockW=g=>2*g.ids.length*FW+2*Rpart+GAP;
+  const left=[],right=[];let lw=0,rw=0;
+  known.slice().sort((a,b)=>blockW(b)-blockW(a)).forEach(g=>{if(rw<=lw){right.push(g);rw+=blockW(g)+GAP;}else{left.push(g);lw+=blockW(g)+GAP;}});
+
+  // largeurs & centre : on simule le placement (offsets relatifs au centre) pour fixer la largeur exacte
+  const unkHalf = unknown ? unknown.ids.length*FW/2 : 0;
+  function sideExtent(arr){let prev=0,mo=unkHalf;arr.forEach((g,idx)=>{const n=g.ids.length,w=n*FW;
+    const inner=idx===0?Math.max(CW/2,unkHalf):prev, prevNode=idx===0?0:prev;
+    const fcx=inner+GAP+w/2, pX=2*fcx-prevNode;
+    mo=Math.max(mo,pX+Rpart,fcx+w/2);prev=pX;});return mo;}
+  const rightExtent=sideExtent(right), leftExtent=sideExtent(left);
+  const ascHalf=180;
+  const half=Math.max(rightExtent,leftExtent,ascHalf,CW/2+40)+30;
+  const cW=2*half, centerX=half;
+
+  // bandes verticales
+  const gpY=40, pY=172, cardTop=250, cardCenterY=cardTop+CH/2; foalY=cardTop+CH+150;
+  let cH=foalY+Rf+36;
+
+  // --- ascendants : parents puis grands-parents ---
+  const PSP=132, GSP=74;
+  function placeParent(p,px){ if(!p)return;
+    putCircle(p,px,pY,Rp,'');
+    elbow(centerX, cardTop, px, pY+Rp);
+    const [gp1,gp2]=gpsOf(p);
+    [[gp1,px-GSP],[gp2,px+GSP]].forEach(([g,gx])=>{if(g){putCircle(g,gx,gpY,Rgp,'');elbow(px,pY-Rp,gx,gpY+Rgp);}});
   }
-  return c.elevage || c.origine || '';
+  placeParent(P, centerX-PSP);
+  placeParent(M, centerX+PSP);
+
+  // --- carte centrale ---
+  H+=`<div class="cardnode" style="left:${centerX-CW/2}px;top:${cardTop}px">${cardHTML(sel)}</div>`;
+
+  // --- descendance : spine horizontal SOUS la carte ; carte + étalons y descendent ;
+  //     chaque couple forme un U, ses poulains pendent du milieu ---
+  const cardBottom=cardTop+CH, spineY=cardBottom+46;
+  let smin=centerX, smax=centerX;
+  seg(`M${centerX} ${cardBottom} L${centerX} ${spineY}`);
+  // côté droit : poulains centrés dans le segment propre à chaque couple (entre l'étalon et le nœud précédent)
+  let prevR=centerX;
+  right.forEach((g,idx)=>{const n=g.ids.length,w=n*FW;
+    const inner    = idx===0 ? Math.max(centerX+CW/2, centerX+unkHalf) : prevR;
+    const prevNode = idx===0 ? centerX : prevR;
+    const fcx = inner+GAP+w/2, pX = 2*fcx-prevNode;
+    putCircle(byId[g.co],pX,cardCenterY,Rpart,'partner');
+    seg(`M${Math.round(pX)} ${cardCenterY+Rpart} L${Math.round(pX)} ${spineY}`);
+    placeGroup(fcx,spineY,g.ids);
+    smax=Math.max(smax,pX); prevR=pX;});
+  // côté gauche (miroir)
+  let prevL=centerX;
+  left.forEach((g,idx)=>{const n=g.ids.length,w=n*FW;
+    const inner    = idx===0 ? Math.min(centerX-CW/2, centerX-unkHalf) : prevL;
+    const prevNode = idx===0 ? centerX : prevL;
+    const fcx = inner-GAP-w/2, pX = 2*fcx-prevNode;
+    putCircle(byId[g.co],pX,cardCenterY,Rpart,'partner');
+    seg(`M${Math.round(pX)} ${cardCenterY+Rpart} L${Math.round(pX)} ${spineY}`);
+    placeGroup(fcx,spineY,g.ids);
+    smin=Math.min(smin,pX); prevL=pX;});
+  // poulains sans étalon connu : pendent du point de la carte sur le spine
+  if(unknown)placeGroup(centerX,spineY,unknown.ids);
+  if(smax>smin)seg(`M${Math.round(smin)} ${spineY} L${Math.round(smax)} ${spineY}`,1.8);
+
+  // labels de bande
+  if(P||M)H+=`<div class="bandlab" style="left:${centerX}px;top:${gpY-Rgp-18}px">Grands-parents</div>`;
+  if(known.length||unknown)H+=`<div class="bandlab" style="left:${centerX}px;top:${foalY-Rf-20}px">Descendance${desc.length?' ('+desc.length+')':''}</div>`;
+
+  cH=Math.max(cH,maxBottom+40);
+  const canvas=document.getElementById('canvas');canvas.style.width=cW+'px';canvas.style.height=cH+'px';
+  canvas.innerHTML=`<svg viewBox="0 0 ${cW} ${cH}" width="${cW}" height="${cH}">${L}</svg>`+H;
+  document.getElementById('focusTitle').innerHTML=`Famille de <b style="font-style:normal;color:var(--fg)">${disp(sel)}</b>`;
+  const fe=document.getElementById('focus');fe.classList.remove('vmobile');
+  document.getElementById('rest').hidden=true;fe.hidden=false;
+  // centre la vue horizontalement
+  const wrap=document.querySelector('.canvas-wrap');
+  requestAnimationFrame(()=>{wrap.scrollLeft=(wrap.scrollWidth-wrap.clientWidth)/2;});
 }
 
-const PHOTOS = {};
-const POS = {};
-DANS_ARBRE.forEach(c => {
-  POS[c.id] = POSITIONS_ARBRE[c.id];
-  if (c.photo_arbre) PHOTOS[c.id] = c.photo_arbre;
-});
-
-const DATA = DANS_ARBRE.map(c => {
-  const produitDesNotres = c.famille === 'externe' && (estANous(c.pere) || estANous(c.mere));
-  const parents = [c.pere, c.mere].filter(Boolean)
-    .map(id => PAR_ID[id] ? nomCourt(PAR_ID[id]) : id).join(' × ');
-  const d = {
-    id: c.id,
-    sex: c.sexe === 'femelle' ? 'm' : 's',
-    em: nomCourt(c),
-    sub: sousTitre(c),
-    naissance: dateFr(c.naissance),
-    robe: c.robe,
-    page: c.page,
-    tip: parents ? { parents } : {}
-  };
-  if (c.role === 'memoire')                         d.memorial = true;
-  else if (c.role === 'poulain' || produitDesNotres) {
-    d.foal = true;
-    if (produitDesNotres)                           d.hidden = true;   // né ailleurs : estompé au repos
-  }
-  else if (c.famille === 'externe')                 d.ext = true;
-  if (/Élite/.test(c.distinction || ''))            d.elite = true;
-  d.notre   = c.famille === 'humming';      // mini-photo au repos
-  d.externe = c.famille === 'externe';      // masquable (interrupteur « Chevaux extérieurs »)
-  return d;
-});
-
-// ── RELATIONS { p1=père, p2=mère, c=enfant } — déduites de pere/mere
-const RELS = DANS_ARBRE
-  .filter(c => POS[c.pere] || POS[c.mere])
-  .map(c => ({ p1: POS[c.pere] ? c.pere : null, p2: POS[c.mere] ? c.mere : null, c: c.id }));
-
-// ── STATE
-const nodeGroups = {};   // groupe SVG par id
-const circleEls  = {};   // cercle principal par id
-const photoEls   = {};   // <image> SVG par id
-const haloEls    = {};   // halo crème par id (grandit avec le nœud ouvert)
-const starEls    = {};   // étoile élite par id
-const clipEls    = {};   // cercle de découpe de la photo par id
-let afficherExt  = !window.matchMedia('(max-width: 900px)').matches;   // extérieurs visibles ? (non par défaut sur mobile)
-const nameEls    = {};   // <text> du nom par id (pour l'éclairage à la sélection)
-const subEls     = {};   // <text> du sous-titre "Élite grade 1" par id (soulignement)
-const nodeStroke = {};   // couleur du cercle par id (= couleur d'éclairage du nom)
-const nameFill0  = {};   // couleur par défaut du nom par id
-let activeRevealIds    = new Set();
-let activeVisiblePairs = new Set();
-let activeFarIds       = new Set();   // ascendants au-delà des parents : taille moyenne
-let activeFarPairs     = new Set();   // et traits plus fins
-let activeNode         = null;  // nœud actuellement mis en avant
-
-// ── SVG
-const svg = document.getElementById('tree');
-const NS  = 'http://www.w3.org/2000/svg';
-function el(tag, attrs) {
-  const e = document.createElementNS(NS, tag);
-  for(const [k,v] of Object.entries(attrs)) e.setAttribute(k, v);
-  return e;
-}
-
-// ── DEFS (clipPaths)
-const defs = el('defs', {});
-svg.appendChild(defs);
-// Dégradé des lignes de génération : transparent → rosé → transparent
-const genFade = el('linearGradient', { id: 'genFade', gradientUnits: 'userSpaceOnUse', x1: -150, y1: 0, x2: 2050, y2: 0 });
-[['0', 0], ['0.12', .28], ['0.88', .28], ['1', 0]].forEach(([o, a]) =>
-  genFade.appendChild(el('stop', { offset: o, 'stop-color': C_MARQUE_FONCE, 'stop-opacity': a })));
-defs.appendChild(genFade);
-
-// ── VIEWPORT GROUP (pan/zoom target)
-const viewport = el('g', { id:'viewport' });
-svg.appendChild(viewport);
-
-// Layers (dans le viewport, pas directement dans svg)
-const lineLayer = el('g', { id:'gen-lines' });
-const pathLayer = el('g', { id:'paths' });
-const nodeLayer = el('g', { id:'nodes' });
-viewport.appendChild(lineLayer);
-viewport.appendChild(pathLayer);
-viewport.appendChild(nodeLayer);
-
-// Couche d'effets au-dessus de tout : porte le soulignement du cheval
-// sélectionné, tracé de gauche à droite (voir applyState).
-const fxLayer = el('g', { id: 'fx' });
-viewport.appendChild(fxLayer);
-const selUnderline = el('rect', { height: '2', rx: '1', fill: 'none', opacity: '0',
-  stroke: '#FEFBF6', 'stroke-width': '2.6', 'paint-order': 'stroke', 'stroke-linejoin': 'round' });
-selUnderline.style.transformBox   = 'fill-box';   // origine = bords propres du rect
-selUnderline.style.transformOrigin = 'left center';
-fxLayer.appendChild(selUnderline);
-
-// ── Lignes de génération (pointillées horizontales)
-const GEN_Y = [-110, 255, 630];
-GEN_Y.forEach(y => {
-  const line = el('line', {
-    x1: -150, y1: y, x2: 2050, y2: y,
-    stroke: 'url(#genFade)',
-    'stroke-width': '1'
-  });
-  lineLayer.appendChild(line);
-});
-
-// ── DRAW PATHS (hidden by default)
-RELS.forEach(r => {
-  function drawPath(fromId, toId, color) {
-    if(!fromId || !POS[fromId] || !POS[toId]) return;
-    const f = POS[fromId], t = POS[toId];
-    const midY = (f.y + t.y) / 2;
-    const d = `M ${f.x} ${f.y} C ${f.x} ${midY}, ${t.x} ${midY}, ${t.x} ${t.y}`;
-    const path = el('path', {
-      d, stroke: color, 'stroke-width':'2',
-      fill:'none', opacity:'0',
-      'data-nodes': `${fromId},${toId}`
-    });
-    path.classList.add('rel-path');
-    pathLayer.appendChild(path);
-  }
-  drawPath(r.p1, r.c, C_MALE);    // père → couleur des mâles
-  drawPath(r.p2, r.c, C_FEMELLE); // mère → couleur des femelles
-});
-
-// ── PANNEAU : carte du cheval ─────────────────────────────────────────────
-// Ordinateur : à droite de l'arbre. Mobile : volet qui monte du bas.
-// Tous les chevaux des données ont une carte, même ceux absents de l'arbre.
-const panneau   = document.getElementById('panneau');
-const apContenu = document.getElementById('apContenu');
-// Utilisées dans des style="--c:…" : var() fonctionne, l'arbre suit style.css.
-const COUL       = { male: 'var(--male)', hongre: 'var(--male)', femelle: 'var(--femelle)' };
-const COUL_TEXTE = { male: 'var(--male-deep)', hongre: 'var(--male-deep)', femelle: 'var(--femelle-deep)' };
-const PLACEHOLDER = { male: 'img/placeholders/etalon.jpg', hongre: 'img/placeholders/etalon.jpg', femelle: 'img/placeholders/jument.jpg' };
-const esc = s => String(s ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
-
-// Couleur d'une robe d'après sa teinte de base (pour la pastille). L'ordre
-// compte : on teste les dilutions/bases dans l'ordre de priorité visuelle.
-function robeToColor(robe) {
-  const r = (robe || '').toLowerCase();
-  if(/palomino/.test(r))        return '#B8862B';  // doré
-  if(/buckskin/.test(r))        return '#A9803F';  // isabelle
-  if(/grull|grulla/.test(r))    return '#7C7468';  // gris-dun
-  if(/alezan|chestnut/.test(r)) return '#A85A32';  // alezan
-  if(/bai|bay/.test(r))         return '#8B5E34';  // bai
-  if(/noir|black|tobiano|pinto|roan|smoky/.test(r)) return '#423C36';  // noir
-  return '#8A8A8A';               // par défaut : gris neutre
-}
-
-function libelleSexe(c) {
-  if (c.sexe === 'hongre') return 'Hongre';
-  if (c.role === 'poulain') return c.sexe === 'femelle' ? 'Pouliche' : 'Poulain';
-  return c.sexe === 'femelle' ? 'Jument' : 'Étalon';
-}
-function badgeStatut(c) {
-  const e = c.sexe === 'femelle' ? 'e' : '';
-  // Pastilles du site (css/style.css), en contour dans le panneau.
-  const p = v => `ap-badge pastille pastille--${v} pastille--contour`;
-  if (c.role === 'memoire')    return '<span class="ap-badge pastille pastille--memoire">En mémoire</span>';
-  if (c.statut === 'a-vendre') return `<span class="${p('vente')}">À vendre</span>`;
-  if (c.statut === 'reserve')  return `<span class="${p('reserve')}">Réservé${e}</span>`;
-  if (c.statut === 'vendu')    return `<span class="${p('vendu')}">Vendu${e}</span>`;
-  if (c.statut === 'garde' && c.role === 'poulain') return `<span class="${p('reste')}">Reste à l'élevage</span>`;
-  return '';
-}
-function lienCheval(id) {
-  const c = PAR_ID[id];
-  if (!c) return '';
-  return `<button type="button" class="ap-lien" data-id="${c.id}" style="--c:${COUL[c.sexe]}">${esc(nomCourt(c))}</button>`;
-}
-const enfantsDe = id => CHEVAUX
-  .filter(c => c.pere === id || c.mere === id)
-  .sort((a, b) => (a.naissance || '').localeCompare(b.naissance || ''));
-
-function carteHTML(c) {
-  const vraiePhoto = c.photo || c.photo_arbre;
-  const photo = vraiePhoto || PLACEHOLDER[c.sexe];
-  const nomHTML = nomChevalHTML(c);   // js/chevaux.js : nom en italique, affixe en petites capitales
-  const sous = c.famille === 'humming' ? (c.distinction || '') : (c.elevage || c.origine || '');
-
-  const infos = [];
-  if (c.naissance) infos.push([c.deces ? 'Vie' : (c.sexe === 'femelle' ? 'Née' : 'Né'),
-                              esc(dateFr(c.naissance)) + (c.deces ? ' — ' + esc(c.deces) : '')]);
-  if (c.race) infos.push(['Race', esc(c.race)]);
-  if (c.robe) { const rc = robeToColor(c.robe);
-    infos.push(['Robe', `<span class="robe-pill" style="color:${rc};border-color:${rc}">${esc(c.robe)}</span>`]); }
-  const parents = [c.pere, c.mere].filter(Boolean).map(lienCheval).join('');
-  if (parents) infos.push(['Parents', `<span class="ap-liens">${parents}</span>`]);   // inconnus : on n'affiche rien
-  const enfants = enfantsDe(c.id);
-  if (enfants.length) infos.push(['Descendance',
-    `<span class="ap-liens">${enfants.map(e => lienCheval(e.id)).join('')}</span>`]);
-
-  return `
-  <article class="ap-carte${c.famille === 'externe' ? ' is-ext' : ''}${c.role === 'memoire' ? ' is-memoire' : ''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
-    <button type="button" class="ap-fermer" aria-label="Fermer">✕</button>
-    <button type="button" class="ap-photo${vraiePhoto ? '' : ' is-vide'}" ${vraiePhoto ? `data-photo="${esc(photo)}" aria-label="Agrandir la photo"` : 'tabindex="-1" aria-hidden="true"'}>
-      <img src="${esc(photo)}" alt="${vraiePhoto ? esc(c.nom) : ''}" loading="lazy"${c.photo && c.cadrage ? ` style="object-position:${esc(c.cadrage)}"` : ''}>
-    </button>
-    <div class="ap-corps">
-      <p class="ap-genre">${libelleSexe(c)}${badgeStatut(c)}</p>
-      <h2 class="ap-nom">${nomHTML}</h2>
-      ${sous ? `<p class="ap-sous">${esc(sous)}</p>` : ''}
-      <dl class="ap-infos">${infos.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
-      ${c.resume ? `<p class="ap-resume">${esc(c.resume)}</p>` : ''}
-      ${c.page ? `<a class="btn btn-primary ap-cta" href="${esc(c.page)}">Voir la fiche</a>` : ''}
-      ${POSITIONS_ARBRE[c.id] ? '' : '<p class="ap-note">Ce cheval n’est pas placé dans l’arbre.</p>'}
-    </div>
-  </article>`;
-}
-
-// Panneau au repos : nos chevaux en médaillons, rangés par groupe.
-// Reproducteurs : étalons d'abord, puis par âge. Poulains : à vendre d'abord, puis par âge.
-const parAge = (a, b) => (a.naissance || '').localeCompare(b.naissance || '');
-// Le sexe se lit à la couleur du médaillon : pas besoin de groupes séparés.
-const GROUPES = [
-  { titre: 'Reproducteurs', filtre: c => c.role === 'etalon' || c.role === 'jument',
-    tri: (a, b) => (a.role === 'etalon' ? 0 : 1) - (b.role === 'etalon' ? 0 : 1) || parAge(a, b) },
-  { titre: 'Poulains',   filtre: c => c.role === 'poulain',
-    tri: (a, b) => (b.statut === 'a-vendre') - (a.statut === 'a-vendre') || parAge(a, b) },
-];
-function medaillon(c) {
-  const img = c.photo_arbre || c.photo || PLACEHOLDER[c.sexe];
-  const e = c.sexe === 'femelle' ? 'e' : '';
-  const note = c.statut === 'vendu' ? `vendu${e}` : c.statut === 'a-vendre' ? 'à vendre' : '';
-  const elite = /Élite/.test(c.distinction || '');
-  return `<button type="button" class="ap-med ap-lien-med${c.role === 'memoire' ? ' is-memoire' : ''}${elite ? ' is-elite' : ''}" data-id="${c.id}" style="--c:${COUL[c.sexe]}"${elite ? ' title="Élite grade 1"' : ''}>
-      <span class="ap-med-img"><img src="${esc(img)}" alt="" loading="lazy"></span>${elite ? '<span class="ap-med-etoile" aria-label="Élite grade 1">★</span>' : ''}
-      <span class="ap-med-nom">${esc(c.nom_usuel || nomCourt(c))}</span>
-      ${note ? `<span class="ap-med-note${c.statut === 'a-vendre' ? ' is-vente' : ''}">${note}</span>` : ''}
-    </button>`;
-}
-const VIDE_HTML = `
-  <div class="ap-vide">
-    <p class="ap-vide-titre">Explorez les lignées</p>
-    <p>Cliquez sur un cheval de l'arbre, ou cherchez-le par son nom.</p>
-    ${GROUPES.map(g => {
-      const liste = CHEVAUX.filter(c => c.famille === 'humming' && g.filtre(c)).sort(g.tri);
-      return liste.length ? `<p class="ap-vide-sous">${g.titre}</p><div class="ap-galerie">${liste.map(medaillon).join('')}</div>` : '';
-    }).join('')}
-  </div>`;
-
-function ouvrirCarte(c) {
-  apContenu.innerHTML = carteHTML(c);
-  panneau.classList.add('ouvert');
-  panneau.scrollTop = 0;
-}
-function fermerCarte() {
-  apContenu.innerHTML = VIDE_HTML;
-  panneau.classList.remove('ouvert');
-}
-
-panneau.addEventListener('click', e => {
-  const lien = e.target.closest('.ap-lien, .ap-lien-med');
-  if (lien) { selectionner(lien.dataset.id, { centrer: true }); return; }
-  if (e.target.closest('.ap-fermer')) { deselectionner(); return; }
-  const ph = e.target.closest('.ap-photo[data-photo]');
-  if (ph) openPhotoLb(ph.dataset.photo, ph.querySelector('img').alt);
-});
-
-// ── ÉTAT PARTAGÉ : calcul des nœuds à révéler pour un cheval donné
-function computeReveal(hid) {
-  const ids = new Set();
-  const pairs = new Set();
-  RELS.forEach(r => {
-    if(r.p1 === hid || r.p2 === hid || r.c === hid) {
-      if(r.p1) { pairs.add(r.p1 + ',' + r.c); ids.add(r.p1); }
-      if(r.p2) { pairs.add(r.p2 + ',' + r.c); ids.add(r.p2); }
-      ids.add(r.c);
-    }
-  });
-  // Lignée : on remonte tous les ascendants (grands-parents, arrière-grands-parents…).
-  // Pas les frères et sœurs. Les liens directs gardent leur taille, le reste est
-  // en taille moyenne avec des traits plus fins (voir applyState).
-  const farIds = new Set(), farPairs = new Set();
-  let gen = [hid], profondeur = 0;
-  const vus = new Set([hid]);
-  while (gen.length) {
-    const suivante = [];
-    gen.forEach(id => RELS.filter(r => r.c === id).forEach(r => [r.p1, r.p2].forEach(p => {
-      if (!p) return;
-      if (profondeur > 0) { farPairs.add(p + ',' + id); if (!ids.has(p)) farIds.add(p); }
-      if (!vus.has(p)) { vus.add(p); suivante.push(p); }
-    })));
-    gen = suivante; profondeur++;
-  }
-  farIds.delete(hid);
-  return { ids, pairs, farIds, farPairs };
-}
-
-// Applique l'état courant (activeRevealIds / activeVisiblePairs) au SVG
-function applyState() {
-  // Chemins
-  document.querySelectorAll('.rel-path').forEach(path => {
-    const key = path.getAttribute('data-nodes') || '';
-    const direct = activeVisiblePairs.has(key), loin = !direct && activeFarPairs.has(key);
-    path.style.opacity = direct ? '0.75' : loin ? '0.5' : '0';
-    path.setAttribute('stroke-width', loin ? '1.25' : '2');
-  });
-
-  // Nœuds
-  DATA.forEach(d => {
-    if(!nodeGroups[d.id]) return;
-    const loin = activeFarIds.has(d.id);
-    const revealed = activeRevealIds.has(d.id) || loin;
-
-    // Extérieurs : estompés au repos (noms encore lisibles), masqués si
-    // l'interrupteur est coupé, sauf s'ils sont liés au cheval sélectionné.
-    if(d.externe) {
-      nodeGroups[d.id].style.display = (afficherExt || revealed) ? '' : 'none';
-      nodeGroups[d.id].style.opacity = revealed ? '1' : '0.42';
-    } else if(d.memorial) {
-      nodeGroups[d.id].style.opacity = revealed ? '1' : '0.6';
-    }
-    const rRepos = d.notre ? R_NOTRE : R;
-    const rNow   = loin ? R_MID : revealed ? R_ACTIVE : rRepos;
-
-    // Taille du cercle : le nœud sélectionné ne grossit plus (il débordait sur
-    // son nom et l'effet ne marchait pas au tap). Il est désormais identifié par
-    // son NOM éclairé de la couleur de son cercle — voir plus bas.
-    const isSelected = activeNode && d.id === activeNode.id;
-    if(circleEls[d.id]) circleEls[d.id].setAttribute('r', rNow);
-    // Le halo crème suit le cercle : ouvert, il ceinture la photo (R_ACTIVE) et
-    // sépare le nœud des traits qui le traversent sans le concerner.
-    if(haloEls[d.id]) haloEls[d.id].setAttribute('r', rNow);
-
-    // Éclairage du nom : le cheval à l'origine de la lignée voit son nom passer
-    // à la couleur de son cercle (bleu étalon, rose jument, or poulain…). Branché
-    // sur l'état de sélection (activeNode), donc valable au survol PC ET au tap.
-    if(nameEls[d.id]) {
-      nameEls[d.id].setAttribute('fill', isSelected ? nodeStroke[d.id] : nameFill0[d.id]);
-      nameEls[d.id].setAttribute('font-weight', isSelected ? '700' : '500');
-    }
-
-    // Photo
-    if(photoEls[d.id]) {
-      const p = POS[d.id], im = photoEls[d.id];
-      im.setAttribute('opacity', (revealed || d.notre) ? '1' : '0');
-      im.setAttribute('x', p.x - rNow); im.setAttribute('y', p.y - rNow);
-      im.setAttribute('width', rNow * 2); im.setAttribute('height', rNow * 2);
-      if(clipEls[d.id]) clipEls[d.id].setAttribute('r', rNow);
-    }
-
-    // Étoile élite — suit le cercle
-    if(starEls[d.id]) {
-      const p = POS[d.id];
-      starEls[d.id].setAttribute('y', revealed ? p.y - rNow - 6 : p.y - rNow - 8);
-    }
-  });
-
-  // Soulignement du cheval sélectionné : un trait de la couleur de son cercle,
-  // sous son nom, tracé de gauche à droite (scaleX 0→1, origine à gauche).
-  // Se rejoue à chaque nouvelle sélection car applyState n'est appelé QUE là.
-  if(activeNode && nameEls[activeNode.id]) {
-    const nm = nameEls[activeNode.id];
-    const nb = nm.getBBox();               // bbox géométrique du nom (hors halo)
-    let bottomY = nb.y + nb.height;
-    let w  = nb.width;
-    const cx = nb.x + nb.width / 2;
-    // Cheval élite : passer SOUS le sous-titre "Élite grade 1" pour souligner
-    // le bloc nom + distinction d'un seul trait (sinon il chevauchait le sous-titre).
-    const sb = subEls[activeNode.id];
-    if(sb) {
-      const sbb = sb.getBBox();
-      bottomY = Math.max(bottomY, sbb.y + sbb.height);
-      w = Math.max(w, sbb.width);
-    }
-    selUnderline.setAttribute('x', cx - w / 2);
-    selUnderline.setAttribute('y', bottomY + 3);
-    selUnderline.setAttribute('width', w);
-    selUnderline.setAttribute('fill', nodeStroke[activeNode.id]);
-    // Réinitialiser sans transition, forcer un reflow, puis animer → le tracé
-    // repart de zéro à chaque sélection.
-    selUnderline.style.transition = 'none';
-    selUnderline.style.transform  = 'scaleX(0)';
-    selUnderline.style.opacity    = '1';
-    selUnderline.getBoundingClientRect();  // flush du style
-    selUnderline.style.transition = 'transform .5s cubic-bezier(.2,.8,.2,1)';
-    selUnderline.style.transform  = 'scaleX(1)';
-  } else {
-    selUnderline.style.transition = 'opacity .2s';
-    selUnderline.style.opacity    = '0';
-    selUnderline.style.transform  = 'scaleX(0)';
-  }
-}
-
-// ── LIGHTBOX photo (nœuds sans page dédiée)
-const lbOv = document.createElement('div');
-lbOv.id = 'lb-photo-ov';
-const lbPhotoClose = document.createElement('button');
-lbPhotoClose.id = 'lb-photo-close'; lbPhotoClose.textContent = '✕';
-const lbPhotoImg = document.createElement('img');
-const lbPhotoName = document.createElement('div');
-lbPhotoName.className = 'lb-name';
-lbOv.append(lbPhotoClose, lbPhotoImg, lbPhotoName);
-document.body.appendChild(lbOv);
-
-function openPhotoLb(src, nom) {
-  lbPhotoImg.src = src;
-  lbPhotoName.textContent = nom || '';
-  lbOv.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-function closePhotoLb() { lbOv.style.display = 'none'; document.body.style.overflow = ''; }
-
-lbPhotoClose.addEventListener('click', e => { e.stopPropagation(); closePhotoLb(); });
-lbOv.addEventListener('click', closePhotoLb);
-lbPhotoImg.addEventListener('click', e => e.stopPropagation());
-document.addEventListener('keydown', e => { if(lbOv.style.display !== 'none' && e.key === 'Escape') closePhotoLb(); });
-
-// ── DRAW NODES
-DATA.forEach(h => {
-  const p = POS[h.id];
-  if(!p) return;
-
-  const g = el('g', { class:'node-group', style:'cursor:pointer' });
-
-  // Couleurs selon sexe / catégorie
-  let fill, stroke;
-  // Code couleur du site : pétrole = mâle, framboise = femelle (poulains compris).
-  // Seuls les chevaux en mémoire gardent un gris. Les extérieurs se
-  // distinguent par le pointillé et l'estompage, pas par la couleur.
-  if(h.memorial)      { fill = '#EDE8E4'; stroke = '#9A8A84'; }
-  else if(h.sex==='s'){ fill = eclaircir(C_MALE, .12);    stroke = C_MALE; }
-  else                { fill = eclaircir(C_FEMELLE, .10); stroke = C_FEMELLE; }
-  const rRepos = h.notre ? R_NOTRE : R;
-
-  // Halo crème sous le liseré : sépare le nœud replié des lignes de filiation
-  // qui le croisent ou le frôlent (même principe que le contour crème des noms).
-  // En état actif, la grande photo (R_ACTIVE) le recouvre → sans effet.
-  const halo = el('circle', {
-    cx: p.x, cy: p.y, r: rRepos,
-    fill: 'none', stroke: '#FEFBF6', 'stroke-width': '6'
-  });
-  halo.style.transition = 'r 0.25s ease';
-  g.appendChild(halo);
-  haloEls[h.id] = halo;
-
-  // Anneau élite (toujours sous la photo)
-  if(h.elite) {
-    const ring = el('circle', {
-      cx: p.x, cy: p.y, r: rRepos + 5,
-      fill: 'none', stroke: '#C0A050',
-      'stroke-width': '1.5', 'stroke-dasharray': '3 2', opacity: '0.7'
-    });
-    g.appendChild(ring);
-  }
-
-  // Pastille principale
-  const circle = el('circle', {
-    cx: p.x, cy: p.y, r: rRepos,
-    fill, stroke,
-    'stroke-width': (h.ext || h.hidden) ? '1.5' : '2',
-    'stroke-dasharray': (h.ext || h.hidden || h.memorial) ? '4 2' : 'none'
-  });
-  circle.style.transition = 'r 0.25s ease';
-  circle.classList.add('node-circle');
-  g.appendChild(circle);
-  circleEls[h.id] = circle;
-
-  // Photo SVG (si disponible) — clipPath + <image>
-  if(PHOTOS[h.id]) {
-    const clipId = 'clip-' + h.id;
-    const clipPath = el('clipPath', { id: clipId });
-    const clipC = el('circle', { cx: p.x, cy: p.y, r: rRepos });
-    clipC.style.transition = 'r 0.25s ease';
-    clipPath.appendChild(clipC);
-    defs.appendChild(clipPath);
-    clipEls[h.id] = clipC;
-
-    const img = el('image', {
-      href: PHOTOS[h.id],
-      x: p.x - rRepos, y: p.y - rRepos,
-      width: rRepos * 2, height: rRepos * 2,
-      'clip-path': `url(#${clipId})`,
-      opacity: h.notre ? '1' : '0',
-      preserveAspectRatio: 'xMidYMid slice'
-    });
-    img.style.transition = 'opacity 0.25s ease, x 0.25s ease, y 0.25s ease, width 0.25s ease, height 0.25s ease';
-    g.appendChild(img);
-    photoEls[h.id] = img;
-  }
-
-  // Étoile élite — position initiale près du petit cercle
-  if(h.elite) {
-    const star = el('text', {
-      x: p.x, y: p.y - rRepos - 8,
-      'text-anchor':'middle', fill:'#C0A050',
-      'font-size':'9', 'font-family':'serif'
-    });
-    star.style.transition = 'y 0.25s ease';
-    star.textContent = '★';
-    g.appendChild(star);
-    starEls[h.id] = star;
-  }
-
-  // Label nom — positionné sous le cercle agrandi
-  const labelY = p.y + R_ACTIVE + 14;
-  const name = el('text', {
-    x: p.x, y: labelY,
-    'text-anchor': 'middle',
-    fill: h.externe ? '#8A8280' : '#1C1C1C',
-    'font-family': "'Cormorant Garamond', Georgia, serif",
-    'font-size': '13', 'font-weight': '500',
-    'font-style': h.externe ? 'italic' : 'normal',
-    // Halo crème (technique cartographique) : le liseré est peint SOUS le
-    // remplissage (paint-order:stroke) et creuse un coussin propre autour des
-    // lettres, pour que le nom se détache des traits bleu/rose qui passent
-    // derrière. #FEFBF6 = --cream (littéral : var() peu fiable en attribut SVG).
-    'paint-order': 'stroke',
-    stroke: '#FEFBF6', 'stroke-width': '3.5', 'stroke-linejoin': 'round'
-  });
-  name.textContent = h.memorial ? '† ' + h.em : h.em;
-  g.appendChild(name);
-  // Références pour l'éclairage du nom quand le cheval devient l'origine
-  // sélectionnée (voir applyState). Remplace l'ancien grossissement du cercle.
-  nameEls[h.id]   = name;
-  nodeStroke[h.id] = stroke;
-  nameFill0[h.id]  = h.externe ? '#8A8280' : '#1C1C1C';
-
-  if(h.elite) {
-    const sub = el('text', {
-      x: p.x, y: labelY + 14,
-      'text-anchor': 'middle',
-      fill: '#C0A050',
-      'font-family': "'Jost', sans-serif",
-      'font-size': '9', 'letter-spacing': '0.06em',
-      'paint-order': 'stroke',
-      stroke: '#FEFBF6', 'stroke-width': '3', 'stroke-linejoin': 'round'
-    });
-    sub.textContent = 'Élite grade 1';
-    g.appendChild(sub);
-    subEls[h.id] = sub;   // pour poser le soulignement SOUS la distinction
-  }
-
-  // Zone de clic élargie
-  const hit = el('circle', {
-    cx: p.x, cy: p.y, r: R_ACTIVE + 6,
-    fill: 'transparent', stroke: 'none'
-  });
-  g.appendChild(hit);
-
-  // ── Événements : un clic sélectionne (carte + liens). La fiche s'ouvre
-  // depuis la carte, plus directement depuis le nœud.
-  g.addEventListener('click', () => { if (!dernierGlisse) selectionner(h.id); });
-
-  nodeLayer.appendChild(g);
-  nodeGroups[h.id] = g;
-});
-
-// ── État initial (estompage / masquage des extérieurs)
-applyState();
-
-// ── PAN / ZOOM ────────────────────────────────────────────────────────────
-const treeOuter = document.getElementById('treeOuter');
-const TREE_W = 1900, TREE_H = 1100; // inclut rang 0 (y=-110) → rang mémoire (y=820)
-const MAX_S = 3;
-// Plancher de dézoom relatif à l'ajustement : laisse un cadre large autour de
-// l'arbre mais empêche le dézoom "dans le vide". base = min(cw/TREE_W, ch/TREE_H).
-function minScale() {
-  return Math.min(treeOuter.clientWidth / TREE_W, treeOuter.clientHeight / TREE_H) * 0.70;
-}
-
-function fitTransform() {
-  const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
-  const s = Math.min(cw / TREE_W, ch / TREE_H) * 0.93;
-  // Centre vertical entre y=-110 (rang 0) et y=820 (mémoire) → milieu = 355
-  return { s, tx: (cw - TREE_W * s) / 2, ty: ch / 2 - 355 * s };
-}
-
-let { s: vScale, tx: vTx, ty: vTy } = fitTransform();
-
-const genLabels = Array.from(document.querySelectorAll('.gen-label'));
-
-function updateGenLabels() {
-  const h = treeOuter.clientHeight;
-  genLabels.forEach(lbl => {
-    const svgY = parseFloat(lbl.dataset.y);
-    const screenY = vTy + svgY * vScale;
-    if (screenY >= 10 && screenY <= h - 10) {
-      lbl.style.top = screenY + 'px';
-      lbl.classList.add('visible');
-    } else {
-      lbl.classList.remove('visible');
-    }
-  });
-}
-
-// Bornage du pan : empêche de faire dériver l'arbre à l'infini. On garde un
-// cadre PAD (px écran) : les bords de l'arbre ne peuvent pas rentrer plus loin
-// que PAD dans le viewport. Si l'arbre tient dans le viewport (dézoom), il est
-// verrouillé au centre. Extents monde alignés sur fitTransform (x:0..TREE_W,
-// y:-110..820).
-function clampVP() {
-  const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
-  const PAD = 120;
-  const CX0 = 0, CX1 = TREE_W, CY0 = -110, CY1 = 820;
-  const contentW = (CX1 - CX0) * vScale;
-  const contentH = (CY1 - CY0) * vScale;
-  if (contentW + 2 * PAD <= cw) {
-    vTx = (cw - contentW) / 2 - CX0 * vScale;
-  } else {
-    const maxTx = PAD - CX0 * vScale;
-    const minTx = cw - PAD - CX1 * vScale;
-    vTx = Math.min(maxTx, Math.max(minTx, vTx));
-  }
-  if (contentH + 2 * PAD <= ch) {
-    vTy = (ch - contentH) / 2 - CY0 * vScale;
-  } else {
-    const maxTy = PAD - CY0 * vScale;
-    const minTy = ch - PAD - CY1 * vScale;
-    vTy = Math.min(maxTy, Math.max(minTy, vTy));
-  }
-}
-
-function applyVP() {
-  clampVP();
-  viewport.setAttribute('transform', `translate(${vTx},${vTy}) scale(${vScale})`);
-  updateGenLabels();
-}
-applyVP();
-
-// ── Mouse drag
-let dragging = false, dragMoved = false, dragOrig = null, dernierGlisse = false;
-treeOuter.addEventListener('mousedown', e => {
-  if(e.button !== 0) return;
-  dragging = true;
-  dragMoved = false;
-  dragOrig = { x: e.clientX - vTx, y: e.clientY - vTy };
-  treeOuter.classList.add('panning');
-  e.preventDefault();
-});
-window.addEventListener('mousemove', e => {
-  if(!dragging) return;
-  const dx = e.clientX - (dragOrig.x + vTx), dy = e.clientY - (dragOrig.y + vTy);
-  if(Math.abs(dx) > 4 || Math.abs(dy) > 4) dragMoved = true;
-  vTx = e.clientX - dragOrig.x;
-  vTy = e.clientY - dragOrig.y;
-  applyVP();
-});
-window.addEventListener('mouseup', e => {
-  const wasDrag = dragMoved;
-  const dansArbre = dragging;          // le geste a commencé dans l'arbre
-  dernierGlisse = wasDrag;             // lu par le clic des nœuds, qui suit
-  dragging = false; dragMoved = false;
-  treeOuter.classList.remove('panning');
-
-  // Clic simple (pas un drag) sur fond vide → effacer la mise en avant
-  if(dansArbre && !wasDrag && panneau.classList.contains('ouvert')) {
-    const r = treeOuter.getBoundingClientRect();
-    const sx = (e.clientX - r.left - vTx) / vScale;
-    const sy = (e.clientY - r.top  - vTy) / vScale;
-    const onNode = DATA.some(d => {
-      const p = POS[d.id];
-      return p && Math.hypot(sx - p.x, sy - p.y) < R_ACTIVE + 15;
-    });
-    if(!onNode) deselectionner();
-  }
-});
-
-// ── Wheel zoom
-treeOuter.addEventListener('wheel', e => {
-  e.preventDefault();
-  const r = treeOuter.getBoundingClientRect();
-  const mx = e.clientX - r.left, my = e.clientY - r.top;
-  const factor = e.deltaY < 0 ? 1.15 : 0.87;
-  const ns = Math.min(MAX_S, Math.max(minScale(), vScale * factor));
-  vTx = mx - (mx - vTx) * (ns / vScale);
-  vTy = my - (my - vTy) * (ns / vScale);
-  vScale = ns;
-  applyVP();
-}, { passive: false });
-
-// ── Touch (1 doigt = pan, 2 doigts = pinch-zoom, tap = info)
-let touchBase = null, pinchBase = null;
-let tapStart = null, tapMoved = false;
-
-treeOuter.addEventListener('touchstart', e => {
-  e.preventDefault();
-  if(e.touches.length === 1) {
-    tapMoved = false;
-    tapStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
-    touchBase = { cx: e.touches[0].clientX - vTx, cy: e.touches[0].clientY - vTy };
-    pinchBase = null;
-  } else if(e.touches.length === 2) {
-    const t1 = e.touches[0], t2 = e.touches[1];
-    pinchBase = {
-      dist: Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY),
-      mx: (t1.clientX + t2.clientX) / 2,
-      my: (t1.clientY + t2.clientY) / 2,
-      tx: vTx, ty: vTy, s: vScale
-    };
-    touchBase = null;
-  }
-}, { passive: false });
-
-treeOuter.addEventListener('touchmove', e => {
-  e.preventDefault();
-  if(e.touches.length === 1 && touchBase) {
-    const dx = e.touches[0].clientX - tapStart.x, dy = e.touches[0].clientY - tapStart.y;
-    if(Math.abs(dx) > 4 || Math.abs(dy) > 4) tapMoved = true;
-    vTx = e.touches[0].clientX - touchBase.cx;
-    vTy = e.touches[0].clientY - touchBase.cy;
-    applyVP();
-  } else if(e.touches.length === 2 && pinchBase) {
-    const t1 = e.touches[0], t2 = e.touches[1];
-    const dist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
-    const mx   = (t1.clientX + t2.clientX) / 2;
-    const my   = (t1.clientY + t2.clientY) / 2;
-    const r    = treeOuter.getBoundingClientRect();
-    const pmx  = mx - r.left, pmy = my - r.top;
-    const ns   = Math.min(MAX_S, Math.max(minScale(), pinchBase.s * (dist / pinchBase.dist)));
-    vTx = pmx - (pmx - pinchBase.tx) * (ns / pinchBase.s);
-    vTy = pmy - (pmy - pinchBase.ty) * (ns / pinchBase.s);
-    vScale = ns;
-    applyVP();
-  }
-}, { passive: false });
-
-treeOuter.addEventListener('touchend', e => {
-  if(!tapMoved && tapStart && (Date.now() - tapStart.t) < 280) {
-    // Tap : trouver le nœud le plus proche en coordonnées SVG
-    const r = treeOuter.getBoundingClientRect();
-    const sx = (tapStart.x - r.left - vTx) / vScale;
-    const sy = (tapStart.y - r.top  - vTy) / vScale;
-    let closest = null, minD = Infinity;
-    DATA.forEach(d => {
-      const p = POS[d.id]; if(!p) return;
-      if(nodeGroups[d.id] && nodeGroups[d.id].style.display === 'none') return;
-      const dist = Math.hypot(sx - p.x, sy - p.y);
-      if(dist < minD) { minD = dist; closest = d; }
-    });
-    if(closest && minD < R_ACTIVE + 30) selectionner(closest.id);
-    else deselectionner();
-  }
-  touchBase = null; pinchBase = null; tapStart = null;
-});
-
-// ── Boutons zoom
-function zoomAround(factor) {
-  const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
-  const mx = cw / 2, my = ch / 2;
-  const ns = Math.min(MAX_S, Math.max(minScale(), vScale * factor));
-  vTx = mx - (mx - vTx) * (ns / vScale);
-  vTy = my - (my - vTy) * (ns / vScale);
-  vScale = ns; applyVP();
-}
-document.getElementById('zoomIn').addEventListener('click',    () => zoomAround(1.35));
-document.getElementById('zoomOut').addEventListener('click',   () => zoomAround(1 / 1.35));
-document.getElementById('zoomReset').addEventListener('click', () => {
-  const f = fitTransform(); vScale = f.s; vTx = f.tx; vTy = f.ty; applyVP();
-});
-
-// ── SÉLECTION ─────────────────────────────────────────────────────────────
-// ── MODE FOCUS (mobile) : un cheval au centre, parents au-dessus, descendance dessous.
-const zone    = document.querySelector('.arbre-zone');
-const focusEl = document.getElementById('focus');
-const MOBILE  = window.matchMedia('(max-width: 900px)');
-let focusId = null;
-const vueFocus = () => MOBILE.matches;   // ≤ 900px : toujours la vue « Famille »
-// Pas de zoom au pincement sur mobile (voir le CSS : touch-action) ; Safari / iOS
-// déclenche aussi des événements « gesture » propres, qu'on neutralise.
-['gesturestart', 'gesturechange'].forEach(t => document.addEventListener(t, e => { if (MOBILE.matches) e.preventDefault(); }, { passive: false }));
-document.addEventListener('touchmove', e => { if (MOBILE.matches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
-const annee = c => ((c.naissance || '').match(/\d{4}/) || [''])[0];
-
-function medFocus(c, note, role, petit = false) {
+/* ── Vue Famille mobile (≤900px) : HTML/flex simple, sans nœuds partenaires.
+   Le co-parent d'un poulain est donné en légende « avec X ». ── */
+const MOBILE = window.matchMedia('(max-width: 900px)');
+const sexHex = h => isExt(h) ? 'var(--ext)' : (h.sexe==='femelle' ? 'var(--f)' : 'var(--m)');
+function medFocus(h, note, role, petit){
   const p = petit ? ' fx-med--petit' : '';
-  if (!c) return `<span class="fx-med is-inconnu${p}"><span class="fx-med-img">?</span><span class="fx-med-nom">${petit ? 'Inconnu' + (role === 'Mère' ? 'e' : '') : role + ' inconnu' + (role === 'Mère' ? 'e' : '')}</span></span>`;
-  const img = c.photo_arbre || c.photo || PLACEHOLDER[c.sexe];
-  const cls = p + (c.famille === 'externe' ? ' is-ext' : '') + (c.role === 'memoire' ? ' is-memoire' : '');
-  return `<button type="button" class="fx-med${cls}" data-id="${c.id}" style="--c:${COUL[c.sexe]}">
-      <span class="fx-med-img"><img src="${esc(img)}" alt="" loading="lazy"></span>
-      <span class="fx-med-nom">${esc(c.nom_usuel || nomCourt(c))}</span>
-      ${note ? `<span class="fx-med-note">${note}</span>` : ''}</button>`;
+  if(!h) return `<span class="fx-med is-inconnu${p}"><span class="fx-med-img">?</span><span class="fx-med-nom">${petit?('Inconnu'+(role==='Mère'?'e':'')):(role+' inconnu'+(role==='Mère'?'e':''))}</span></span>`;
+  const img = PHOTOS_TREE[h.id]||PHOTOS[h.id];
+  const cls = p + (isExt(h)?' is-ext':'') + (h.role==='memoire'?' is-memoire':'');
+  return `<button type="button" class="fx-med${cls}" data-id="${h.id}" style="--c:${sexHex(h)}">
+      <span class="fx-med-img">${img?`<img src="${img}" alt="" loading="lazy">`:(disp(h)[0]||'?')}</span>
+      <span class="fx-med-nom">${disp(h)}</span>${note?`<span class="fx-med-note">${note}</span>`:''}</button>`;
 }
-// Grands-parents : une paire en petit au-dessus de chaque parent (colonnes alignées).
-// Rien au-dessus d'un parent inconnu, ni d'un parent dont on ne connaît aucun parent.
-const BRANCHE_VIDE = '<div class="fx-branche"></div>';
-function brancheGP(parent) {
-  if (!parent) return BRANCHE_VIDE;
-  const gp = PAR_ID[parent.pere], gm = PAR_ID[parent.mere];
-  if (!gp && !gm) return BRANCHE_VIDE;
-  return `<div class="fx-branche" style="--c:${COUL[parent.sexe]}">
-      <div class="fx-paire">${medFocus(gp, '', 'Père', true)}${medFocus(gm, '', 'Mère', true)}</div>
+const BRANCHE_VIDE='<div class="fx-branche"></div>';
+function brancheGP(parent){
+  if(!parent) return BRANCHE_VIDE;
+  const gp=parent.pere&&byId[parent.pere]?byId[parent.pere]:null, gm=parent.mere&&byId[parent.mere]?byId[parent.mere]:null;
+  if(!gp&&!gm) return BRANCHE_VIDE;
+  return `<div class="fx-branche" style="--c:${sexHex(parent)}">
+      <div class="fx-paire">${medFocus(gp,'','Père',true)}${medFocus(gm,'','Mère',true)}</div>
       <span class="fx-crochet" aria-hidden="true"></span></div>`;
 }
-function grandsParentsHTML(pere, mere) {
-  const b = [brancheGP(pere), brancheGP(mere)];
-  if (b.every(x => x === BRANCHE_VIDE)) return '';
+function grandsParentsHTML(P,M){
+  const b=[brancheGP(P),brancheGP(M)];
+  if(b.every(x=>x===BRANCHE_VIDE)) return '';
   return `<p class="fx-titre">Grands-parents</p><div class="fx-ascendants">${b.join('')}</div>`;
 }
-function afficherFocus(id) {
-  const c = PAR_ID[id];
-  if (!c) return;
-  focusId = id;
-  const pere = PAR_ID[c.pere], mere = PAR_ID[c.mere];
-  const enfants = enfantsDe(id);
-  const img = c.photo_arbre || c.photo || PLACEHOLDER[c.sexe];
-  const meta = [c.robe_courte || c.robe, annee(c) && (c.deces ? annee(c) + ' – ' + c.deces.slice(0, 4) : annee(c))].filter(Boolean).join(' · ');
-  // sous chaque poulain : l'autre parent (« avec Suzie »)
-  const avec = e => { const autre = PAR_ID[e.pere === id ? e.mere : e.pere]; return [annee(e), autre ? 'avec ' + esc(autre.nom_usuel || nomCourt(autre)) : ''].filter(Boolean).join('<br>'); };
-  focusEl.innerHTML = `
-    <div class="fx fx-entre" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
-      ${grandsParentsHTML(pere, mere)}
+function focusMobile(id){
+  const sel=byId[id];if(!sel)return;current=id;
+  const P=sel.pere&&byId[sel.pere]?byId[sel.pere]:null;
+  const M=sel.mere&&byId[sel.mere]?byId[sel.mere]:null;
+  const enfants=(kids[id]||[]).map(x=>byId[x]);
+  const img=PHOTOS_TREE[id]||PHOTOS[id];
+  const meta=[(sel.robe_courte||sel.robe), annee(sel)].filter(Boolean).join(' · ');
+  const avec=e=>{const co=byId[e.pere===id?e.mere:e.pere];return [annee(e), co?'avec '+disp(co):''].filter(Boolean).join('<br>');};
+  const b=badge(sel);
+  const aff=sel.affixe?`<span class="aff">${sel.affixe}</span>`:'';
+  const acts=`<a class="btn btn-outline" href="nos-chevaux.html#${sel.id}">Sa carte →</a>`+
+    (sel.page?`<a class="btn btn-primary" href="${sel.page}">Voir la fiche</a>`:'');
+  const canvas=document.getElementById('canvas');
+  canvas.style.width='';canvas.style.height='';
+  canvas.innerHTML=`
+    <div class="fx fx-entre" style="--c:${sexHex(sel)}">
+      ${grandsParentsHTML(P,M)}
       <p class="fx-titre">Parents</p>
-      <div class="fx-parents">${medFocus(pere, '', 'Père')}${medFocus(mere, '', 'Mère')}</div>
+      <div class="fx-parents">${medFocus(P,'','Père')}${medFocus(M,'','Mère')}</div>
       <span class="fx-trait" aria-hidden="true"></span>
-      <div class="fx-centre${c.role === 'memoire' ? ' is-memoire' : ''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
-        <button type="button" class="fx-centre-photo" data-carte aria-label="Voir sa carte"><img src="${esc(img)}" alt="${esc(c.nom)}"></button>
-        <p class="fx-genre">${libelleSexe(c)}${badgeStatut(c)}</p>
-        <h2 class="fx-nom">${nomChevalHTML(c)}</h2>
-        ${meta ? `<p class="fx-meta">${esc(meta)}</p>` : ''}
-        <div class="fx-actions">
-          <button type="button" class="btn btn-outline" data-carte>Sa carte</button>
-          ${c.page ? `<a class="btn btn-primary" href="${esc(c.page)}">Voir la fiche</a>` : ''}
-        </div>
+      <div class="fx-centre${sel.role==='memoire'?' is-memoire':''}" style="--c:${sexHex(sel)}">
+        <div class="fx-centre-photo">${img?`<img src="${img}" alt="${disp(sel)}">`:(disp(sel)[0]||'?')}</div>
+        <p class="fx-genre">${roleLabel(sel)}${b?`<span class="fx-bdg">${b}</span>`:''}</p>
+        <h2 class="fx-nom">${aff}<em>${disp(sel)}</em></h2>
+        ${meta?`<p class="fx-meta">${meta}</p>`:''}
+        <div class="fx-actions">${acts}</div>
       </div>
       <span class="fx-trait" aria-hidden="true"></span>
-      <p class="fx-titre">${enfants.length ? `Descendance (${enfants.length})` : 'Descendance'}</p>
-      ${enfants.length ? `<div class="fx-rangee-bloc" style="--c:${COUL[c.sexe]}"><div class="fx-rangee">${enfants.map(e => medFocus(e, avec(e))).join('')}</div>
-           <div class="fx-defil" hidden aria-hidden="true"><span></span></div></div>`
-                       : '<p class="fx-aucun">Pas de descendance connue.</p>'}
+      <p class="fx-titre">${enfants.length?`Descendance (${enfants.length})`:'Descendance'}</p>
+      ${enfants.length?`<div class="fx-rangee-bloc"><div class="fx-rangee">${enfants.map(e=>medFocus(e,avec(e))).join('')}</div></div>`
+                      :'<p class="fx-aucun">Pas de descendance connue.</p>'}
     </div>`;
-  const rangee = focusEl.querySelector('.fx-rangee');
-  if (rangee) { rangee.addEventListener('scroll', majDefil, { passive: true }); requestAnimationFrame(majDefil); }
-}
-// Barre de défilement maison sous la descendance (celle du téléphone est blanche et
-// presque invisible, et iOS ne permet pas de la colorer) : couleur du cheval au centre.
-function majDefil() {
-  const r = focusEl.querySelector('.fx-rangee'), barre = focusEl.querySelector('.fx-defil');
-  if (!r || !barre) return;
-  const deborde = r.scrollWidth > r.clientWidth + 2;
-  barre.hidden = !deborde;
-  if (!deborde) return;
-  const t = barre.firstElementChild, part = r.clientWidth / r.scrollWidth;
-  t.style.width = (part * 100) + '%';
-  t.style.left = (r.scrollLeft / r.scrollWidth * 100) + '%';
-}
-window.addEventListener('resize', majDefil);
-function accueilFocus() {
-  focusId = null;
-  focusEl.innerHTML = `<div class="fx fx-accueil fx-entre">
-      <p class="fx-accueil-titre">Explorez une famille</p>
-      <p>Choisissez un cheval, ou cherchez-le par son nom. Touchez ensuite un parent pour remonter la lignée.</p>
-      ${GROUPES.map(g => {
-        const liste = CHEVAUX.filter(c => c.famille === 'humming' && g.filtre(c)).sort(g.tri);
-        return liste.length ? `<p class="ap-vide-sous">${g.titre}</p><div class="ap-galerie">${liste.map(medaillon).join('')}</div>` : '';
-      }).join('')}
-    </div>`;
-}
-focusEl.addEventListener('click', e => {
-  const b = e.target.closest('[data-id]');
-  if (b) { allerA(b.dataset.id); return; }
-  if (e.target.closest('[data-carte]') && focusId) ouvrirCarte(PAR_ID[focusId]);
-});
-// Navigation avec historique : le bouton « retour » du téléphone redescend d'un cheval.
-function allerA(id) {
-  if (location.hash.slice(1) === id) { selectionner(id); return; }
-  location.hash = id;                     // → hashchange → suivreAdresse → selectionner
-}
-zone.classList.add('vue-focus');   // n'a d'effet qu'en ≤ 900px (CSS)
-// Passage ordinateur ↔ tablette (rotation, fenêtre redimensionnée) : on garde le cheval affiché.
-MOBILE.addEventListener('change', () => {
-  const id = decodeURIComponent(location.hash.slice(1));
-  fermerCarte();
-  if (!MOBILE.matches) { activeNode = null; activeRevealIds = new Set(); activeVisiblePairs = new Set(); activeFarIds = new Set(); activeFarPairs = new Set(); applyState(); }
-  if (PAR_ID[id]) selectionner(id, { centrer: true }); else if (MOBILE.matches) accueilFocus();
-});
-accueilFocus();
-
-// Point d'entrée unique : clic, tap, recherche, liens de la carte, adresse #id.
-function selectionner(id, { centrer = false } = {}) {
-  const c = PAR_ID[id];
-  if (!c) return;
-  if (vueFocus()) {                       // mobile, vue « Famille »
-    fermerCarte();
-    afficherFocus(id);
-    if (location.hash.slice(1) !== id) history.pushState(null, '', '#' + id);   // « retour » = cheval précédent
-    // nouveau cheval : on remonte en haut de la vue Famille si on l'avait quittée
-    const navH = (document.querySelector('.navbar') || {}).offsetHeight || 0;
-    const haut = zone.getBoundingClientRect().top - navH - 8;   // la nav fixe ne doit pas cacher la recherche
-    if (haut < 0) window.scrollBy({ top: haut, behavior: 'smooth' });
-    return;
-  }
-  const d = DATA.find(x => x.id === id);
-  if (d) {
-    const { ids, pairs, farIds, farPairs } = computeReveal(id);
-    ids.add(id);
-    activeNode = d; activeRevealIds = ids; activeVisiblePairs = pairs;
-    activeFarIds = farIds; activeFarPairs = farPairs;
-  } else {
-    activeNode = null; activeRevealIds = new Set(); activeVisiblePairs = new Set();
-    activeFarIds = new Set(); activeFarPairs = new Set();
-  }
-  applyState();
-  ouvrirCarte(c);
-  history.replaceState(null, '', '#' + id);
-  if (centrer && d) centrerSur(id);
-}
-function deselectionner() {
-  if (vueFocus()) { fermerCarte(); return; }   // vue « Famille » : on ferme juste la carte
-  activeNode = null; activeRevealIds = new Set(); activeVisiblePairs = new Set();
-  activeFarIds = new Set(); activeFarPairs = new Set();
-  applyState();
-  fermerCarte();
-  history.replaceState(null, '', location.pathname + location.search);
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && lbOv.style.display !== 'flex' && panneau.classList.contains('ouvert')
-      && document.activeElement !== recherche) deselectionner();
-});
-
-// ── RECENTRAGE animé sur un cheval
-function animerVers(s1, tx1, ty1, ms = 450) {
-  const s0 = vScale, tx0 = vTx, ty0 = vTy, t0 = performance.now();
-  const ease = t => 1 - Math.pow(1 - t, 3);
-  (function pas(now) {
-    const k = ease(Math.min(1, (now - t0) / ms));
-    vScale = s0 + (s1 - s0) * k; vTx = tx0 + (tx1 - tx0) * k; vTy = ty0 + (ty1 - ty0) * k;
-    applyVP();
-    if (k < 1) requestAnimationFrame(pas);
-  })(t0);
-}
-function centrerSur(id) {
-  const p = POS[id]; if (!p) return;
-  const cw = treeOuter.clientWidth, ch = treeOuter.clientHeight;
-  const mobile = window.matchMedia('(max-width: 900px)').matches;
-  const s = Math.min(MAX_S, Math.max(vScale, mobile ? 0.7 : 0.8));
-  const cy = mobile ? ch * 0.3 : ch / 2;     // sur mobile, le volet couvre le bas
-  animerVers(s, cw / 2 - p.x * s, cy - p.y * s);
+  const fe=document.getElementById('focus');fe.classList.add('vmobile');
+  document.getElementById('rest').hidden=true;fe.hidden=false;
 }
 
-// ── RECHERCHE (sans accents ni majuscules, nos chevaux en premier)
-const recherche   = document.getElementById('recherche');
-const suggestions = document.getElementById('suggestions');
-const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-const INDEX = CHEVAUX.map(c => ({ c, cle: norm(c.nom + ' ' + (c.nom_usuel || '')) }));
-let resultats = [], choixIdx = -1;
-
-function chercher(q) {
-  // vide : tous les chevaux (nos chevaux d'abord) ; sinon, la liste s'affine
-  const n = norm(q.trim());
-  const debut = c => !n || norm(nomCourt(c)).split(' ').some(m => m.startsWith(n));
-  return INDEX.filter(x => x.cle.includes(n)).map(x => x.c)
-    .sort((a, b) => (b.famille === 'humming') - (a.famille === 'humming')
-                 || debut(b) - debut(a)
-                 || nomCourt(a).localeCompare(nomCourt(b)));
-}
-function dessinerSuggestions() {
-  suggestions.innerHTML = resultats.length
-    ? resultats.map((c, i) => `<li role="option" data-id="${c.id}" class="${i === choixIdx ? 'sel' : ''}"
-        aria-selected="${i === choixIdx}" style="--c:${COUL[c.sexe]}"><span class="pt"></span>${esc(nomCourt(c))}${
-        c.famille === 'humming' ? '<span class="hc pastille pastille--hc pastille--contour">HC</span>' : ''}</li>`).join('')
-    : '<li class="vide">Aucun cheval trouvé</li>';
-  suggestions.hidden = false;
-  const sel = suggestions.querySelector('.sel');
-  if (sel) sel.scrollIntoView({ block: 'nearest' });
-}
-function choisir(id) {
-  recherche.value = ''; suggestions.hidden = true; recherche.blur();
-  selectionner(id, { centrer: true });
-}
-recherche.addEventListener('input', () => {
-  const q = recherche.value.trim();
-  resultats = chercher(recherche.value); choixIdx = q && resultats.length ? 0 : -1; dessinerSuggestions();
+function render(id){ if(MOBILE.matches) focusMobile(id); else focusDesktop(id); }
+function showRest(){document.getElementById('focus').hidden=true;document.getElementById('rest').hidden=false;current=null;}
+document.addEventListener('click',e=>{
+  if(e.target.closest('#backBtn')){showRest();return;}
+  if(e.target.closest('a'))return;
+  const c=e.target.closest('[data-id]');
+  if(c){const first=document.getElementById('focus').hidden;render(c.dataset.id);if(first)window.scrollTo({top:0,behavior:'smooth'});}
 });
-recherche.addEventListener('focus', () => {
-  resultats = chercher(recherche.value); choixIdx = recherche.value.trim() && resultats.length ? 0 : -1; dessinerSuggestions();
-});
-recherche.addEventListener('keydown', e => {
-  if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && resultats.length) {
-    e.preventDefault();
-    choixIdx = (choixIdx + (e.key === 'ArrowDown' ? 1 : -1) + resultats.length) % resultats.length;
-    dessinerSuggestions();
-  } else if (e.key === 'Enter' && resultats[choixIdx]) {
-    e.preventDefault(); choisir(resultats[choixIdx].id);
-  } else if (e.key === 'Escape') {
-    recherche.value = ''; suggestions.hidden = true;
-  }
-});
-// Choix au « click » (pas au pointerdown) : sur téléphone, poser le doigt pour faire
-// défiler la liste ne sélectionne plus de cheval ; seul un vrai toucher bref choisit.
-suggestions.addEventListener('mousedown', e => e.preventDefault());   // ordinateur : garder le focus le temps du clic
-suggestions.addEventListener('click', e => {
-  const li = e.target.closest('li[data-id]');
-  if (li) choisir(li.dataset.id);
-});
-recherche.addEventListener('blur', () => setTimeout(() => { suggestions.hidden = true; }, 150));
-
-// ── ADRESSE : arbre-genealogique.html#nashi ouvre l'arbre sur Nashi
-// ── INTERRUPTEUR « Chevaux extérieurs »
-const voirExt = document.getElementById('voirExt');
-voirExt.checked = afficherExt;
-voirExt.addEventListener('change', () => { afficherExt = voirExt.checked; applyState(); });
-
-// ── MOBILE : ouverture zoomée sur nos chevaux plutôt que l'arbre entier
-if (window.matchMedia('(max-width: 900px)').matches) {
-  const pts = DATA.filter(d => d.notre).map(d => POS[d.id]);
-  const cx = (Math.min(...pts.map(p => p.x)) + Math.max(...pts.map(p => p.x))) / 2;
-  const cy = (Math.min(...pts.map(p => p.y)) + Math.max(...pts.map(p => p.y))) / 2;
-  // 0.45 : compromis lisibilité / étendue — nos chevaux s'étalent sur 1 400 px
-  // de large, on en montre la majorité et on laisse glisser pour le reste.
-  const s = 0.45;
-  vScale = s; vTx = treeOuter.clientWidth / 2 - cx * s; vTy = treeOuter.clientHeight * 0.56 - cy * s;
-  applyVP();
-}
-
-function suivreAdresse() {
-  const id = decodeURIComponent(location.hash.slice(1));
-  if (PAR_ID[id]) { if (vueFocus() ? focusId !== id : (!activeNode || activeNode.id !== id)) selectionner(id, { centrer: true }); }
-  else if (vueFocus() && focusId) accueilFocus();
-  else if (!panneau.classList.contains('ouvert')) fermerCarte();
-}
-suivreAdresse();
-window.addEventListener('hashchange', suivreAdresse);   // lien #id depuis la page elle-même
+// Bascule PC ↔ mobile : on garde le cheval affiché dans le bon rendu.
+MOBILE.addEventListener('change',()=>{ if(current && !document.getElementById('focus').hidden) render(current); });
+renderRest();
 </script>
 </body>
 </html>
