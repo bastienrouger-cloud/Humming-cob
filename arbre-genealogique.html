@@ -869,7 +869,11 @@ function syncVue(){ if(!MOBILE.matches&&!volet.hidden) fermerVolet(true);
 if(MOBILE.addEventListener) MOBILE.addEventListener('change',syncVue); else MOBILE.addListener(syncVue);
 let rzT; window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(syncVue,120);});
 renderRest();
-accueil(false);
+// Lien direct depuis les fiches et la modale (« Voir dans l'arbre généalogique ») : arbre-genealogique.html#<id>
+// ouvre l'arbre directement sur ce cheval. Sans ancre (ou ancre inconnue) : accueil.
+function ouvrirDepuisAncre(){ const id=decodeURIComponent(location.hash.slice(1)); if(!id||!byId[id]) return false; render(id); return true; }
+if(!ouvrirDepuisAncre()) accueil(false);
+window.addEventListener('hashchange',()=>{ if(ouvrirDepuisAncre()) window.scrollTo({top:0,behavior:'smooth'}); });
 // Les polices web peuvent changer la longueur des noms : on redessine une fois quand elles sont prêtes.
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ if(current&&!document.getElementById('focus').hidden&&!MOBILE.matches) render(current); });
 </script>
