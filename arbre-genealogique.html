@@ -47,6 +47,9 @@
     .header h1 em { color: var(--accent-deep); font-style: italic; }
     .header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris); margin-top: 0.4rem; }
     .sur-tactile { display: none; }
+    /* PC : la consigne quitte l'en-tête et vit dans la zone de l'arbre (voir .consigne) ; mobile : elle reste sous le titre */
+    @media (min-width: 901px) { .header p { display: none; } }
+    .consigne{position:absolute;left:0;right:0;text-align:center;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);pointer-events:none}
     @media (hover: none) { .sur-souris { display: none; } .sur-tactile { display: inline; } }
 
     /* --gap : l'espace unique de la vue PC (entre l'arbre et le panneau, sur les côtés de la page, sous la zone).
@@ -571,7 +574,7 @@ function focusDesktop(id,nh){
    Mise en page par couches : couche = 1 + couche la plus basse des parents. Un trait qui saute une couche passe par un
    point relais invisible (il ne traverse jamais une carte). Ordre des colonnes par barycentre (peu de croisements),
    puis positions au plus près des parents/enfants avec un écart minimal. Tout est calculé depuis les données. */
-const AP={W:128,H:171,GX:34,GY:96,DW:30,PAD:34};
+const AP={W:128,H:171,GX:34,GY:96,DW:30,PAD:34,HINT:46};   // HINT : place de la consigne au-dessus de la première rangée
 function focusApercu(){
   const ours=HORSES.filter(h=>h.famille==='humming'&&(h.role==='etalon'||h.role==='jument'||h.role==='poulain'));
   const ids=new Set(ours.map(h=>h.id));
@@ -650,8 +653,8 @@ function focusApercu(){
     if(!mieux) break; }
   const rows=choix.rows, x=choix.x;
   let minX=1e9,maxX=-1e9; keys.forEach(k=>{minX=Math.min(minX,x[k]-N[k].w/2);maxX=Math.max(maxX,x[k]+N[k].w/2);});
-  const dx=AP.PAD-minX, cW=Math.ceil(maxX-minX+2*AP.PAD), cH=2*AP.PAD+(maxL+1)*AP.H+maxL*AP.GY;
-  const top=l=>AP.PAD+l*(AP.H+AP.GY);
+  const dx=AP.PAD-minX, cW=Math.ceil(maxX-minX+2*AP.PAD), cH=2*AP.PAD+AP.HINT+(maxL+1)*AP.H+maxL*AP.GY;
+  const top=l=>AP.PAD+AP.HINT+l*(AP.H+AP.GY);
   H='';L='';
   keys.forEach(k=>{ const n=N[k], cx=Math.round(x[k]+dx);
     if(n.fantome) seg(`M${cx} ${top(n.l)} L${cx} ${top(n.l)+AP.H}`);
@@ -674,7 +677,7 @@ function focusApercu(){
   Object.values(groupes).forEach(g=>{ const yBar=Math.round(g.ya+AP.GY*g.f);
     g.xs.forEach(xb=>seg(`M${g.xa} ${g.ya} L${g.xa} ${yBar} L${xb} ${yBar} L${xb} ${g.yb}`)); });
   const canvas=document.getElementById('canvas'); canvas.style.width=cW+'px'; canvas.style.height=cH+'px'; canvas.style.transform='';
-  canvas.innerHTML=`<svg viewBox="0 0 ${cW} ${cH}" width="${cW}" height="${cH}">${L}</svg>`+H;
+  canvas.innerHTML=`<svg viewBox="0 0 ${cW} ${cH}" width="${cW}" height="${cH}">${L}</svg><p class="consigne" style="top:${AP.PAD}px"><span class="sur-souris">Cliquez sur un cheval pour voir sa famille</span><span class="sur-tactile">Touchez un cheval pour voir sa famille</span></p>`+H;
   canvas.dataset.cw=cW;
 }
 
@@ -771,6 +774,7 @@ function glisse(dessiner){
   const avant=fe.hidden?{}:chevauxVisibles();
   const copies={}; Object.keys(avant).forEach(id=>{copies[id]=avant[id].el.cloneNode(true);});
   const svgA=cv.querySelector('svg'), svgAvant=svgA?{noeud:svgA.cloneNode(true),r:svgA.getBoundingClientRect(),w:svgA.getAttribute('width'),h:svgA.getAttribute('height'),k:svgA.getBoundingClientRect().width/(+svgA.getAttribute('width')||1)}:null;
+  const consA=cv.querySelector('.consigne'), consAvant=consA?{noeud:consA.cloneNode(true),r:consA.getBoundingClientRect(),w:consA.offsetWidth,k:consA.getBoundingClientRect().width/(consA.offsetWidth||1)}:null;
   dessiner();
   let calque=document.getElementById('fantomes');
   if(!calque){ calque=document.createElement('div'); calque.id='fantomes'; calque.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden'; document.body.appendChild(calque); }
@@ -791,6 +795,9 @@ function glisse(dessiner){
   // anciens traits : ils s'effacent sur place ; nouveaux traits : ils reviennent une fois les chevaux en place
   if(svgAvant){ const g=svgAvant.noeud; Object.assign(g.style,{position:'fixed',left:svgAvant.r.left+'px',top:svgAvant.r.top+'px',width:svgAvant.w+'px',height:svgAvant.h+'px',transformOrigin:'0 0',transform:'scale('+svgAvant.k+')',overflow:'visible',pointerEvents:'none'});
     calque.appendChild(g); jouer(g,[{opacity:1},{opacity:0}],{duration:220,easing:'ease-in',fill:'forwards'}); }
+  if(consAvant){ const g=consAvant.noeud; Object.assign(g.style,{position:'fixed',left:consAvant.r.left+'px',top:consAvant.r.top+'px',right:'auto',width:consAvant.w+'px',transformOrigin:'0 0',transform:'scale('+consAvant.k+')'});
+    calque.appendChild(g); jouer(g,[{opacity:1},{opacity:0}],{duration:240,easing:'ease-in',fill:'forwards'}); }
+  const consN=cv.querySelector('.consigne'); if(consN) jouer(consN,[{opacity:0},{opacity:1}],{duration:380,delay:D*.6,easing:'ease-out',fill:'both'});
   const svgN=cv.querySelector('svg'); if(svgN) jouer(svgN,[{opacity:0},{opacity:1}],{duration:380,delay:D*.6,easing:'ease-out',fill:'both'});
   animT=setTimeout(annulerAnim,D+500);
 }
