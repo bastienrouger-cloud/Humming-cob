@@ -142,6 +142,8 @@ if (revealEls.length) {
     show();
     overlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    // Prévient les carrousels (ex. celui du hero) : ils se figent tant que la lightbox est ouverte
+    document.dispatchEvent(new CustomEvent('lightbox', { detail: { ouverte: true } }));
   }
   // Accessible aux autres scripts (ex. l'arbre : photo de la carte du cheval) : ouvrirLightbox([src], 0, [légende])
   window.ouvrirLightbox = openLb;
@@ -151,6 +153,7 @@ if (revealEls.length) {
     lbVid.pause();
     overlay.style.display = 'none';
     document.body.style.overflow = '';
+    document.dispatchEvent(new CustomEvent('lightbox', { detail: { ouverte: false } }));
   }
   function go(n) { lbIdx = (n + lbImages.length) % lbImages.length; show(); }
   function show() {
@@ -721,7 +724,10 @@ if (nav2) {
     carousel && carousel.classList.add('is-paused');
     clearTimeout(fallback);
   };
+  // Pas de reprise tant que la lightbox est ouverte (la souris quitte le carrousel en l'ouvrant)
+  let lightboxOuverte = false;
   const resume = () => {
+    if (lightboxOuverte) return;
     carousel && carousel.classList.remove('is-paused');
     if (reduced) restartFallback();
   };
@@ -738,6 +744,11 @@ if (nav2) {
   wrap.addEventListener('mouseenter', pause);
   wrap.addEventListener('mouseleave', resume);
   document.addEventListener('visibilitychange', () => document.hidden ? pause() : resume());
+  document.addEventListener('lightbox', e => {
+    lightboxOuverte = e.detail.ouverte;
+    if (lightboxOuverte) pause();
+    else if (!wrap.matches(':hover')) resume();
+  });
 
   let tx = 0;
   wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
