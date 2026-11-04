@@ -33,7 +33,7 @@
       /* Vocabulaire interne de la vue Famille : uniquement des alias vers la palette du site (style.css),
          plus deux teintes propres à l'arbre (fond des photos absentes, halo des noms). */
       --m:var(--male); --f:var(--femelle); --brand:var(--marque-deep);
-      --panel:var(--bg-card); --panel2:#F3EEE6; --line:var(--border); --line2:var(--gris-clair);
+      --panel:var(--bg-card); --panel2:var(--creme-photo); --line:var(--border); --line2:var(--gris-clair);
       --muted:var(--gris);   /* était #8c8075 : 3,7:1 sur crème, sous le seuil de 4,5:1 */
       --fg:var(--noir); --conn:#b0a291; --halo:#FBF4EF; --survol:var(--survol);
     }
@@ -82,7 +82,7 @@
     /* Bouton de retour propre à l'arbre. Ne pas l'appeler .btn : ça écrasait les .btn-primary / .btn-outline du site. */
     .btn-arbre{appearance:none;cursor:pointer;font-family:inherit;font-size:.8rem;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;display:inline-flex;gap:.4rem;align-items:center;transition:border-color .15s,color .15s}
     .btn-arbre:hover{border-color:var(--brand);color:var(--brand)}
-    .canvas-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:radial-gradient(ellipse 75% 70% at 50% 45%, #FFFEFB 0%, #FCF6F1 62%, #F9EEEC 100%);padding:1rem}
+    .canvas-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:radial-gradient(ellipse 75% 70% at 50% 45%, var(--blanc-chaud) 0%, #FCF6F1 62%, #F9EEEC 100%);padding:1rem}
     .canvas{position:relative;margin:0 auto}
     .canvas svg{position:absolute;inset:0;pointer-events:none;overflow:visible}
 
@@ -106,7 +106,7 @@
 
     .cardnode{position:absolute;z-index:3}
     /* Carte centrale : les nôtres = teinte du sexe + bord plein ; extérieurs = fond neutre + bord en tirets (comme dans le panneau) */
-    .selcard{width:244px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(180deg,color-mix(in srgb,var(--c,var(--brand)) 13%,#FFFEFB) 0%,#FFFEFB 72%);border:1px solid color-mix(in srgb,var(--c,var(--line2)) 32%,var(--line));border-radius:20px;padding:1.2rem 1.1rem;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+    .selcard{width:244px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(180deg,color-mix(in srgb,var(--c,var(--brand)) 13%,var(--blanc-chaud)) 0%,var(--blanc-chaud) 72%);border:1px solid color-mix(in srgb,var(--c,var(--line2)) 32%,var(--line));border-radius:20px;padding:1.2rem 1.1rem;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.12)}
     .selcard .ring{flex:none}
     .selcard.ext{background:rgba(255,253,249,.72);border:1.5px dashed color-mix(in srgb,var(--c,var(--line2)) 55%,transparent);box-shadow:0 4px 14px rgba(0,0,0,.06)}
     .selcard.ext .ring{border-width:3px}
@@ -167,7 +167,7 @@
     .fx-med.is-inconnu .fx-med-img{border:1.5px dashed var(--gris-clair);box-shadow:none;background:transparent;color:var(--gris-clair)}
     .fx-med.is-inconnu .fx-med-nom{color:var(--gris);font-style:italic;font-size:.85rem}
     .fx-trait{width:1.5px;height:1.4rem;margin:.5rem 0;background:linear-gradient(var(--c,var(--accent)),color-mix(in srgb,var(--c,var(--accent)) 25%,transparent))}
-    .fx-centre{display:flex;flex-direction:column;align-items:center;gap:.2rem;width:100%;max-width:360px;padding:1.1rem 1rem 1.2rem;border-radius:22px;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 18%,#FFFEFB) 0%,#FFFEFB 70%);border:1px solid color-mix(in srgb,var(--c) 28%,transparent);box-shadow:0 10px 28px color-mix(in srgb,var(--c) 16%,transparent)}
+    .fx-centre{display:flex;flex-direction:column;align-items:center;gap:.2rem;width:100%;max-width:360px;padding:1.1rem 1rem 1.2rem;border-radius:22px;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 18%,var(--blanc-chaud)) 0%,var(--blanc-chaud) 70%);border:1px solid color-mix(in srgb,var(--c) 28%,transparent);box-shadow:0 10px 28px color-mix(in srgb,var(--c) 16%,transparent)}
     .fx-centre-photo{width:124px;height:124px;border-radius:50%;overflow:hidden;padding:0;border:3px solid var(--c);box-shadow:0 0 0 5px var(--bg-cream),0 8px 22px rgba(60,40,35,.18);background:var(--panel2);margin-bottom:.55rem;display:grid;place-items:center;font-family:var(--font-serif);font-size:2.2rem;color:var(--c)}
     .fx-centre-photo img{width:100%;height:100%;object-fit:cover;display:block}
     .fx-genre{margin:0;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ct,var(--c));display:flex;gap:.5rem;align-items:center;justify-content:center;flex-wrap:wrap}
@@ -230,7 +230,7 @@
     .ap-photo.is-vide{cursor:default}
     .ap-photo[data-zoom]{cursor:zoom-in}
     .ap-fermer{position:absolute;top:.6rem;right:.6rem;z-index:2}   /* habillage : .btn-fermer */
-    .ap-corps{padding:1.15rem 1.3rem 1.4rem;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 30%,#FFFEFA) 0%,color-mix(in srgb,var(--c) 13%,#FFFEFA) 28%,color-mix(in srgb,var(--c) 6%,#FFFEFA) 100%)}
+    .ap-corps{padding:1.15rem 1.3rem 1.4rem;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 30%,var(--blanc-chaud)) 0%,color-mix(in srgb,var(--c) 13%,var(--blanc-chaud)) 28%,color-mix(in srgb,var(--c) 6%,var(--blanc-chaud)) 100%)}
     .ap-carte.is-memoire .ap-corps{background:linear-gradient(180deg,#DDD7D3 0%,#EAE6E2 14%,#F5F2EE 50%,#F7F2EA 100%)}
     .ap-carte.is-memoire .ap-photo img{filter:grayscale(.85)}
     .ap-genre{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ct,var(--c));margin-bottom:.3rem}

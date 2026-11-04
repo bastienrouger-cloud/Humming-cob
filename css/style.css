@@ -39,6 +39,10 @@
   --gris:        #6A6A6A;
   --gris-clair:  #C8C0BC;
   --or-pale:     #EFE0CC;
+  /* Neutres des fenêtres et cartes (4/11), repris du calculateur et de l'arbre */
+  --blanc-chaud: #FFFEFB;   /* fond de carte ou de fenêtre, un rien plus clair que --bg-card */
+  --creme-pied:  #FBF7F2;   /* pied de fenêtre (barre des boutons) */
+  --creme-photo: #F3EEE6;   /* fond d'une photo absente ou pas encore chargée */
   --border:      rgba(176, 96, 112, 0.15);
 
   /* Code couleur des chevaux : FIXE, ne suit pas le thème de la page
