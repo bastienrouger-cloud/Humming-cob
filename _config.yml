@@ -1,0 +1,9 @@
+# Configuration de GitHub Pages (Jekyll construit le site à chaque push sur main).
+# Seul rôle de ce fichier : ne pas publier les fichiers de travail du dépôt.
+# Ils restent dans git, mais ne sont plus servis sur hummingcob.fr.
+exclude:
+  - build.py          # générateur des pages (en-tête, pied de page, cartes, js/chevaux.js)
+  - serve.pl          # petit serveur local de test
+  - compress_images.py
+  - partials/         # morceaux injectés par build.py
+  - data/             # sources de js/chevaux.js et du livre d'or, compilées par build.py
