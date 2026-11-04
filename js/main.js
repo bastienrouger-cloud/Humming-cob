@@ -323,7 +323,7 @@ if (revealEls.length) {
   document.body.insertAdjacentHTML('beforeend', `
     <div class="cm" id="cm" hidden>
       <div class="cm-fond" data-fermer></div>
-      <div class="cm-boite" role="dialog" aria-modal="true" aria-labelledby="cmNom">
+      <div class="cm-boite" role="dialog" aria-modal="true" aria-labelledby="cmNom" tabindex="-1">
         <button type="button" class="cm-fermer" data-fermer aria-label="Fermer">✕</button>
         <div class="cm-carrousel"></div>
         <div class="cm-infos"></div>
@@ -394,7 +394,7 @@ if (revealEls.length) {
     carteOrigine = carte;
     cm.hidden = false;
     document.body.style.overflow = 'hidden';
-    cm.querySelector('.cm-fermer').focus();
+    boite.focus({ preventScroll: true });   // la boîte, pas le bouton Fermer (anneau à l'ouverture)
   }
 
   function fermer() {

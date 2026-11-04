@@ -449,7 +449,7 @@
 
 <!-- Overlay -->
 <div id="elev-modal" role="dialog" aria-modal="true" aria-labelledby="elev-title">
-  <div id="elev-panel">
+  <div id="elev-panel" tabindex="-1">
     <button id="elev-close" aria-label="Fermer">✕</button>
     <div id="elev-header">
       <div id="elev-icon"></div>
@@ -935,7 +935,7 @@
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
     panel.scrollTop = 0;
-    closeBtn.focus();
+    panel.focus({ preventScroll: true });   // pas closeBtn : il s'allumait à l'ouverture
 
     // Contraint l'image gauche à la hauteur de la colonne texte
     // (re-mesure après chargement des images inline du texte).
@@ -955,17 +955,27 @@
   }
 
   function closeModal() {
+    if (!modal.classList.contains('open')) return;
     modal.classList.remove('open');
     document.body.style.overflow = '';
     body.style.alignItems = '';
     var img = imagesEl.querySelector('img');
     if (img) img.style.maxHeight = '';
+    // Rend le focus à la carte d'origine (au clavier, on reprend où on en était)
+    if (carteOrigine) { carteOrigine.focus({ preventScroll: true }); carteOrigine = null; }
   }
 
-  // Listeners cartes
+  // Listeners cartes : clic, ou Entrée / Espace au clavier (les cartes sont des <div>,
+  // on les rend atteignables avec Tab et annoncées comme des boutons)
+  var carteOrigine = null;
   document.querySelectorAll('.elevage-card--clickable').forEach(function (card) {
-    card.addEventListener('click', function () {
-      openModal(card.dataset.elevage);
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-haspopup', 'dialog');
+    function ouvrir() { carteOrigine = card; openModal(card.dataset.elevage); }
+    card.addEventListener('click', ouvrir);
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ouvrir(); }
     });
   });
 

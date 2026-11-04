@@ -1134,7 +1134,7 @@ function genetiqueHTML(sireH, damH){
 document.body.insertAdjacentHTML('beforeend', `
   <div class="cp" id="cp" hidden>
     <div class="cp-fond" data-fermer></div>
-    <div class="cp-boite" role="dialog" aria-modal="true" aria-labelledby="cpTitre">
+    <div class="cp-boite" role="dialog" aria-modal="true" aria-labelledby="cpTitre" tabindex="-1">
       <div class="cp-tete"><h2 id="cpTitre"></h2><button type="button" class="cp-fermer" data-fermer aria-label="Fermer">✕</button></div>
       <div class="cp-corps" id="cpCorps"></div>
       <div class="cp-pied"><p id="cpPiedTexte"></p><button type="button" class="btn btn-primary cp-ajouter" id="cpAjouter"></button></div>
@@ -1214,7 +1214,7 @@ function ouvrirSelecteur(side){
   liste.addEventListener('pointerdown', e => e.preventDefault());   // garder le focus le temps du clic
   cpEl.hidden = false;
   document.body.style.overflow = 'hidden';
-  cpEl.querySelector('.cp-fermer').focus();
+  cpEl.querySelector('.cp-boite').focus({ preventScroll: true });   // la boîte, pas le bouton Fermer
 }
 function fermerSelecteur(){
   cpEl.hidden = true;

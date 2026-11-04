@@ -92,6 +92,12 @@
    La bande crème est donc assumée pour l'instant. Voir ROADMAP.md. */
 html { scroll-behavior: smooth; font-size: 16px; }
 
+/* Focus commun (4/11) : contour aux couleurs du thème, seulement à la navigation au clavier
+   (:focus-visible), au lieu de l'anneau bleu du navigateur. Les fenêtres reçoivent le focus
+   sur leur boîte (tabindex=-1), sans contour : rien ne s'allume à l'ouverture à la souris. */
+:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 3px; }
+[role="dialog"][tabindex="-1"]:focus, [role="dialog"] [tabindex="-1"]:focus { outline: none; }
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-cream);
