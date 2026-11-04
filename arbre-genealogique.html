@@ -379,7 +379,7 @@ function carteHTML(c){
   const enfants=enfantsDe(c.id);
   if(enfants.length)infos.push(['Descendance',`<span class="ap-liens">${enfants.map(e=>lienCheval(e.id)).join('')}</span>`]);
   return `
-  <article class="ap-carte${c.famille==='externe'?' is-ext':''}${c.role==='memoire'?' is-memoire':''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
+  <article data-sexe="${c.sexe==='femelle'?'femelle':'male'}" class="ap-carte${c.famille==='externe'?' is-ext':''}${c.role==='memoire'?' is-memoire':''}" style="--c:${COUL[c.sexe]};--ct:${COUL_TEXTE[c.sexe]}">
     <button type="button" class="btn-fermer ap-fermer" aria-label="Fermer">✕</button>
     <span class="ap-photo${vraiePhoto?'':' is-vide'}"${vraiePhoto?` data-zoom="${esc(photo)}" data-legende="${esc(c.nom)}" role="button" tabindex="0" aria-label="Agrandir la photo de ${esc(c.nom)}"`:''}><img src="${esc(photo)}" alt="${vraiePhoto?esc(c.nom):''}" loading="lazy"${c.photo&&c.cadrage?` style="object-position:${esc(c.cadrage)}"`:''}></span>
     <div class="ap-corps">
@@ -870,7 +870,7 @@ document.addEventListener('click',e=>{
   const dansVolet=e.target.closest('#volet');
   if(e.target.closest('[data-fermer-volet]')||(dansVolet&&e.target.closest('.ap-fermer'))){fermerVolet();return;}
   const bc=e.target.closest('[data-carte]'); if(bc){ouvrirVolet(bc.dataset.carte,bc);return;}
-  const zp=e.target.closest('.ap-photo[data-zoom]'); if(zp){ if(window.ouvrirLightbox) ouvrirLightbox([zp.dataset.zoom],0,[zp.dataset.legende]); return; }   // lightbox du site (main.js)
+  const zp=e.target.closest('.ap-photo[data-zoom]'); if(zp){ if(window.ouvrirLightbox) ouvrirLightbox([zp.dataset.zoom],0,[zp.dataset.legende],[],zp.closest('.ap-carte').dataset.sexe); return; }   // lightbox du site (main.js)
   if(e.target.closest('#backBtn')||e.target.closest('.ap-fermer')){showRest();return;}
   if(e.target.closest('a'))return;
   const c=e.target.closest('[data-id]');

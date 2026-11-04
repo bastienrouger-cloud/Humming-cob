@@ -143,15 +143,19 @@ if (revealEls.length) {
   overlay.append(closeBtn, prevBtn, lbImg, lbVid, nextBtn, lbCap, counter);
   document.body.appendChild(overlay);
 
-  function openLb(images, idx, captions, videos) {
+  // sexe (optionnel, 'male' | 'femelle') : couleur du cheval pour les boutons, quand la
+  // lightbox s'ouvre depuis un cheval sur une page d'une autre couleur (ex. l'arbre)
+  function openLb(images, idx, captions, videos, sexe) {
     lbImages = images; lbIdx = idx; lbCaptions = captions || []; lbVideos = videos || [];
+    overlay.classList.toggle('accent-male', sexe === 'male');
+    overlay.classList.toggle('accent-femelle', sexe === 'femelle');
     show();
     overlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     // Prévient les carrousels (ex. celui du hero) : ils se figent tant que la lightbox est ouverte
     document.dispatchEvent(new CustomEvent('lightbox', { detail: { ouverte: true } }));
   }
-  // Accessible aux autres scripts (ex. l'arbre : photo de la carte du cheval) : ouvrirLightbox([src], 0, [légende])
+  // Accessible aux autres scripts (ex. l'arbre : photo de la carte du cheval) : ouvrirLightbox([src], 0, [légende], [], sexe)
   window.ouvrirLightbox = openLb;
   // Une vidéo seule (ex. le tuto de la page Croisements) : ouvrirVideo(src, aperçu, légende)
   window.ouvrirVideo = (src, poster, cap) => openLb([poster], 0, [cap || ''], [src]);
@@ -359,6 +363,8 @@ if (revealEls.length) {
       .map(p => typeof p === 'string' ? { src: p } : p);
     const femelle = c.sexe === 'femelle';
     boite.classList.toggle('is-femelle', femelle);
+    boite.classList.toggle('accent-femelle', femelle);   // boutons (Fermer…) à la couleur du cheval
+    boite.classList.toggle('accent-male', !femelle);
     boite.classList.toggle('is-memoire', c.role === 'memoire');
 
     carrousel.innerHTML = photos.map((p, i) => `

@@ -2420,6 +2420,21 @@ body.theme-male {
   --shadow:      0 4px 32px rgba(120, 95, 60, 0.08);
   --shadow-hover:0 8px 48px rgba(120, 95, 60, 0.14);
 }
+/* Accent d'un sexe sur un bloc seul (fenêtre ouverte depuis un cheval, sur une page
+   d'une autre couleur) : mêmes accents que body.theme-male / theme-femelle, sans les fonds. */
+.accent-male {
+  --accent-pale: var(--male-pale);
+  --accent:      var(--male);
+  --accent-deep: var(--male-deep);
+  --accent-dark: #1F5257;
+}
+.accent-femelle {
+  --accent-pale: var(--femelle-pale);
+  --accent:      var(--femelle);
+  --accent-deep: var(--femelle-deep);
+  --accent-dark: #7E2440;
+}
+
 body.theme-femelle {
   /* Même crème que les mâles : c'est le fond à taches qui porte la couleur. */
   --bg-cream:  #FDFBF6;
