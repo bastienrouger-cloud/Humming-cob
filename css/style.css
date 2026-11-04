@@ -2813,6 +2813,13 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
   .lo-mot { padding: 2.2rem 1.4rem 1.3rem; }
 }
 
+/* Titre principal d'en-tête de page (Élevage, Nos chevaux, Croisements, Contact, Livre d'or) */
+.section-title--page { font-size: clamp(2rem, 5vw, 3rem); }
+
+/* Mise en avant dans un texte : italique, couleur du thème, appuyée
+   (remplace le style écrit 31 fois en dur dans l'accueil, l'élevage et « Acheter »). */
+.em-fort { color: var(--accent-deep); font-weight: 600; font-style: italic; }
+
 /* L'élevage : lien vers la frise, sous l'histoire du nom */
 .elevage-histoire-lien { margin-top: 1.4rem; }
 

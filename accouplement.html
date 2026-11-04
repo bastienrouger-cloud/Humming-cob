@@ -62,7 +62,7 @@
     margin:0;
     background:var(--cream);
     color:var(--ink);
-    font-family:'Jost',sans-serif;
+    font-family:var(--font-sans);
     /* Pas de padding-top : le hero (.page-header, 8rem haut) passe sous la navbar
        fixe et absorbe ses 80px, comme sur elevage.html. Un padding:80px ici
        comptait la navbar deux fois → trop d'espace au-dessus du badge. */
@@ -72,7 +72,7 @@
     padding:28px 20px 80px;
   }
   h1{
-    font-family:'Cormorant Garamond',serif;
+    font-family:var(--font-serif);
     font-weight:700;
     font-size:2.4rem;
     margin:0 0 4px;
@@ -90,7 +90,7 @@
     padding:20px 22px;
   }
   .panel h2{
-    font-family:'Cormorant Garamond',serif;
+    font-family:var(--font-serif);
     font-size:1.3rem;
     margin:0 0 14px;
     color:var(--ink);
@@ -117,12 +117,12 @@
     border:1px solid var(--line);
     border-radius:6px;
     background:#fff;
-    font-family:'Jost',sans-serif;
+    font-family:var(--font-sans);
     font-size:0.88rem;
     color:var(--ink);
   }
   button{
-    font-family:'Jost',sans-serif;
+    font-family:var(--font-sans);
     font-weight:500;
     border:none;
     border-radius:6px;
@@ -617,7 +617,7 @@
 <section id="page-header" class="page-header page-header--compact page-header--hc">
   <div class="section-inner">
     <span class="section-badge">Calculateur</span>
-    <h1 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Testez un <em>croisement</em></h1>
+    <h1 class="section-title section-title--page">Testez un <em>croisement</em></h1>
     <div class="section-divider" style="margin:1.5rem auto;"></div>
     <p class="section-text" style="max-width:800px;margin:0 auto;">
       Choisissez un étalon et une jument — parmi nos reproducteurs ou en ajoutant les vôtres — et l'outil estime la descendance : coefficient de consanguinité (méthode tabulaire de Wright, référence IFCE), robes possibles et risques de maladies génétiques (PSSM1, FIS).
