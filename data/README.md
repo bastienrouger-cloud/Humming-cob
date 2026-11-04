@@ -64,7 +64,7 @@ seules les données répétées ailleurs vivent ici.
 
 ## Fichier du calculateur
 
-Le bouton « Télécharger mes ajouts » d'`accouplement.html` produit une **liste de chevaux au même
+Le bouton « Télécharger mes chevaux » d'`accouplement.html` produit une **liste de chevaux au même
 format que ces fiches** (`nom`, `sexe`, `pere`, `mere`, `naissance`, `robe`, `race`, `souche`,
 `elevage`, `genetique`…), avec `famille: "externe"` et `source: "calculateur hummingcob.fr"`.
 L'`id` est tiré du nom (« Bella du Test » → `belladutest`, suffixe `-2` si déjà pris) et les liens

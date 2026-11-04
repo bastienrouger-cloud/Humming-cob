@@ -1897,6 +1897,43 @@ footer {
 }
 .hero-slides:hover .hero-expand { background: color-mix(in srgb, var(--accent-deep) 85%, transparent); }
 
+/* --- Diapo vidéo : aperçu + bouton lecture ; un clic ouvre la vidéo en grand (js/main.js, data-video) --- */
+.hero-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  z-index: 2;
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent-deep) 78%, transparent);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: transform var(--transition), background var(--transition);
+}
+.hero-play::before {
+  content: '';
+  margin-left: 5px;
+  border-style: solid;
+  border-width: 12px 0 12px 20px;
+  border-color: transparent transparent transparent #fff;
+}
+.hero-slides:hover .hero-play { transform: scale(1.08); background: var(--accent-deep); }
+.hero-video-duree {
+  position: absolute;
+  left: 0.7rem; top: 0.7rem;
+  z-index: 2;
+  padding: 0.25rem 0.6rem;
+  border-radius: 7px;
+  background: rgba(28, 28, 28, 0.42);
+  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
 /* --- Légende de la photo courante --- */
 .hero-cap {
   position: relative;
@@ -1932,6 +1969,8 @@ footer {
   transition: width var(--transition), background var(--transition);
 }
 .hero-dot.done { background: var(--accent); }
+/* Diapo vidéo : triangle « lecture » tant qu'elle n'est pas en cours */
+.hero-dot--video:not(.running) { width: 8px; border-radius: 0; clip-path: polygon(0 0, 100% 50%, 0 100%); }
 /* Pastille active : s'allonge en gélule et se colorise au rythme du minuteur */
 .hero-dot.running { width: 34px; }
 .hero-dot i {

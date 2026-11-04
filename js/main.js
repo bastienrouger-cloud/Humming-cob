@@ -97,7 +97,8 @@ if (revealEls.length) {
 
 // ── Lightbox carrousel ──────────────────────────────────────────────────────
 (function () {
-  let lbImages = [], lbCaptions = [], lbIdx = 0;
+  // lbVideos : pour chaque élément, l'adresse d'une vidéo (data-video sur l'<img>) ou rien
+  let lbImages = [], lbCaptions = [], lbVideos = [], lbIdx = 0;
 
   // Overlay
   const overlay = document.createElement('div');
@@ -106,6 +107,11 @@ if (revealEls.length) {
   // Image
   const lbImg = document.createElement('img');
   lbImg.style.cssText = 'max-width:82vw;max-height:84vh;object-fit:contain;border-radius:6px;box-shadow:0 12px 60px rgba(0,0,0,.9);cursor:default;transition:opacity .18s;';
+
+  // Vidéo : prend la place de l'image quand l'élément courant en a une
+  const lbVid = document.createElement('video');
+  lbVid.controls = true; lbVid.playsInline = true; lbVid.preload = 'none';
+  lbVid.style.cssText = 'display:none;width:min(88vw, calc(78vh * 16 / 9));max-height:78vh;aspect-ratio:16/9;background:#000;border-radius:6px;box-shadow:0 12px 60px rgba(0,0,0,.9);';
 
   // Caption
   const lbCap = document.createElement('div');
@@ -128,25 +134,41 @@ if (revealEls.length) {
   const prevBtn  = makeBtn('‹', 'left:1rem;top:50%;transform:translateY(-50%);font-size:2.4rem;width:48px;height:48px;');
   const nextBtn  = makeBtn('›', 'right:1rem;top:50%;transform:translateY(-50%);font-size:2.4rem;width:48px;height:48px;');
 
-  overlay.append(closeBtn, prevBtn, lbImg, nextBtn, lbCap, counter);
+  overlay.append(closeBtn, prevBtn, lbImg, lbVid, nextBtn, lbCap, counter);
   document.body.appendChild(overlay);
 
-  function openLb(images, idx, captions) {
-    lbImages = images; lbIdx = idx; lbCaptions = captions || [];
+  function openLb(images, idx, captions, videos) {
+    lbImages = images; lbIdx = idx; lbCaptions = captions || []; lbVideos = videos || [];
     show();
     overlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
   // Accessible aux autres scripts (ex. l'arbre : photo de la carte du cheval) : ouvrirLightbox([src], 0, [légende])
   window.ouvrirLightbox = openLb;
+  // Une vidéo seule (ex. le tuto de la page Croisements) : ouvrirVideo(src, aperçu, légende)
+  window.ouvrirVideo = (src, poster, cap) => openLb([poster], 0, [cap || ''], [src]);
   function closeLb() {
+    lbVid.pause();
     overlay.style.display = 'none';
     document.body.style.overflow = '';
   }
   function go(n) { lbIdx = (n + lbImages.length) % lbImages.length; show(); }
   function show() {
-    lbImg.style.opacity = '0';
-    setTimeout(() => { lbImg.src = lbImages[lbIdx]; lbImg.style.opacity = '1'; }, 80);
+    const vid = lbVideos[lbIdx] || '';
+    lbVid.pause();
+    if (vid) {
+      lbImg.style.display = 'none';
+      lbVid.style.display = 'block';
+      lbVid.poster = lbImages[lbIdx];
+      if (lbVid.getAttribute('src') !== vid) lbVid.src = vid;
+      else lbVid.currentTime = 0;
+      lbVid.play().catch(() => {});   // lecture refusée (réglage du navigateur) : le bouton lecture reste là
+    } else {
+      lbVid.style.display = 'none';
+      lbImg.style.display = '';
+      lbImg.style.opacity = '0';
+      setTimeout(() => { lbImg.src = lbImages[lbIdx]; lbImg.style.opacity = '1'; }, 80);
+    }
     const cap = lbCaptions[lbIdx] || '';
     lbCap.textContent = cap;
     lbCap.style.display = cap ? 'block' : 'none';
@@ -156,9 +178,11 @@ if (revealEls.length) {
   }
 
   // Swipe
-  let touchX = 0;
-  overlay.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, {passive:true});
+  // Pas de glissement depuis la vidéo : on y déplace la tête de lecture
+  let touchX = null;
+  overlay.addEventListener('touchstart', e => { touchX = e.target === lbVid ? null : e.touches[0].clientX; }, {passive:true});
   overlay.addEventListener('touchend',   e => {
+    if (touchX === null) return;
     const dx = e.changedTouches[0].clientX - touchX;
     if (Math.abs(dx) > 40) go(lbIdx + (dx < 0 ? 1 : -1));
   }, {passive:true});
@@ -168,6 +192,7 @@ if (revealEls.length) {
   nextBtn.addEventListener('click',  e => { e.stopPropagation(); go(lbIdx + 1); });
   overlay.addEventListener('click', closeLb);
   lbImg.addEventListener('click', e => e.stopPropagation());
+  lbVid.addEventListener('click', e => e.stopPropagation());
   document.addEventListener('keydown', e => {
     if (overlay.style.display === 'none') return;
     if (e.key === 'Escape')     closeLb();
@@ -192,13 +217,14 @@ if (revealEls.length) {
     const allImgs = Array.from(document.querySelectorAll(imgsSel));
     const srcs = allImgs.map(i => i.src);
     const caps = allImgs.map(i => i.dataset.cap || i.parentElement.dataset.cap || '');
+    const videos = allImgs.map(i => i.dataset.video || '');
     container.style.cursor = 'zoom-in';
     container.addEventListener('click', e => {
       if (e.target.closest('button')) return;     // ignorer flèches prev/next
       const activeImg = document.querySelector(activeSel);
       if (!activeImg) return;
       const idx = srcs.indexOf(activeImg.src);
-      openLb(srcs, idx >= 0 ? idx : 0, caps);
+      openLb(srcs, idx >= 0 ? idx : 0, caps, videos);
     });
   });
 })();
@@ -649,9 +675,10 @@ if (nav2) {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur = 0, fallback = null;
 
-  const segs = slides.map(() => {
+  const segs = slides.map(sl => {
     const seg = document.createElement('span');
-    seg.className = 'hero-dot';
+    // La pastille d'une diapo vidéo est un petit triangle « lecture »
+    seg.className = 'hero-dot' + (sl.classList.contains('hero-slide--video') ? ' hero-dot--video' : '');
     seg.appendChild(document.createElement('i'));
     timerEl && timerEl.appendChild(seg);
     return seg;

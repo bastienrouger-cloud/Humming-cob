@@ -223,8 +223,11 @@
   .dd-vide{padding:.5rem .7rem;font-size:.8rem;color:var(--gris);}
   .ed-recommencer{padding:0;background:none;color:var(--gris);font-size:.74rem;font-weight:400;text-decoration:underline;}
   .ed-actions-droite{display:flex;gap:.6rem;align-items:center;}
-  .ed-annuler{padding:.7rem 1.2rem;border-radius:50px;background:transparent;color:var(--gris);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;font-weight:400;}
-  .ed-annuler:hover{color:var(--noir);}
+  .modal-import{padding-top:0;}
+  .ed-lien{padding:0;background:none;color:var(--accent-deep);font-size:inherit;font-weight:500;text-decoration:underline;text-underline-offset:2px;}
+  .ed-lien:hover{color:var(--accent-dark,var(--noir));}
+  .ed-dl{display:flex;align-items:center;gap:.45rem;font-size:.8rem;color:var(--gris);cursor:pointer;white-space:nowrap;}
+  .ed-dl input{width:16px;height:16px;margin:0;accent-color:var(--accent-deep);cursor:pointer;}
 
   /* --- Formulaire --- */
   .ed{display:flex;flex-direction:column;gap:1.2rem;}
@@ -575,18 +578,15 @@
   .ed-recommencer{white-space:nowrap;}
   .modal-actions{gap:.6rem;}
   .modal-actions .btn{letter-spacing:.04em;}
-  .modal-actions .ed-annuler{padding-left:.6rem;padding-right:.6rem;}
+  .modal-actions .ed-actions-droite{gap:1.1rem;}
   @media (max-width:700px){
     /* Mobile : l'action principale en premier, pleine largeur */
-    .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .6rem;}
+    .modal-actions{display:grid;grid-template-columns:1fr;gap:.6rem;}
     .modal-actions .ed-actions-gauche,.modal-actions .ed-actions-droite{display:contents;}
     .modal-actions .btn{padding:.7rem .6rem;}
-    .modal-actions #saveTreeBtn{grid-column:1 / -1;order:-3;}
-    .modal-actions #dlTreeBtn{order:-2;}
-    .modal-actions #modalImport{order:-1;}
-    .modal-actions:has(#dlTreeBtn[hidden]) #modalImport,.modal-actions:has(#modalImport[hidden]) #dlTreeBtn{grid-column:1 / -1;}
-    .modal-actions .ed-annuler{order:1;justify-self:start;padding-left:0;}
-    .modal-actions #resetTreeBtn{order:2;justify-self:end;}
+    .modal-actions #dlTreeBtn{order:-2;justify-self:center;}
+    .modal-actions #saveTreeBtn{order:-1;}
+    .modal-actions #resetTreeBtn{order:1;justify-self:center;}
   }
 </style>
 </head>
@@ -623,6 +623,12 @@
     <div class="section-divider" style="margin:1.5rem auto;"></div>
     <p class="section-text" style="max-width:800px;margin:0 auto;">
       Choisissez un étalon et une jument — parmi nos reproducteurs ou en ajoutant les vôtres — et l'outil estime la descendance : coefficient de consanguinité (méthode tabulaire de Wright, référence IFCE), robes possibles et risques de maladies génétiques (PSSM1, FIS).
+    </p>
+    <p style="margin-top:1.6rem;">
+      <button type="button" class="btn btn-outline" onclick="ouvrirVideo('video/tuto-croisement.mp4', 'video/tuto-croisement.jpg', 'Tuto : tester un croisement')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 3 21 12 6 21"/></svg>
+        Voir le tuto (3 min)
+      </button>
     </p>
   </div>
 </section>
@@ -682,11 +688,10 @@
 
   <div class="panel">
     <h2>Sauvegarder <em>mes chevaux</em></h2>
-    <p class="hint" style="margin-top:0;"><strong>Comment ajouter un cheval :</strong> cliquez sur « Choisir un étalon » ou « Choisir une jument », puis sur « Ajouter mon étalon » ou « Ajouter ma jument » en bas de la liste. Renseignez son pédigrée, puis cliquez sur « Ajouter et tester ».</p>
-    <div class="save-note"><strong>Important :</strong> rien de ce que vous ajoutez n'est enregistré de façon permanente par l'outil — tout disparaît si vous rafraîchissez ou fermez la page. Pour garder une trace (et nous transmettre les informations), téléchargez le fichier ci-dessous et envoyez-le nous. Le téléchargement ne contient que les chevaux que vous avez vous-même ajoutés dans cette session, pas toute la base.</div>
+    <div class="save-note"><strong>Important :</strong> rien de ce que vous ajoutez n'est enregistré de façon permanente par l'outil — tout disparaît si vous rafraîchissez ou fermez la page. Pour garder une trace (et nous transmettre les informations), téléchargez le fichier ci-dessous et envoyez-le nous.</div>
     <div class="row-actions" style="margin-top:0;">
-      <button class="btn btn-outline" onclick="exportJSON()">Télécharger mes ajouts</button>
-      <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">Recharger un fichier</button>
+      <button class="btn btn-outline" onclick="exportJSON()">Télécharger mes chevaux</button>
+      <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">Importer mes chevaux</button>
       <input type="file" id="fileInput" accept="application/json" onchange="importJSON(event)">
     </div>
   </div>
@@ -701,17 +706,15 @@
       <button type="button" class="modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
     </div>
     <p class="modal-intro">Seul le nom est obligatoire. Renseignez ensuite ce que vous connaissez de son ascendance&nbsp;: c'est elle qui fait le calcul.</p>
+    <p class="modal-intro modal-import" id="modalImport">Sa fiche est déjà sur votre ordinateur&nbsp;? <button type="button" class="ed-lien" onclick="document.getElementById('fileInputModal').click()">Importer sa fiche</button><input type="file" id="fileInputModal" accept="application/json,.json" hidden onchange="importJSON(event, draft.context)"></p>
     <div class="modal-corps"><div class="ed" id="treeContainer"></div></div>
     <div class="modal-actions">
       <div class="ed-actions-gauche">
-        <button type="button" class="btn btn-outline" id="modalImport" onclick="document.getElementById('fileInputModal').click()" title="Reprendre un cheval déjà enregistré sur votre ordinateur (fichier .json téléchargé ici)">Importer un fichier</button>
-        <input type="file" id="fileInputModal" accept="application/json,.json" hidden onchange="importJSON(event, draft.context)">
         <button type="button" class="ed-recommencer" id="resetTreeBtn" onclick="resetTreeForm()">Tout effacer</button>
       </div>
       <div class="ed-actions-droite">
-        <button type="button" class="ed-annuler" onclick="closeModal()">Annuler</button>
-        <button type="button" class="btn btn-outline" id="dlTreeBtn" onclick="saveTreeHorse(true)" title="Ajoute le cheval et télécharge sa fiche sur votre ordinateur (avec les ancêtres saisis), pour la réimporter plus tard ou nous l'envoyer">Télécharger</button>
-        <button type="button" class="btn btn-primary" id="saveTreeBtn" onclick="saveTreeHorse()">Ajouter et tester</button>
+        <label class="ed-dl" id="dlTreeBtn" title="Enregistre sa fiche sur votre ordinateur (avec les ancêtres saisis), pour la recharger plus tard ou nous l'envoyer"><input type="checkbox" id="dlTreeChk"> Télécharger aussi sa fiche</label>
+        <button type="button" class="btn btn-primary" id="saveTreeBtn" onclick="saveTreeHorse(document.getElementById('dlTreeChk').checked)">Ajouter et tester</button>
       </div>
     </div>
   </div>
@@ -851,7 +854,7 @@ function renderMatchBox(side){
   if(!h){
     contentEl.innerHTML = `<span class="ac-plus" aria-hidden="true">+</span>`
       + `<span class="ac-vide-titre">${side === 'left' ? 'Choisir un étalon' : 'Choisir une jument'}</span>`
-      + `<span class="ac-vide-sous">un des nôtres, ou le vôtre</span>`;
+      + `<span class="ac-vide-sous">${side === 'left' ? 'un des nôtres, ou le vôtre' : 'une des nôtres, ou la vôtre'}</span>`;
     return;
   }
   contentEl.innerHTML = vignetteCalc(h, 'ac-parent-photo')
@@ -1256,6 +1259,7 @@ function openModal(context){
     const forced = forcedSexFor(context);
     if(forced) draft.root.sex = forced;
   }
+  const chk = document.getElementById('dlTreeChk'); if(chk) chk.checked = false;
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
   renderTree();
@@ -1841,7 +1845,7 @@ function exportJSON(){
     alert("Vous n'avez encore ajouté aucun cheval dans cette session — rien à télécharger.");
     return;
   }
-  telechargerChevaux(added, 'mes-chevaux-ajoutes.json');
+  telechargerChevaux(added, 'mes-chevaux.json');
 }
 function telechargerChevaux(added, fichier){
   // id lisible tiré du nom (« Bella du Test » → « belladutest »), comme nos fiches :
