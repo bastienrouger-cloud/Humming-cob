@@ -38,6 +38,7 @@
   --noir:        #1C1C1C;
   --gris:        #6A6A6A;
   --gris-clair:  #C8C0BC;
+  --gris-chaud:  #7A6F62;   /* petits textes secondaires beige-gris : ≥ 4,6:1 sur les crèmes (4/11) */
   --or-pale:     #EFE0CC;
   /* Neutres des fenêtres et cartes (4/11), repris du calculateur et de l'arbre */
   --blanc-chaud: #FFFEFB;   /* fond de carte ou de fenêtre, un rien plus clair que --bg-card */
