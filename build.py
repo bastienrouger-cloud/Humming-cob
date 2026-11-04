@@ -825,20 +825,19 @@ def injecter_livre_dor(html, page, par_id, messages):
 
 
 # ---------------------------------------------------------------- tête (<head>)
-# Deux ajouts automatiques, idempotents, dans le <head> de chaque page :
-#   - preconnect vers Google Fonts (si absent) : amorce la connexion au plus tôt.
+# Dans le <head> de chaque page, idempotent :
+#   - retire les anciens preconnect vers Google Fonts : les polices sont hébergées
+#     sur le site depuis le 4/11 (fonts/, RGPD), plus aucune connexion à Google.
 #   - canonical : recopié depuis og:url (déjà la bonne URL par page). Évite que les
 #     variantes d'URL (/, index.html, ?sujet=…) soient vues comme des doublons.
 _OGURL = re.compile(r'<meta\s+property="og:url"\s+content="([^"]*)"\s*/?>')
 _CANON = re.compile(r'\s*<link rel="canonical"[^>]*>')
 _CHARSET = re.compile(r'(<meta\s+charset=[^>]*>)', re.I)
-_PRECONNECT = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
-               '    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>')
+_PRECONNECT = re.compile(r'\n?[ \t]*<link rel="preconnect" href="https://fonts\.(googleapis|gstatic)\.com"[^>]*>')
 
 
 def injecter_tete(html):
-    if 'rel="preconnect"' not in html:
-        html = _CHARSET.sub(lambda m: m.group(1) + "\n    " + _PRECONNECT, html, count=1)
+    html = _PRECONNECT.sub("", html)
     m = _OGURL.search(html)
     if m:
         html = _CANON.sub("", html)                       # retire un éventuel canonical existant
