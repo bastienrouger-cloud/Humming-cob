@@ -2873,3 +2873,19 @@ body.fond-taches > section#qui-sommes-nous:not(.troupeau--memoire) { background:
 /* Fiches étalons, bas de page mobile : les deux boutons empilés */
 .cta-end-inner .btn + .btn { margin-top: .7rem; }
 .ac-saillie { display: flex; justify-content: center; margin: 1.6rem 0 .4rem; }
+
+/* Listes déroulantes (4/11) : rendu du site au lieu du menu natif, qui impose la police
+   du système sur Mac. Police Jost, flèche fine à droite (Contact et Livre d'or n'en avaient
+   plus : appearance:none sans flèche). Spécificité (0,1,1) : passe devant .ed-input et
+   les raccourcis « background: » des formulaires, qui effaçaient l'image. */
+select:not([multiple]) {
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: var(--font-sans);
+  padding-right: 2.4rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%236A6A6A' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .9rem center;
+  background-size: 12px 8px;
+  cursor: pointer;
+}
