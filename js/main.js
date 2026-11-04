@@ -106,12 +106,12 @@ if (revealEls.length) {
 
   // Image
   const lbImg = document.createElement('img');
-  lbImg.style.cssText = 'max-width:82vw;max-height:84vh;object-fit:contain;border-radius:6px;box-shadow:0 12px 60px rgba(0,0,0,.9);cursor:default;transition:opacity .18s;';
+  lbImg.style.cssText = 'max-width:82vw;max-height:84vh;object-fit:contain;border-radius:var(--radius-xs);box-shadow:0 12px 60px rgba(0,0,0,.9);cursor:default;transition:opacity .18s;';
 
   // Vidéo : prend la place de l'image quand l'élément courant en a une
   const lbVid = document.createElement('video');
   lbVid.controls = true; lbVid.playsInline = true; lbVid.preload = 'none';
-  lbVid.style.cssText = 'display:none;width:min(88vw, calc(78vh * 16 / 9));max-height:78vh;aspect-ratio:16/9;background:#000;border-radius:6px;box-shadow:0 12px 60px rgba(0,0,0,.9);';
+  lbVid.style.cssText = 'display:none;width:min(88vw, calc(78vh * 16 / 9));max-height:78vh;aspect-ratio:16/9;background:#000;border-radius:var(--radius-xs);box-shadow:0 12px 60px rgba(0,0,0,.9);';
 
   // Caption
   const lbCap = document.createElement('div');
@@ -491,7 +491,7 @@ if (shareBtn) {
   const ov = document.createElement('div');
   ov.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:3000;align-items:center;justify-content:center;cursor:zoom-out;';
   const img = document.createElement('img');
-  img.style.cssText = 'max-width:88vw;max-height:88vh;object-fit:contain;border-radius:8px;box-shadow:0 16px 60px rgba(0,0,0,.9);cursor:default;';
+  img.style.cssText = 'max-width:88vw;max-height:88vh;object-fit:contain;border-radius:var(--radius-s);box-shadow:0 16px 60px rgba(0,0,0,.9);cursor:default;';
   const closeBtn = document.createElement('button');
   closeBtn.type = 'button';
   closeBtn.className = 'btn-fermer';

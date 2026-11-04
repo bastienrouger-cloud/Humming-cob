@@ -357,7 +357,7 @@
 
       background: #fff;
       border: 1px solid rgba(212,137,154,.3);
-      border-radius: 14px;
+      border-radius: var(--radius);
       box-shadow: 0 8px 28px rgba(0,0,0,.12);
       padding: 1rem 1.1rem;
       width: 230px;
@@ -524,7 +524,7 @@
 /* ---- Panel ---- */
 #elev-panel {
   background: #fff;
-  border-radius: 18px;
+  border-radius: var(--radius-l);
   max-width: min(94vw, 1440px);
   width: 100%;
   max-height: 95vh;
@@ -593,7 +593,7 @@
 }
 /* Carrousel (si 4+ images) */
 .elev-carousel-wrap { position: relative; flex: 1; display: flex; flex-direction: column; }
-.elev-img-main { flex: 1; background: var(--bg-light); border-radius: 10px; overflow: hidden; display: flex; align-items: center; min-height: 0; }
+.elev-img-main { flex: 1; background: var(--bg-light); border-radius: var(--radius-s); overflow: hidden; display: flex; align-items: center; min-height: 0; }
 .elev-carousel-wrap .elev-img-main img { display: none; }
 .elev-carousel-wrap .elev-img-main img.on { display: block; }
 .elev-carousel-nav {
@@ -631,7 +631,7 @@
 }
 .elev-img-grid .elev-img-item {
   flex: 1;
-  border-radius: 8px;
+  border-radius: var(--radius-s);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -737,9 +737,9 @@
         <p>Ces origines sont des fondations. Elles garantissent la traçabilité, la santé génétique et la cohérence de notre cheptel sur le long terme.</p>
 </p>`, 
       html: `
-        <img src="img/elevage/sdfarmfam02.jpg" alt="SD Farm" style="width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:8px;display:block;">
+        <img src="img/elevage/sdfarmfam02.jpg" alt="SD Farm" style="width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:var(--radius-s);display:block;">
         <p><em class="em-fort">SD Farm</em> (Oxfordshire, Angleterre) — c'est avant tout une histoire de famille ! Sur cette photo, <em class="em-fort">Steve Down</em> (SD), le patriarche, est accompagné d'une partie de ses petits-enfants. Sa fille, Janey, est à l'origine de l'arrivée de Suzie et de ses filles. Leur élevage perpétue de grande lignée.</p>
-        <img src="img/elevage/Clive-SC.jpg" alt="San Cler Stud" style="width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:8px;margin:.5rem 0;">
+        <img src="img/elevage/Clive-SC.jpg" alt="San Cler Stud" style="width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:var(--radius-s);margin:.5rem 0;">
         <p><em class="em-fort">San Cler Stud</em> (St Clears, Pays de Galles) — Ici, <em class="em-fort">Clive Hussell</em> (avec un étalon, Hermits Starburst), connu pour la qualité morphologique de ses reproducteurs et l'attention portée à la génétique des robes. J'ai découvert Avantgarde grâce à lui.</p>
       `
     },
@@ -763,7 +763,7 @@
         Chaque étape est abordée lorsque son corps est prêt à le supporter.
         Nous respectons sa croissance osseuse : <strong>vous ne trouverez pas chez Humming Cob de jeune cheval débourré précocement.</strong></p>
 
-        <img src="img/elevage/croissance-osseuse.jpg" alt="croissance-osseuse" style="width:100%;aspect-ratio:none;object-fit:cover;border-radius:8px;margin:0 0 .5rem 0;">
+        <img src="img/elevage/croissance-osseuse.jpg" alt="croissance-osseuse" style="width:100%;aspect-ratio:none;object-fit:cover;border-radius:var(--radius-s);margin:0 0 .5rem 0;">
         <p></p>
       `
     },
