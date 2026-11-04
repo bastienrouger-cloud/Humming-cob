@@ -121,7 +121,20 @@
     .selcard .meta{color:var(--muted);font-size:.84rem;margin-top:.3rem}
     .selcard.m{--c:var(--m);--ct:var(--male-deep)}.selcard.f{--c:var(--f);--ct:var(--femelle-deep)}   /* --c : traits, bagues ; --ct : textes (≥ 4,5:1) */
     @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-    @media (max-width:560px){button.ca{--ca-w:136px}}   /* 2 par ligne ; assez large pour « Vice-Champion 2025 » */
+    /* Accueil sur téléphone : pastilles rondes à la place des cartes photo (4 par ligne, tout tient
+       sans défiler). Même habillage que les cercles de l'arbre : anneau à la couleur du sexe. */
+    .pa{display:none}
+    @media (max-width:560px){
+      .row .ca{display:none}
+      .row{gap:1rem 6px;max-width:calc(var(--cols,4) * 78px + (var(--cols,4) - 1) * 6px);margin:0 auto}
+      .pa{display:flex;flex-direction:column;align-items:center;gap:.35rem;width:78px;appearance:none;border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer}
+      .pa--male{--c:var(--m)} .pa--femelle{--c:var(--f)}
+      .pa-rond{width:64px;height:64px;border-radius:50%;overflow:hidden;border:3px solid var(--c);box-shadow:0 3px 9px rgba(0,0,0,.16);background:var(--panel2);display:grid;place-items:center;transition:transform .15s}
+      .pa:active .pa-rond{transform:scale(.95)}
+      .pa-rond img{width:100%;height:100%;object-fit:cover}
+      .pa-rond .mono{font-family:var(--font-serif);font-size:1.5rem;color:var(--c)}
+      .pa-nom{font-family:var(--font-serif);font-style:italic;font-size:.95rem;line-height:1.1;text-align:center}
+    }
 
     /* ── Vue Famille mobile (≤900px) : un cheval au centre, parents/grands-parents
        au-dessus, descendance en dessous (le co-parent en légende « avec X »).
@@ -421,9 +434,13 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!volet.hidden) fer
 
 /* repos : nos chevaux en cartes (sans les décédés) */
 function photoCard(h){ const ph=PHOTOS[h.id]||PHOTOS_TREE[h.id], cadre=PHOTOS[h.id]&&h.cadrage?` style="object-position:${esc(h.cadrage)}"`:'';
-  return `<button class="ca ca--${h.sexe==='femelle'?'femelle':'male'}" data-id="${h.id}" type="button">${ph?`<img src="${ph}" alt="${esc(h.nom)}" loading="lazy"${cadre}>`:''}${pastille(h,'ca-badge',{court:true})}<span class="ca-corps"><span class="ca-nom">${disp(h)}</span></span></button>`; }
+  // Sur téléphone, la carte cède la place à une pastille ronde (photo de l'arbre + nom) : tout tient sans défiler
+  const rond=PHOTOS_TREE[h.id]||PHOTOS[h.id];
+  return `<button class="ca ca--${h.sexe==='femelle'?'femelle':'male'}" data-id="${h.id}" type="button">${ph?`<img src="${ph}" alt="${esc(h.nom)}" loading="lazy"${cadre}>`:''}${pastille(h,'ca-badge',{court:true})}<span class="ca-corps"><span class="ca-nom">${disp(h)}</span></span></button>`
+    + `<button class="pa pa--${h.sexe==='femelle'?'femelle':'male'}" data-id="${h.id}" type="button"><span class="pa-rond">${rond?`<img src="${rond}" alt="" loading="lazy">`:`<span class="mono">${(disp(h)[0]||'?')}</span>`}</span><span class="pa-nom">${disp(h)}</span></button>`; }
 function renderRest(){ const ours=HORSES.filter(h=>h.famille==='humming');
-  const g=(t,l)=>l.length?`<div class="group"><h3 class="group-t">${t}</h3><div class="row">${l.map(photoCard).join('')}</div></div>`:'';
+  // --cols : pastilles par ligne sur téléphone, réparties en lignes équilibrées (5 → 3 + 2, 6 → 3 + 3, 7 → 4 + 3)
+  const g=(t,l)=>l.length?`<div class="group"><h3 class="group-t">${t}</h3><div class="row" style="--cols:${Math.ceil(l.length/Math.ceil(l.length/4))}">${l.map(photoCard).join('')}</div></div>`:'';
   document.getElementById('rest').innerHTML =
     g('Nos reproducteurs', ours.filter(h=>h.role==='etalon'||h.role==='jument')) +
     g('Nos poulains', ours.filter(h=>h.role==='poulain')); }
