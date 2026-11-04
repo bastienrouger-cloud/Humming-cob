@@ -465,6 +465,17 @@ function cardHTML(h,hMin){ const cls=colorCls(h), ph=PHOTOS_TREE[h.id]||PHOTOS[h
 }
 
 const Rpart=50,Rf=43,FW=116;
+const Rsib=40, SIB_MARGE=36, SIB_ESP=14;   // fratrie : rayon, écart avec la carte, air ajouté sous le trait des parents
+// Clé de tri d'une naissance (« 2017-04-26 », « 2017 », « ~2000 », « 2016-2018 ») : une année seule vaut fin d'année.
+function cleNaiss(h){ const m=/(\d{4})(?:-(\d\d)-(\d\d))?/.exec(h.naissance||''); return m?m[1]+(m[2]||'99')+(m[3]||'99'):'99999999'; }
+// Descendance d'un cheval regroupée par couple (autre parent), dans l'ordre de lecture de gauche à droite :
+// couples du plus ancien au plus récent (date du premier poulain), poulains du plus âgé au plus jeune.
+function couplesOrdonnes(id){ const gmap={}, groups=[];
+  (kids[id]||[]).forEach(did=>{ const h=byId[did]; if(!h) return; const co=h.pere===id?h.mere:(h.mere===id?h.pere:null), k=co||'∅';
+    if(!gmap[k]){ gmap[k]={co,ids:[]}; groups.push(gmap[k]); } gmap[k].ids.push(did); });
+  const cle=did=>cleNaiss(byId[did]);
+  groups.forEach(g=>{ g.ids.sort((a,b)=>cle(a).localeCompare(cle(b))); g.debut=cle(g.ids[0]); g.fin=cle(g.ids[g.ids.length-1]); });
+  return groups.sort((a,b)=>a.debut.localeCompare(b.debut)||a.fin.localeCompare(b.fin)||String(a.co).localeCompare(String(b.co))); }
 const CW=244,CH=272;           // CH : hauteur mini de la carte centrale (la vraie est mesurée au 1er rendu)
 // Ascendants : génération 1 = parents, 2 = grands-parents, 3 = arrière-grands-parents… Cercles de plus en plus petits.
 const RAY={1:52,2:38,3:28,4:21};
@@ -483,17 +494,26 @@ function focusDesktop(id,nh){
   const ancetres=g=>{ let niv=[sel]; for(let i=0;i<g;i++) niv=niv.flatMap(x=>x?[x.pere&&byId[x.pere]||null,x.mere&&byId[x.mere]||null]:[null,null]); return niv; };
   let D=0; for(let g=1;g<=GEN_MAX;g++) if(ancetres(g).some(Boolean)) D=g;   // profondeur réellement connue
 
-  // partenaires (co-parents) + poulains
-  const desc=(kids[id]||[]);const groups=[],gmap={};
-  desc.forEach(did=>{const h=byId[did];const co=(h.pere===id?h.mere:(h.mere===id?h.pere:null));const k=co||'∅';
-    if(!gmap[k]){gmap[k]={co,ids:[]};groups.push(gmap[k]);}gmap[k].ids.push(did);});
+  // partenaires (co-parents) + poulains, dans l'ordre de lecture (voir couplesOrdonnes)
+  const desc=(kids[id]||[]);
+  const groups=couplesOrdonnes(id);
   const known=groups.filter(g=>g.co&&byId[g.co]);
   const unknown=groups.find(g=>!(g.co&&byId[g.co]));
   const GAP=44, PMIN=CW/2+24+56;   // PMIN : écart mini centre → partenaire (demi-carte + marge + demi-médaillon)
   const gw=g=>g.ids.length*FW;
   const blockW=g=>gw(g)+GAP;
-  const left=[],right=[];let lw=0,rw=0;
-  known.slice().sort((a,b)=>blockW(b)-blockW(a)).forEach(g=>{if(rw<=lw){right.push(g);rw+=blockW(g);}else{left.push(g);lw+=blockW(g);}});
+  // Les couples gardent leur ordre de gauche à droite ; on choisit seulement combien passent à gauche de la carte
+  // (les plus anciens), pour équilibrer les deux côtés. À égalité, plutôt à droite.
+  let nG=0, ecart=1e9;
+  for(let k=0;k<=known.length;k++){ const lw=known.slice(0,k).reduce((t,g)=>t+blockW(g),0), rw=known.slice(k).reduce((t,g)=>t+blockW(g),0);
+    if(Math.abs(lw-rw)<ecart-1e-6){ ecart=Math.abs(lw-rw); nG=k; } }
+  const left=known.slice(0,nG).reverse(), right=known.slice(nG);   // listes rangées du centre vers l'extérieur
+
+  // frères et sœurs propres (même père et même mère), sans leur descendance : des aînés (à gauche) aux cadets
+  const fratrie=(sel.pere&&sel.mere&&D>0)?HORSES.filter(h=>h.id!==id&&h.pere===sel.pere&&h.mere===sel.mere).sort((a,b)=>cleNaiss(a).localeCompare(cleNaiss(b))):[];
+  const hasSib=fratrie.length>0;
+  // le cheval central prend sa place dans l'ordre d'âge : aînés à sa gauche, cadets (et jumeaux) à sa droite
+  const cleSel=cleNaiss(sel), nAines=fratrie.filter(h=>cleNaiss(h)<cleSel).length, nCadets=fratrie.length-nAines;
 
   // Chaque partenaire est AU-DESSUS du milieu de ses poulains. Offsets relatifs au centre (côté droit ; le gauche en miroir),
   // calculés ici pour fixer la largeur exacte du canevas.
@@ -503,20 +523,32 @@ function focusDesktop(id,nh){
   const rightExtent=Math.max(unkHalf,...rightLay.map(x=>x.edge)), leftExtent=Math.max(unkHalf,...leftLay.map(x=>x.edge));
   const pasF=PAS_FEUILLES[D]||264, pasG=g=>pasF*Math.pow(2,D-g), slotG=g=>Math.min(112,pasG(g)-4);
   const ascHalf=D?((Math.pow(2,D)-1)/2*pasF+slotG(D)/2):0;
-  const half=Math.max(rightExtent,leftExtent,ascHalf,CW/2+40)+30;
-  const cW=2*half, centerX=half;
+  const sibExt=n=>n?CW/2+SIB_MARGE+n*FW-(FW-112)/2:0;   // place prise par n frères/sœurs d'un côté de la carte
+  // la fratrie n'élargit que son côté : le canevas n'est plus forcément symétrique autour de la carte
+  const base=Math.max(rightExtent,leftExtent,ascHalf,CW/2+40)+30;
+  const halfL=Math.max(base,sibExt(nAines)+30), halfR=Math.max(base,sibExt(nCadets)+30);
+  const cW=halfL+halfR, centerX=halfL;
 
   // bandes verticales : de la plus ancienne génération (en haut) à la carte ; une ligne n'existe que si elle a des chevaux
   const hasDesc = desc.length>0;
   const hCard=nh.card, rowH=g=>nh.row[g]!==undefined?nh.row[g]:20;
+  const nomH=(k,d)=>nh.per[k]!==undefined?nh.per[k]:d;
   const rowY={}; let yy=28;
   for(let g=D;g>=1;g--){ rowY[g]=yy+RAY[g]; yy=rowY[g]+RAY[g]+rowH(g)+NG; }
-  const cardTop=yy, cardCenterY=cardTop+hCard/2; foalY=cardTop+hCard+150;
-  let cH = hasDesc ? foalY+Rf+36 : cardTop+hCard+40;   // pas de bande descendance si aucun poulain
+  if(hasSib) yy+=SIB_ESP;   // un peu d'air entre le trait des parents et celui de la fratrie
+  const cardTop=yy, cardCenterY=cardTop+hCard/2, cardBottom=cardTop+hCard;
+  // Fratrie : rangée de cercles à gauche de la carte, sous un trait qui part de la jambe parents → carte.
+  // Les partenaires (mariages) descendent alors sous la fratrie pour ne pas la toucher.
+  const sibBarY=cardTop-12, sibY=cardTop+20+Rsib;
+  const sibBas=hasSib?Math.max(...fratrie.map((h,i)=>sibY+Rsib+nomH('s'+i,34))):0;
+  const partY=hasSib?Math.max(cardCenterY,sibBas+34+Rpart):cardCenterY;
+  const nomPartMax=Math.max(20,...Object.keys(nh.per).filter(k=>k[0]==='q').map(k=>nh.per[k]));
+  const spineY=Math.max(cardBottom+46,hasSib?partY+Rpart+nomPartMax+24:0);
+  foalY=spineY+104;
+  let cH = hasDesc ? foalY+Rf+36 : Math.max(cardBottom,sibBas)+40;   // pas de bande descendance si aucun poulain
 
   // --- ascendants ---
   // Les traits partent du BAS DU NOM (hauteur mesurée), pas du bas du cercle : le trait horizontal passe sous les noms.
-  const nomH=(k,d)=>nh.per[k]!==undefined?nh.per[k]:d;
   const lien=(x0,y0,yBar,x1,y1)=>seg(`M${x0} ${y0} L${x0} ${yBar} L${x1} ${yBar} L${x1} ${y1}`);
   const xAnc=(g,j)=>centerX+(j-(Math.pow(2,g)-1)/2)*pasG(g);
   for(let g=1;g<=D;g++){
@@ -533,14 +565,20 @@ function focusDesktop(id,nh){
 
   // --- descendance : spine horizontal SOUS la carte ; carte + étalons y descendent ;
   //     chaque couple forme un U, ses poulains pendent du milieu ---
-  const cardBottom=cardTop+hCard, spineY=cardBottom+46;
+  // --- fratrie : trait qui croise la jambe parents → carte, aînés à gauche, cadets à droite, cercles pendus dessous ---
+  if(hasSib){
+    const xs=fratrie.map((h,i)=>Math.round(i<nAines?centerX-CW/2-SIB_MARGE-FW/2-(nAines-1-i)*FW:centerX+CW/2+SIB_MARGE+FW/2+(i-nAines)*FW));
+    seg(`M${Math.min(centerX,xs[0])} ${sibBarY} L${Math.max(centerX,xs[xs.length-1])} ${sibBarY}`);
+    fratrie.forEach((h,i)=>{ seg(`M${xs[i]} ${sibBarY} L${xs[i]} ${sibY-Rsib}`); putCircle(h,xs[i],sibY,Rsib,'sib',annee(h),'s'+i); });
+  }
+
   let smin=centerX, smax=centerX;
   if(hasDesc) seg(`M${centerX} ${cardBottom} L${centerX} ${spineY}`);   // jambe carte→spine seulement s'il y a descendance
   // chaque partenaire au-dessus de ses poulains : son trait part sous son nom, descend jusqu'au spine puis aux poulains
   const poser=(lay,sign,tag)=>lay.forEach(({g,off},i)=>{
     const x=Math.round(centerX+sign*off), k='q'+tag+i;
-    putCircle(byId[g.co],x,cardCenterY,Rpart,'partner',undefined,k);
-    seg(`M${x} ${cardCenterY+Rpart+nomH(k,20)+3} L${x} ${spineY}`);
+    putCircle(byId[g.co],x,partY,Rpart,'partner',undefined,k);
+    seg(`M${x} ${partY+Rpart+nomH(k,20)+3} L${x} ${spineY}`);
     placeGroup(x,spineY,g.ids);
     smin=Math.min(smin,x); smax=Math.max(smax,x);});
   poser(rightLay,1,'r'); poser(leftLay,-1,'l');
@@ -565,9 +603,10 @@ function focusDesktop(id,nh){
   canvas.dataset.cw=cW;
   ajusterVue();
   ouvrirCarte(sel);   // panneau latéral : carte détaillée du cheval sélectionné
-  // centre la vue horizontalement
+  // centre la vue horizontalement sur la carte (la fratrie peut rendre le canevas asymétrique)
   const wrap=document.querySelector('.canvas-wrap');
-  requestAnimationFrame(()=>{wrap.scrollLeft=(wrap.scrollWidth-wrap.clientWidth)/2;});
+  requestAnimationFrame(()=>{ const s=canvas.getBoundingClientRect().width/cW||1, cs=getComputedStyle(wrap);
+    wrap.scrollLeft=centerX*s+parseFloat(cs.paddingLeft)-wrap.clientWidth/2; });
 }
 
 /* ── Accueil PC : nos chevaux en cartes, placés selon leur filiation (parents au-dessus, enfants en dessous). ──
@@ -712,7 +751,7 @@ function focusMobile(id){
   const sel=byId[id];if(!sel)return;current=id;
   const P=sel.pere&&byId[sel.pere]?byId[sel.pere]:null;
   const M=sel.mere&&byId[sel.mere]?byId[sel.mere]:null;
-  const enfants=(kids[id]||[]).map(x=>byId[x]);
+  const enfants=couplesOrdonnes(id).flatMap(g=>g.ids).map(x=>byId[x]);   // même ordre que la vue PC
   const img=PHOTOS_TREE[id]||PHOTOS[id];
   const meta=[(sel.robe_courte||sel.robe), annee(sel)].filter(Boolean).join(' · ');
   const avec=e=>{const co=byId[e.pere===id?e.mere:e.pere];return [annee(e), co?'avec '+disp(co):''].filter(Boolean).join('<br>');};
