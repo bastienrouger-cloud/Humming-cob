@@ -71,21 +71,21 @@
       <em style="color:var(--accent-deep);font-weight:600;">Humming Cob est né de cette rencontre entre le vombrissement du colibri et la puissance tranquille des chevaux.</em>
     </p>
   </div>
-  <div class="section-inner">
-    <span class="section-badge"></span>
-    <h2 class="section-title" style="font-size:clamp(2rem,5vw,3rem);">Notre <em>Philosophie</em></h2>
-    <div class="section-divider" style="margin:1.5rem auto;"></div>
-    <p class="section-text" style="max-width:580px;margin:0 auto;">
-      Fondé sur des valeurs d'authenticité, notre élevage place le bien-être de ses chevaux au premier plan.
-      Chaque naissance est un projet mûrement réfléchi et nos juments ne sont pas systématiquement
-      mises à la reproduction.
-    </p>
-  </div>
 </section>
 
-<!-- ====== NOTRE ÉLEVAGE — 6 CARDS ====== -->
-<section id="notre-elevage" style="padding:4rem 0;">
+<!-- ====== NOTRE ÉLEVAGE — PHILOSOPHIE + 6 CARDS ======
+     La philosophie introduit les cartes (même mise en page que « Nos partenaires »). -->
+<section id="notre-elevage" style="padding:4rem 1.5rem;">
   <div class="section-inner">
+    <div class="reveal" style="text-align:center;max-width:580px;margin:0 auto 3rem;">
+      <h2 class="section-title">Notre <em>philosophie</em></h2>
+      <div class="section-divider" style="margin:1.5rem auto;"></div>
+      <p class="section-text">
+        Fondé sur des valeurs d'authenticité, notre élevage place le bien-être de ses chevaux au premier plan.
+        Chaque naissance est un projet mûrement réfléchi et nos juments ne sont pas systématiquement
+        mises à la reproduction.
+      </p>
+    </div>
     <div class="elevage-grid">
       <div class="elevage-card elevage-card--clickable reveal reveal-delay-1" data-elevage="irish-cob">
         <div class="elevage-card-icon">🐴</div>
@@ -141,7 +141,7 @@
 </section>
 
 <!-- ====== PARTENAIRES ====== -->
-<section id="partenaires" style="padding:4rem 0 6rem;background:var(--bg-light);">
+<section id="partenaires" style="padding:4rem 1.5rem 6rem;background:var(--bg-light);">
   <div class="section-inner">
     <div class="reveal" style="text-align:center;max-width:580px;margin:0 auto 3rem;">
       <span class="section-badge">On leur fait confiance</span>
@@ -944,12 +944,14 @@
     closeBtn.focus();
 
     // Contraint l'image gauche à la hauteur de la colonne texte
-    // (re-mesure après chargement des images inline du texte)
+    // (re-mesure après chargement des images inline du texte).
+    // Plancher à 65 % de l'écran : sans lui, un texte court (Élevage du Gard)
+    // réduit une image en hauteur (la carte) à une vignette.
     if (!data.leftNote && imgs.length > 0) {
       function syncHeight() {
         var h = textEl.offsetHeight;
         var leftImg = imagesEl.querySelector('img');
-        if (leftImg && h > 0) leftImg.style.maxHeight = h + 'px';
+        if (leftImg && h > 0) leftImg.style.maxHeight = Math.max(h, window.innerHeight * 0.65) + 'px';
       }
       requestAnimationFrame(syncHeight);
       textEl.querySelectorAll('img').forEach(function (ti) {
