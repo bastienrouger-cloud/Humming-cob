@@ -450,7 +450,7 @@
 <!-- Overlay -->
 <div id="elev-modal" role="dialog" aria-modal="true" aria-labelledby="elev-title">
   <div id="elev-panel" tabindex="-1">
-    <button id="elev-close" aria-label="Fermer">✕</button>
+    <button type="button" id="elev-close" class="btn-fermer" aria-label="Fermer">✕</button>
     <div id="elev-header">
       <div id="elev-icon"></div>
       <h2 id="elev-title"></h2>
@@ -539,23 +539,7 @@
 }
 
 /* ---- Close button ---- */
-#elev-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: rgba(0,0,0,.07);
-  border: none;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: .95rem;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--noir);
-  z-index: 2;
-  transition: background .15s;
-  font-family: sans-serif;
-}
-#elev-close:hover { background: rgba(0,0,0,.15); }
+#elev-close { position: absolute; top: 1rem; right: 1rem; z-index: 2; }   /* habillage : .btn-fermer */
 
 /* ---- Header pleine largeur ---- */
 #elev-header {

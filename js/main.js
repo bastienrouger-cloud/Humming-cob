@@ -130,7 +130,13 @@ if (revealEls.length) {
     b.addEventListener('mouseleave', () => b.style.background = 'rgba(255,255,255,.12)');
     return b;
   }
-  const closeBtn = makeBtn('✕', 'top:1rem;right:1.5rem;font-size:1.3rem;width:38px;height:38px;');
+  // Fermer : bouton commun (.btn-fermer), seule la position est propre à la lightbox
+  const closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.className = 'btn-fermer';
+  closeBtn.textContent = '✕';
+  closeBtn.setAttribute('aria-label', 'Fermer');
+  closeBtn.style.cssText = 'position:absolute;top:1rem;right:1.5rem;';
   const prevBtn  = makeBtn('‹', 'left:1rem;top:50%;transform:translateY(-50%);font-size:2.4rem;width:48px;height:48px;');
   const nextBtn  = makeBtn('›', 'right:1rem;top:50%;transform:translateY(-50%);font-size:2.4rem;width:48px;height:48px;');
 
@@ -324,7 +330,7 @@ if (revealEls.length) {
     <div class="cm" id="cm" hidden>
       <div class="cm-fond" data-fermer></div>
       <div class="cm-boite" role="dialog" aria-modal="true" aria-labelledby="cmNom" tabindex="-1">
-        <button type="button" class="cm-fermer" data-fermer aria-label="Fermer">✕</button>
+        <button type="button" class="btn-fermer cm-fermer" data-fermer aria-label="Fermer">✕</button>
         <div class="cm-carrousel"></div>
         <div class="cm-infos"></div>
       </div>
@@ -481,8 +487,11 @@ if (shareBtn) {
   const img = document.createElement('img');
   img.style.cssText = 'max-width:88vw;max-height:88vh;object-fit:contain;border-radius:8px;box-shadow:0 16px 60px rgba(0,0,0,.9);cursor:default;';
   const closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.className = 'btn-fermer';
   closeBtn.textContent = '✕';
-  closeBtn.style.cssText = 'position:absolute;top:1rem;right:1.5rem;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:1.3rem;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+  closeBtn.setAttribute('aria-label', 'Fermer');
+  closeBtn.style.cssText = 'position:absolute;top:1rem;right:1.5rem;';
   ov.append(closeBtn, img);
   document.body.appendChild(ov);
 

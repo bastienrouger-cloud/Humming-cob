@@ -217,19 +217,7 @@
       display: flex;
       justify-content: flex-end;
     }
-    .panel-close {
-      background: transparent;
-      border: 1px solid rgba(176,96,112,.35);
-      color: var(--accent-deep, #B06070);
-      border-radius: 50%;
-      width: 34px; height: 34px;
-      font-size: .95rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .18s, transform .3s cubic-bezier(.34,1.56,.64,1);
-      flex-shrink: 0;
-    }
-    .panel-close:hover { background: rgba(176,96,112,.1); transform: rotate(90deg); }
+    /* .panel-close : habillage commun .btn-fermer (css/style.css) */
 
     /* Date : en-tête de la page de journal, en italique serif */
     .panel-date-badge {
@@ -418,7 +406,7 @@
 <aside class="event-panel" id="eventPanel" role="dialog" aria-modal="true" aria-label="Détail de l'événement">
   <div class="panel-inner">
     <div class="panel-topbar">
-      <button class="panel-close" id="panelClose" aria-label="Fermer">✕</button>
+      <button type="button" class="btn-fermer panel-close" id="panelClose" aria-label="Fermer">✕</button>
     </div>
     <span class="panel-date-badge" id="panelDate"></span>
     <h2 class="panel-title" id="panelTitle"></h2>
