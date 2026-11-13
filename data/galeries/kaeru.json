@@ -1,0 +1,50 @@
+{
+  "cheval": "Quercus Kaeru",
+  "galerie_alt": "Quercus Kaeru — Irish Cob",
+  "galerie": [
+    {
+      "photo": "img/kaeru/ka-portrait.jpg",
+      "legende": "Quercus Kaeru, été 2026"
+    },
+    {
+      "photo": "img/kaeru/ka-28.jpg",
+      "legende": "Quercus Kaeru, été 2026"
+    },
+    {
+      "photo": "img/kaeru/ka-26.jpg",
+      "legende": "Quercus Kaeru, été 2026"
+    },
+    {
+      "photo": "img/kaeru/ka-22.jpg",
+      "legende": "Quercus Kaeru, été 2026"
+    },
+    {
+      "photo": "img/kaeru/ka-19.jpg",
+      "legende": "Quercus Kaeru, premières semaines"
+    },
+    {
+      "photo": "img/kaeru/ka-15.jpg",
+      "legende": "Quercus Kaeru, premières semaines"
+    },
+    {
+      "photo": "img/kaeru/ka-13.jpg",
+      "legende": "Quercus Kaeru, premières semaines"
+    },
+    {
+      "photo": "img/kaeru/ka-12.jpg",
+      "legende": "Quercus Kaeru, premières semaines"
+    },
+    {
+      "photo": "img/kaeru/ka-bache.jpg",
+      "legende": "Quercus Kaeru, découverte du monde"
+    },
+    {
+      "photo": "img/kaeru/ka-05.jpg",
+      "legende": "Quercus Kaeru, premiers jours"
+    },
+    {
+      "photo": "img/kaeru/ka-01.jpg",
+      "legende": "Quercus Kaeru, premiers jours"
+    }
+  ]
+}

@@ -230,7 +230,7 @@ def generer_chevaux_js():
 
     global _CHEVAUX_LUS
     _CHEVAUX_LUS = chevaux
-    _HORS_JS = ("galerie", "galerie_alt", "video")   # carrousel des fiches : lu par build.py seulement
+    _HORS_JS = ("video",)   # vidéo du carrousel des fiches : lue par build.py seulement
     lignes = ",\n".join("  " + json.dumps({k: v for k, v in c.items() if k not in _HORS_JS}, ensure_ascii=False) for c in chevaux)
     lignes_pos = ",\n".join("  %s: %s" % (json.dumps(k), json.dumps(v)) for k, v in positions.items())
     contenu = (
@@ -677,27 +677,38 @@ def injecter_entetes(html, page, par_id, erreurs):
 
 # ---------------------------------------------------------------- galerie des fiches
 # Carrousel du haut des fiches cheval : <!-- @galerie: id --> … <!-- @end:galerie -->
-# dans #heroSlides. Source : champs du cheval (modifiables depuis le CMS) :
-#   "video"       : {"image", "fichier", "legende", "duree", "alt"} — facultatif, toujours en premier
-#   "galerie"     : [{"photo": "img/<id>/….jpg", "legende": "Mai 2026, à Carnas (30)", "alt": facultatif}, …]
-#   "galerie_alt" : texte alternatif commun aux photos (sinon le nom du cheval)
+# dans #heroSlides. Sources :
+#   data/galeries/<id>.json (modifié depuis le CMS, d'où un fichier à part : le CMS ne
+#   réécrit jamais la fiche data/chevaux/<id>.json) :
+#     "galerie"     : [{"photo": "img/<id>/….jpg", "legende": "Mai 2026, à Carnas (30)", "alt": facultatif}, …]
+#     "galerie_alt" : texte alternatif commun aux photos (sinon le nom du cheval)
+#     "cheval"      : nom affiché dans le CMS (non utilisé ici)
+#   champ "video" du cheval : {"image", "fichier", "legende", "duree", "alt"} — facultatif, toujours en premier.
+# Chemins depuis la racine du site, avec ou sans « / » au début (le CMS écrit « /img/… »).
 # La première diapositive est active ; les photos suivantes sont chargées à la demande.
 _GALERIE = re.compile(r"(<!--\s*@galerie:\s*(\w+)\s*-->)(.*?)(<!--\s*@end:galerie\s*-->)", re.S)
 _attr = lambda s: _html.escape(str(s), quote=False).replace('"', "&quot;")
+GALERIES = ROOT / "data" / "galeries"
+_chemin = lambda p: str(p or "").lstrip("/")
 
 
-def galerie_html(c, base):
+def lire_galerie(cid):
+    f = GALERIES / ("%s.json" % cid)
+    return _json.loads(f.read_text(encoding="utf-8")) if f.is_file() else {}
+
+
+def galerie_html(c, g, base):
     lignes = []
     v = c.get("video")
     if v:
         lignes.append('<div class="hero-slide hero-slide--video active"><img src="%s%s" alt="%s" data-video="%s%s" data-cap="%s">'
                       '<span class="hero-play" aria-hidden="true"></span><span class="hero-video-duree">Vidéo · %s</span></div>'
-                      % (base, _attr(v["image"]), _attr(v.get("alt", "")), base, _attr(v["fichier"]), _attr(v.get("legende", "")), _attr(v["duree"])))
-    alt = c.get("galerie_alt") or c.get("nom", "")
-    for p in c.get("galerie") or []:
+                      % (base, _attr(_chemin(v["image"])), _attr(v.get("alt", "")), base, _attr(_chemin(v["fichier"])), _attr(v.get("legende", "")), _attr(v["duree"])))
+    alt = g.get("galerie_alt") or c.get("nom", "")
+    for p in g.get("galerie") or []:
         premiere = not lignes
         lignes.append('<div class="hero-slide%s"><img src="%s%s" alt="%s"%s data-cap="%s"></div>'
-                      % (" active" if premiere else "", base, _attr(p["photo"]), _attr(p.get("alt") or alt),
+                      % (" active" if premiere else "", base, _attr(_chemin(p["photo"])), _attr(p.get("alt") or alt),
                          "" if premiere else ' loading="lazy"', _attr(p.get("legende", ""))))
     return lignes
 
@@ -711,14 +722,19 @@ def injecter_galeries(html, page, par_id, erreurs):
         if not c:
             erreurs.append("%s : galerie inconnue « %s »" % (rel, m.group(2)))
             return m.group(0)
-        for p in c.get("galerie") or []:
-            if not (ROOT / p.get("photo", "")).is_file():
-                erreurs.append("%s : photo introuvable « %s »" % (c["id"], p.get("photo")))
-        if not c.get("galerie") and not c.get("video"):
-            erreurs.append("%s : galerie vide" % c["id"])
+        try:
+            g = lire_galerie(c["id"])
+        except ValueError as e:
+            erreurs.append("data/galeries/%s.json illisible : %s" % (c["id"], e))
+            return m.group(0)
+        for p in g.get("galerie") or []:
+            if not p.get("photo") or not (ROOT / _chemin(p["photo"])).is_file():
+                erreurs.append("data/galeries/%s.json : photo introuvable « %s »" % (c["id"], p.get("photo")))
+        if not g.get("galerie") and not c.get("video"):
+            erreurs.append("%s : galerie vide (data/galeries/%s.json)" % (c["id"], c["id"]))
         debut = html.rfind("\n", 0, m.start()) + 1
         ind = re.match(r"[ \t]*", html[debut:m.start()]).group(0)
-        corps = "\n".join(ind + l for l in galerie_html(c, base))
+        corps = "\n".join(ind + l for l in galerie_html(c, g, base))
         return m.group(1) + "\n" + corps + "\n" + ind + m.group(4)
 
     return _GALERIE.sub(remplace, html)

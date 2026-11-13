@@ -14,7 +14,7 @@ Pour chaque image de img/ :
   - la recompresse (JPEG qualité 82) si elle dépasse 350 Ko ou 1920 px ;
   - retire les métadonnées (dont la position GPS des photos de téléphone) ;
   - convertit les HEIC/HEIF (iPhone) en .jpg et met à jour les fichiers
-    data/chevaux/*.json qui y font référence.
+    data/galeries/*.json (et data/chevaux/*.json) qui y font référence.
 
 Dépendances : Pillow, et pillow-heif pour les HEIC (pip install pillow pillow-heif).
 """
@@ -84,12 +84,15 @@ def preparer(p: Path):
 
 
 def remplacer_references(renommages):
-    """Met à jour les chemins des photos converties dans data/chevaux/*.json."""
-    for f in sorted((ROOT / "data" / "chevaux").glob("*.json")):
+    """Met à jour les chemins des photos converties dans data/galeries/ et data/chevaux/
+    (écrits « img/… » à la main ou « /img/… » par le CMS)."""
+    fichiers = sorted((ROOT / "data" / "galeries").glob("*.json")) + sorted((ROOT / "data" / "chevaux").glob("*.json"))
+    for f in fichiers:
         texte = f.read_text(encoding="utf-8")
         nouveau = texte
         for avant, apres in renommages.items():
-            nouveau = nouveau.replace(json.dumps(avant, ensure_ascii=False), json.dumps(apres, ensure_ascii=False))
+            for prefixe in ("", "/"):
+                nouveau = nouveau.replace(json.dumps(prefixe + avant, ensure_ascii=False), json.dumps(prefixe + apres, ensure_ascii=False))
         if nouveau != texte:
             f.write_text(nouveau, encoding="utf-8")
             print("  ✓ %s : chemins mis à jour" % f.relative_to(ROOT))

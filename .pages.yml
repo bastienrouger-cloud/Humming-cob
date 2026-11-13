@@ -1,0 +1,58 @@
+# Configuration de Pages CMS (https://pagescms.org) : interface pour qu'Alice ajoute
+# des photos et leurs légendes aux galeries des fiches chevaux, sans toucher au code.
+#
+# Le CMS ne modifie que data/galeries/<id>.json (jamais les fiches data/chevaux/,
+# qu'il pourrait réécrire en perdant les champs qu'il ne connaît pas) et les images de img/.
+# À chaque enregistrement, l'action .github/workflows/photos.yml prépare les photos
+# envoyées (à l'endroit, 1920 px, sans GPS, HEIC → JPG) et relance build.py.
+
+media:
+  input: img
+  output: /img
+  rename: safe            # noms sans espaces ni accents
+  extensions: [jpg, jpeg, png, webp, heic, heif]
+
+content:
+  - name: galeries
+    label: Photos des chevaux
+    type: collection
+    path: data/galeries
+    format: json
+    view:
+      primary: cheval
+    operations:
+      create: false        # un cheval se crée avec sa fiche (Bastien), pas depuis le CMS
+      delete: false
+    fields:
+      - name: cheval
+        label: Cheval
+        type: string
+        readonly: true
+      - name: galerie
+        label: Photos (dans l'ordre du carrousel, la première en haut)
+        type: object
+        list:
+          min: 1
+          collapsible:
+            collapsed: true
+            summary: "{legende}"
+        fields:
+          - name: photo
+            label: Photo
+            type: image
+            required: true
+            description: "Envoyer la photo dans le dossier du cheval (ex. img > orion). Les photos de téléphone sont réduites et remises à l'endroit automatiquement."
+            options:
+              extensions: [jpg, jpeg, png, webp, heic, heif]
+          - name: legende
+            label: Légende
+            type: string
+            description: "Date et lieu, par exemple « Mai 2026, à Carnas (30) »."
+          - name: alt
+            label: Description (facultatif)
+            type: string
+            description: "Lue aux personnes malvoyantes. Laisser vide pour la description commune ci-dessous."
+      - name: galerie_alt
+        label: Description commune des photos
+        type: string
+        description: "Lue aux personnes malvoyantes pour chaque photo sans description propre."

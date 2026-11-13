@@ -48,8 +48,7 @@ existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
 | `cadrage` | `center top`, `50% 30%` | point de cadrage de la photo de carte (`object-position`) |
 | `photo_arbre` | médaillon de l'arbre | |
 | `photos` | liste d'images | galerie de la modale |
-| `galerie` | `[{"photo": "img/orion/….jpg", "legende": "Mai 2026"}]` | carrousel du haut de la fiche (pages chevaux), dans l'ordre d'affichage ; `alt` facultatif par photo. Généré par build.py entre `<!-- @galerie: id -->` et `<!-- @end:galerie -->`. Prévu pour être modifié depuis le CMS. Pas recopié dans `js/chevaux.js` |
-| `galerie_alt` | `HC Orion — Irish Cob Partbred` | texte alternatif commun aux photos de la galerie |
+| `galerie`, `galerie_alt` | — | **pas ici** : dans `data/galeries/<id>.json` (voir plus bas) |
 | `video` | `{"image", "fichier", "legende", "duree", "alt"}` | vidéo de présentation, toujours en premier dans le carrousel (chemins depuis la racine du site) |
 | `resume` | 2–3 phrases | texte de la carte (coupé à 3 lignes) et de la modale |
 | `description` | texte plus long | facultatif : remplace `resume` dans la modale |
@@ -147,3 +146,25 @@ la section de l'accueil n'apparaît qu'à partir de 2 messages marqués `accueil
 `SEUIL_ACCUEIL` dans build.py). Le lien du pied de page et le formulaire sont toujours là
 (c'est le lien à envoyer aux amis pour les premiers messages). Messages non publiés : à
 supprimer de la boîte mail au plus tard un an après réception (politique de confidentialité).
+
+## Galeries des fiches (`data/galeries/<id>.json`)
+
+Carrousel du haut de chaque fiche cheval, modifiable par Alice depuis Pages CMS
+(configuration : `.pages.yml`). Fichier à part pour que le CMS ne réécrive jamais la fiche.
+
+```json
+{
+  "cheval": "Orion",
+  "galerie_alt": "HC Orion — Irish Cob Partbred",
+  "galerie": [
+    {"photo": "img/orion/or 20260510.jpg", "legende": "Mai 2026, à Carnas (30)"},
+    {"photo": "/img/orion/nouvelle.jpg", "legende": "Novembre 2026", "alt": "facultatif"}
+  ]
+}
+```
+
+- `galerie` : photos dans l'ordre d'affichage ; chemin depuis la racine, avec ou sans « / » (le CMS écrit « /img/… ») ; `alt` facultatif par photo.
+- `galerie_alt` : description commune ; `cheval` : nom affiché dans le CMS.
+- La vidéo de présentation reste dans la fiche (champ `video`) et passe toujours en premier.
+- `build.py` génère le carrousel entre `<!-- @galerie: id -->` et `<!-- @end:galerie -->` et signale une photo introuvable.
+- Les photos envoyées sont préparées par `preparer_photos.py` (action `.github/workflows/photos.yml`).

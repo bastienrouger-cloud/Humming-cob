@@ -1,0 +1,78 @@
+{
+  "cheval": "Ruby Jane",
+  "galerie_alt": "SD Ruby",
+  "galerie": [
+    {
+      "photo": "img/ruby/rj-01.jpg",
+      "legende": "2018, au Pays de Galles — J+1"
+    },
+    {
+      "photo": "img/ruby/rj-04.jpg",
+      "legende": "2018, au Pays de Galles — J+13"
+    },
+    {
+      "photo": "img/ruby/rj-05.jpg",
+      "legende": "2018, au Pays de Galles — J+13"
+    },
+    {
+      "photo": "img/ruby/rj-2017 01.jpg",
+      "legende": "2018, au Pays de Galles — J+13"
+    },
+    {
+      "photo": "img/ruby/rj-2017.jpg",
+      "legende": "2018, au Pays de Galles — J+137"
+    },
+    {
+      "photo": "img/ruby/rj-2018.jpg",
+      "legende": "2018, arrivée à L'Isle-sur-la-Sorgue (84)"
+    },
+    {
+      "photo": "img/ruby/rj-2019.jpg",
+      "legende": "2019, à L'Isle-sur-la-Sorgue (84)"
+    },
+    {
+      "photo": "img/ruby/rj-07.jpg",
+      "legende": "2020, démarrage du dextre avec Djb (34)"
+    },
+    {
+      "photo": "img/ruby/ruby 2021.jpg",
+      "legende": "2021, passage en ITI & obtention de l'Élite à seulement 3 ans, à Saint-Bauzille-de-Montmel (34)"
+    },
+    {
+      "photo": "img/ruby/rj-09.jpg",
+      "legende": "2022, confiée en Dordogne (24)"
+    },
+    {
+      "photo": "img/ruby/rj-010.jpg",
+      "legende": "2022, confiée en Dordogne (24)"
+    },
+    {
+      "photo": "img/ruby/rj-011.jpg",
+      "legende": "2023, pleine de Kuarahy pour son premier poulain"
+    },
+    {
+      "photo": "img/ruby/Neelu 05.jpg",
+      "legende": "2023, suitée de Neelu DC, en Dordogne (24)"
+    },
+    {
+      "photo": "img/ruby/Ruby Orion.jpg",
+      "legende": "2024, suitée d'Orion, à Carnas (30)"
+    },
+    {
+      "photo": "img/ruby/Ruby Portrait.jpg",
+      "legende": "2025, portrait par Lilou Schrive"
+    },
+    {
+      "photo": "img/ruby/rj-index.jpg",
+      "legende": "2025, très expressive aux gratouilles"
+    },
+    {
+      "photo": "img/ruby/Ruby 2026.jpg",
+      "legende": "2026, confiée pleine d'Avantgarde, en Bretagne (35)"
+    },
+    {
+      "photo": "img/ruby/Qoulitch 013.jpg",
+      "legende": "2026, suitée de Qoulitch Yasuke, en Bretagne (35)"
+    }
+  ]
+}
