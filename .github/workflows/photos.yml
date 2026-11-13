@@ -1,0 +1,69 @@
+# Photos ajoutées (depuis le CMS ou à la main) : préparation automatique puis régénération des pages.
+# À chaque envoi sur main ou Dev qui touche img/ ou data/ :
+#   1. preparer_photos.py sur les seules images ajoutées ou modifiées par cet envoi
+#      (remise à l'endroit, 1920 px max, JPEG 82, métadonnées GPS retirées, HEIC → JPG) ;
+#   2. build.py (galeries, cartes, js/chevaux.js) ;
+#   3. commit du résultat s'il y a du changement, puis nouvelle publication de GitHub Pages
+#      (un commit fait par l'action ne relance pas Pages tout seul).
+name: Photos et pages
+
+on:
+  push:
+    branches: [main, Dev]
+    paths: ["img/**", "data/**"]
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: photos-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  preparer:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-actions[bot]'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Outils
+        run: pip install --quiet pillow pillow-heif
+
+      - name: Préparer les photos de cet envoi
+        env:
+          AVANT: ${{ github.event.before }}
+        run: |
+          if [ -z "$AVANT" ] || [ "$AVANT" = "0000000000000000000000000000000000000000" ]; then AVANT="HEAD~1"; fi
+          git diff -z --name-only --diff-filter=AM "$AVANT" HEAD -- img | xargs -0 -r python3 preparer_photos.py
+
+      - name: Régénérer les pages
+        run: python3 build.py
+
+      - name: Enregistrer le résultat
+        id: commit
+        run: |
+          git add -A img data js poulains reproducteurs *.html
+          if git diff --cached --quiet; then
+            echo "change=non" >> "$GITHUB_OUTPUT"
+            echo "Rien à enregistrer."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Photos préparées et pages régénérées (automatique)"
+            git push
+            echo "change=oui" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Republier le site
+        if: steps.commit.outputs.change == 'oui' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Relance de Pages impossible, elle se fera au prochain envoi."

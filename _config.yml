@@ -5,5 +5,6 @@ exclude:
   - build.py          # générateur des pages (en-tête, pied de page, cartes, js/chevaux.js)
   - serve.pl          # petit serveur local de test
   - compress_images.py
+  - preparer_photos.py # préparation des photos envoyées (lancé par .github/workflows/photos.yml)
   - partials/         # morceaux injectés par build.py
   - data/             # sources de js/chevaux.js et du livre d'or, compilées par build.py
