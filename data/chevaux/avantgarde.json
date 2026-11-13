@@ -36,5 +36,76 @@
       "Vice-Champion de France 2025"
     ],
     "ligne": "Étalon · Ouvert aux saillies"
-  }
+  },
+  "galerie_alt": "Avantgarde De San Cler",
+  "galerie": [
+    {
+      "photo": "img/avantgarde/av-2022.jpg",
+      "legende": "2022, avec sa mère, au Pays de Galles (Élevage San Cler)"
+    },
+    {
+      "photo": "img/avantgarde/av-2022 01.jpg",
+      "legende": "2022, avec sa mère, au Pays de Galles (Élevage San Cler)"
+    },
+    {
+      "photo": "img/avantgarde/av-2023 01.jpg",
+      "legende": "2023, en troupeau de yearling, au Pays de Galles (Élevage San Cler)"
+    },
+    {
+      "photo": "img/avantgarde/av-2023.jpg",
+      "legende": "Octobre 2023, lors de ma visite au Pays de Galles (Élevage San Cler)"
+    },
+    {
+      "photo": "img/avantgarde/21.11.2023.jpg",
+      "legende": "Novembre 2023, arrivée en France"
+    },
+    {
+      "photo": "img/avantgarde/avril 2024 - ITI.jpg",
+      "legende": "Avril 2024, passage en ITI, à Carnas (30)"
+    },
+    {
+      "photo": "img/avantgarde/av-2024.jpg",
+      "legende": "2024, à Carnas (30)"
+    },
+    {
+      "photo": "img/avantgarde/av-portrait.jpg",
+      "legende": "2025, Portrait par Charlotte LAROCHE"
+    },
+    {
+      "photo": "img/avantgarde/av-profil.jpg",
+      "legende": "2025, Portrait par Charlotte LAROCHE"
+    },
+    {
+      "photo": "img/avantgarde/av-face.jpg",
+      "legende": "2025, Portrait par Charlotte LAROCHE"
+    },
+    {
+      "photo": "img/avantgarde/av-concours.jpg",
+      "legende": "2025, M&A 3-6 ans au Nationale, Lamotte-Beuvron"
+    },
+    {
+      "photo": "img/avantgarde/av-cocarde.jpg",
+      "legende": "2025, Premier des étalons de 3-6 ans au Nationale, Lamotte-Beuvron"
+    },
+    {
+      "photo": "img/avantgarde/av-palmares-1.jpg",
+      "legende": "2025, Premier des étalons de 3-6 ans au Nationale, Lamotte-Beuvron"
+    },
+    {
+      "photo": "img/avantgarde/av-palmares-2.jpg",
+      "legende": "2025, Vice-Champion des étalons au Nationale, Lamotte-Beuvron"
+    },
+    {
+      "photo": "img/avantgarde/av-contact.jpg",
+      "legende": "2025 - À l'écurie, moment tendre avec Bastien"
+    },
+    {
+      "photo": "img/avantgarde/av-2025.jpg",
+      "legende": "2025, à Carnas (30)"
+    },
+    {
+      "photo": "img/avantgarde/av-2026.jpg",
+      "legende": "2026, à Carnas (30)"
+    }
+  ]
 }

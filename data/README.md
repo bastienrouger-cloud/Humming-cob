@@ -48,6 +48,9 @@ existants et du bon sexe) puis régénère `js/chevaux.js`, lu par les pages.
 | `cadrage` | `center top`, `50% 30%` | point de cadrage de la photo de carte (`object-position`) |
 | `photo_arbre` | médaillon de l'arbre | |
 | `photos` | liste d'images | galerie de la modale |
+| `galerie` | `[{"photo": "img/orion/….jpg", "legende": "Mai 2026"}]` | carrousel du haut de la fiche (pages chevaux), dans l'ordre d'affichage ; `alt` facultatif par photo. Généré par build.py entre `<!-- @galerie: id -->` et `<!-- @end:galerie -->`. Prévu pour être modifié depuis le CMS. Pas recopié dans `js/chevaux.js` |
+| `galerie_alt` | `HC Orion — Irish Cob Partbred` | texte alternatif commun aux photos de la galerie |
+| `video` | `{"image", "fichier", "legende", "duree", "alt"}` | vidéo de présentation, toujours en premier dans le carrousel (chemins depuis la racine du site) |
 | `resume` | 2–3 phrases | texte de la carte (coupé à 3 lignes) et de la modale |
 | `description` | texte plus long | facultatif : remplace `resume` dans la modale |
 | `cartes` | `{"suzie": {"photo": …, "resume": …}}` | variantes par page : la clé est l'`id` du cheval dont la fiche affiche la carte ; champs possibles `photo`, `cadrage`, `resume`, `photos` |
