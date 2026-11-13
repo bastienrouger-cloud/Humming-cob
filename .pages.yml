@@ -18,8 +18,14 @@ content:
     type: collection
     path: data/galeries
     format: json
+    filename: "{primary}.json"   # sans ça, Pages CMS ne cherche que des .md et la liste reste vide
+    extension: json
     view:
       primary: cheval
+      fields: [cheval]
+      default:
+        sort: cheval
+        order: asc
     operations:
       create: false        # un cheval se crée avec sa fiche (Bastien), pas depuis le CMS
       delete: false
