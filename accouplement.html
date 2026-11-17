@@ -583,6 +583,47 @@
     .modal-actions #saveTreeBtn{order:-1;}
     .modal-actions #resetTreeBtn{order:1;justify-self:center;}
   }
+  /* ═══ Saisie des ascendants, 17/11 (retour d'une éleveuse sur mobile) ═══ */
+  .modal-corps .modal-intro{padding:0 0 .5rem;}
+  .modal-corps .modal-import{margin-bottom:.9rem;}
+  .dd-groupe{padding:.55rem .7rem .25rem;font-size:.58rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--gris-chaud);list-style:none;}
+  .dd-groupe:first-child{padding-top:.3rem;}
+  .dd-creer{margin-top:.25rem;border-top:1px solid rgba(60,40,35,.08);border-radius:0 0 var(--radius-s) var(--radius-s);color:var(--accent-deep);font-weight:500;}
+  .ed-role > span:first-child{min-width:0;}
+  .ed-de{letter-spacing:.04em;text-transform:none;font-weight:400;font-family:var(--font-serif);font-size:.95rem;font-style:italic;}
+  .ed-deja{margin:0;font-size:.78rem;line-height:1.45;color:var(--noir);}
+  .ed-deja:empty{display:none;}
+  .ed-deja-ligne{display:block;padding:.5rem .65rem;margin-top:.35rem;border-radius:var(--radius-s);background:#FBF3E7;border:1px solid #EBDCC4;}
+  .ed-deja-src{color:var(--gris);}
+  .ed-deja-btn{display:block;margin-top:.4rem;padding:.4rem .8rem;border-radius:var(--radius-pill);background:var(--accent-deep);color:#fff;font-size:.72rem;font-weight:500;letter-spacing:.03em;}
+  .ed-details > summary{cursor:pointer;list-style:none;font-size:.72rem;color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;}
+  .ed-details > summary::-webkit-details-marker{display:none;}
+  .ed-details > summary .ed-facultatif{display:inline-block;}
+  .ed-details > summary::before{content:'+ ';}
+  .ed-details[open] > summary::before{content:'– ';}
+  .ed-details[open] > summary{margin-bottom:.5rem;}
+  .ed-details .ed-ligne2{margin-bottom:.5rem;}
+  .ed-parents > *{min-width:0;}
+  .ed-msg{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(28,22,20,.4);}
+  .ed-msg[hidden]{display:none;}
+  .ed-msg-boite{width:min(480px,100%);padding:1.3rem 1.3rem 1.1rem;border-radius:var(--radius-l);background:var(--blanc-chaud);box-shadow:0 20px 50px rgba(0,0,0,.3);}
+  .ed-msg-texte p{margin:0 0 .7rem;font-size:.9rem;line-height:1.55;color:var(--noir);}
+  .ed-msg-actions{display:flex;flex-direction:column;align-items:stretch;gap:.5rem;margin-top:1rem;}
+  .ed-msg-actions .btn{margin:0;}
+  .ed-msg-second{padding:.6rem;border-radius:var(--radius-pill);background:#fff;border:1px solid rgba(60,40,35,.14);color:var(--noir);font-size:.82rem;font-weight:400;}
+  @media (max-width:640px){
+    .ed-msg{align-items:flex-end;padding:.6rem;}
+    .ed-parents--imbrique{padding-left:.4rem;margin-left:-.2rem;}
+    .ed-parents--imbrique .ed-slot{padding:.65rem .55rem .7rem;}
+    .ed-role{flex-wrap:wrap;}
+  }
+  @media (max-width:700px){
+    /* Pied : le bouton, puis « Télécharger » et « Tout effacer » sur une seule ligne */
+    .modal-actions{grid-template-columns:1fr auto;align-items:center;padding-top:.7rem;padding-bottom:.8rem;}
+    .modal-actions #saveTreeBtn{grid-column:1 / -1;}
+    .modal-actions #dlTreeBtn{justify-self:start;order:0;}
+    .modal-actions #resetTreeBtn{justify-self:end;order:0;}
+  }
 </style>
 </head>
 <body class="fond-taches">
@@ -700,9 +741,12 @@
       <h2 id="modalTitle">Ajouter un cheval</h2>
       <button type="button" class="btn-fermer modal-close" onclick="closeModal()" aria-label="Fermer">✕</button>
     </div>
-    <p class="modal-intro">Seul le nom est obligatoire. Renseignez ensuite ce que vous connaissez de son ascendance&nbsp;: c'est elle qui fait le calcul.</p>
-    <p class="modal-intro modal-import" id="modalImport">Sa fiche est déjà sur votre ordinateur&nbsp;? <button type="button" class="ed-lien" onclick="document.getElementById('fileInputModal').click()">Importer sa fiche</button><input type="file" id="fileInputModal" accept="application/json,.json" hidden onchange="importJSON(event, draft.context)"></p>
-    <div class="modal-corps"><div class="ed" id="treeContainer"></div></div>
+    <div class="modal-corps">
+      <p class="modal-intro">Seul le nom est obligatoire. Renseignez ensuite ce que vous connaissez de son ascendance&nbsp;: c'est elle qui fait le calcul.</p>
+      <p class="modal-intro modal-import" id="modalImport">Sa fiche est déjà sur votre ordinateur&nbsp;? <button type="button" class="ed-lien" onclick="document.getElementById('fileInputModal').click()">Importer sa fiche</button><input type="file" id="fileInputModal" accept="application/json,.json" hidden onchange="importJSON(event, draft.context)"></p>
+      <div class="ed" id="treeContainer"></div>
+    </div>
+    <div class="ed-msg" id="edMsg" hidden><div class="ed-msg-boite" role="alertdialog" aria-modal="true" aria-describedby="edMsgTexte"><div class="ed-msg-texte" id="edMsgTexte"></div><div class="ed-msg-actions" id="edMsgActions"></div></div></div>
     <div class="modal-actions">
       <div class="ed-actions-gauche">
         <button type="button" class="ed-recommencer" id="resetTreeBtn" onclick="resetTreeForm()">Tout effacer</button>
@@ -1233,7 +1277,8 @@ cpEl.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
   if(e.key !== 'Escape') return;
-  if(!cpEl.hidden) fermerSelecteur();
+  if(edMsgAnnuler) edMsgAnnuler();
+  else if(!cpEl.hidden) fermerSelecteur();
   else if(document.getElementById('modalOverlay').classList.contains('open')) closeModal();
 });
 
@@ -1269,6 +1314,7 @@ function resetTreeForm(){
   renderTree();
 }
 function closeModal(){
+  if(edMsgAnnuler) edMsgAnnuler();
   document.getElementById('modalOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
@@ -1399,61 +1445,138 @@ function elevageSelectHTML(current, onchange){
     + `<option value="__new__">+ Un autre élevage (le nommer)…</option></select>`;
 }
 
+// Un seul champ par parent (17/11, retour d'une éleveuse sur mobile) : on tape le
+// nom, la liste propose d'abord « Vos chevaux » (ajoutés ou importés), puis ceux
+// du site, et en dernier « + Créer “…” ». On ne crée un cheval qu'après avoir vu
+// qu'il n'existait pas : c'est ce qui évite les doublons (un même ancêtre sous
+// deux fiches fausse le coefficient de consanguinité).
 function slotRechercher(path, text){
   const el = document.getElementById(comboListId(path));
   if(!el) return;
-  const q = normalizeSearch(text).trim();
-  // vide : toute la base (le champ a le focus) ; sinon, la liste s'affine
-  const res = poolForPath(path).filter(h => !q || normalizeSearch(h.name).includes(q))
-    .sort((a, b) => (q ? normalizeSearch(a.name).indexOf(q) - normalizeSearch(b.name).indexOf(q) : 0) || nomTri(a).localeCompare(nomTri(b)));
-  el.innerHTML = res.length
-    ? res.map((h, i) => ddItem(h, `onmousedown="event.preventDefault()" onclick="pickCombo('${path}','${h.id}')"`, q && i === 0)).join('')
-    : `<li class="dd-vide">Pas dans la base sous ce nom.</li>`;
+  const brut = (text || '').trim(), q = normalizeSearch(brut);
+  const tri = (a, b) => (q ? normalizeSearch(a.name).indexOf(q) - normalizeSearch(b.name).indexOf(q) : 0) || nomTri(a).localeCompare(nomTri(b));
+  const res = poolForPath(path).filter(h => !q || normalizeSearch(h.name).includes(q));
+  const vos = res.filter(estAjoute).sort(tri), site = res.filter(h => !estAjoute(h)).sort(tri);
+  const exact = res.some(h => normalizeSearch(h.name) === q);
+  let premier = !!q;
+  const item = h => { const sel = premier; premier = false; return ddItem(h, `onmousedown="event.preventDefault()" onclick="pickCombo('${path}','${h.id}')"`, sel); };
+  let html = '';
+  if(vos.length) html += `<li class="dd-groupe">Vos chevaux</li>` + vos.map(item).join('');
+  if(site.length) html += `<li class="dd-groupe">Base du site</li>` + site.map(item).join('');
+  if(brut && !exact) html += `<li role="option" class="dd-item dd-creer${premier ? ' sel' : ''}" data-nom="${escapeAttr(brut)}" onmousedown="event.preventDefault()" onclick="slotCreer('${path}', this.dataset.nom)">+ Créer « ${echap(brut)} »</li>`;
+  el.innerHTML = html || `<li class="dd-vide">Tapez son nom.</li>`;
   el.hidden = false;
 }
 function slotFermerResultats(path){
   const el = document.getElementById(comboListId(path));
   setTimeout(() => { if(el) el.hidden = true; }, 150);
 }
+function slotCreer(path, nom){
+  clearDescendants(path);
+  const node = getNode(path);
+  Object.assign(node, { mode: 'new', existingId: '', name: nom || '', expanded: false });
+  renderTree();
+}
+
+// « Père de Parent 1 » : on sait toujours de quel cheval on remplit les parents.
+function deTexte(p){
+  let nom = '';
+  if(!p) nom = draft.root.name.trim() || (draft.root.sex === 'mare' ? 'votre jument' : 'votre étalon');
+  else {
+    const n = draft.nodes[p], h = n && n.mode === 'existing' ? byId(n.existingId) : null;
+    nom = h ? ((CH_PAR_ID[h.id] || {}).nom_usuel || h.name) : (n && n.name.trim());
+    if(!nom) return roleOf(p) === 'sire' ? 'du père' : 'de la mère';
+  }
+  return (/^[aeiouyhàâäéèêëîïôöûüœ]/i.test(nom) && !/^(votre)/.test(nom) ? 'd’' : 'de ') + nom;
+}
+function majDe(p){ document.querySelectorAll(`[data-de="${p}"]`).forEach(el => { el.textContent = deTexte(p); }); }
+
+// Pendant la frappe d'un nom à créer : « Parent 1 existe déjà… Le reprendre ».
+function chevauxSemblables(nom, sexe){
+  const q = normalizeSearch(nom).trim();
+  if(q.length < 2) return [];
+  return horses.filter(h => !h.synthetic && (!sexe || h.sex === sexe)
+      && (normalizeSearch(h.name) === q || (q.length >= 4 && normalizeSearch(h.name).includes(q))))
+    .sort((a, b) => (normalizeSearch(b.name) === q) - (normalizeSearch(a.name) === q) || estAjoute(b) - estAjoute(a))
+    .slice(0, 3);
+}
+function dejaHTML(path){
+  const racine = path === '';
+  const nom = racine ? draft.root.name : (getNode(path).name || '');
+  const sexe = racine ? draft.root.sex : (roleOf(path) === 'sire' ? 'stallion' : 'mare');
+  const lignes = chevauxSemblables(nom, sexe).map(h => {
+    const action = racine ? `choisirRacine('${h.id}')` : `pickCombo('${path}','${h.id}')`;
+    return `<span class="ed-deja-ligne">${nomCalc(h, false)} existe déjà <span class="ed-deja-src">(${estAjoute(h) ? 'ajouté par vous' : 'base du site'})</span>`
+      + `<button type="button" class="ed-deja-btn" onmousedown="event.preventDefault()" onclick="${action}">C'est ${sexe === 'mare' ? 'elle' : 'lui'} : ${sexe === 'mare' ? 'la' : 'le'} reprendre</button></span>`;
+  });
+  if(!racine){
+    const q = normalizeSearch(nom).trim();
+    const memes = q ? Object.keys(draft.nodes).filter(p => p !== path && roleOf(p) === roleOf(path)
+      && draft.nodes[p].mode === 'new' && normalizeSearch(draft.nodes[p].name).trim() === q) : [];
+    if(memes.length) lignes.push(`<span class="ed-deja-ligne">Déjà saisi${sexe === 'mare' ? 'e' : ''} dans cet arbre (${memes.map(p => (roleOf(p) === 'sire' ? 'père ' : 'mère ') + deTexte(p.split('.').slice(0, -1).join('.'))).join(', ')}) : à l'enregistrement, on vous demandera si c'est le même cheval.</span>`);
+  }
+  return lignes.join('');
+}
+function majDeja(path){
+  const el = document.getElementById('deja-' + (path || 'racine').replace(/\./g, '-'));
+  if(el) el.innerHTML = dejaHTML(path);
+}
+function choisirRacine(id){
+  // Le cheval existe déjà : on le reprend, et s'il avait été ajouté sans ses
+  // parents, ceux saisis ici les complètent.
+  commitGaps('sire', id);
+  commitGaps('dam', id);
+  if(draft.context === 'left') testState.leftId = id;
+  else if(draft.context === 'right') testState.rightId = id;
+  closeModal();
+  resetDraft();
+  render();
+}
 
 function slotHTML(path, depth){
-  const node = getNode(path), role = roleOf(path);
+  const node = getNode(path), role = roleOf(path), pid = path.replace(/\./g, '-');
   const h = node.mode === 'existing' ? byId(node.existingId) : null;
+  const leLa = role === 'sire' ? 'le père' : 'la mère';
   let corps;
   if(h){
     const parents = (h.sire || h.dam)
-      ? `Ascendance connue dans la base : ${nomCalc(byId(h.sire), false)} × ${nomCalc(byId(h.dam), false)}`
-      : 'Ses origines ne sont pas renseignées dans la base.';
+      ? `Ascendance connue : ${nomCalc(byId(h.sire), false)} × ${nomCalc(byId(h.dam), false)}`
+      : 'Ses origines ne sont pas renseignées.';
     corps = `<div class="ed-choisi">${vignetteCalc(h, 'ed-choisi-photo')}`
-      + `<span class="ed-choisi-infos"><span class="ed-choisi-nom">${nomCalc(h)}</span><span class="ed-note">${parents}</span></span>`
+      + `<span class="ed-choisi-infos"><span class="ed-choisi-nom">${nomCalc(h)}</span><span class="ed-note">${estAjoute(h) ? 'Ajouté par vous · ' : ''}${parents}</span></span>`
       + `<button type="button" class="ed-retirer" onclick="setSlotMode('${path}','')" aria-label="Retirer">✕</button></div>`;
   } else if(node.mode === 'new'){
+    const rempli = (node.strain && node.strain !== 'inconnue') || node.naissance || node.robe;
     corps = `<div class="ed-nouveau">
-        <div class="ed-nouveau-tete"><span class="ed-note">Saisi par vous</span><button type="button" class="ed-retirer" onclick="setSlotMode('${path}','')" aria-label="Annuler">✕</button></div>
-        <input class="ed-input" placeholder="Nom" value="${escapeAttr(node.name)}" oninput="updateDraftField('${path}','name',this.value)">
-        <div class="ed-ligne2">
-          <label class="ed-champ ed-champ--petit">Élevage d'origine ${elevageSelectHTML(node.strain, `setNodeStrain.bind(null,'${path}')`)}</label>
-          <label class="ed-champ ed-champ--petit">Naissance <input class="ed-input" placeholder="2015" value="${escapeAttr(node.naissance)}" oninput="updateDraftField('${path}','naissance',this.value)"></label>
-        </div>
-        <label class="ed-champ ed-champ--petit">Robe <input class="ed-input" placeholder="Bai, Noir tobiano…" value="${escapeAttr(node.robe)}" oninput="updateDraftField('${path}','robe',this.value)"></label>
+        <div class="ed-nouveau-tete"><span class="ed-note">Nouveau cheval, créé par vous</span><button type="button" class="ed-retirer" onclick="setSlotMode('${path}','')" aria-label="Annuler">✕</button></div>
+        <input class="ed-input" placeholder="Nom" aria-label="Nom" value="${escapeAttr(node.name)}" oninput="updateDraftField('${path}','name',this.value); majDeja('${path}'); majDe('${path}')">
+        <p class="ed-deja" id="deja-${pid}" aria-live="polite">${dejaHTML(path)}</p>
+        <details class="ed-details"${rempli || node.details ? ' open' : ''} ontoggle="getNode('${path}').details = this.open">
+          <summary>Élevage, naissance, robe <span class="ed-facultatif">facultatif</span></summary>
+          <div class="ed-ligne2">
+            <label class="ed-champ ed-champ--petit">Élevage d'origine ${elevageSelectHTML(node.strain, `setNodeStrain.bind(null,'${path}')`)}</label>
+            <label class="ed-champ ed-champ--petit">Naissance <input class="ed-input" placeholder="2015" value="${escapeAttr(node.naissance)}" oninput="updateDraftField('${path}','naissance',this.value)"></label>
+          </div>
+          <label class="ed-champ ed-champ--petit">Robe <input class="ed-input" placeholder="Bai, Noir tobiano…" value="${escapeAttr(node.robe)}" oninput="updateDraftField('${path}','robe',this.value)"></label>
+        </details>
       </div>`;
   } else {
     corps = `<div class="ed-recherche">
-        <input type="search" class="ed-input" placeholder="Rechercher dans notre base…" autocomplete="off" aria-label="Rechercher ${role === 'sire' ? 'le père' : 'la mère'} dans la base"
+        <input type="search" class="ed-input" placeholder="Nom ${role === 'sire' ? 'du père' : 'de la mère'}…" autocomplete="off" aria-label="Nom ${role === 'sire' ? 'du père' : 'de la mère'} : choisir dans la liste ou créer"
           oninput="slotRechercher('${path}', this.value)" onfocus="slotRechercher('${path}', this.value)" onblur="slotFermerResultats('${path}')"
           onkeydown="ddClavier(event, document.getElementById('${comboListId(path)}'))">
-        <ul class="ed-resultats dd-liste" id="${comboListId(path)}" role="listbox" hidden></ul>
-      </div>
-      <button type="button" class="ed-lien" onclick="setSlotMode('${path}','__new__')">Pas dans la base ? Saisir son nom</button>`;
+        <ul class="ed-resultats dd-liste" id="${comboListId(path)}" role="listbox" aria-label="Choisir ${leLa}" hidden></ul>
+      </div>`;
   }
   let suite = '';
   if(node.mode === 'new'){
     suite = node.expanded
-      ? `<div class="ed-parents ed-parents--imbrique"><p class="ed-sous">Ses parents</p>${slotHTML(path + '.sire', depth + 1)}${slotHTML(path + '.dam', depth + 1)}</div>`
+      ? `<div class="ed-parents ed-parents--imbrique">${slotHTML(path + '.sire', depth + 1)}${slotHTML(path + '.dam', depth + 1)}</div>`
       : `<button type="button" class="ed-ajouter-parents" onclick="expandNode('${path}')">+ Ajouter ses parents</button>`;
   }
+  const parent = path.split('.').slice(0, -1).join('.');
   return `<div class="ed-slot ed-slot--${role === 'sire' ? 'male' : 'femelle'}">
-      <p class="ed-role">${ROLE_LABEL[role]}<span class="ed-gen">${genLabel(depth)}</span></p>${corps}${suite}</div>`;
+      <p class="ed-role"><span>${ROLE_LABEL[role]} <span class="ed-de" data-de="${parent}">${echap(deTexte(parent))}</span></span><span class="ed-gen">${genLabel(depth)}</span></p>${corps}${suite}</div>`;
 }
 
 function renderTree(){
@@ -1471,7 +1594,8 @@ function renderTree(){
       <p class="ed-etape"><span class="ed-etape-num">1</span>${male ? 'Votre étalon' : 'Votre jument'}</p>
       ${sexeChoix}
       <label class="ed-champ">Nom <em class="ed-requis">obligatoire</em>
-        <input class="ed-input ed-input--grand" id="edNom" value="${escapeAttr(root.name)}" oninput="updateRootField('name', this.value)" ${existant ? 'disabled' : ''}></label>
+        <input class="ed-input ed-input--grand" id="edNom" value="${escapeAttr(root.name)}" oninput="updateRootField('name', this.value); majDeja(''); majDe('')" ${existant ? 'disabled' : ''}></label>
+      <p class="ed-deja" id="deja-racine" aria-live="polite">${existant ? '' : dejaHTML('')}</p>
       <div class="ed-ligne2">
         <label class="ed-champ">Élevage d'origine ${elevageSelectHTML(root.strain, 'setRootStrain')}</label>
         <label class="ed-champ">Naissance <span class="ed-facultatif">facultatif</span>
@@ -1486,7 +1610,7 @@ function renderTree(){
     </section>
     <section class="ed-bloc">
       <p class="ed-etape"><span class="ed-etape-num">2</span>Ses parents</p>
-      <p class="ed-aide">Cherchez-les d'abord dans notre base : s'ils y sont, toute leur ascendance connue suit, rien à ressaisir. Sinon, saisissez leur nom — vous pourrez ensuite remonter plus loin avec « Ajouter ses parents ». Plus vous remontez, plus le calcul est fiable.</p>
+      <p class="ed-aide">Tapez le nom de chaque parent : la liste propose d'abord les chevaux que vous avez déjà ajoutés, puis ceux du site. S'il y est, choisissez-le, toute son ascendance connue suit. Sinon, « Créer » l'ajoute, et « Ajouter ses parents » permet de remonter plus loin. Plus vous remontez, plus le calcul est fiable.</p>
       <div class="ed-parents">${slotHTML('sire', 1)}${slotHTML('dam', 1)}</div>
     </section>
     ${existant ? '' : genSaisieHTML()}`;
@@ -1569,7 +1693,9 @@ function nameCollisions(names){
   return out;
 }
 
-function resolveNodeToId(path, depth){
+// fusion : Map « rôle|nom » → id, pour les ancêtres saisis plusieurs fois dans
+// l'arbre et reconnus comme un seul cheval (une seule fiche, parents complétés).
+function resolveNodeToId(path, depth, fusion){
   const node = draft.nodes[path];
   if(!node || node.mode === 'empty') return null;
   if(node.mode === 'existing') return node.existingId || null;
@@ -1577,12 +1703,24 @@ function resolveNodeToId(path, depth){
   if(!n) return null;
   let sireId = null, damId = null;
   if(depth < 3 || node.expanded){
-    sireId = resolveNodeToId(path + '.sire', depth + 1);
-    damId = resolveNodeToId(path + '.dam', depth + 1);
+    sireId = resolveNodeToId(path + '.sire', depth + 1, fusion);
+    damId = resolveNodeToId(path + '.dam', depth + 1, fusion);
   }
   const role = roleOf(path);
-  const id = nextId();
+  const cle = role + '|' + normalizeSearch(n);
   const naissance = (node.naissance || '').trim(), robe = (node.robe || '').trim();
+  if(fusion && fusion.has(cle) && fusion.get(cle)){
+    const deja = byId(fusion.get(cle));
+    if(!deja.sire && sireId) deja.sire = sireId;
+    if(!deja.dam && damId) deja.dam = damId;
+    if(!deja.naissance && naissance) deja.naissance = naissance;
+    if(!deja.robe && robe) deja.robe = robe;
+    if((!deja.strain || deja.strain === 'inconnue') && node.strain) deja.strain = node.strain;
+    deja.lineage = lineageDe(deja);
+    return deja.id;
+  }
+  const id = nextId();
+  if(fusion && fusion.has(cle)) fusion.set(cle, id);
   horses.push({
     id, name: n,
     sex: role === 'sire' ? 'stallion' : 'mare',
@@ -1639,53 +1777,119 @@ function saveViewedGaps(){
   render();
 }
 
-function saveTreeHorse(telecharger){
+// Messages dans la fenêtre (à la place des boîtes du navigateur, peu lisibles sur
+// téléphone). Renvoie la valeur du bouton choisi ; Échap ou la fermeture = annuler.
+let edMsgAnnuler = null;
+function edDemander(html, boutons){
+  return new Promise(resolve => {
+    const m = document.getElementById('edMsg'), a = document.getElementById('edMsgActions');
+    document.getElementById('edMsgTexte').innerHTML = html;
+    a.innerHTML = boutons.map((b, i) => `<button type="button" class="${b.principal ? 'btn btn-primary' : 'ed-msg-second'}" data-i="${i}">${b.label}</button>`).join('');
+    const fin = v => { m.hidden = true; a.onclick = null; edMsgAnnuler = null; resolve(v); };
+    a.onclick = e => { const b = e.target.closest('[data-i]'); if(b) fin(boutons[+b.dataset.i].valeur); };
+    edMsgAnnuler = () => fin(null);
+    m.hidden = false;
+    a.querySelector('button').focus();
+  });
+}
+const edInfo = html => edDemander(html, [{ label: 'Compris', valeur: true, principal: true }]);
+const listeNoms = noms => noms.map(n => `<strong>${echap(n)}</strong>`).join(', ');
+
+// Chevaux saisis à la main dont le nom existe déjà (même sexe) : un seul cheval
+// existant = reprise possible en un geste.
+function doublonsExistants(plan){
+  const out = [];
+  plan.plannedNew.forEach(p => {
+    const sexe = roleOf(p.path) === 'sire' ? 'stallion' : 'mare', q = normalizeSearch(p.name);
+    const memes = horses.filter(h => !h.synthetic && h.sex === sexe && normalizeSearch(h.name) === q);
+    if(memes.length) out.push({ path: p.path, name: p.name, memes });
+  });
+  return out;
+}
+// Même nom saisi deux fois dans l'arbre (ex. un grand-père des deux côtés).
+function doublonsInternes(plan){
+  const groupes = new Map();
+  plan.plannedNew.forEach(p => {
+    const k = roleOf(p.path) + '|' + normalizeSearch(p.name);
+    if(!groupes.has(k)) groupes.set(k, []);
+    groupes.get(k).push(p);
+  });
+  return [...groupes.entries()].filter(([, ps]) => ps.length > 1).map(([cle, ps]) => ({ cle, ps }));
+}
+
+async function saveTreeHorse(telecharger){
   const context = draft.context;
   if(context === 'view'){
     saveViewedGaps();
     return;
   }
   if((context === 'left' || context === 'right') && draft.root.mode === 'existing'){
-    if(!draft.root.existingId){ alert('Choisissez un cheval dans la liste, ou créez-en un nouveau.'); return; }
-    if(context === 'left') testState.leftId = draft.root.existingId;
-    else testState.rightId = draft.root.existingId;
-    closeModal();
-    resetDraft();
-    render();
+    if(!draft.root.existingId){ await edInfo('Choisissez un cheval dans la liste, ou créez-en un nouveau.'); return; }
+    choisirRacine(draft.root.existingId);
     return;
   }
 
   const name = draft.root.name.trim();
-  if(!name){ alert('Le nom du cheval est obligatoire.'); return; }
+  if(!name){
+    await edInfo('Le nom du cheval est obligatoire.');
+    const nom = document.getElementById('edNom'); if(nom) nom.focus();
+    return;
+  }
   const gen = { ...(draft.root.genetique || {}) }, genErr = Genetique.erreurs(gen);
-  if(genErr.length){ alert('Tests génétiques à corriger : ' + genErr.join(' ; ')); return; }
+  if(genErr.length){ await edInfo('Tests génétiques à corriger : ' + echap(genErr.join(' ; '))); return; }
 
-  const plan = planTreeResolution();
-  const namesToCheck = plan.plannedNew.map(p => p.name);
-  if(draft.root.mode !== 'existing') namesToCheck.push(name);
-  const collisions = nameCollisions(namesToCheck);
-  if(collisions.length > 0){
-    const ok = confirm(
-      "Ces noms existent déjà dans la base : " + collisions.join(', ') + ".\n\n" +
-      "S'il s'agit des mêmes chevaux, annule et sélectionne-les via la recherche : " +
-      "créer un doublon fausse les calculs de consanguinité.\n\n" +
-      "S'il s'agit d'homonymes réellement différents, tu peux continuer.\n\n" +
-      "Continuer quand même ?"
-    );
+  // 1. Noms déjà présents dans la base : les reprendre plutôt que créer un doublon.
+  let plan = planTreeResolution();
+  const existants = doublonsExistants(plan);
+  const sexeRacine = draft.root.sex, qRacine = normalizeSearch(name);
+  const racineMemes = horses.filter(h => !h.synthetic && h.sex === sexeRacine && normalizeSearch(h.name) === qRacine);
+  if(existants.length || racineMemes.length){
+    const noms = [...(racineMemes.length ? [name] : []), ...existants.map(e => e.name)];
+    const choix = await edDemander(
+      `<p>${noms.length > 1 ? 'Ces chevaux existent' : 'Ce cheval existe'} déjà : ${listeNoms([...new Set(noms)])}.</p>`
+      + `<p>${noms.length > 1 ? 'Si ce sont bien les mêmes' : 'Si c’est bien le même'}, reprenez ${noms.length > 1 ? 'les fiches existantes' : 'la fiche existante'} : un même cheval enregistré deux fois fausse le calcul de consanguinité.</p>`,
+      [{ label: noms.length > 1 ? 'Reprendre les existants' : 'Reprendre l’existant', valeur: 'reprendre', principal: true },
+       { label: 'Ce sont d’autres chevaux', valeur: 'garder' },
+       { label: 'Revenir à la saisie', valeur: null }]);
+    if(!choix) return;
+    if(choix === 'reprendre'){
+      if(racineMemes.length === 1){ choisirRacine(racineMemes[0].id); return; }
+      // les plus proches d'abord : reprendre un parent remplace ses ancêtres saisis
+      existants.filter(e => e.memes.length === 1).sort((a, b) => depthOf(a.path) - depthOf(b.path)).forEach(e => {
+        const n = draft.nodes[e.path];
+        if(n && n.mode === 'new'){ clearDescendants(e.path); n.mode = 'existing'; n.existingId = e.memes[0].id; n.expanded = false; cascadeExisting(e.path, e.memes[0].id, depthOf(e.path)); }
+      });
+      renderTree();
+      plan = planTreeResolution();
+    }
+  }
+
+  // 2. Même nom saisi deux fois dans l'arbre : même cheval ?
+  const fusion = new Map();
+  for(const g of doublonsInternes(plan)){
+    const p0 = g.ps[0], f = roleOf(p0.path) === 'dam';
+    const ou = g.ps.map(p => (f ? 'mère ' : 'père ') + deTexte(p.path.split('.').slice(0, -1).join('.'))).join(' et ');
+    const choix = await edDemander(
+      `<p><strong>${echap(p0.name)}</strong> est saisi${f ? 'e' : ''} ${g.ps.length} fois dans l'arbre (${echap(ou)}).</p>`
+      + `<p>Est-ce ${f ? 'la même jument' : 'le même cheval'} ? Si oui, ${f ? 'elle' : 'il'} n'aura qu'une fiche et le calcul en tiendra compte.</p>`,
+      [{ label: f ? 'Oui, la même jument' : 'Oui, le même cheval', valeur: 'meme', principal: true },
+       { label: f ? 'Non, deux juments différentes' : 'Non, deux chevaux différents', valeur: 'differents' },
+       { label: 'Revenir à la saisie', valeur: null }]);
+    if(!choix) return;
+    if(choix === 'meme') fusion.set(g.cle, null);
+  }
+
+  // 3. Ancêtres derrière une case vide : prévenir qu'ils seront perdus.
+  if(plan.lost.length > 0){
+    const ok = await edDemander(
+      `<p>${plan.lost.length > 1 ? plan.lost.length + ' ancêtres saisis se trouvent' : 'Un ancêtre saisi se trouve'} derrière une case vide et ne ${plan.lost.length > 1 ? 'seront' : 'sera'} pas enregistré${plan.lost.length > 1 ? 's' : ''}.</p>`
+      + `<p>Pour ${plan.lost.length > 1 ? 'les' : 'le'} garder, remplissez d'abord la case intermédiaire.</p>`,
+      [{ label: 'Enregistrer quand même', valeur: true, principal: true }, { label: 'Revenir à la saisie', valeur: null }]);
     if(!ok) return;
   }
 
-  if(plan.lost.length > 0){
-    alert(
-      "Attention : " + plan.lost.length + " ancêtre(s) saisi(s) se trouve(nt) derrière un " +
-      "maillon inconnu (case vide) et NE seront PAS enregistrés.\n\n" +
-      "Pour conserver un tel ancêtre, renseigne d'abord le maillon intermédiaire, " +
-      "ou ajoute cet ancêtre séparément depuis le catalogue."
-    );
-  }
-
-  const sireId = resolveNodeToId('sire', 1);
-  const damId = resolveNodeToId('dam', 1);
+  const sireId = resolveNodeToId('sire', 1, fusion);
+  const damId = resolveNodeToId('dam', 1, fusion);
 
   const newHorseId = nextId();
   horses.push({
